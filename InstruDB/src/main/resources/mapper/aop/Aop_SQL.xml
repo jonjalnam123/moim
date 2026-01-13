@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inst.project.aop.service.AopMapper">
+	
+    <insert id="insertAccessLog" parameterType="AopDTO">
+        INSERT INTO access_log
+        (
+            class_nm,
+            method_nm,
+            req_uri,
+            http_method,
+            client_ip,
+            user_id,
+            reg_dt
+        )
+        VALUES
+        (
+            #{classNm},
+            #{methodNm},
+            #{reqUri},
+            #{httpMethod},
+            #{clientIp},
+            #{userId},
+            NOW()
+        )
+    </insert>
+    
+</mapper>

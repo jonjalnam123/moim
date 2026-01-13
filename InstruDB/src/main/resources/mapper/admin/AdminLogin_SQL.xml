@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inst.project.admin.service.impl.AdminLoginMapper">
+
+	<select id="selectAdminInfo" parameterType="AdminDTO" resultType="AdminDTO">
+		/* AdminLogin_SQL.adminLoginProc */
+		SELECT ADMIN_NO
+				 , ADMIN_ID
+				 , ADMIN_PW
+				 , ADMIN_NM
+				 , ADMIN_POSITION_CD
+				 , ADMIN_PH
+				 , ADMIN_POST_CD
+				 , ADMIN_ADDRESS
+				 , ADMIN_D_ADDRESS
+				 , ADMIN_DEL_YN
+				 , ADMIN_DEPT_CD
+				 , ADMIN_TEAM_CD
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_INFO
+	    WHERE ADMIN_ID = #{adminId}
+	        AND ADMIN_DEL_YN = 'N'
+	</select>
+	
+	<insert id="insertAdminLoginLog" parameterType="AdminDTO">
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_YN
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'Y'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+
+</mapper>

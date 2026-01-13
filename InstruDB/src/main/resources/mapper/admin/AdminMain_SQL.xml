@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inst.project.admin.service.impl.AdminMainMapper">
+
+	<!-- 관리자 메뉴 1레벨 조회 [S] -->
+	<select id="selectAdminMenuInfo" resultType="AdminMenuDTO">
+		/*AdminMng_SQL.selectAdminMenuInfo*/
+		SELECT MENU_ID
+				 , MENU_P_ID
+				 , MENU_NM
+				 , MENU_USE_YN
+				 , MENU_DEL_YN
+				 , MENU_CN
+				 , MENU_URL
+				 , MENU_LVL
+				 , MENU_SORT
+ 				 , MENU_DEPT_ID
+				 , MENU_TEAM_ID
+				 , MENU_POSITION_ID
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_USE_YN = 'Y'
+		    AND MENU_DEL_YN = 'N'
+		    AND MENU_LVL = 0
+		 ORDER BY MENU_SORT
+	</select>
+	<!-- 관리자 메뉴 1레벨 조회 [E] -->
+	
+	<!-- 관리자 메뉴 2레벨 조회 [S] -->
+	<select id="selectAdminMenuInfo2" resultType="AdminMenuDTO">
+		/*AdminMng_SQL.selectAdminMenuInfo2*/
+		SELECT MENU_ID
+				 , MENU_P_ID
+				 , MENU_NM
+				 , MENU_USE_YN
+				 , MENU_DEL_YN
+				 , MENU_CN
+				 , MENU_URL
+				 , MENU_LVL
+				 , MENU_SORT
+				 , MENU_DEPT_ID
+				 , MENU_TEAM_ID
+				 , MENU_POSITION_ID
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_USE_YN = 'Y'
+		    AND MENU_DEL_YN = 'N'
+		    AND MENU_LVL = 1
+		 ORDER BY MENU_SORT
+	</select>
+	<!-- 관리자 메뉴 2레벨 조회 [E] -->
+
+</mapper>

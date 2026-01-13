@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!-- Script Part -->
+<script src="${pageContext.request.contextPath}/resources/static/js/header/adminHeader.js"></script>
+
+<!-- Draw view [S] -->
+<header>
+  <div class="header-left">
+    <span class="logo">MOIM</span>
+  </div>
+  <div class="header-right">
+    <span class="user-info">안녕하세요, <strong>${adminInfo.adminId}</strong>님</span>
+    <button class="header-btn" onclick="location.href='/mypage'">마이페이지</button>
+    <button class="header-btn logout" id="logoutBtn" >로그아웃</button>
+  </div>
+</header>
+<!-- Draw view [E] -->

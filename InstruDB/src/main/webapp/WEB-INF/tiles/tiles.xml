@@ -1,0 +1,61 @@
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+ 
+    <!-- 메뉴 표시 -->
+    <definition name="base" template="/WEB-INF/tiles/templateUser.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/layouts/userHeader.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/layouts/userFooter.jsp" />
+    </definition>
+ 
+    <definition name="*.user" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.user" extends="base">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.user" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>
+    
+    <!-- 관리자 메뉴 표시 -->
+    <definition name="baseAdmin" template="/WEB-INF/tiles/templateAdm.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/layouts/admHeader.jsp" />
+        <put-attribute name="left" value="/WEB-INF/tiles/layouts/admLeft.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/layouts/admFooter.jsp" />
+    </definition>
+    
+    <definition name="*.adm" extends="baseAdmin">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.adm" extends="baseAdmin">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.adm" extends="baseAdmin">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>        
+    
+    <!-- 빈 페이지 표시 -->
+	<definition name="baseNone" template="/WEB-INF/tiles/templateDef.jsp">
+
+    </definition>
+    
+    <definition name="*.none" extends="baseNone">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.none" extends="baseNone">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.none" extends="baseNone">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>
+    
+</tiles-definitions>
