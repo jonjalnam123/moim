@@ -95,7 +95,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    
 	    // 새 세션 생성
 		HttpSession session = req.getSession();
-	    session.setAttribute("ADMIN_INFO", adminInfo);
+	    session.setAttribute("adminInfo", adminInfo);
 	    
 		return true;
 	}

@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!-- Script Part -->
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/adminLeft.js"></script>
 
 <!-- Draw view [S] -->
 <nav id="sidenavAccordion">
@@ -12,7 +16,7 @@
       </li> -->
 
       <!-- Volunteer -->
-<!--       <li>
+<!--        <li>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseVolunteer" aria-expanded="false" aria-controls="collapseVolunteer">
           <i class="fas fa-hands-helping"></i> 봉사활동
           <span class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></span>

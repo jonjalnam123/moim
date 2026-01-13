@@ -42,29 +42,6 @@ public class AdminMainController {
 	}
 	
 	/**
-	* @methodName	 	: getAdminInfoToSession
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 정보 세션 조회
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	@PostMapping(value = "/sessionInfo.do")
-	@ResponseBody
-	public Object getAdminInfoToSession( HttpSession session ) {
-		log.info(" [ AdminMainController ] : getAdminInfoToSession ");
-		
-	    Object adminInfo = session.getAttribute("ADMIN_INFO");
-	    if ( adminInfo == null ) {
-	    	return null;
-	    }
-	    
-		return adminInfo;
-	}
-	
-	/**
 	* @methodName	 	: getAdminMenuInfo
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.

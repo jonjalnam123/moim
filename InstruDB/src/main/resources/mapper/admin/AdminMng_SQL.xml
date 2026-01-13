@@ -71,6 +71,7 @@
  				 , MENU_DEPT_ID
 				 , MENU_TEAM_ID
 				 , MENU_POSITION_ID
+				 , MENU_ICON
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -99,6 +100,7 @@
 				 , MENU_DEPT_ID
 				 , MENU_TEAM_ID
 				 , MENU_POSITION_ID
+				 , MENU_ICON
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID

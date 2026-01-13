@@ -24,9 +24,9 @@
     
     <!-- 관리자 메뉴 표시 -->
     <definition name="baseAdmin" template="/WEB-INF/tiles/templateAdm.jsp">
-        <put-attribute name="header" value="/WEB-INF/tiles/layouts/admHeader.jsp" />
-        <put-attribute name="left" value="/WEB-INF/tiles/layouts/admLeft.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/tiles/layouts/admFooter.jsp" />
+        <put-attribute name="header" value="/WEB-INF/tiles/layouts/adminHeader.jsp" />
+        <put-attribute name="left" value="/WEB-INF/tiles/layouts/adminLeft.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/layouts/adminFooter.jsp" />
     </definition>
     
     <definition name="*.adm" extends="baseAdmin">
