@@ -9,6 +9,7 @@ public interface AdminLoginService {
 	// 관리자 로그인 프로세스
 	String adminLoginProc(AdminDTO adminDTO, HttpServletRequest req);
 
+	// 관리자 로그아웃 프로세스
 	String adminLogOutProc(HttpServletRequest req);
 
 }

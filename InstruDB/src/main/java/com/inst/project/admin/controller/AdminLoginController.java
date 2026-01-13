@@ -58,22 +58,18 @@ public class AdminLoginController {
 	@ResponseBody
 	public Map<String,Object> adminLoginProc( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
 		log.info(" [ AdminLoginController ] : adminLoginProc ");
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			String resultData = adminLoginService.adminLoginProc(adminDTO, req);
-			if ( resultData.equals("Y") ) {
-				result.put("result", resultData);
-				result.put("resultCd", GlobalConfig.RESULT_LOGIN_SUC_CD);
-				result.put("resultMsg", GlobalConfig.RESULT_LOGIN_SUC_MSG);
-			} else {
-				result.put("result", resultData);
-				result.put("resultCd", GlobalConfig.RESULT_LOGIN_FAIL_CD);
-				result.put("resultMsg", GlobalConfig.RESULT_LOGIN_FAIL_MSG);
-			}
-		} catch (Exception e) {
-			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
-			log.info(e.getMessage());
+		String resultData = adminLoginService.adminLoginProc(adminDTO, req);
+		
+		if ( resultData.equals("Y") ) {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+		} else {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
 		}
 		
 		return result;
@@ -93,16 +89,11 @@ public class AdminLoginController {
 	@ResponseBody
 	public Map<String,Object> adminLogOutProc( HttpServletRequest req ) {
 		log.info(" [ AdminLoginController ] : adminLogOutProc ");
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			
-		    String resultData = adminLoginService.adminLogOutProc(req);
-			
-		} catch (Exception e) {
-			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
-			log.info(e.getMessage());
-		}
+	    String resultData = adminLoginService.adminLogOutProc(req);
+	    
+	    result.put("result", resultData);
 		
 		return result;
 	}

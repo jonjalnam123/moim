@@ -9,23 +9,23 @@ public class GlobalConfig {
      *  공통 결과 코드 / 메시지
      * ============================ */
 
-    public static final String RESULT_SUCC_CD      			= "00";
+    public static final String RESULT_SUCC_CD      				= "00";
     public static final String RESULT_SUCC_MSG     			= "[ RESULT ] : SUCCESS";
 
     public static final String RESULT_FAIL_CD      				= "01";
-    public static final String RESULT_FAIL_MSG     			= "[ RESULT ] : FAIL";
+    public static final String RESULT_FAIL_MSG     				= "[ RESULT ] : FAIL";
 
     public static final String RESULT_PARAM_ERR_CD 		= "02";
     public static final String RESULT_PARAM_ERR_MSG 		= "[ INVALID_PARAMETER ] : 파라미터 오류";
 
-    public static final String RESULT_AUTH_ERR_CD  		= "03";
+    public static final String RESULT_AUTH_ERR_CD  			= "03";
     public static final String RESULT_AUTH_ERR_MSG 		= "[ UNAUTHORIZED ] : 승인 오류";
     
-    public static final String RESULT_VIEW_ERR_CD  		= "04";
+    public static final String RESULT_VIEW_ERR_CD  			= "04";
     public static final String RESULT_VIEW_ERR_MSG 		= "[ VIEW_ERROR ] : 화면 오류";
     
     public static final String RESULT_MAP_CD   					= "05";
-    public static final String RESULT_MAP_MSG  				= "[ MAP_RESULT ] : {}";
+    public static final String RESULT_MAP_MSG  					= "[ MAP_RESULT ] : {}";
     
     public static final String RESULT_MAP_FAIL_CD   			= "06";
     public static final String RESULT_MAP_FAIL_MSG  		= "[ MAP_RESULT ] : 조회실패";
@@ -34,7 +34,7 @@ public class GlobalConfig {
     public static final String RESULT_PARAM_MSG  			= "[ VIEW PARAM ] : {}";
     
     public static final String RESULT_NULL_DATA_CD  		= "08";
-    public static final String RESULT_NULL_DATA_MSG  		= "[ DATA ] : 데이터가 없습니다.";
+    public static final String RESULT_NULL_DATA_MSG  	= "[ DATA ] : 데이터가 없습니다.";
     
     public static final String RESULT_INSERT_SUC_CD  		= "09";
     public static final String RESULT_INSERT_SUC_MSG  	= "[ INSERT ] : SUCCESS";
@@ -54,23 +54,17 @@ public class GlobalConfig {
     public static final String RESULT_DEL_FAIL_CD  			= "14";
     public static final String RESULT_DEL_FAIL_MSG  		= "[ DELETE ] : FAIL";
     
-    public static final String RESULT_LOGIN_SUC_CD  		= "15";
-    public static final String RESULT_LOGIN_SUC_MSG  		= "[ LOGIN ] : SUCCESS";
-    
-    public static final String RESULT_LOGIN_FAIL_CD  		= "16";
-    public static final String RESULT_LOGIN_FAIL_MSG  	= "[ LOGIN ] : FAIL";
-    
     public static final String RESULT_SESSION_SUC_CD  	= "17";
     public static final String RESULT_SESSION_SUC_MSG  	= "[ SESSION ] : SUCCESS";
     
     public static final String RESULT_SESSION_FAIL_CD  	= "18";
-    public static final String RESULT_SESSION_FAIL_MSG  	= "[ SESSION ] : FAIL";
+    public static final String RESULT_SESSION_FAIL_MSG 	= "[ SESSION ] : FAIL";
     
     public static final String RESULT_LIST_CD   					= "19";
     public static final String RESULT_LIST_MSG  				= "[ LIST_RESULT ] : {}";
     
     public static final String RESULT_AOP_BEF_ERR_CD   	= "98";
-    public static final String RESULT_AOP_BEF_ERR_MSG  	= "[ AOP_BEFORE ] : 로그 ISNERT 시스템 실패";
+    public static final String RESULT_AOP_BEF_ERR_MSG  = "[ AOP_BEFORE ] : 로그 ISNERT 시스템 실패";
 
     public static final String RESULT_SYS_ERR_CD   			= "99";
     public static final String RESULT_SYS_ERR_MSG  			= "[ SYSTEM_ERROR ] : 시스템 에러";

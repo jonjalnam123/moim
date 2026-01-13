@@ -43,14 +43,17 @@
 
         <div class="form-grid">
           <div class="field">
-            <label for="menu_id" class="required">메뉴 ID</label>
-            <input type="text" id="menu_id" name="menu_id" class="form-control" required />
-            <small class="hint">영문/숫자, 공백 없이 입력</small>
-          </div>
-
-          <div class="field">
             <label for="menu_nm" class="required">메뉴명</label>
             <input type="text" id="menu_nm" name="menu_nm" class="form-control" required />
+            <small class="hint">영문/숫자, 공백 없이 입력</small>
+          </div>
+          
+          <div class="field">
+            <label for="menu_nm" class="required">부모메뉴명</label>
+            <input type="text" id="menu_p_nm" name="menu_p_nm" class="form-control" readonly />
+            <button type="button" id="delMpiBtn" class="btn-delete">삭제</button>
+            <input type="hidden" id="menu_p_id" name="menu_p_id" class="form-control" />
+            <small class="hint">영문/숫자, 공백 없이 입력</small>
           </div>
 
          <div class="field">

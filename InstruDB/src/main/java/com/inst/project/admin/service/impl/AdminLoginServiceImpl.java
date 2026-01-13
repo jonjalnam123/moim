@@ -35,38 +35,45 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	public String adminLoginProc(AdminDTO adminDTO, HttpServletRequest req) {
 		log.info(" [ AdminLoginServiceImpl ] : adminLoginProc ");
 		log.info(GlobalConfig.RESULT_PARAM_MSG, adminDTO);
-
+		
 		String result = "";
 		String adminId = adminDTO.getAdminId();
 		String adminPw = adminDTO.getAdminPw();
 		String adminIp = CommonUtil.getClientIp(req);
 		
-		// 관리자정보 조회
-		AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
-		log.info(GlobalConfig.RESULT_MAP_MSG, adminInfo);
-		if ( adminInfo == null ) {
-			result = GlobalConfig.N;
-			log.info(GlobalConfig.RESULT_LOGIN_FAIL_MSG, adminInfo);
-			return result;
-		}
-		
-		// 관리자정보 로그인 프로세스
-		boolean adminIdChk = CommonUtil.loginIdChk(adminId , adminInfo.getAdminId());
-		boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
-		
-		if ( adminIdChk && adminPwChk ) {
-			adminInfo.setAdminIp(adminIp);
-			boolean sessionResult = setAdminInfoSession(adminInfo, req);
-			int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
+		try {	
 			
-			if ( sessionResult && instCnt > 0 ) {
-				result = GlobalConfig.Y;
-				log.info(GlobalConfig.RESULT_LOGIN_SUC_MSG, adminInfo);
+			// 관리자정보 조회
+			AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
+			
+			if ( adminInfo == null ) {
+				result = GlobalConfig.N;
+				return result;
 			}
-		} else {
-			result = GlobalConfig.N;
-			log.info(GlobalConfig.RESULT_LOGIN_FAIL_MSG, adminInfo);
+			
+			// 관리자정보 로그인 프로세스
+			boolean adminIdChk = CommonUtil.loginIdChk(adminId , adminInfo.getAdminId());
+			boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
+			
+			if ( adminIdChk && adminPwChk ) {
+				adminInfo.setAdminIp(adminIp);
+				boolean sessionResult = setAdminInfoSession(adminInfo, req);
+				int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
+				
+				if ( sessionResult && instCnt > 0 ) {
+					result = GlobalConfig.Y;
+				} else {
+					result = GlobalConfig.N;
+				}
+			} else {
+				result = GlobalConfig.N;
+			}
+			
+		} catch (Exception e) {
+			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
 		}
+		
 		return result;
 	}
 	
@@ -112,13 +119,30 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	*/
 	@Override
 	public String adminLogOutProc(HttpServletRequest req) {
+		log.info(" [ AdminLoginServiceImpl ] : adminLogOutProc ");
+		
+		String result = "";
         HttpSession session = req.getSession(false);
 	    AdminDTO adminInfo =  (AdminDTO) session.getAttribute("adminInfo");
-	    log.info("adminInfo : {}", adminInfo);
-        if (session != null) {
-            session.invalidate(); // 🔥 세션 완전 종료
-        }
-		return null;
+	    
+		try {
+			
+			if ( adminInfo != null && session != null) {
+				int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
+				if ( instCnt > 0 ) {
+					result = GlobalConfig.Y;
+					session.invalidate();
+				}
+			} else {
+				result = GlobalConfig.N;
+			}
+			
+		} catch (Exception e) {
+			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
+		}
+	    
+		return result;
 	}
 	
 }

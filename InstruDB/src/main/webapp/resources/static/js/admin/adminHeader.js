@@ -17,6 +17,9 @@ function logOut() {
 	ajaxStart(url, params, dataType, function(data) {
 		if ( data.result = 'Y' ) {
 			goToUri('/admin/login.do');
+		} else {
+			alert(logOutFailMsg);
+			return;
 		}
 	});
 }
