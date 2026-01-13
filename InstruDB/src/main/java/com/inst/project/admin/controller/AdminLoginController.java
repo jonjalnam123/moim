@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,6 +70,34 @@ public class AdminLoginController {
 				result.put("resultCd", GlobalConfig.RESULT_LOGIN_FAIL_CD);
 				result.put("resultMsg", GlobalConfig.RESULT_LOGIN_FAIL_MSG);
 			}
+		} catch (Exception e) {
+			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
+			log.info(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminLogOutProc
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 로그아웃 프로세스
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/logOut.do")
+	@ResponseBody
+	public Map<String,Object> adminLogOutProc( HttpServletRequest req ) {
+		log.info(" [ AdminLoginController ] : adminLogOutProc ");
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			
+		    String resultData = adminLoginService.adminLogOutProc(req);
+			
 		} catch (Exception e) {
 			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);

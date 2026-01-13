@@ -11,8 +11,8 @@
   </div>
   <div class="header-right">
     <span class="user-info">안녕하세요, <strong><c:out value="${adminInfo.adminId}" /></strong>님</span>
-    <button class="header-btn" onclick="location.href='/mypage'">마이페이지</button>
-    <button class="header-btn logout" id="logoutBtn" >로그아웃</button>
+    <button class="header-btn" id="">마이페이지</button>
+    <button class="header-btn logout" id="logOutBtn" >로그아웃</button>
   </div>
 </header>
 <!-- Draw view [E] -->

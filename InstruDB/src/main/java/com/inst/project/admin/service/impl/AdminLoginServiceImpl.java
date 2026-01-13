@@ -81,7 +81,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	public boolean setAdminInfoSession(AdminDTO adminInfo, HttpServletRequest req) {
-		log.info(" [ AdminLoginServiceImpl ] : setSessionInfo ");
+		log.info(" [ AdminLoginServiceImpl ] : setAdminInfoSession ");
 		
 		if ( adminInfo == null ) {
 			return false;
@@ -98,6 +98,27 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    session.setAttribute("adminInfo", adminInfo);
 	    
 		return true;
+	}
+	
+	/**
+	* @methodName	 	: adminLogOutProc
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 로그아웃 프로세스
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public String adminLogOutProc(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+	    AdminDTO adminInfo =  (AdminDTO) session.getAttribute("adminInfo");
+	    log.info("adminInfo : {}", adminInfo);
+        if (session != null) {
+            session.invalidate(); // 🔥 세션 완전 종료
+        }
+		return null;
 	}
 	
 }
