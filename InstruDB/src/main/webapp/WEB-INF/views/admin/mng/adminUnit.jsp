@@ -7,7 +7,7 @@
 <div class="split-layout">
 <!-- 좌측: 트리 -->
 <aside class="split-left">
-  <div class="tree-header">메뉴</div>
+  <div class="tree-header">부서</div>
   <div class="tree-scroll">
 
     <ul class="tree">
@@ -99,9 +99,9 @@
   <section class="split-right">
     <div class="content-scroll">
       <div class="page-header">
-        <h2>샘플</h2>
+        <h2>부서관리</h2>
         <div class="breadcrumb">
-        <a href="#">샘플</a>&nbsp;&gt;&nbsp;<span>리스트폼화면</span>
+        <a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>부서관리</span>
         </div>
       </div>
 

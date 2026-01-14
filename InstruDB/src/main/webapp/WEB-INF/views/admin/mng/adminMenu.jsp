@@ -7,22 +7,22 @@
 <div class="split-layout">
 	<!-- 좌측: 트리 -->
 	<aside class="split-left">
-    	<div class="tree-header">메뉴</div>
+   		<div class="tree-header">메뉴</div>
 	    <div class="tree-scroll">
-		    <c:forEach var="menu" items="${menuList}">
-	      		<ul class="tree">
-		        <li class="open">
-		          <button class="tw" aria-label="toggle"></button>
-		          <a href="#" class="" data-id="A">${menu.menuNm}</a>
-		          <ul>
-		            <c:forEach var="menu2" items="${menuList2}">
-		            	<c:if test="${menu.menuId eq menu2.menuPId && menu2.menuLvl eq '1'}">
-		            		<li><span class="dot"></span><a href="#" data-id="A-1">${menu2.menuNm}</a></li>
-		            	</c:if>
-		            </c:forEach>
-		          </ul>
-		        </li>
-		      </ul>
+	    	<c:forEach var="menu" items="${menuList}">
+      			<ul class="tree">
+			        <li class="open">
+		          		<button class="tw" aria-label="toggle"></button>
+			          	<a href="#" class="" data-id="A">${menu.menuNm}</a>
+			          	<ul>
+				            <c:forEach var="menu2" items="${menuList2}">
+				            	<c:if test="${menu.menuId eq menu2.menuPId && menu2.menuLvl eq '1'}">
+				            		<li><span class="dot"></span><a href="#" data-id="A-1">${menu2.menuNm}</a></li>
+				            	</c:if>
+				            </c:forEach>
+			          	</ul>
+			        </li>
+	      		</ul>
 	      	</c:forEach>
 	    </div>
   	</aside>
@@ -31,9 +31,9 @@
   <section class="split-right">
     <div class="content-scroll">
       <div class="page-header">
-        <h2>샘플</h2>
+        <h2>메뉴관리</h2>
         <div class="breadcrumb">
-        <a href="#">샘플</a>&nbsp;&gt;&nbsp;<span>리스트폼화면</span>
+        <a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>메뉴관리</span>
         </div>
       </div>
 

@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminMainService;
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.common.GlobalConfig;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service("adminMainService")
 public class AdminMainServiceImpl implements AdminMainService {
 
@@ -28,21 +32,35 @@ public class AdminMainServiceImpl implements AdminMainService {
 	*/
 	@Override
 	public Map<String, Object> selectAdminMenuInfo() {
-		Map<String, Object> result = new HashMap<String, Object>();
+		log.info(" [ AdminMainServiceImpl ] : selectAdminMenuInfo ");
 		
-		// 관리자 메뉴 1레벨 조회
-		List<AdminMenuDTO> menuList = adminMainMapper.selectAdminMenuInfo();
-		
-		// 관리자 메뉴 2레벨 조회
-		List<AdminMenuDTO> menuList2 = adminMainMapper.selectAdminMenuInfo2();
-		
-		if ( menuList.isEmpty() && menuList2.isEmpty() ) {
-			result = null;
+		try {
+			
+			Map<String, Object> result = new HashMap<String, Object>();
+			
+			// 관리자 메뉴 1레벨 조회
+			List<AdminMenuDTO> menuList = adminMainMapper.selectAdminMenuInfo();
+			
+			// 관리자 메뉴 2레벨 조회
+			List<AdminMenuDTO> menuList2 = adminMainMapper.selectAdminMenuInfo2();
+			
+			if ( menuList.isEmpty() && menuList2.isEmpty() ) {
+				result = null;
+			}
+			
+			result.put("menuList", menuList);
+			result.put("menuList2", menuList2);
+			
+			return result;
+			
+		} catch (Exception e) {
+			
+	        log.error("[ AdminMngServiceImpl ] : selectCommList failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return null;
 		}
-		
-		result.put("menuList", menuList);
-		result.put("menuList2", menuList2);
-		
-		return result;
+
 	}
 }

@@ -7,38 +7,38 @@
 <div class="split-layout">
 	<!-- 좌측: 트리 -->
 	<aside class="split-left">
-    	<div class="tree-header">공통코드</div>
+	   	<div class="tree-header">코드</div>
 	    <div class="tree-scroll">
-		    <c:forEach var="comm" items="${commList}">
-	      		<ul class="tree">
-		        <li class="open">
-		          <button class="tw" aria-label="toggle"></button>
-		          <a href="#" class="" data-id="A">${comm.commNm}</a>
-		          <ul>
-		            <c:forEach var="comm2" items="${commList2}">
-		            	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
-		            		<li><span class="dot"></span><a href="#" data-id="A-1">${comm2.commNm}</a></li>
-		            	</c:if>
-		            </c:forEach>
-		          </ul>
-		        </li>
-		      </ul>
-	      	</c:forEach>
+	   		<ul class="tree">
+		   		<c:forEach var="comm" items="${commList}">
+			      	<li class="open">
+			        <button class="tw" aria-label="toggle"></button>
+			        <a href="#" class="" data-id="A">${comm.commNm}</a>
+			        <ul>
+			          	<c:forEach var="comm2" items="${commList2}">
+				          	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
+				          		<li><span class="dot"></span><a href="#" data-id="A-1">${comm2.commNm}</a></li>
+				          	</c:if>
+			          	</c:forEach>
+			        </ul>
+			      	</li>
+			    </c:forEach>
+		    </ul>
 	    </div>
-  	</aside>
+ 	</aside>
 
   <!-- 우측: 폼 -->
   <section class="split-right">
     <div class="content-scroll">
       <div class="page-header">
-        <h2>샘플</h2>
+        <h2>코드관리</h2>
         <div class="breadcrumb">
-        <a href="#">샘플</a>&nbsp;&gt;&nbsp;<span>리스트폼화면</span>
+        <a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>코드관리</span>
         </div>
       </div>
 
       <form id="menuForm" class="form-card" action="/admin/menu/save.do" method="post">
-        <div class="form-title">메뉴 정보</div>
+        <div class="form-title">코드 정보</div>
         <p class="form-desc">좌측 트리에서 메뉴를 선택하면 기본 정보가 로딩됩니다.</p>
 
         <div class="form-grid">
