@@ -16,9 +16,9 @@
 				 , MENU_URL
 				 , MENU_LVL
 				 , MENU_SORT
- 				 , MENU_DEPT_ID
-				 , MENU_TEAM_ID
-				 , MENU_POSITION_ID
+ 				 , MENU_DEPT_CD
+				 , MENU_TEAM_CD
+				 , MENU_POSITION_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -44,9 +44,9 @@
 				 , MENU_URL
 				 , MENU_LVL
 				 , MENU_SORT
-				 , MENU_DEPT_ID
-				 , MENU_TEAM_ID
-				 , MENU_POSITION_ID
+				 , MENU_DEPT_CD
+				 , MENU_TEAM_CD
+				 , MENU_POSITION_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID

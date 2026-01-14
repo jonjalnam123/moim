@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -83,6 +84,41 @@ public class AdminMngController {
 		model.addAttribute("menuList2", adminMenuList2);
 		
 		return "admin/mng/adminMenu.adm";
+	}
+	
+	/**
+	* @methodName	 	: getAdminUnit
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛관리 화면 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value="/unit.do")
+	public String getAdminUnit(Model model) {
+		log.info(" [ AdminMngController ] : getAdminUnit ");
+		
+		// 유닛 레벨 1 조회
+		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitList();
+		
+		// 유닛 레벨 2 조회
+		List<AdminUnitDTO> adminUnitList2 = adminMngService.selectUnitList2();
+		
+		// 유닛 레벨 3 조회
+		List<AdminUnitDTO> adminUnitList3 = adminMngService.selectUnitList3();
+		
+		if( adminUnitList == null || adminUnitList2 == null || adminUnitList2 == null) {
+			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "admin/all/adminError.adm";
+		}
+
+		model.addAttribute("adminUnitList", adminUnitList);
+		model.addAttribute("adminUnitList2", adminUnitList2);
+		model.addAttribute("adminUnitList3", adminUnitList3);
+		
+		return "admin/mng/adminUnit.adm";
 	}
 
 }

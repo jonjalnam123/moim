@@ -14,9 +14,9 @@ public class AdminMenuDTO {
 	private String menuCn;
 	private int menuLvl;
 	private int menuSort;
-	private String menuDeptId;
-	private String menuTeaId;
-	private String menuPositionId;
+	private String menuDeptCd;
+	private String menuTeamCd;
+	private String menuPositionCd;
 	private String menuIcon;
 	private String regId;
 	private String regDt;

@@ -33,48 +33,43 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	*/
 	@Override
 	public String adminLoginProc(AdminDTO adminDTO, HttpServletRequest req) {
-		log.info(" [ AdminLoginServiceImpl ] : adminLoginProc ");
-		log.info(GlobalConfig.RESULT_PARAM_MSG, adminDTO);
-		
-		String result = "";
-		String adminId = adminDTO.getAdminId();
-		String adminPw = adminDTO.getAdminPw();
-		String adminIp = CommonUtil.getClientIp(req);
-		
-		try {	
-			
-			// 관리자정보 조회
-			AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
-			
-			if ( adminInfo == null ) {
-				result = GlobalConfig.N;
-				return result;
-			}
-			
-			// 관리자정보 로그인 프로세스
-			boolean adminIdChk = CommonUtil.loginIdChk(adminId , adminInfo.getAdminId());
-			boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
-			
-			if ( adminIdChk && adminPwChk ) {
-				adminInfo.setAdminIp(adminIp);
-				boolean sessionResult = setAdminInfoSession(adminInfo, req);
-				int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
-				
-				if ( sessionResult && instCnt > 0 ) {
-					result = GlobalConfig.Y;
-				} else {
-					result = GlobalConfig.N;
-				}
-			} else {
-				result = GlobalConfig.N;
-			}
-			
-		} catch (Exception e) {
-			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
-		}
-		
-		return result;
+	    log.info(" [ AdminLoginServiceImpl ] : adminLoginProc ");
+	    log.info(GlobalConfig.RESULT_PARAM_MSG, adminDTO);
+
+	    String adminId = adminDTO.getAdminId();
+	    String adminPw = adminDTO.getAdminPw();
+	    String adminIp = CommonUtil.getClientIp(req);
+        AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
+
+	    try {
+	        if (adminInfo == null) return GlobalConfig.N;
+
+	        boolean adminIdChk = CommonUtil.loginIdChk(adminId, adminInfo.getAdminId());
+	        boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
+
+	        if (!(adminIdChk && adminPwChk)) return GlobalConfig.N;
+
+	        adminInfo.setAdminIp(adminIp);
+
+	        boolean sessionResult = setAdminInfoSession(adminInfo, req);
+	        int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
+
+	        return (sessionResult && instCnt > 0) ? GlobalConfig.Y : GlobalConfig.N;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminLoginServiceImpl ] : adminLoginProc failed. adminId={}, ip={}", adminId, adminIp, e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
+		    HttpSession seession = req.getSession(false);
+		    if (seession != null) {
+		    	seession.invalidate();
+		    }
+
+		    adminLoginMapper.insertLoginFailLog(adminInfo);
+
+	        return GlobalConfig.N;
+	    }
 	}
 	
 	/**
@@ -119,30 +114,34 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	*/
 	@Override
 	public String adminLogOutProc(HttpServletRequest req) {
-		log.info(" [ AdminLoginServiceImpl ] : adminLogOutProc ");
-		
-		String result = "";
-        HttpSession session = req.getSession(false);
-	    AdminDTO adminInfo =  (AdminDTO) session.getAttribute("adminInfo");
-	    
-		try {
-			
-			if ( adminInfo != null && session != null) {
-				int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
-				if ( instCnt > 0 ) {
-					result = GlobalConfig.Y;
-					session.invalidate();
-				}
-			} else {
-				result = GlobalConfig.N;
-			}
-			
-		} catch (Exception e) {
-			log.info(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.info(GlobalConfig.RESULT_SYS_ERR_MSG);
-		}
-	    
-		return result;
+	    log.info(" [ AdminLoginServiceImpl ] : adminLogOutProc ");
+
+	    try {
+	        HttpSession session = req.getSession(false);
+	        if (session == null) {
+	            return GlobalConfig.N;
+	        }
+
+	        AdminDTO adminInfo = (AdminDTO) session.getAttribute("adminInfo");
+	        if (adminInfo == null) {
+	            return GlobalConfig.N;
+	        }
+
+	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
+	        if (instCnt > 0) {
+	            session.invalidate();
+	            return GlobalConfig.Y;
+	        }
+
+	        return GlobalConfig.N;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
+	        return GlobalConfig.N; // 장애 시에도 외부에는 일관되게 실패 반환
+	    }
 	}
 	
 }

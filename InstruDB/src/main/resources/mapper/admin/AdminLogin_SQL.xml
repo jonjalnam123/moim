@@ -48,6 +48,27 @@
 		);
 	</insert>
 	
+	<insert id="insertLoginFailLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertLoginFailLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_YN
+			     , LOGIN_LOG_GB
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'N'
+				 , 'LOGIN FAIL'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+	
 	<insert id="insertAdminLogOutLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertAdminLogOutLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
