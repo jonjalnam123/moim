@@ -2,6 +2,7 @@ package com.inst.project.admin.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.inst.project.admin.service.AdminMainService;
+import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.common.GlobalConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +38,14 @@ public class AdminMainController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/main.do")
-	public String getAdminMain( Model model ) {
+	public String getAdminMain( HttpServletRequest request, Model model ) {
 		log.info(" [ AdminMainController ] : getAdminMain ");
+
+        HttpSession session = request.getSession(false);
+        int timeoutSec = (session != null) ? session.getMaxInactiveInterval() : 0;
+
+        model.addAttribute("sessionTimeoutSec", timeoutSec);
+		
 		return "admin/main/adminMain.adm";
 	}
 	

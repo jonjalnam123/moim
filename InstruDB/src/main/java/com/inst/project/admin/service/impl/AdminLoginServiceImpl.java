@@ -143,4 +143,24 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    }
 	}
 	
+	/**
+	* @methodName	 	: adminSeesionLogOutProc
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 세션 로그아웃 프로세스
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public void adminSeesionLogOutProc(HttpServletRequest req) {
+		log.info(" [ AdminLoginServiceImpl ] : adminSeesionLogOutProc ");
+		
+		HttpSession session = req.getSession(false);
+        if (session != null) {
+        	session.invalidate();
+        }
+	}
+	
 }

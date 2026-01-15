@@ -45,7 +45,7 @@ public class AdminMngController {
 		// 공통코드 레벨 2 조회
 		List<AdminCommDTO> adminCommList2 = adminMngService.selectCommList2();
 		
-		if( adminCommList != null || adminCommList2 != null) {
+		if( adminCommList == null || adminCommList2 == null) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
