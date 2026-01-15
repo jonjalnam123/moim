@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
@@ -35,7 +36,7 @@ public class AdminMngController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value="/comm.do")
-	public String getAdminComm(Model model) {
+	public String getAdminComm(Model model, RedirectAttributes redirect) {
 		log.info(" [ AdminMngController ] : getAdminComm ");
 		
 		// 공통코드 레벨 1 조회
@@ -44,9 +45,10 @@ public class AdminMngController {
 		// 공통코드 레벨 2 조회
 		List<AdminCommDTO> adminCommList2 = adminMngService.selectCommList2();
 		
-		if( adminCommList == null || adminCommList2 == null) {
-			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
-			return "admin/all/adminError.adm";
+		if( adminCommList != null || adminCommList2 != null) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
 		}
 
 		model.addAttribute("commList", adminCommList);
@@ -66,7 +68,7 @@ public class AdminMngController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value="/menu.do")
-	public String getAdminMenu(Model model) {
+	public String getAdminMenu(Model model, RedirectAttributes redirect) {
 		log.info(" [ AdminMngController ] : getAdminMenu ");
 		
 		// 메뉴 레벨 1 조회
@@ -76,8 +78,9 @@ public class AdminMngController {
 		List<AdminMenuDTO> adminMenuList2 = adminMngService.selectMenuList2();
 		
 		if( adminMenuList == null || adminMenuList2 == null) {
-			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
-			return "admin/all/adminError.adm";
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
 		}
 
 		model.addAttribute("menuList", adminMenuList);
@@ -97,7 +100,7 @@ public class AdminMngController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value="/unit.do")
-	public String getAdminUnit(Model model) {
+	public String getAdminUnit(Model model, RedirectAttributes redirect) {
 		log.info(" [ AdminMngController ] : getAdminUnit ");
 		
 		// 유닛 레벨 1 조회
@@ -110,8 +113,9 @@ public class AdminMngController {
 		List<AdminUnitDTO> adminUnitList3 = adminMngService.selectUnitList3();
 		
 		if( adminUnitList == null || adminUnitList2 == null || adminUnitList2 == null) {
-			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
-			return "admin/all/adminError.adm";
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
 		}
 
 		model.addAttribute("adminUnitList", adminUnitList);

@@ -1,5 +1,7 @@
 package com.inst.project.common;
 
+import java.time.format.DateTimeFormatter;
+
 public class GlobalConfig {
     
     // 생성 막기 (new GlobalConst() 금지)
@@ -9,23 +11,23 @@ public class GlobalConfig {
      *  공통 결과 코드 / 메시지
      * ============================ */
 
-    public static final String RESULT_SUCC_CD      				= "00";
+    public static final String RESULT_SUCC_CD      			= "00";
     public static final String RESULT_SUCC_MSG     			= "[ RESULT ] : SUCCESS";
 
     public static final String RESULT_FAIL_CD      				= "01";
-    public static final String RESULT_FAIL_MSG     				= "[ RESULT ] : FAIL";
+    public static final String RESULT_FAIL_MSG     			= "[ RESULT ] : FAIL";
 
     public static final String RESULT_PARAM_ERR_CD 		= "02";
     public static final String RESULT_PARAM_ERR_MSG 		= "[ INVALID_PARAMETER ] : 파라미터 오류";
 
-    public static final String RESULT_AUTH_ERR_CD  			= "03";
+    public static final String RESULT_AUTH_ERR_CD  		= "03";
     public static final String RESULT_AUTH_ERR_MSG 		= "[ UNAUTHORIZED ] : 승인 오류";
     
-    public static final String RESULT_VIEW_ERR_CD  			= "04";
+    public static final String RESULT_VIEW_ERR_CD  		= "04";
     public static final String RESULT_VIEW_ERR_MSG 		= "[ VIEW_ERROR ] : 화면 오류";
     
     public static final String RESULT_MAP_CD   					= "05";
-    public static final String RESULT_MAP_MSG  					= "[ MAP_RESULT ] : {}";
+    public static final String RESULT_MAP_MSG  				= "[ MAP_RESULT ] : {}";
     
     public static final String RESULT_MAP_FAIL_CD   			= "06";
     public static final String RESULT_MAP_FAIL_MSG  		= "[ MAP_RESULT ] : 조회실패";
@@ -34,7 +36,7 @@ public class GlobalConfig {
     public static final String RESULT_PARAM_MSG  			= "[ VIEW PARAM ] : {}";
     
     public static final String RESULT_NULL_DATA_CD  		= "08";
-    public static final String RESULT_NULL_DATA_MSG  	= "[ DATA ] : 데이터가 없습니다.";
+    public static final String RESULT_NULL_DATA_MSG  		= "[ DATA ] : 데이터가 없습니다.";
     
     public static final String RESULT_INSERT_SUC_CD  		= "09";
     public static final String RESULT_INSERT_SUC_MSG  	= "[ INSERT ] : SUCCESS";
@@ -97,6 +99,10 @@ public class GlobalConfig {
 
     // 예: 2025-11-20 15:30:45
     public static final String FMT_YMD_HMS_BAR = "yyyy-MM-dd HH:mm:ss";
+    
+    
+    // 날짜 형식 지정
+    public static final DateTimeFormatter ERR_FMT = DateTimeFormatter.ofPattern(GlobalConfig.FMT_YMD_HMS_BAR);
 
     /* ============================
      *  페이징 기본값
@@ -119,3 +125,4 @@ public class GlobalConfig {
 
     public static final String SYS_GB_INSTRUDB     = "InstruDB";
 }
+

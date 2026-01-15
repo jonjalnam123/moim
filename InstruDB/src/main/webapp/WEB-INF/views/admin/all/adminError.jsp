@@ -16,7 +16,7 @@
             <div class="error-badge">오류 발생</div>
             <h1 class="error-title">요청을 처리하는 중 문제가 발생했습니다.</h1>
             <p class="error-subtitle">
-              잠시 후 다시 시도해 주세요. 문제가 반복되면 요청 ID를 첨부해 문의해 주세요.
+              잠시 후 다시 시도해 주세요. 문제가 반복되면 오류내용을 첨부해 문의해 주세요.
             </p>
           </div>
         </div>
@@ -25,27 +25,26 @@
           <div class="error-meta">
             <div class="error-meta-row">
               <div class="k">오류 코드</div>
-              <div class="v"><code id="errCode">500</code></div>
+              <div class="v"><code id="errCode">${adminErrorCd}</code></div> 
             </div>
 
             <div class="error-meta-row">
               <div class="k">발생 시간</div>
-              <div class="v"><code id="errTime">-</code></div>
+              <div class="v"><code id="errTime">${adminErrorDate}</code></div>
             </div>
 
             <div class="error-meta-row">
-              <div class="k">요청 ID</div>
+              <div class="k">오류 내용</div>
               <div class="v">
-                <code id="reqId">REQ-20260109-ABCD1234</code>
+                <code id="reqId">${adminErrorMsg}</code>
                 <button type="button" class="btn-copy" id="copyReqIdBtn">복사</button>
               </div>
             </div>
           </div>
 
           <div class="error-actions">
-            <button type="button" class="btn search-btn" id="retryBtn">다시 시도</button>
             <a class="btn btn-cancel" href="/admin/main.do">홈으로</a>
-            <a class="btn btn-delete" href="/support">문의하기</a>
+            <a class="btn btn-delete" href="/admin/contact.do">문의하기</a>
           </div>
 
           <details class="error-details">

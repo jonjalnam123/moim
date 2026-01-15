@@ -34,8 +34,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	@Override
 	public String adminLoginProc(AdminDTO adminDTO, HttpServletRequest req) {
 	    log.info(" [ AdminLoginServiceImpl ] : adminLoginProc ");
-	    log.info(GlobalConfig.RESULT_PARAM_MSG, adminDTO);
-
+	    
 	    String adminId = adminDTO.getAdminId();
 	    String adminPw = adminDTO.getAdminPw();
 	    String adminIp = CommonUtil.getClientIp(req);
