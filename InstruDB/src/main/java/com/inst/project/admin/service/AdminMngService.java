@@ -19,6 +19,9 @@ public interface AdminMngService {
 
 	// 메뉴 레벨 2 조회
 	List<AdminMenuDTO> selectMenuList2();
+	
+	// 유닛 조회
+	List<AdminUnitDTO> selectUnitAllList();
 
 	// 유닛 레벨 1 조회
 	List<AdminUnitDTO> selectUnitList();

@@ -114,6 +114,29 @@
 	</select>
 	<!-- 관리자 메뉴 2레벨 조회 [E] -->
 	
+	<!-- 관리자 유닛 조회 [S] -->
+	<select id="selectUnitAllList" resultType="AdminUnitDTO">
+		/*AdminMng_SQL.selectUnitAllList*/ 
+		SELECT ADMIN_UNIT_ID
+				 , ADMIN_UNIT_P_ID
+				 , ADMIN_UNIT_CD
+				 , ADMIN_UNIT_NM
+				 , ADMIN_UNIT_LVL
+				 , ADMIN_UNIT_SORT_NO
+				 , ADMIN_UNIT_USE_YN
+				 , ADMIN_UNIT_DEL_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_UNIT_INFO
+		WHERE 1=1
+		    AND ADMIN_UNIT_USE_YN = 'Y'
+		    AND ADMIN_UNIT_DEL_YN = 'N'
+		 ORDER BY ADMIN_UNIT_LVL
+	</select>
+	<!-- 관리자 유닛 조회 [E] -->
+	
 	<!-- 관리자 유닛 1레벨 조회 [S] -->
 	<select id="selectUnitList" resultType="AdminUnitDTO">
 		/*AdminMng_SQL.selectUnitList*/
@@ -129,16 +152,16 @@
 				 , REG_DT
 				 , UPD_ID
 				 , UPD_DT
-		  FROM TB_ADMIN_MENU_INFO
+		  FROM TB_ADMIN_UNIT_INFO
 		WHERE 1=1
 		    AND ADMIN_UNIT_USE_YN = 'Y'
 		    AND ADMIN_UNIT_DEL_YN = 'N'
-		    AND MENU_LVL = 0
+		    AND ADMIN_UNIT_LVL = 0
 		 ORDER BY ADMIN_UNIT_SORT_NO
 	</select>
 	<!-- 관리자 유닛 1레벨 조회 [E] -->
 	
-	<!-- 관리자 유닛 1레벨 조회 [S] -->
+	<!-- 관리자 유닛 2레벨 조회 [S] -->
 	<select id="selectUnitList2" resultType="AdminUnitDTO">
 		/*AdminMng_SQL.selectUnitList2*/
 		SELECT ADMIN_UNIT_ID
@@ -153,16 +176,16 @@
 				 , REG_DT
 				 , UPD_ID
 				 , UPD_DT
-		  FROM TB_ADMIN_MENU_INFO
+		  FROM TB_ADMIN_UNIT_INFO
 		WHERE 1=1
 		    AND ADMIN_UNIT_USE_YN = 'Y'
 		    AND ADMIN_UNIT_DEL_YN = 'N'
-		    AND MENU_LVL = 1
+		    AND ADMIN_UNIT_LVL = 1
 		 ORDER BY ADMIN_UNIT_SORT_NO
 	</select>
-	<!-- 관리자 유닛 1레벨 조회 [E] -->
+	<!-- 관리자 유닛 2레벨 조회 [E] -->
 	
-	<!-- 관리자 유닛 1레벨 조회 [S] -->
+	<!-- 관리자 유닛 3레벨 조회 [S] -->
 	<select id="selectUnitList3" resultType="AdminUnitDTO">
 		/*AdminMng_SQL.selectUnitList3*/
 		SELECT ADMIN_UNIT_ID
@@ -177,13 +200,13 @@
 				 , REG_DT
 				 , UPD_ID
 				 , UPD_DT
-		  FROM TB_ADMIN_MENU_INFO
+		  FROM TB_ADMIN_UNIT_INFO 
 		WHERE 1=1
 		    AND ADMIN_UNIT_USE_YN = 'Y'
 		    AND ADMIN_UNIT_DEL_YN = 'N'
-		    AND MENU_LVL = 2
-		 ORDER BY ADMIN_UNIT_SORT_NO
+		    AND ADMIN_UNIT_LVL = 2
+		 ORDER BY ADMIN_UNIT_SORT_NO  
 	</select>
-	<!-- 관리자 유닛 1레벨 조회 [E] -->
+	<!-- 관리자 유닛 3레벨 조회 [E] -->
 	
 </mapper>

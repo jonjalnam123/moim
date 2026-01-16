@@ -10,10 +10,10 @@
     <h2 class="login-title">MOIM</h2>
     
       <div class="form-group">
-        <input type="text" id="adminId" name="adminId" class="login-input" placeholder="아이디">
+        <input type="text" id="adminId" name="adminId" class="login-input" placeholder="아이디" value="mark1">
       </div>
       <div class="form-group">
-        <input type="password" id="adminPw" name="adminPw" class="login-input" placeholder="비밀번호">
+        <input type="password" id="adminPw" name="adminPw" class="login-input" placeholder="비밀번호" value="1234">
       </div>
 
       <div class="login-actions">

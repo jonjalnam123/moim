@@ -127,6 +127,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	*/
 	@Override
 	public List<AdminMenuDTO> selectMenuList2() {
+		log.info(" [ AdminMngServiceImpl ] : selectMenuList2 ");
 		try {
 			
 			List<AdminMenuDTO> adminMenuList2= adminMngMapper.selectMenuList2();
@@ -147,6 +148,39 @@ public class AdminMngServiceImpl implements AdminMngService {
 	}
 	
 	/**
+	* @methodName	 	: selectUnitAllList
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminUnitDTO> selectUnitAllList() {
+		log.info(" [ AdminMngServiceImpl ] : selectUnitAllList ");
+		
+		try {
+			
+			List<AdminUnitDTO> adminUnitAllList = adminMngMapper.selectUnitAllList();
+			log.info(GlobalConfig.RESULT_LIST_MSG, adminUnitAllList);
+			
+			return adminUnitAllList;
+			
+		} catch (Exception e) {
+			
+	        log.error("[ AdminMngServiceImpl ] : selectUnitAllList failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return null;
+			
+		}
+		
+	}
+	
+	/**
 	* @methodName	 	: selectUnitList
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
@@ -158,6 +192,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	*/
 	@Override
 	public List<AdminUnitDTO> selectUnitList() {
+		log.info(" [ AdminMngServiceImpl ] : selectUnitList ");
 		try {
 			
 			List<AdminUnitDTO> adminUnitList= adminMngMapper.selectUnitList();
@@ -189,6 +224,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	*/
 	@Override
 	public List<AdminUnitDTO> selectUnitList2() {
+		log.info(" [ AdminMngServiceImpl ] : selectUnitList2 ");
 		try {
 			
 			List<AdminUnitDTO> adminUnitList2= adminMngMapper.selectUnitList2();
@@ -220,6 +256,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	*/
 	@Override
 	public List<AdminUnitDTO> selectUnitList3() {
+		log.info(" [ AdminMngServiceImpl ] : selectUnitList3 ");
 		try {
 			
 			List<AdminUnitDTO> adminUnitList3= adminMngMapper.selectUnitList3();

@@ -160,7 +160,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 		HttpSession session = req.getSession(false);
         if (session != null) {
         	session.invalidate();
-        }
+        } 
 	}
 	
 }
