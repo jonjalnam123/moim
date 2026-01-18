@@ -20,35 +20,51 @@ $(document).ready(function() {
 	  // loadForm($(this).data('id'));
 	});
 	
+	// 부서선택 변경 이벤트
+	$('#menuDeptCd').on('change', function() {
+		var deptCd = $(this).val()
+		var deptCdList = [];
+		$.each(deptCd, function(idx, value){
+			if ( value !== '' ) {
+				deptCdList.push(value);
+			}
+		});
+		$('#menuDeptCd').val(deptCdList);
+	});
+	
+	// 메뉴 등록 이벤트
 	$('#btnReg').on('click', function() {
 		var menuNm = $('#menuNm').val();
 		var menuPId = $('#menuPId').val();
 		var menuUrl = $('#menuUrl').val();
-		var menuPositionCd = $('#menuPositionCd').val();
+		var menuDeptCd = $('#menuDeptCd').val();
 		var menuLvl = $('#menuLvl').val();
 		var menuSort = $('#menuSort').val();
 		var menuCn = $('#menuCn').val();
+		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
 
 		var url = '/admin/menuReg.do';
 		var params = {
 				menuNm : menuNm
 			  , menuPId : menuPId
 			  , menuUrl : menuUrl
-			  , menuPositionCd : menuPositionCd
+			  , menuDeptCd : menuDeptCd
 			  , menuLvl : menuLvl
 			  , menuSort : menuSort
 			  , menuCn : menuCn
+			  , menuUseYn : menuUseYn
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
-			//window.reload();
+			if (data.result === '1') {
+				window.reload();
+			}
 		});
-
 	});
 
 	if ( $.fn.select2 ) {
-	    $('#menuPositionCd').select2({
-	      placeholder: '직책 선택',
+	    $('#menuDeptCd').select2({
+	      placeholder: '부서 선택',
 	      allowClear: true,
 	      width: 'resolve',
 	      minimumResultsForSearch: Infinity,

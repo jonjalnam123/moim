@@ -114,6 +114,46 @@
 	</select>
 	<!-- 관리자 메뉴 2레벨 조회 [E] -->
 	
+	<insert id="adminMenuReg" parameterType="AdminMenuDTO">
+		INSERT INTO TB_ADMIN_MENU_INFO (
+			  MENU_ID
+			, MENU_P_ID
+			, MENU_NM
+			, MENU_URL
+			, MENU_USE_YN
+			, MENU_DEL_YN
+			, MENU_CN
+			, MENU_LVL
+			, MENU_SORT
+			, MENU_DEPT_CD
+			, MENU_TEAM_CD
+			, MENU_POSITION_CD
+			, MENU_ICON
+			, REG_ID
+			, REG_DT
+			, UPD_ID
+			, UPD_DT
+		) VALUES ( 
+			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{menuPId}
+			, #{menuNm}
+			, #{menuUrl}
+			, #{menuUseYn}
+			, 'N'
+			, #{menuCn}
+			, #{menuLvl}
+			, #{menuSort}
+			, #{menuDeptCd}
+			, #{menuTeamCd}
+			, #{menuPositionCd}
+			, #{menuIcon}
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		)
+	</insert>
+	
 	<!-- 관리자 유닛 조회 [S] -->
 	<select id="selectUnitAllList" resultType="AdminUnitDTO">
 		/*AdminMng_SQL.selectUnitAllList*/ 

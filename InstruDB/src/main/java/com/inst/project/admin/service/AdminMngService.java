@@ -20,6 +20,9 @@ public interface AdminMngService {
 	// 메뉴 레벨 2 조회
 	List<AdminMenuDTO> selectMenuList2();
 	
+	//관리자 메뉴 등록
+	int adminMenuReg(AdminMenuDTO adminMenuDTO);
+	
 	// 유닛 조회
 	List<AdminUnitDTO> selectUnitAllList();
 
@@ -31,5 +34,7 @@ public interface AdminMngService {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
+
+
 
 }

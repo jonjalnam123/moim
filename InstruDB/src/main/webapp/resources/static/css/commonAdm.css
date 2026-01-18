@@ -133,6 +133,8 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 .btn-insert:hover { background-color: #388e3c; }
 .btn-delete { background-color: #ef5350; font-weight: bold; }
 .btn-delete:hover { background-color: #d32f2f; }
+.btn-update { background-color: #0080ff; font-weight: bold; }
+.btn-update:hover { background-color: #0080c0; }
 
 /* ==============================
    검색바

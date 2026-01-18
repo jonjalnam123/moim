@@ -2,14 +2,19 @@ package com.inst.project.admin.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
+import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.utill.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -145,6 +150,51 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		}
 
+	}
+	
+	/**
+	* @methodName	 	: adminMenuReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@SuppressWarnings("null")
+	@Override
+	public int adminMenuReg(AdminMenuDTO adminMenuDTO) {
+		log.info(" [ AdminMngServiceImpl ] : adminMenuReg ");
+		
+		int result = 0;
+		
+//		HttpServletRequest req = null;
+//        HttpSession session = req.getSession(false);
+//        AdminDTO adminInfo = (AdminDTO) session.getAttribute("adminInfo");
+		
+		try {
+			
+			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
+			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
+			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
+//			adminMenuDTO.setRegId(adminInfo.getAdminId());
+//			adminMenuDTO.setUpdId(adminInfo.getAdminId());
+			
+			result = adminMngMapper.adminMenuReg(adminMenuDTO);
+			
+			return result;
+			
+		} catch (Exception e) {
+			
+	        log.error("[ AdminMngServiceImpl ] : adminMenuReg failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return result;
+			
+		}
+		
 	}
 	
 	/**

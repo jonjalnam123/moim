@@ -119,6 +119,9 @@ public class AdminMngController {
 		log.info("adminMenuDTO : {}", adminMenuDTO);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminMenuReg(adminMenuDTO);
+		
+		result.put("result", regResult);
 
 		return result;
 	}

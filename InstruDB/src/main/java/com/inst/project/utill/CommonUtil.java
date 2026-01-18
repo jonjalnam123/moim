@@ -61,7 +61,7 @@ public class CommonUtil {
 	
 	/**
 	* @methodName	 	: getClientIp
-	* @author					: 최정석
+	* @author				: 최정석
 	* @date            		: 2026. 1. 7.
 	* @description			: IP 구하기 메소드
 	* ===================================
@@ -88,7 +88,7 @@ public class CommonUtil {
 	
 	/**
 	* @methodName	 	: loginIdChk
-	* @author					: 최정석
+	* @author				: 최정석
 	* @date            		: 2026. 1. 7.
 	* @description			: 로그인 체크 메소드
 	* ===================================
@@ -100,6 +100,25 @@ public class CommonUtil {
 		boolean result = true;
 		if ( orgId.isEmpty() || selectId.isEmpty() ) { result = false; }
 		result = orgId.equals(selectId) ? true : false;
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: removeLastComma
+	* @author				: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: 마지막 콤마 제거
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+	public static String removeLastComma(String value) {
+		String result = "";
+		if( value.isEmpty() ) {
+			return result;
+		}
+		result = value.replaceAll(",$", "");
 		return result;
 	}
 	

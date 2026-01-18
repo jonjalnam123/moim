@@ -24,8 +24,5 @@ public class AdminMenuDTO {
 	private String regDt;
 	private String updId;
 	private String updDt;
-	
-	private List<AdminUnitDTO> menuPositionCdList;
-
 
 }

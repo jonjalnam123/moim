@@ -65,16 +65,21 @@
 				</div>
 
 	          	<div class="field">
-		            <label for="menuPositionCd" class="required">직책</label>
-		            <select id="menuPositionCd" name="menuPositionCd" class="form-select" style="width:100%;" multiple="multiple" required>
+		            <label for="menuDeptCd" class="required">부서</label>
+		            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple" required>
 		            	<option value=""></option> 
 		            	<c:forEach var="unitList" items="${adminUnitList}">
-		            		<c:if test="${unitList.adminUnitLvl eq 2}">
+		            		<c:if test="${unitList.adminUnitLvl eq 0}">
 		            			<option data-id="${unitList.adminUnitId}" value="${unitList.adminUnitCd}">${unitList.adminUnitNm}</option>
 		            		</c:if>
 		            	</c:forEach>
 		            </select>
 	          	</div>
+	          	
+	          	<div class="field">
+				  <label for="menuIcon" class="required">아이콘명</label>
+				  <input type="text" id="menuIcon" name="menuIcon" class="form-control" />
+				</div>
 		          
 	          	<div class="field">
 	            	<label for="sort_no" class="required">레벨</label>
@@ -117,10 +122,9 @@
 	        	</div> 
 		
 		        <div class="form-actions">
-		          <button type="button" class="btn-delete" id="btnDelete">삭제</button>
-		          <button type="button" class="btn-update" id="btnNew">신규</button>
+		          <!-- <button type="button" class="btn-update" id="btnNew">신규</button> -->
 		          <button type="button" class="btn-insert" id="btnReg">저장</button>
-		          <button type="button" class="btn-cancel" onclick="history.back();">취소</button>
+		          <button type="button" class="btn-delete" id="btnDelete">삭제</button>
 		        </div>
       		</form>
     	</div>
