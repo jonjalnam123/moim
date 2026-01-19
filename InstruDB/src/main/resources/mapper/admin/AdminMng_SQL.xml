@@ -115,6 +115,7 @@
 	<!-- 관리자 메뉴 2레벨 조회 [E] -->
 	
 	<insert id="adminMenuReg" parameterType="AdminMenuDTO">
+		/*AdminMng_SQL.adminMenuReg*/
 		INSERT INTO TB_ADMIN_MENU_INFO (
 			  MENU_ID
 			, MENU_P_ID
@@ -153,6 +154,20 @@
 			, NOW()
 		)
 	</insert>
+	
+	<update id="adminMenuDel" parameterType="AdminMenuDTO">
+		/*AdminMng_SQL.adminMenuDel*/
+		UPDATE TB_ADMIN_MENU_INFO
+			  SET MENU_DEL_YN = 'Y'
+		 WHERE MENU_ID = #{menuId}
+	</update>
+	
+	<update id="adminMenuDelLv2" parameterType="AdminMenuDTO">
+		/*AdminMng_SQL.adminMenuDelLv2*/
+		UPDATE TB_ADMIN_MENU_INFO
+			  SET MENU_DEL_YN = 'Y'
+		 WHERE MENU_P_ID = #{menuId}
+	</update>
 	
 	<!-- 관리자 유닛 조회 [S] -->
 	<select id="selectUnitAllList" resultType="AdminUnitDTO">

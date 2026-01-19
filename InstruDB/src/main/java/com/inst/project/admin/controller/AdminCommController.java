@@ -48,6 +48,12 @@ public class AdminCommController {
 		
 		String adminErrorCd = adminErrorDTO.getAdminErrorCd();
 		String adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
+		
+		if ( adminErrorCd.isEmpty() && adminErrorMsg.isEmpty() ) {
+			adminErrorCd = GlobalConfig.RESULT_SYS_ERR_CD;
+			adminErrorMsg = GlobalConfig.RESULT_SYS_ERR_MSG;
+		}
+		
 		LocalDateTime adminErrorDate = adminErrorDTO.getAdminErrorDate();
 		
 		model.addAttribute("adminErrorCd", adminErrorCd);

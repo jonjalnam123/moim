@@ -113,11 +113,34 @@ public class AdminMngController {
 	*/
 	@PostMapping(value = "/menuReg.do")
 	@ResponseBody
-	public Map<String,Object> adminMenuReg( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req, RedirectAttributes redirect ) {
+	public Map<String,Object> adminMenuReg( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
 		log.info(" [ AdminMngController ] : adminMenuReg ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int regResult = adminMngService.adminMenuReg(adminMenuDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminMenuDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/menuDel.do")
+	@ResponseBody
+	public Map<String,Object> adminMenuDel( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminMenuDel ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminMenuDel(adminMenuDTO, req);
 		
 		result.put("result", regResult);
 

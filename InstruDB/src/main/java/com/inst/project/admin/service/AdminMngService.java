@@ -25,6 +25,9 @@ public interface AdminMngService {
 	//관리자 메뉴 등록
 	int adminMenuReg(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
 	
+	// 관리자 메뉴 삭제
+	int adminMenuDel(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
+	
 	// 유닛 조회
 	List<AdminUnitDTO> selectUnitAllList();
 
@@ -36,6 +39,7 @@ public interface AdminMngService {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
+
 
 
 

@@ -20,6 +20,11 @@ $(document).ready(function() {
 	  // loadForm($(this).data('id'));
 	});
 	
+	// 메뉴 상세조회
+	$('#menuDept').on('click', function() {
+		alert('1234');
+	});
+	
 	// 부서선택 변경 이벤트
 	$('#menuDeptCd').on('change', function() {
 		var deptCd = $(this).val()
@@ -58,6 +63,32 @@ $(document).ready(function() {
 		ajaxStart(url, params, dataType, function(data) {
 			if (data.result === '1') {
 				window.reload();
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
+	});
+	
+	// 메뉴 삭제 이벤트
+	$('#btnReg').on('click', function() {
+		var menuId = $('#menuId').val();
+		
+		if ( isEmptyMsg(menuId, delDataChk) ) {
+			return;
+		}
+
+		var url = '/admin/menuDel.do';
+		var params = {
+				menuId : menuId
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			if (data.result === '1') {
+				window.reload();
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
 			}
 		});
 	});

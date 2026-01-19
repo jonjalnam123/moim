@@ -219,6 +219,48 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	
+	/**
+	* @methodName	 	: adminMenuDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMenuDel(AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminMenuDel ");
+
+	    try {
+
+	        AdminDTO adminInfo = getAdminInfoToSession(req);
+	        if (adminInfo == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return 0;
+	        }
+
+	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
+	        
+	        int resultF = adminMngMapper.adminMenuDel(adminMenuDTO);
+	        int resultS = adminMngMapper.adminMenuDelLv2(adminMenuDTO);
+	        
+	        if ( resultF > 0 && resultS > 0) {
+	        	return 1;
+	        } else {
+	        	return 0;
+	        }
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminMenuReg failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
 	/**
 	* @methodName	 	: selectUnitAllList
 	* @author					: 최정석

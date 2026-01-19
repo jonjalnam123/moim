@@ -13,3 +13,6 @@ var loginFailMsg = '아이디 또는 비밀번호를 다시 확인해주세요.'
 
 var logOutFailMsg = '로그아웃을 다시 진행해주세요.';
 var sessionLogOutMsg = '세션이 만료되어 로그아웃됩니다.';
+
+var dataEmpty = '를(을) 입력해주세요.'
+var delDataChk = '삭제할 데이터를 선택해주세요.'
