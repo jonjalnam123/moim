@@ -2,6 +2,8 @@ package com.inst.project.admin.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
@@ -21,7 +23,7 @@ public interface AdminMngService {
 	List<AdminMenuDTO> selectMenuList2();
 	
 	//관리자 메뉴 등록
-	int adminMenuReg(AdminMenuDTO adminMenuDTO);
+	int adminMenuReg(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
 	
 	// 유닛 조회
 	List<AdminUnitDTO> selectUnitAllList();

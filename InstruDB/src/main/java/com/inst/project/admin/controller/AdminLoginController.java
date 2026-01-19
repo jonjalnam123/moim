@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminDTO;
@@ -109,12 +110,18 @@ public class AdminLoginController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/sessionLogOut.do")
-	public String adminSessionLogOutProc( HttpServletRequest req ) {
+	public String adminSessionLogOutProc( HttpServletRequest req, RedirectAttributes redirect ) {
 		log.info(" [ AdminLoginController ] : adminSessionLogOutProc ");
 
-	    adminLoginService.adminSeesionLogOutProc(req);
-		
-	    return "redirect:/admin/login.do";
+	    String result = adminLoginService.adminSeesionLogOutProc(req);
+	    if ( result.equals(GlobalConfig.Y) ) {
+	    	return "redirect:/admin/login.do";
+	    } else {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_SESSION_FAIL_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_SESSION_FAIL_MSG);
+			return "redirect:/admin/error.do";
+	    }
+
 	}
 	
 }

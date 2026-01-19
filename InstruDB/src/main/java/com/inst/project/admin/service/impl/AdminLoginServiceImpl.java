@@ -154,13 +154,27 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public void adminSeesionLogOutProc(HttpServletRequest req) {
+	public String adminSeesionLogOutProc(HttpServletRequest req) {
 		log.info(" [ AdminLoginServiceImpl ] : adminSeesionLogOutProc ");
 		
-		HttpSession session = req.getSession(false);
-        if (session != null) {
-        	session.invalidate();
-        } 
+	    try {
+	    	
+			HttpSession session = req.getSession(false);
+	        if (session != null) {
+	        	session.invalidate();
+	        } 
+	        
+	        return GlobalConfig.Y;
+
+	    } catch (Exception e) {
+	    	
+	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
+	        return GlobalConfig.N; 
+	    }
+
 	}
 	
 }

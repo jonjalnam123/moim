@@ -113,13 +113,11 @@ public class AdminMngController {
 	*/
 	@PostMapping(value = "/menuReg.do")
 	@ResponseBody
-	public Map<String,Object> adminMenuReg( @ModelAttribute AdminMenuDTO adminMenuDTO ) {
+	public Map<String,Object> adminMenuReg( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req, RedirectAttributes redirect ) {
 		log.info(" [ AdminMngController ] : adminMenuReg ");
 		
-		log.info("adminMenuDTO : {}", adminMenuDTO);
-		
 		Map<String, Object> result = new HashMap<String, Object>();
-		int regResult = adminMngService.adminMenuReg(adminMenuDTO);
+		int regResult = adminMngService.adminMenuReg(adminMenuDTO, req);
 		
 		result.put("result", regResult);
 

@@ -1,5 +1,6 @@
 package com.inst.project.admin.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +39,8 @@ public class AdminMainController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/main.do")
-	public String getAdminMain( HttpServletRequest request, Model model ) {
+	public String getAdminMain() {
 		log.info(" [ AdminMainController ] : getAdminMain ");
-
-        HttpSession session = request.getSession(false);
-        int timeoutSec = (session != null) ? session.getMaxInactiveInterval() : 0;
-
-        model.addAttribute("sessionTimeoutSec", timeoutSec);
-		
 		return "admin/main/adminMain.adm";
 	}
 	
@@ -61,7 +56,7 @@ public class AdminMainController {
 	*/
 	@PostMapping(value = "/menuInfo.do")
 	@ResponseBody
-	public Map<String,Object> getAdminMenuInfo( HttpSession session ) {
+	public Map<String,Object> getAdminMenuInfo() {
 		log.info(" [ AdminMainController ] : getAdminMenuInfo ");
 		
 		Map<String,Object> result = adminMainService.selectAdminMenuInfo();
@@ -69,6 +64,31 @@ public class AdminMainController {
 			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 			result = null;
 		}
+		
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: getAdminSessionTime
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 로그인 세션 시간 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/sessionTime.do")
+	@ResponseBody
+	public Map<String,Object> getAdminSessionTime(  HttpServletRequest request ) {
+		log.info(" [ AdminMainController ] : getAdminSessionTime ");
+		
+		Map<String,Object> result = new HashMap<String, Object>();
+		
+        HttpSession session = request.getSession(false);
+        int timeoutSec = (session != null) ? session.getMaxInactiveInterval() : 0;
+        
+        result.put("timeoutSec", timeoutSec);
 		
 		return result;
 	}

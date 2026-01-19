@@ -65,6 +65,9 @@ public class GlobalConfig {
     public static final String RESULT_LIST_CD   					= "19";
     public static final String RESULT_LIST_MSG  				= "[ LIST_RESULT ] : {}";
     
+    public static final String RESULT_SESSION_FAIL_DATA_CD  	= "20";
+    public static final String RESULT_SESSION_FAIL_DATA_MSG 	= "[ SESSION ] : NO DATA";
+    
     public static final String RESULT_AOP_BEF_ERR_CD   	= "98";
     public static final String RESULT_AOP_BEF_ERR_MSG  = "[ AOP_BEFORE ] : 로그 ISNERT 시스템 실패";
 
