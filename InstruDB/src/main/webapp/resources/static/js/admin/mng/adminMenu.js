@@ -16,13 +16,58 @@ $(document).ready(function() {
 	  e.preventDefault();
 	  $('.tree a').removeClass('active');
 	  $(this).addClass('active');
-	  // 필요한 경우 우측 폼에 값 로드
-	  // loadForm($(this).data('id'));
 	});
 	
 	// 메뉴 상세조회
-	$('#menuDept').on('click', function() {
-		alert('1234');
+	$('.menuTreeF, .menuTreeS').on('click', function() {
+		var menuId = $(this).data('id');
+		var menuPId = $(this).data('pid');
+
+		if ( isEmptyMsg(menuId, selectDataChk) ) {
+			return;
+		}
+
+		var url = '/admin/menuSelect.do';
+		var params = {
+				menuId : menuId
+			  , menuPId : menuPId
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var menuData = data.result;
+			if ( !isEmpty(menuData) ) {
+				
+				var menuId = menuData.menuId
+				var menuNm = menuData.menuNm
+				var menuPId = menuData.menuPId
+				var menuPNm = menuData.menuPNm
+				var menuUrl = menuData.menuUrl
+				var menuDeptCd = menuData.menuDeptCd
+				var menuLvl = menuData.menuLvl
+				var menuSort = menuData.menuSort
+				var menuCn = menuData.menuCn
+				var menuUseYn = menuData.menuUseYn
+
+				$('#menuId').val(menuId);
+				$('#menuNm').val(menuNm);
+				$('#menuPId').val(menuPId);
+				$('#menuPNm').val(menuPNm);
+				$('#menuUrl').val(menuUrl);
+				$('#menuDeptCd').val(menuDeptCd);
+				$('#menuLvl').val(Number(menuLvl));
+				$('#menuSort').val(Number(menuSort));
+				$('#menuCn').val(menuCn);
+				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
+				
+				$('#btnReg').hide();
+				$('#btnRef').show();
+				$('#btnUpd').show();
+				
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
 	});
 	
 	// 부서선택 변경 이벤트
@@ -37,8 +82,16 @@ $(document).ready(function() {
 		$('#menuDeptCd').val(deptCdList);
 	});
 	
+	$('#btnRef').on('click', function() {
+		window.location.reload();
+	});
+	
 	// 메뉴 등록 이벤트
-	$('#btnReg').on('click', function() {
+	$('#btnReg, #btnUpd').on('click', function() {
+		var btnVal = $(this).val();
+		var url = '';
+		
+		var menuId = $('#menuId').val();
 		var menuNm = $('#menuNm').val();
 		var menuPId = $('#menuPId').val();
 		var menuUrl = $('#menuUrl').val();
@@ -47,10 +100,31 @@ $(document).ready(function() {
 		var menuSort = $('#menuSort').val();
 		var menuCn = $('#menuCn').val();
 		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
+		
+		if ( isEmptyArr(menuDeptCd) ){
+			menuDeptCd = '';
+		}
+		
+		// 2레벨 진행시
+		if ( isEmpty(menuPId) && Number(menuLvl) !== 0 ) {
+			menuPId = menuId;
+		}
+		
+		if ( btnVal === 'I' ) {
+			if ( !confirm('메뉴' + regProcConfirm) ) {
+				return;
+			}
+			url = '/admin/menuReg.do';
+		} else {
+			if ( !confirm('메뉴' + updProcConfirm) ) {
+				return;
+			}
+			url = '/admin/menuUpd.do';
+		}
 
-		var url = '/admin/menuReg.do';
 		var params = {
-				menuNm : menuNm
+				menuId : menuId
+			  , menuNm : menuNm
 			  , menuPId : menuPId
 			  , menuUrl : menuUrl
 			  , menuDeptCd : menuDeptCd
@@ -61,8 +135,9 @@ $(document).ready(function() {
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
-			if (data.result === '1') {
-				window.reload();
+			var result = Number(data.result);
+			if (result === 1) {
+				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
 				goToUri(url);
@@ -71,10 +146,14 @@ $(document).ready(function() {
 	});
 	
 	// 메뉴 삭제 이벤트
-	$('#btnReg').on('click', function() {
+	$('#btnDel').on('click', function() {
 		var menuId = $('#menuId').val();
 		
 		if ( isEmptyMsg(menuId, delDataChk) ) {
+			return;
+		}
+		
+		if ( !confirm('메뉴' + delProcConfirm) ) {
 			return;
 		}
 
@@ -84,15 +163,16 @@ $(document).ready(function() {
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
-			if (data.result === '1') {
-				window.reload();
+			var result = Number(data.result);
+			if (result === 1) {
+				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
 				goToUri(url);
 			}
 		});
 	});
-
+	
 	if ( $.fn.select2 ) {
 	    $('#menuDeptCd').select2({
 	      placeholder: '부서 선택',

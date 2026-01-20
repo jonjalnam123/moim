@@ -1,6 +1,7 @@
 package com.inst.project.admin.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,14 +24,17 @@ public interface AdminMngMapper {
 	// 메뉴 레벨 2 조회
 	List<AdminMenuDTO> selectMenuList2();
 	
+	// 관리자 메뉴 상세조회
+	AdminMenuDTO adminMenuSelect(AdminMenuDTO adminMenuDTO);
+	
 	//관리자 메뉴 등록
 	int adminMenuReg(AdminMenuDTO adminMenuDTO);
 	
-	//관리자 메뉴 삭제 1레벨
-	int adminMenuDel(AdminMenuDTO adminMenuDTO);
+	// 관리자 메뉴 수정
+	int adminMenuUpd(AdminMenuDTO adminMenuDTO);
 	
-	// 관리자 메뉴 삭제 2레벨
-	int adminMenuDelLv2(AdminMenuDTO adminMenuDTO);
+	//관리자 메뉴 삭제
+	int adminMenuDel(AdminMenuDTO adminMenuDTO);
 
 	// 유닛 조회
 	List<AdminUnitDTO> selectUnitAllList();
@@ -43,13 +47,5 @@ public interface AdminMngMapper {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
-
-
-
-
-
-
-
-
 
 }

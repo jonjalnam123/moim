@@ -1,12 +1,17 @@
 package com.inst.project.admin.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
@@ -23,13 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 @Service("adminMngService")
 public class AdminMngServiceImpl implements AdminMngService {
 
+    private final UrlBasedViewResolver viewResolver;
+
     private final AopController aopController;
 
 	@Autowired
 	AdminMngMapper adminMngMapper;
 
-    AdminMngServiceImpl(AopController aopController) {
+    AdminMngServiceImpl(AopController aopController, UrlBasedViewResolver viewResolver) {
         this.aopController = aopController;
+        this.viewResolver = viewResolver;
     }
 	
 	/**
@@ -163,7 +171,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	* @methodName	 	: getAdminInfoToSession
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 메뉴 등록
+	* @description			: 관리자 세션 조회
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
@@ -175,6 +183,39 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return null;
 	    }
 	    return (AdminDTO) session.getAttribute("adminInfo");
+	}
+	
+	
+	/**
+	* @methodName	 	: adminMenuSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 상세조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminMenuDTO adminMenuSelect( AdminMenuDTO adminMenuDTO ) {
+	    log.info(" [ AdminMngServiceImpl ] : adminMenuSelect ");
+
+	    try {
+	        
+	    	AdminMenuDTO selectResult = adminMngMapper.adminMenuSelect(adminMenuDTO);
+	        if (selectResult == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return null;
+	        }
+
+	        return selectResult;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminMenuSelect failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
 	}
 	
 	/**
@@ -192,23 +233,20 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminMenuReg ");
 
 	    try {
-	        // 1. 세션 체크
+
 	        AdminDTO adminInfo = getAdminInfoToSession(req);
 	        if (adminInfo == null) {
 	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 	            return 0;
 	        }
 
-	        // 2. 메뉴 코드 정제
 			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
 			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
-
-	        // 3. 등록/수정자 설정
+			
 	        adminMenuDTO.setRegId(adminInfo.getAdminId());
 	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
 	        
-	        // 4. DB 처리
 	        return adminMngMapper.adminMenuReg(adminMenuDTO);
 
 	    } catch (Exception e) {
@@ -219,6 +257,43 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	/**
+	* @methodName	 	: adminMenuUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMenuUpd(AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminMenuUpd ");
+
+	    try {
+
+	        AdminDTO adminInfo = getAdminInfoToSession(req);
+	        if (adminInfo == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return 0;
+	        }
+
+			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
+			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
+			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
+			
+	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
+	        
+	        return adminMngMapper.adminMenuUpd(adminMenuDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminMenuUpd failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
 	
 	/**
 	* @methodName	 	: adminMenuDel
@@ -244,17 +319,10 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
 	        
-	        int resultF = adminMngMapper.adminMenuDel(adminMenuDTO);
-	        int resultS = adminMngMapper.adminMenuDelLv2(adminMenuDTO);
-	        
-	        if ( resultF > 0 && resultS > 0) {
-	        	return 1;
-	        } else {
-	        	return 0;
-	        }
+	        return adminMngMapper.adminMenuDel(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : adminMenuReg failed.", e);
+	        log.error("[ AdminMngServiceImpl ] : adminMenuDel failed.", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;

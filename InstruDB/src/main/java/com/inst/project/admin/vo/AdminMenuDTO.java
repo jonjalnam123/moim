@@ -1,7 +1,5 @@
 package com.inst.project.admin.vo;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
@@ -9,6 +7,7 @@ public class AdminMenuDTO {
 	
 	private String menuId;
 	private String menuPId;
+	private String menuPNm;
 	private String menuNm;
 	private String menuUrl;
 	private String menuUseYn;

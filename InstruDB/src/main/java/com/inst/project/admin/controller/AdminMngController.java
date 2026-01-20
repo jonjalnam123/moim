@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -102,6 +101,29 @@ public class AdminMngController {
 	}
 	
 	/**
+	* @methodName	 	: adminMenuSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/menuSelect.do")
+	@ResponseBody
+	public Map<String,Object> adminMenuSelect( @ModelAttribute AdminMenuDTO adminMenuDTO ) {
+		log.info(" [ AdminMngController ] : adminMenuSelect ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		AdminMenuDTO selectResult = adminMngService.adminMenuSelect(adminMenuDTO);		
+		
+		result.put("result", selectResult);
+
+		return result;
+	}
+	
+	/**
 	* @methodName	 	: adminMenuReg
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
@@ -125,6 +147,29 @@ public class AdminMngController {
 	}
 	
 	/**
+	* @methodName	 	: adminMenuUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/menuUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminMenuUpd( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminMenuReg ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminMenuUpd(adminMenuDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
 	* @methodName	 	: adminMenuDel
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
@@ -140,9 +185,9 @@ public class AdminMngController {
 		log.info(" [ AdminMngController ] : adminMenuDel ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		int regResult = adminMngService.adminMenuDel(adminMenuDTO, req);
+		int delResult = adminMngService.adminMenuDel(adminMenuDTO, req);
 		
-		result.put("result", regResult);
+		result.put("result", delResult);
 
 		return result;
 	}

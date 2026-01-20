@@ -115,7 +115,7 @@ public class CommonUtil {
 	*/
 	public static String removeLastComma(String value) {
 		String result = "";
-		if( value.isEmpty() ) {
+		if( value.isEmpty() || value == null ) {
 			return result;
 		}
 		result = value.replaceAll(",$", "");

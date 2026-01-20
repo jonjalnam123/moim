@@ -46,12 +46,15 @@ public class AdminCommController {
 		LocalDateTime now = now();
 		adminErrorDTO.setAdminErrorDate(now);
 		
-		String adminErrorCd = adminErrorDTO.getAdminErrorCd();
-		String adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
+		String adminErrorCd = "";
+		String adminErrorMsg = "";
 		
 		if ( adminErrorCd.isEmpty() && adminErrorMsg.isEmpty() ) {
 			adminErrorCd = GlobalConfig.RESULT_SYS_ERR_CD;
 			adminErrorMsg = GlobalConfig.RESULT_SYS_ERR_MSG;
+		} else {
+			adminErrorCd = adminErrorDTO.getAdminErrorCd();
+			adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
 		}
 		
 		LocalDateTime adminErrorDate = adminErrorDTO.getAdminErrorDate();

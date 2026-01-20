@@ -1,6 +1,7 @@
 package com.inst.project.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,8 +23,14 @@ public interface AdminMngService {
 	// 메뉴 레벨 2 조회
 	List<AdminMenuDTO> selectMenuList2();
 	
+	// 관리자 메뉴 상세 조회
+	AdminMenuDTO adminMenuSelect(AdminMenuDTO adminMenuDTO);
+	
 	//관리자 메뉴 등록
 	int adminMenuReg(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
+	
+	// 관리자 메뉴 수정
+	int adminMenuUpd(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
 	
 	// 관리자 메뉴 삭제
 	int adminMenuDel(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
@@ -39,8 +46,5 @@ public interface AdminMngService {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
-
-
-
 
 }

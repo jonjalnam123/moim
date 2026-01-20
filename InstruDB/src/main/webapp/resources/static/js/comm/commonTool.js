@@ -117,6 +117,19 @@ function isEmptyMsg(obj, msg) {
 }
 
 /*******************************
+* FuntionNm : isEmptyArr()
+* Date : 2025.10.20
+* Author : CJS
+* Description : 빈 값, null 체크 후 메세지
+********************************/
+function isEmptyArr(arr)  {
+  if(Array.isArray(arr) && arr.length === 0)  {
+    return true;
+  }
+  return false;
+}
+
+/*******************************
 * FuntionNm : getCheckedVal
 * Date : 2025.10.02
 * Author : CJS
