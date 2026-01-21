@@ -118,6 +118,11 @@ public class AdminMngController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		AdminMenuDTO selectResult = adminMngService.adminMenuSelect(adminMenuDTO);	
 		List<Map<String, Object>> menuDeptList = adminMngService.adminMenuDeptCdSelect(selectResult);
+
+		if ( menuDeptList == null  || menuDeptList.isEmpty() ) {
+			List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitAllList();
+			result.put("adminUnitList", adminUnitList);
+		}
 		
 		result.put("result", selectResult);
 		result.put("menuDeptList", menuDeptList);

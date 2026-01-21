@@ -185,7 +185,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	
 	@Override
 	public List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO) {
-		 log.info(" [ AdminMngServiceImpl ] : getMenuDeptCdList ");
+		 log.info(" [ AdminMngServiceImpl ] : adminMenuDeptCdSelect ");
 		 
 	    try {
 	        

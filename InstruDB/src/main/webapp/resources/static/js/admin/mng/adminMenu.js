@@ -36,6 +36,7 @@ $(document).ready(function() {
 		ajaxStart(url, params, dataType, function(data) {
 			var menuData = data.result;
 			var menuDeptList = data.menuDeptList;
+			var adminUnitList = data.adminUnitList;
 			if ( !isEmpty(menuData) ) {
 				
 				var menuId = menuData.menuId
@@ -58,10 +59,20 @@ $(document).ready(function() {
 				if ( !isEmpty(menuDeptList) ) {
 					$('#menuDeptCd').empty();  
 					menuDeptList.forEach(function(item) {
-					    var option = new Option(item.text, item.cd, true, true);
+					    var option = new Option(item.text, item.cd, false, true);
 					    $('#menuDeptCd').append(option);
 					});
-					$('#menuDeptCd').trigger('change');
+					//$('#menuDeptCd').trigger('change');
+				} else {
+					$('#menuDeptCd').empty();  
+					adminUnitList.forEach(function(item) {
+						var adminUnitLvl = item.adminUnitLvl;
+						if ( Number(adminUnitLvl) === 0 ) { 
+						    var option = new Option(item.adminUnitNm, item.adminUnitCd, false, false);
+						    $('#menuDeptCd').append(option); 
+						}
+					});
+					//$('#menuDeptCd').trigger('change');
 				}
 				
 				$('#menuUrl').val(menuUrl);

@@ -115,7 +115,7 @@
 		/*AdminMng_SQL.adminMenuSelect*/
 		SELECT MENU_ID
 				 , MENU_P_ID
-				 , ( SELECT MENU_NM FROM TB_ADMIN_MENU_INFO WHERE MENU_ID = #{menuPId}) AS MENU_P_NM
+				 , ( SELECT MENU_NM FROM TB_ADMIN_MENU_INFO WHERE MENU_ID = #{menuPId} ) AS MENU_P_NM
 				 , MENU_NM
 				 , MENU_USE_YN
 				 , MENU_DEL_YN
@@ -227,21 +227,21 @@
 	<select id="selectUnitAllList" resultType="AdminUnitDTO">
 		/*AdminMng_SQL.selectUnitAllList*/ 
 		SELECT ADMIN_UNIT_ID
-				 , ADMIN_UNIT_P_ID
-				 , ADMIN_UNIT_CD
-				 , ADMIN_UNIT_NM
-				 , ADMIN_UNIT_LVL
-				 , ADMIN_UNIT_SORT_NO
-				 , ADMIN_UNIT_USE_YN
-				 , ADMIN_UNIT_DEL_YN
-				 , REG_ID
-				 , REG_DT
-				 , UPD_ID
-				 , UPD_DT
-		  FROM TB_ADMIN_UNIT_INFO
-		WHERE 1=1
-		    AND ADMIN_UNIT_USE_YN = 'Y'
-		    AND ADMIN_UNIT_DEL_YN = 'N'
+				  , ADMIN_UNIT_P_ID
+				  , ADMIN_UNIT_CD
+				  , ADMIN_UNIT_NM
+				  , ADMIN_UNIT_LVL
+				  , ADMIN_UNIT_SORT_NO
+				  , ADMIN_UNIT_USE_YN
+				  , ADMIN_UNIT_DEL_YN
+				  , REG_ID
+				  , REG_DT
+				  , UPD_ID
+				  , UPD_DT
+		   FROM TB_ADMIN_UNIT_INFO
+		 WHERE 1=1
+		     AND ADMIN_UNIT_USE_YN = 'Y'
+		     AND ADMIN_UNIT_DEL_YN = 'N'
 		 ORDER BY ADMIN_UNIT_LVL
 	</select>
 	<!-- 관리자 유닛 조회 [E] -->
