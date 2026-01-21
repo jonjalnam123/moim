@@ -9,7 +9,6 @@ public class AdminDTO {
 	private String adminId;
 	private String adminPw;
 	private String adminNm;
-	private String adminPositionCd;
 	private String adminPh;
 	private String adminPostCd;
 	private String adminAddress;
@@ -17,6 +16,7 @@ public class AdminDTO {
 	private String adminDelYn;
 	private String adminDeptCd;
 	private String adminTeamCd;
+	private String adminPositionCd;
 	private String adminIp;
 	private String regId;
 	private String regDt;

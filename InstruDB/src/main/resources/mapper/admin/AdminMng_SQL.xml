@@ -138,6 +138,18 @@
 	</select>
 	<!-- 관리자 메뉴 상세 조회 [E] -->
 	
+	<!-- 관리자 메뉴 부서코드 조회 [S] -->
+	<select id="adminMenuDeptCdSelect" parameterType="string" resultType="map">
+	    SELECT ADMIN_UNIT_CD as cd
+				 , ADMIN_UNIT_NM as text
+	      FROM TB_ADMIN_UNIT_INFO
+	    WHERE 1=1
+	        AND ADMIN_UNIT_CD = ANY (STRING_TO_ARRAY(#{menuDeptCd}, ','))
+	    	AND ADMIN_UNIT_USE_YN = 'Y'
+		    AND ADMIN_UNIT_DEL_YN = 'N' 
+	</select>
+	<!-- 관리자 메뉴 부서코드 조회 [E] -->
+	
 	<!-- 관리자 메뉴 저장 [S] -->
 	<insert id="adminMenuReg" parameterType="AdminMenuDTO">
 		/*AdminMng_SQL.adminMenuReg*/

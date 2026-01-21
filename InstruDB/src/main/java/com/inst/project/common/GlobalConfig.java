@@ -78,8 +78,9 @@ public class GlobalConfig {
      *  공통 플래그(Y/N 등)
      * ============================ */
 
-    public static final String Y 	     = "Y";
-    public static final String N         = "N";
+    public static final String Y 	     	= "Y";
+    public static final String N         	= "N";
+    public static final String D 			= "D";
 
     public static final String USE_Y     = "Y";
     public static final String USE_N     = "N";

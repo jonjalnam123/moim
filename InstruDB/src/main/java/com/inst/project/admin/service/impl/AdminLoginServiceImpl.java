@@ -39,7 +39,8 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    String adminPw = adminDTO.getAdminPw();
 	    String adminIp = CommonUtil.getClientIp(req);
         AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
-
+        HttpSession seession = req.getSession(false);
+        
 	    try {
 	        if (adminInfo == null) return GlobalConfig.N;
 
@@ -50,7 +51,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 
 	        adminInfo.setAdminIp(adminIp);
 
-	        boolean sessionResult = setAdminInfoSession(adminInfo, req);
+	        boolean sessionResult = CommonUtil.setAdminInfoSession(adminInfo, req);
 	        int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
 
 	        return (sessionResult && instCnt > 0) ? GlobalConfig.Y : GlobalConfig.N;
@@ -60,7 +61,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 
-		    HttpSession seession = req.getSession(false);
+		    seession = req.getSession(false);
 		    if (seession != null) {
 		    	seession.invalidate();
 		    }
@@ -69,36 +70,6 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 
 	        return GlobalConfig.N;
 	    }
-	}
-	
-	/**
-	* @methodName	 	: setAdminInfoSession
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 정보 세션 저장
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	public boolean setAdminInfoSession(AdminDTO adminInfo, HttpServletRequest req) {
-		log.info(" [ AdminLoginServiceImpl ] : setAdminInfoSession ");
-		
-		if ( adminInfo == null ) {
-			return false;
-		}
-		
-		// 기존 세션 무효화 (USER 세션 포함 전부 제거)
-	    HttpSession oldSession = req.getSession(false);
-	    if (oldSession != null) {
-	        oldSession.invalidate();
-	    }
-	    
-	    // 새 세션 생성
-		HttpSession session = req.getSession();
-	    session.setAttribute("adminInfo", adminInfo);
-	    
-		return true;
 	}
 	
 	/**
@@ -121,10 +92,12 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	            return GlobalConfig.N;
 	        }
 
-	        AdminDTO adminInfo = (AdminDTO) session.getAttribute("adminInfo");
-	        if (adminInfo == null) {
-	            return GlobalConfig.N;
-	        }
+	        AdminDTO adminInfo = new AdminDTO();
+	        String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+	        String adminIp = CommonUtil.getAdminInfoSession("adminIp", req);
+	        
+	        adminInfo.setAdminId(adminId);
+	        adminInfo.setAdminId(adminIp);
 
 	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
 	        if (instCnt > 0) {
@@ -135,46 +108,12 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        return GlobalConfig.N;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed. {}", e);
+	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed.");
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 
-	        return GlobalConfig.N; // 장애 시에도 외부에는 일관되게 실패 반환
+	        return GlobalConfig.N;
 	    }
-	}
-	
-	/**
-	* @methodName	 	: adminSeesionLogOutProc
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 세션 로그아웃 프로세스
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	@Override
-	public String adminSeesionLogOutProc(HttpServletRequest req) {
-		log.info(" [ AdminLoginServiceImpl ] : adminSeesionLogOutProc ");
-		
-	    try {
-	    	
-			HttpSession session = req.getSession(false);
-	        if (session != null) {
-	        	session.invalidate();
-	        } 
-	        
-	        return GlobalConfig.Y;
-
-	    } catch (Exception e) {
-	    	
-	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed. {}", e);
-			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
-
-	        return GlobalConfig.N; 
-	    }
-
 	}
 	
 }

@@ -11,8 +11,5 @@ public interface AdminLoginService {
 
 	// 관리자 로그아웃 프로세스
 	String adminLogOutProc(HttpServletRequest req);
-	
-	// 관리자 세션 로그아웃 프로세스
-	String adminSeesionLogOutProc(HttpServletRequest req);
 
 }

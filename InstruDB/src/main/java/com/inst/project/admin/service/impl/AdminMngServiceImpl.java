@@ -1,24 +1,17 @@
 package com.inst.project.admin.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
-import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
-import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
 
@@ -28,18 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service("adminMngService")
 public class AdminMngServiceImpl implements AdminMngService {
 
-    private final UrlBasedViewResolver viewResolver;
-
-    private final AopController aopController;
-
 	@Autowired
 	AdminMngMapper adminMngMapper;
 
-    AdminMngServiceImpl(AopController aopController, UrlBasedViewResolver viewResolver) {
-        this.aopController = aopController;
-        this.viewResolver = viewResolver;
-    }
-	
 	/**
 	* @methodName	 	: selectCommList
 	* @author					: 최정석
@@ -168,25 +152,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	}
 	
 	/**
-	* @methodName	 	: getAdminInfoToSession
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 세션 조회
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	private AdminDTO getAdminInfoToSession(HttpServletRequest req) {
-	    HttpSession session = req.getSession(false);
-	    if (session == null) {
-	        return null;
-	    }
-	    return (AdminDTO) session.getAttribute("adminInfo");
-	}
-	
-	
-	/**
 	* @methodName	 	: adminMenuSelect
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
@@ -211,11 +176,36 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return selectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : adminMenuSelect failed.", e);
+	        log.error("[ AdminMngServiceImpl ] : adminMenuSelect failed." );
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
 	    }
+	}
+	
+	@Override
+	public List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO) {
+		 log.info(" [ AdminMngServiceImpl ] : getMenuDeptCdList ");
+		 
+	    try {
+	        
+		    String menuDeptCd = adminMenuDTO.getMenuDeptCd();
+		    if ( menuDeptCd == null || menuDeptCd.isEmpty() ) {
+		        return null;
+		    }
+
+		    List<Map<String, Object>> result = adminMngMapper.adminMenuDeptCdSelect(menuDeptCd);
+
+		    return result;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminMenuDeptCdSelect failed." );
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+		 
+
 	}
 	
 	/**
@@ -234,18 +224,16 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 
-	        AdminDTO adminInfo = getAdminInfoToSession(req);
-	        if (adminInfo == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
-	            return 0;
-	        }
-
 			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
 			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
-	        adminMenuDTO.setRegId(adminInfo.getAdminId());
-	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( adminId.isEmpty() || adminId == null ) {
+				return 0;
+			}
+	        adminMenuDTO.setRegId(adminId); 
+	        adminMenuDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminMenuReg(adminMenuDTO);
 
@@ -273,17 +261,16 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 
-	        AdminDTO adminInfo = getAdminInfoToSession(req);
-	        if (adminInfo == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
-	            return 0;
-	        }
-
 			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
 			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
-	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+
+			if (adminId == null || adminId.isEmpty()) {
+			    return 0;
+			}
+	        adminMenuDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminMenuUpd(adminMenuDTO);
 
@@ -310,19 +297,18 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminMenuDel ");
 
 	    try {
-
-	        AdminDTO adminInfo = getAdminInfoToSession(req);
-	        if (adminInfo == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
-	            return 0;
-	        }
-
-	        adminMenuDTO.setUpdId(adminInfo.getAdminId());
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( adminId.isEmpty() || adminId == null ) {
+				return 0;
+			}
+			
+	        adminMenuDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminMenuDel(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : adminMenuDel failed.", e);
+	        log.error("[ AdminMngServiceImpl ] : adminMenuDel failed.");
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;

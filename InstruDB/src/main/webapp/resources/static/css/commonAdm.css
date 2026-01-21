@@ -179,35 +179,6 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 }
 
 /* ==============================
-   Select2
-============================== */
-.search-form .select2-container { width: 170px !important; }
-.select2-container--default .select2-selection--single {
-  height: 36px !important;
-  border: 2px solid #a5d6a7;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-  display: flex !important;
-  align-items: center !important;
-  height: 100% !important;
-  line-height: normal !important;
-  padding-left: 10px;
-  color: #333;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 100% !important; top: 0 !important; right: 8px;
-  display: flex; align-items: center;
-}
-.select2-dropdown { border: 2px solid #a5d6a7; border-radius: 6px; }
-.select2-results__option--highlighted { background-color: #a8e6cf !important; color: #333 !important; }
-
-/* ==============================
    로그인 화면
 ============================== */
 .login-container {
@@ -399,52 +370,128 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 .content-scroll { height: 100%; overflow: auto; padding-right: 2px; }
 
 /* ==============================
-   Select2: ez-s2 스코프 한정 스킨
+   Select2 - 전역 최소 정의
 ============================== */
-.form-card { --control-h: 42px; }
-.select2-container.ez-s2 { width: 100% !important; }
-.select2-container.ez-s2 .select2-selection--single {
-  height: var(--control-h) !important;
-  border: 2px solid #a5d6a7;
-  border-radius: 8px;
-  background: #fff;
-  display: flex; align-items: center;
+.search-form .select2-container {
+  width: 170px !important;
+}
+
+.select2-container--default .select2-selection--single {
   box-sizing: border-box;
 }
-.select2-container.ez-s2 .select2-selection--single .select2-selection__rendered {
-  height: 100% !important;
-  display: flex !important; align-items: center !important;
-  line-height: normal !important;
-  padding-left: 10px; padding-right: 32px; color: #333;
+
+/* ==============================
+   Select2: ez-s2 스코프 한정 스킨
+============================== */
+.form-card {
+  --control-h: 42px;
 }
-.select2-container.ez-s2 .select2-selection--single .select2-selection__placeholder { color: #8a8a8a; }
-.select2-container.ez-s2 .select2-selection--single .select2-selection__arrow {
-  height: 100% !important; top: 0 !important; right: 8px;
-  display: flex; align-items: center; justify-content: center;
+
+.select2-container.ez-s2 {
+  width: 100% !important;
 }
-.select2-container--default.select2-container--focus.ez-s2 .select2-selection--single,
-.select2-container--default.select2-container--focus.ez-s2 .select2-selection--multiple {
-  border-color: #66bb6a;
-  box-shadow: 0 0 0 4px rgba(165,214,167,.35);
-}
-.select2-dropdown.ez-s2 { border: 2px solid #a5d6a7; border-radius: 8px; }
-.select2-dropdown.ez-s2 .select2-results__option--highlighted {
-  background-color: #a8e6cf !important; color: #333 !important;
-}
+
+/* ─────────────────────────────
+   공통 (single / multiple)
+───────────────────────────── */
+.select2-container.ez-s2 .select2-selection--single,
 .select2-container.ez-s2 .select2-selection--multiple {
   min-height: var(--control-h);
   border: 2px solid #a5d6a7;
   border-radius: 8px;
   background: #fff;
-  display: flex; align-items: center;
   box-sizing: border-box;
 }
-.select2-container.ez-s2 .select2-selection--multiple .select2-selection__rendered {
-  display: flex; align-items: center; gap: 6px;
-  padding: 4px 8px; margin: 0;
+
+/* focus */
+.select2-container--default.select2-container--focus.ez-s2
+.select2-selection--single,
+.select2-container--default.select2-container--focus.ez-s2
+.select2-selection--multiple {
+  border-color: #66bb6a;
+  box-shadow: 0 0 0 4px rgba(165,214,167,.35);
 }
-.select2-container.ez-s2 .select2-selection--multiple .select2-selection__choice {
-  border: 1px solid #a5d6a7; border-radius: 999px; padding: 4px 8px; background: #f4fbf4;
+
+/* ─────────────────────────────
+   Single Select
+───────────────────────────── */
+.select2-container.ez-s2 .select2-selection--single {
+  height: var(--control-h);
+  display: flex;
+  align-items: center;
+}
+
+.select2-container.ez-s2
+.select2-selection--single
+.select2-selection__rendered {
+  height: 100%;
+  padding: 0 32px 0 10px;
+  line-height: normal;
+  color: #333;
+}
+
+.select2-container.ez-s2
+.select2-selection--single
+.select2-selection__placeholder {
+  color: #8a8a8a;
+}
+
+.select2-container.ez-s2
+.select2-selection--single
+.select2-selection__arrow {
+  height: 100%;
+  right: 8px;
+}
+
+/* ─────────────────────────────
+   Multiple Select
+───────────────────────────── */
+.select2-container.ez-s2 .select2-selection--multiple {
+  display: flex;
+  align-items: center;
+}
+
+.select2-container.ez-s2
+.select2-selection--multiple
+.select2-selection__rendered {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  margin: 0;
+}
+
+.select2-container.ez-s2
+.select2-selection--multiple
+.select2-selection__choice {
+  border: 1px solid #a5d6a7;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: #f4fbf4;
+}
+
+/* 멀티 select 검색 입력 textarea - 높이 고정 25px */
+.select2-container.ez-s2
+.select2-selection--multiple
+.select2-search__field {
+  height: 25px;
+  min-height: 25px;
+  line-height: 25px;
+  margin: 0;
+}
+
+/* ─────────────────────────────
+   Dropdown
+───────────────────────────── */
+.select2-dropdown.ez-s2 {
+  border: 2px solid #a5d6a7;
+  border-radius: 8px;
+}
+
+.select2-dropdown.ez-s2
+.select2-results__option--highlighted {
+  background-color: #a8e6cf !important;
+  color: #333 !important;
 }
 
 /* =========================

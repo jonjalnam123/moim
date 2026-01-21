@@ -35,6 +35,7 @@ $(document).ready(function() {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var menuData = data.result;
+			var menuDeptList = data.menuDeptList;
 			if ( !isEmpty(menuData) ) {
 				
 				var menuId = menuData.menuId
@@ -47,21 +48,28 @@ $(document).ready(function() {
 				var menuSort = menuData.menuSort
 				var menuCn = menuData.menuCn
 				var menuUseYn = menuData.menuUseYn
+				var menuIcon = menuData.menuIcon
 
 				$('#menuId').val(menuId);
 				$('#menuNm').val(menuNm);
 				$('#menuPId').val(menuPId);
 				$('#menuPNm').val(menuPNm);
+				
+				if ( !isEmpty(menuDeptList) ) {
+					$('#menuDeptCd').empty();  
+					menuDeptList.forEach(function(item) {
+					    var option = new Option(item.text, item.cd, true, true);
+					    $('#menuDeptCd').append(option);
+					});
+					$('#menuDeptCd').trigger('change');
+				}
+				
 				$('#menuUrl').val(menuUrl);
-				$('#menuDeptCd').val(menuDeptCd);
 				$('#menuLvl').val(Number(menuLvl));
 				$('#menuSort').val(Number(menuSort));
 				$('#menuCn').val(menuCn);
+				$('#menuIcon').val(menuIcon);
 				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
-				
-				$('#btnReg').hide();
-				$('#btnRef').show();
-				$('#btnUpd').show();
 				
 			} else {
 				var url = '/admin/error.do';
@@ -99,6 +107,7 @@ $(document).ready(function() {
 		var menuLvl = $('#menuLvl').val();
 		var menuSort = $('#menuSort').val();
 		var menuCn = $('#menuCn').val();
+		var menuIcon = $('#menuIcon').val();
 		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
 		
 		if ( isEmptyArr(menuDeptCd) ){
@@ -131,6 +140,7 @@ $(document).ready(function() {
 			  , menuLvl : menuLvl
 			  , menuSort : menuSort
 			  , menuCn : menuCn
+			  , menuIcon : menuIcon
 			  , menuUseYn : menuUseYn
 		}
 		var dataType = 'json'
@@ -186,7 +196,6 @@ $(document).ready(function() {
 	      // ↓↓↓ 드롭다운을 이 폼 카드 안에 붙여서 상위 선택자 스코프도 유지
 	      dropdownParent: $('.form-card'),
 	    });
-		
 	 }
 	 
 });

@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -40,6 +39,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.codec.binary.Base64;
@@ -52,11 +52,76 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inst.project.admin.vo.AdminDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CommonUtil {
+	
+	/**
+	* @methodName	 	: setAdminInfoSession
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 정보 세션 저장
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	public static boolean setAdminInfoSession( AdminDTO adminInfo, HttpServletRequest req ) {
+		log.info(" [ ComminUtil ] : setAdminInfoSession ");
+		
+		if ( adminInfo == null ) {
+			return false;
+		}
+
+	    HttpSession oldSession = req.getSession(false);
+	    if (oldSession != null) {
+	        oldSession.invalidate();
+	    }
+
+		HttpSession session = req.getSession();
+	    
+	    String adminId = adminInfo.getAdminId();
+	    String adminNm = adminInfo.getAdminNm();
+	    String adminIp = adminInfo.getAdminIp();
+	    String adminDeptCd = adminInfo.getAdminDeptCd();
+	    String adminTeamCd = adminInfo.getAdminTeamCd();
+	    String adminPositionCd = adminInfo.getAdminPositionCd();
+	    
+	    session.setAttribute("adminId", adminId);
+	    session.setAttribute("adminNm", adminNm);
+	    session.setAttribute("adminIp", adminIp);
+	    session.setAttribute("adminDeptCd", adminDeptCd);
+	    session.setAttribute("adminTeamCd", adminTeamCd);
+	    session.setAttribute("adminPositionCd", adminPositionCd);
+	    
+		return true;
+	}
+	
+	/**
+	* @methodName	 	: getAdminInfoSession
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 세션 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	public static String getAdminInfoSession(String value, HttpServletRequest req) {
+		log.info(" [ ComminUtil ] : getAdminInfoSession ");
+		
+		HttpSession session = req.getSession(false);
+	    if (session == null) {
+	        return null;
+	    }
+
+	    Object result = session.getAttribute(value);
+	    
+	    return result.toString();
+	}
 	
 	
 	/**
@@ -70,6 +135,7 @@ public class CommonUtil {
 	* 2026. 1. 7.        		최정석       			최초 생성
 	*/
 	public static String getClientIp(HttpServletRequest req) {
+		log.info(" [ ComminUtil ] : getClientIp ");
 		
 	    String xff = req.getHeader("X-Forwarded-For");
 
@@ -97,6 +163,7 @@ public class CommonUtil {
 	* 2026. 1. 7.        		최정석       			최초 생성
 	*/
 	public static boolean loginIdChk(String orgId, String selectId) {
+		log.info(" [ ComminUtil ] : loginIdChk ");
 		boolean result = true;
 		if ( orgId.isEmpty() || selectId.isEmpty() ) { result = false; }
 		result = orgId.equals(selectId) ? true : false;
@@ -114,6 +181,7 @@ public class CommonUtil {
 	* 2026. 1. 7.        		최정석       			최초 생성
 	*/
 	public static String removeLastComma(String value) {
+		log.info(" [ ComminUtil ] : removeLastComma ");
 		String result = "";
 		if( value.isEmpty() || value == null ) {
 			return result;

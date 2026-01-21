@@ -75,7 +75,7 @@ public class AdminLoginController {
 		
 		return result;
 	}
-	
+
 	/**
 	* @methodName	 	: adminLogOutProc
 	* @author					: 최정석
@@ -97,31 +97,6 @@ public class AdminLoginController {
 	    result.put("result", resultData);
 		
 		return result;
-	}
-	
-	/**
-	* @methodName	 	: sessionLogOut
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 세션 로그아웃 프로세스
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	@GetMapping(value = "/sessionLogOut.do")
-	public String adminSessionLogOutProc( HttpServletRequest req, RedirectAttributes redirect ) {
-		log.info(" [ AdminLoginController ] : adminSessionLogOutProc ");
-
-	    String result = adminLoginService.adminSeesionLogOutProc(req);
-	    if ( result.equals(GlobalConfig.Y) ) {
-	    	return "redirect:/admin/login.do";
-	    } else {
-			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_SESSION_FAIL_CD);
-			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_SESSION_FAIL_MSG);
-			return "redirect:/admin/error.do";
-	    }
-
 	}
 	
 }

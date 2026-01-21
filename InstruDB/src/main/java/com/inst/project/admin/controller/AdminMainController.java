@@ -1,21 +1,15 @@
 package com.inst.project.admin.controller;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.inst.project.admin.service.AdminMainService;
-import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.common.GlobalConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,29 +61,5 @@ public class AdminMainController {
 		
 		return result;
 	}
-	
-	/**
-	* @methodName	 	: getAdminSessionTime
-	* @author					: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 로그인 세션 시간 조회
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	@PostMapping(value = "/sessionTime.do")
-	@ResponseBody
-	public Map<String,Object> getAdminSessionTime(  HttpServletRequest request ) {
-		log.info(" [ AdminMainController ] : getAdminSessionTime ");
-		
-		Map<String,Object> result = new HashMap<String, Object>();
-		
-        HttpSession session = request.getSession(false);
-        int timeoutSec = (session != null) ? session.getMaxInactiveInterval() : 0;
-        
-        result.put("timeoutSec", timeoutSec);
-		
-		return result;
-	}
+
 }

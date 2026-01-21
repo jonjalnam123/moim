@@ -47,4 +47,6 @@ public interface AdminMngService {
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
 
+	List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO);
+
 }

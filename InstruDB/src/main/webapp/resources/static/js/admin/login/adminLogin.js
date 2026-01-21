@@ -26,11 +26,14 @@ $(document).ready(function(){
 	 	ajaxStart(url, params, dataType, function(data) {
 	        if (data.result === 'Y' ) {
 	        	window.location.href = '/admin/main.do'
+	        } else if (data.result === 'D'){
+				if ( confirm(loginDistinct) ) {
+					
+				} 
 	        } else {
 				alert(loginFailMsg);
 				return;
-	        }
+			}
 		});
 	})
-	
 });
