@@ -471,13 +471,11 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 }
 
 /* 멀티 select 검색 입력 textarea - 높이 고정 25px */
-.select2-container.ez-s2
-.select2-selection--multiple
-.select2-search__field {
-  height: 25px;
-  min-height: 25px;
-  line-height: 25px;
-  margin: 0;
+
+/* 멀티 select 검색 입력 textarea 높이 고정 */
+.select2-container.ez-s2 .select2-selection--multiple .select2-search__field,
+.select2-selection--multiple.ez-s2 .select2-search__field {
+  height: 25px !important;
 }
 
 /* ─────────────────────────────

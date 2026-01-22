@@ -46,27 +46,24 @@
 				<div class="form-grid">
 		          	<div class="field">
 			            <label for="menu_nm" class="required">메뉴명</label>
-			            <input type="text" id="menuNm" name="menuNm" class="form-control" required />
+			            <input type="text" id="menuNm" name="menuNm" class="form-control"/>
 			             <input type="hidden" id="menuId" name="menuId"/>
-			            <small class="hint">영문/숫자, 공백 없이 입력</small>
 			          </div>
 			          
 			        <div class="field">
 			          <label for="menuPNm" class="required">부모 메뉴명</label>
 			          <input type="text" id="menuPNm" name="menuPNm" class="form-control" readonly />
 			          <input type="hidden" id="menuPId" name="menuPId"/>
-			          <small class="hint">영문/숫자, 공백 없이 입력</small>
 			        </div>
 			          
 					<div class="field">
 					  <label for="menuUrl" class="required">메뉴 URL</label>
 					  <input type="text" id="menuUrl" name="menuUrl" class="form-control" />
-					  <small class="hint">영문/숫자, 공백 없이 입력</small>
 					</div>
 	
 		          	<div class="field">
 			            <label for="menuDeptCd" class="required">부서</label>
-			            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple" required>
+			            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple">
 			            	<c:forEach var="unitList" items="${adminUnitList}">
 			            		<c:if test="${unitList.adminUnitLvl eq 0}">
 			            			<option data-id="${unitList.adminUnitId}" value="${unitList.adminUnitCd}">${unitList.adminUnitNm}</option>
@@ -82,12 +79,12 @@
 			          
 		          	<div class="field">
 		            	<label for="sort_no" class="required">레벨</label>
-			            <input type="number" id="menuLvl" name="menuLvl" class="form-control" min="0" required />
+			            <input type="number" id="menuLvl" name="menuLvl" class="form-control" min="0" max="1"/>
 		          	</div>
 			          
 		          	<div class="field">
 			            <label for="sort_no" class="required">정렬순서</label>
-			            <input type="number" id="menuSort" name="menuSort" class="form-control" min="0" required />
+			            <input type="number" id="menuSort" name="menuSort" class="form-control" min="0"/>
 		          	</div>
 			
 		          	<div class="field full">

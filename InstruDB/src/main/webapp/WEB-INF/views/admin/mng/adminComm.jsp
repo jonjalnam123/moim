@@ -9,21 +9,21 @@
 	<aside class="split-left">
 	   	<div class="tree-header">코드</div>
 	    <div class="tree-scroll">
-	   		<ul class="tree">
-		   		<c:forEach var="comm" items="${commList}">
+	    	<c:forEach var="comm" items="${commList}">
+		   		<ul class="tree">
 			      	<li class="open">
 			        <button class="tw" aria-label="toggle"></button>
-			        <a href="#" class="" data-id="A">${comm.commNm}</a>
+			        <a href="#" class="menuTreeF" data-id="${comm.commId}">${comm.commNm}</a>
 			        <ul>
 			          	<c:forEach var="comm2" items="${commList2}">
 				          	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
-				          		<li><span class="dot"></span><a href="#" data-id="A-1">${comm2.commNm}</a></li>
+				          		<li><span class="dot"></span><a href="#" class="menuTreeS" data-id="${comm2.commId}">${comm2.commNm}</a></li>
 				          	</c:if>
 			          	</c:forEach>
 			        </ul>
 			      	</li>
-			    </c:forEach>
-		    </ul>
+			    </ul>
+	    	</c:forEach>
 	    </div>
  	</aside>
 
@@ -37,38 +37,28 @@
         </div>
       </div>
 
-      <form id="menuForm" class="form-card" action="/admin/menu/save.do" method="post">
+      <form id="menuForm" class="form-card">
         <div class="form-title">코드 정보</div>
         <p class="form-desc">좌측 트리에서 메뉴를 선택하면 기본 정보가 로딩됩니다.</p>
 
         <div class="form-grid">
-          <div class="field">
-            <label for="menu_id" class="required">메뉴 ID</label>
-            <input type="text" id="menu_id" name="menu_id" class="form-control" required />
-            <small class="hint">영문/숫자, 공백 없이 입력</small>
-          </div>
-
-          <div class="field">
-            <label for="menu_nm" class="required">메뉴명</label>
-            <input type="text" id="menu_nm" name="menu_nm" class="form-control" required />
-          </div>
-
-         <div class="field">
-            <label for="menu_gb" class="required">구분</label>
-            <select id="menu_gb" name="menu_gb" class="form-select" style="width:100%;" data-placeholder="카테고리를 선택하세요" required>
-              <option value=""></option>
-              <option value="NOTICE">공지</option>
-              <option value="EVENT">이벤트</option>
-              <option value="GUIDE">안내</option>
-              <option value="CHECK">점검</option>
-              <option value="UPDATE">업데이트</option>
-            </select>
-          </div>
+        
+         	<div class="field">
+            	<label for="menu_nm" class="required">메뉴명</label>
+            	<input type="text" id="commNm" name="commNm" class="form-control" />
+            	<input type="hidden" id="commId" name="commId" class="form-control" />
+          	</div>
+          	
+      	    <div class="field">
+            	<label for="menu_nm" class="required">부모 메뉴명</label>
+            	<input type="text" id="commPNm" name="commPNm" class="form-control" />
+            	<input type="hidden" id="commPId" name="commPId" class="form-control" />
+          	</div>
           
-          <div class="field">
-            <label for="sort_no" class="required">정렬순서</label>
-            <input type="number" id="sort_no" name="sort_no" class="form-control" min="0" required />
-          </div>
+          	<div class="field">
+            	<label for="sort_no" class="required">정렬순서</label>
+            	<input type="number" id="sort_no" name="sort_no" class="form-control" min="0" required />
+          	</div>
 
           <div class="field full">
             <label for="menu_desc">설명</label>

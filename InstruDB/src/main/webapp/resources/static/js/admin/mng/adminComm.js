@@ -16,8 +16,6 @@ $(document).ready(function() {
 	  e.preventDefault();
 	  $('.tree a').removeClass('active');
 	  $(this).addClass('active');
-	  // 필요한 경우 우측 폼에 값 로드
-	  // loadForm($(this).data('id'));
 	});
 	
     if ($.fn.select2) {

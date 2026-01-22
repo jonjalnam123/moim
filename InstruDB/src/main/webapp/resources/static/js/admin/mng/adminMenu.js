@@ -55,26 +55,8 @@ $(document).ready(function() {
 				$('#menuNm').val(menuNm);
 				$('#menuPId').val(menuPId);
 				$('#menuPNm').val(menuPNm);
-				
-				if ( !isEmpty(menuDeptList) ) {
-					$('#menuDeptCd').empty();  
-					menuDeptList.forEach(function(item) {
-					    var option = new Option(item.text, item.cd, false, true);
-					    $('#menuDeptCd').append(option);
-					});
-					//$('#menuDeptCd').trigger('change');
-				} else {
-					$('#menuDeptCd').empty();  
-					adminUnitList.forEach(function(item) {
-						var adminUnitLvl = item.adminUnitLvl;
-						if ( Number(adminUnitLvl) === 0 ) { 
-						    var option = new Option(item.adminUnitNm, item.adminUnitCd, false, false);
-						    $('#menuDeptCd').append(option); 
-						}
-					});
-					//$('#menuDeptCd').trigger('change');
-				}
-				
+				setDeptOptions(adminUnitList)
+			  	setDeptSelected(menuDeptList);
 				$('#menuUrl').val(menuUrl);
 				$('#menuLvl').val(Number(menuLvl));
 				$('#menuSort').val(Number(menuSort));
@@ -200,13 +182,52 @@ $(document).ready(function() {
 	      allowClear: true,
 	      width: 'resolve',
 	      minimumResultsForSearch: Infinity,
-	      // ↓↓↓ 스코프 고정: 생성 컨테이너/드롭다운에 식별 클래스 부여
 	      containerCssClass: 'ez-s2',
 	      selectionCssClass: 'ez-s2', 
 	      dropdownCssClass: 'ez-s2',
-	      // ↓↓↓ 드롭다운을 이 폼 카드 안에 붙여서 상위 선택자 스코프도 유지
 	      dropdownParent: $('.form-card'),
 	    });
 	 }
 	 
 });
+
+/*******************************
+* FuntionNm : setDeptOptions
+* Date : 2025.10.02
+* Author : CJS
+* Description : 상세조회시 전체 값 조회
+* PARAM : adminUnitList
+********************************/
+function setDeptOptions(adminUnitList) {
+  var sel = $('#menuDeptCd');
+
+  if (sel.find('option').length > 0) return;
+
+  sel.empty();
+
+  adminUnitList.forEach(function(item) {
+    if (Number(item.adminUnitLvl) === 0) {
+      sel.append(new Option(item.adminUnitNm, item.adminUnitCd, false, false));
+    }
+  });
+
+  sel.trigger('change');
+}
+
+/*******************************
+* FuntionNm : setDeptSelected
+* Date : 2025.10.02
+* Author : CJS
+* Description : 상세조회 시 “선택값만” 세팅
+* PARAM : menuDeptList
+********************************/
+function setDeptSelected(menuDeptList) {
+  var sel = $('#menuDeptCd');
+
+  var selected = [];
+  if (menuDeptList && menuDeptList.length) {
+    selected = menuDeptList.map(function(x) { return x.cd; });
+  }
+
+  sel.val(selected).trigger('change'); // select2 포함 갱신
+}
