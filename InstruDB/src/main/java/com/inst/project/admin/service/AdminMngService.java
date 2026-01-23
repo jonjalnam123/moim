@@ -16,6 +16,9 @@ public interface AdminMngService {
 	
 	// 공통코드 레벨 2 조회
 	List<AdminCommDTO> selectCommList2();
+	
+	// 공통코드 상세 조회
+	AdminCommDTO adminCommSelect(AdminCommDTO adminCommDTO);
 
 	// 메뉴 레벨 1 조회
 	List<AdminMenuDTO> selectMenuList();
@@ -48,5 +51,7 @@ public interface AdminMngService {
 	List<AdminUnitDTO> selectUnitList3();
 
 	List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO);
+
+
 
 }

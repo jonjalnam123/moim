@@ -54,6 +54,31 @@
 	</select>
 	<!-- 관리자 공통코드 2레벨 조회 [E]  -->
 	
+	<!-- 관리자 공통코드 상세 조회 [S] -->
+	<select id="adminCommSelect" parameterType="AdminCommDTO" resultType="AdminCommDTO">
+		/*AdminMng_SQL.adminCommSelect*/
+		SELECT COMM_ID
+				 , COMM_P_ID
+				 , ( SELECT COMM_NM FROM TB_COMMON_INFO WHERE COMM_ID = #{commPId} ) AS COMM_P_NM
+				 , COMM_GROUP_CD
+				 , COMM_NM
+				 , COMM_USE_YN
+				 , COMM_CN
+				 , COMM_SORT_NO
+				 , COMM_CD
+				 , COMM_LVL
+				 , COMM_DEL_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_COMMON_INFO
+		WHERE 1=1
+		    AND COMM_ID = #{commId}
+		    AND COMM_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 공통코드 상세 조회 [E] -->
+	
 	<!-- 관리자 메뉴 1레벨 조회 [S] -->
 	<select id="selectMenuList" resultType="AdminMenuDTO">
 		/*AdminMng_SQL.selectMenuList*/

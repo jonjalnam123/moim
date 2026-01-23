@@ -65,6 +65,29 @@ public class AdminMngController {
 	}
 	
 	/**
+	* @methodName	 	: adminCommSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/commSelect.do")
+	@ResponseBody
+	public Map<String,Object> adminCommSelect( @ModelAttribute AdminCommDTO adminCommDTO ) {
+		log.info(" [ AdminMngController ] : adminMenuSelect ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		AdminCommDTO selectResult = adminMngService.adminCommSelect(adminCommDTO);	
+		
+		result.put("result", selectResult);
+
+		return result;
+	}
+	
+	/**
 	* @methodName	 	: getAdminMenu
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.

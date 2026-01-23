@@ -87,6 +87,38 @@ public class AdminMngServiceImpl implements AdminMngService {
 	}
 	
 	/**
+	* @methodName	 	: adminCommSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminCommDTO adminCommSelect(AdminCommDTO adminCommDTO) {
+	    log.info(" [ AdminMngServiceImpl ] : adminCommSelect ");
+
+	    try {
+	        
+	    	AdminCommDTO selectResult = adminMngMapper.adminCommSelect(adminCommDTO);
+	        if (selectResult == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return null;
+	        }
+
+	        return selectResult;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminCommSelect failed." );
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
 	* @methodName	 	: selectMenuList
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.

@@ -7,6 +7,7 @@ public class AdminCommDTO {
 	
 	private String commId;
 	private String commPId;
+	private String commPNm;
 	private String commGroupCd;
 	private String commNm;
 	private String commUseYn;

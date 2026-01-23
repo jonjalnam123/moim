@@ -13,11 +13,11 @@
 		   		<ul class="tree">
 			      	<li class="open">
 			        <button class="tw" aria-label="toggle"></button>
-			        <a href="#" class="menuTreeF" data-id="${comm.commId}">${comm.commNm}</a>
+			        <a href="#" class="commTreeF" data-id="${comm.commId}">${comm.commNm}</a>
 			        <ul>
 			          	<c:forEach var="comm2" items="${commList2}">
 				          	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
-				          		<li><span class="dot"></span><a href="#" class="menuTreeS" data-id="${comm2.commId}">${comm2.commNm}</a></li>
+				          		<li><span class="dot"></span><a href="#" class="commTreeS" data-id="${comm2.commId}">${comm2.commNm}</a></li>
 				          	</c:if>
 			          	</c:forEach>
 			        </ul>
@@ -39,63 +39,61 @@
 
       <form id="menuForm" class="form-card">
         <div class="form-title">코드 정보</div>
-        <p class="form-desc">좌측 트리에서 메뉴를 선택하면 기본 정보가 로딩됩니다.</p>
+        <p class="form-desc">좌측 트리에서 코드를 선택하면 기본 정보가 로딩됩니다.</p>
 
         <div class="form-grid">
         
          	<div class="field">
-            	<label for="menu_nm" class="required">메뉴명</label>
+            	<label for="menu_nm" class="required">코드명</label>
             	<input type="text" id="commNm" name="commNm" class="form-control" />
             	<input type="hidden" id="commId" name="commId" class="form-control" />
           	</div>
           	
       	    <div class="field">
-            	<label for="menu_nm" class="required">부모 메뉴명</label>
+            	<label for="menu_nm" class="required">부모 코드명</label>
             	<input type="text" id="commPNm" name="commPNm" class="form-control" />
             	<input type="hidden" id="commPId" name="commPId" class="form-control" />
+          	</div>
+          	
+          	<div class="field">
+            	<label for="menu_nm" class="required">코드</label>
+            	<input type="text" id="commCd" name="commCd" class="form-control" />
+          	</div>
+          	
+          	<div class="field">
+           		<label for="menu_nm" class="required">코드그룹</label>
+            	<input type="text" id="commGroupCd" name="commGroupCd" class="form-control" />
           	</div>
           
           	<div class="field">
             	<label for="sort_no" class="required">정렬순서</label>
-            	<input type="number" id="sort_no" name="sort_no" class="form-control" min="0" required />
+            	<input type="number" id="commSortNo" name="commSortNo" class="form-control" min="0" />
           	</div>
 
-          <div class="field full">
-            <label for="menu_desc">설명</label>
-            <textarea id="menu_desc" name="menu_desc" class="form-control" placeholder="간단한 설명을 입력하세요."></textarea>
-          </div>
+          	<div class="field full">
+            	<label for="menu_desc">설명</label>
+            	<textarea id="commCn" name="commCn" class="form-control" placeholder="간단한 설명을 입력하세요."></textarea>
+          	</div>
 
-          <div class="field">
-            <label class="required">사용 여부</label>
-            <div>
-              <label style="margin-right:10px;">
-                <input type="radio" name="use_yn" value="Y" checked /> 사용
-              </label>
-              <label>
-                <input type="radio" name="use_yn" value="N" /> 미사용
-              </label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>노출 영역</label>
-            <div>
-              <label style="margin-right:10px;">
-                <input type="checkbox" name="expose_pc" value="Y" checked /> PC
-              </label>
-              <label>
-                <input type="checkbox" name="expose_m" value="Y" /> Mobile
-              </label>
-            </div>
-          </div>
+          	<div class="field">
+	            <label class="required">사용 여부</label>
+	            <div>
+              		<label style="margin-right:10px;">
+	                	<input type="radio" name="commUseYn" value="Y" checked /> 사용
+             	 	</label>
+	              	<label>
+	               		<input type="radio" name="commUseYn" value="N" /> 미사용
+              		</label>
+	            </div>
+          	</div>
         </div>
 
         <div class="form-actions">
-          <button type="button" class="btn-delete" id="btnDelete">삭제</button>
-          <button type="button" class="btn-update" id="btnNew">신규</button>
-          <button type="submit" class="btn-insert">저장</button>
-          <button type="button" class="btn-cancel" onclick="history.back();">취소</button>
-        </div>
+       		<button type="button" class="btn-refresh" 	id="btnRef"		value="R">초기화</button>
+        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
+          	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">저장</button>
+         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
+      	</div>
       </form>
     </div>
   </section>
