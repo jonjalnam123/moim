@@ -17,7 +17,7 @@
 			        <ul>
 			          	<c:forEach var="comm2" items="${commList2}">
 				          	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
-				          		<li><span class="dot"></span><a href="#" class="commTreeS" data-id="${comm2.commId}">${comm2.commNm}</a></li>
+				          		<li><span class="dot"></span><a href="#" class="commTreeS" data-id="${comm2.commId}" data-pid="${comm2.commPId}" >${comm2.commNm}</a></li>
 				          	</c:if>
 			          	</c:forEach>
 			        </ul>

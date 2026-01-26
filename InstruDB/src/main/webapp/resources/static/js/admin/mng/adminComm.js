@@ -18,11 +18,11 @@ $(document).ready(function() {
 	  $(this).addClass('active');
 	});
 	
-	// 메뉴 상세조회
+	// 코드 상세조회
 	$('.commTreeF, .commTreeS').on('click', function() {
 		var commId = $(this).data('id');
 		var commPId = $(this).data('pid');
-
+		
 		if ( isEmptyMsg(commId, selectDataChk) ) {
 			return;
 		}
@@ -48,10 +48,10 @@ $(document).ready(function() {
 				var commCd = commData.commCd
 				var commLvl = commData.commLvl
 
-				$('#menuId').val(commId);
-				$('#menuNm').val(commPId);
-				$('#menuPId').val(commPNm);
-				$('#menuPNm').val(commGroupCd);
+				$('#commId').val(commId);
+				$('#commPId').val(commPId);
+				$('#commPNm').val(commPNm);
+				$('#commGroupCd').val(commGroupCd);
 				$('#commNm').val(commNm);
 				$('#commSortNo').val(Number(commSortNo));
 				$('#commLvl').val(Number(commLvl));
@@ -64,18 +64,6 @@ $(document).ready(function() {
 				goToUri(url);
 			}
 		});
-	});
-	
-	// 부서선택 변경 이벤트
-	$('#menuDeptCd').on('change', function() {
-		var deptCd = $(this).val()
-		var deptCdList = [];
-		$.each(deptCd, function(idx, value){
-			if ( value !== '' ) {
-				deptCdList.push(value);
-			}
-		});
-		$('#menuDeptCd').val(deptCdList);
 	});
 	
 	$('#btnRef').on('click', function() {
