@@ -314,6 +314,16 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	/**
+	* @methodName	 	: adminMenuDeptCdSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 상세조회 결과로 부서코드 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
 	@Override
 	public List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO) {
 		 log.info(" [ AdminMngServiceImpl ] : adminMenuDeptCdSelect ");

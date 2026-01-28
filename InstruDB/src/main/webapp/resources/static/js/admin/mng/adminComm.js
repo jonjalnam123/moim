@@ -116,7 +116,7 @@ $(document).ready(function() {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
-			if (result === 1) {
+			if (result > 0) {
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
@@ -128,6 +128,7 @@ $(document).ready(function() {
 	// 메뉴 삭제 이벤트
 	$('#btnDel').on('click', function() {
 		var commId = $('#commId').val();
+		var commPId = $('#commPId').val();
 		
 		if ( isEmptyMsg(commId, delDataChk) ) {
 			return;
@@ -140,11 +141,12 @@ $(document).ready(function() {
 		var url = '/admin/commDel.do';
 		var params = {
 				commId : commId
+			  , commPId : commPId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
-			if (result === 1) {
+			if (result > 0) {
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';

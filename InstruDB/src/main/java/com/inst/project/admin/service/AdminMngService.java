@@ -38,6 +38,9 @@ public interface AdminMngService {
 	// 관리자 메뉴 상세 조회
 	AdminMenuDTO adminMenuSelect(AdminMenuDTO adminMenuDTO);
 	
+	// 관리자 메뉴 상세조회 결과로 부서코드 조회
+	List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO);
+	
 	//관리자 메뉴 등록
 	int adminMenuReg(AdminMenuDTO adminMenuDTO, HttpServletRequest req);
 	
@@ -58,8 +61,6 @@ public interface AdminMngService {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
-
-	List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO);
 
 
 

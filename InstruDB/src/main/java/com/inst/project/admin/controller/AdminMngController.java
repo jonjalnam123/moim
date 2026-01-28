@@ -150,7 +150,6 @@ public class AdminMngController {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int delResult = adminMngService.adminCommDel(adminCommDTO, req);
-		
 		result.put("result", delResult);
 
 		return result;

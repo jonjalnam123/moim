@@ -139,7 +139,9 @@
 	  	UPDATE TB_COMMON_INFO
 	     	 SET COMM_DEL_YN = 'Y'
 	   	 WHERE COMM_ID   = #{commId} 
-	          OR COMM_P_ID = #{commId}
+	   	 <if test="commPId == null or commPId == ''">
+	   	 	OR COMM_P_ID = #{commId}
+	   	 </if>
 	</update>
 	<!-- 관리자 공통코드 삭제 [E] -->
 	
@@ -227,7 +229,7 @@
 	</select>
 	<!-- 관리자 메뉴 상세 조회 [E] -->
 	
-	<!-- 관리자 메뉴 부서코드 조회 [S] -->
+	<!-- 관리자 메뉴 상세조회 결과로 부서코드 조회 [S] -->
 	<select id="adminMenuDeptCdSelect" parameterType="string" resultType="map">
 	    SELECT ADMIN_UNIT_CD as cd
 				 , ADMIN_UNIT_NM as text
@@ -237,7 +239,7 @@
 	    	AND ADMIN_UNIT_USE_YN = 'Y'
 		    AND ADMIN_UNIT_DEL_YN = 'N' 
 	</select>
-	<!-- 관리자 메뉴 부서코드 조회 [E] -->
+	<!-- 관리자 메뉴 상세조회 결과로 부서코드 조회 [E] -->
 	
 	<!-- 관리자 메뉴 저장 [S] -->
 	<insert id="adminMenuReg" parameterType="AdminMenuDTO">
@@ -308,7 +310,9 @@
 	  	UPDATE TB_ADMIN_MENU_INFO
 	     	 SET MENU_DEL_YN = 'Y'
 	   	 WHERE MENU_ID   = #{menuId} 
-	          OR MENU_P_ID = #{menuId}
+ 	   	 <if test="menuPId == null or menuPId == ''">
+	   	 	  OR MENU_P_ID = #{menuId}
+	   	 </if>
 	</update>
 	<!-- 관리자 메뉴 삭제 [E] -->
 	

@@ -39,6 +39,9 @@ public interface AdminMngMapper {
 	// 관리자 메뉴 상세조회
 	AdminMenuDTO adminMenuSelect(AdminMenuDTO adminMenuDTO);
 	
+	// 관리자 메뉴 상세조회 결과로 부서코드 조회
+	List<Map<String, Object>> adminMenuDeptCdSelect(String deptCd);
+	
 	//관리자 메뉴 등록
 	int adminMenuReg(AdminMenuDTO adminMenuDTO);
 	
@@ -59,15 +62,5 @@ public interface AdminMngMapper {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
-
-	List<Map<String, Object>> adminMenuDeptCdSelect(String deptCd);
-
-
-
-
-
-
-
-
 
 }

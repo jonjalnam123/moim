@@ -139,7 +139,7 @@ $(document).ready(function() {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
-			if (result === 1) {
+			if (result > 0 ) {
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
@@ -151,6 +151,7 @@ $(document).ready(function() {
 	// 메뉴 삭제 이벤트
 	$('#btnDel').on('click', function() {
 		var menuId = $('#menuId').val();
+		var menuPId = $('#menuPId').val();
 		
 		if ( isEmptyMsg(menuId, delDataChk) ) {
 			return;
@@ -163,11 +164,12 @@ $(document).ready(function() {
 		var url = '/admin/menuDel.do';
 		var params = {
 				menuId : menuId
+			  , menuPId : menuPId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
-			if (result === 1) {
+			if (result > 0) {
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
