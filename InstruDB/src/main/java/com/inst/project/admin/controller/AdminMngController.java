@@ -88,6 +88,75 @@ public class AdminMngController {
 	}
 	
 	/**
+	* @methodName	 	: adminCommReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/commReg.do")
+	@ResponseBody
+	public Map<String,Object> adminCommReg( @ModelAttribute AdminCommDTO adminCommDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminCommReg ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminCommReg(adminCommDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminCommUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/commUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminCommUpd( @ModelAttribute AdminCommDTO adminCommDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminCommUpd ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminCommUpd(adminCommDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminCommDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/commDel.do")
+	@ResponseBody
+	public Map<String,Object> adminCommDel( @ModelAttribute AdminCommDTO adminCommDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminCommDel ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int delResult = adminMngService.adminCommDel(adminCommDTO, req);
+		
+		result.put("result", delResult);
+
+		return result;
+	}
+	
+	/**
 	* @methodName	 	: getAdminMenu
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.

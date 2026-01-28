@@ -75,49 +75,43 @@ $(document).ready(function() {
 		var btnVal = $(this).val();
 		var url = '';
 		
-		var menuId = $('#menuId').val();
-		var menuNm = $('#menuNm').val();
-		var menuPId = $('#menuPId').val();
-		var menuUrl = $('#menuUrl').val();
-		var menuDeptCd = $('#menuDeptCd').val();
-		var menuLvl = $('#menuLvl').val();
-		var menuSort = $('#menuSort').val();
-		var menuCn = $('#menuCn').val();
-		var menuIcon = $('#menuIcon').val();
-		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
-		
-		if ( isEmptyArr(menuDeptCd) ){
-			menuDeptCd = '';
-		}
+		var commId = $('#commId').val();
+		var commPId = $('#commPId').val();
+		var commGroupCd = $('#commGroupCd').val();
+		var commNm = $('#commNm').val();
+		var commSortNo = $('#commSortNo').val();
+		var commLvl = $('#commLvl').val();
+		var commCn = $('#commCn').val();
+		var commCd = $('#commCd').val();
+		var commUseYn = $('input[name="commUseYn"]:checked').val();
 		
 		// 2레벨 진행시
-		if ( isEmpty(menuPId) && Number(menuLvl) !== 0 ) {
-			menuPId = menuId;
+		if ( isEmpty(commPId) && Number(commLvl) !== 0 ) {
+			commPId = commId;
 		}
 		
 		if ( btnVal === 'I' ) {
-			if ( !confirm('메뉴' + regProcConfirm) ) {
+			if ( !confirm('코드' + regProcConfirm) ) {
 				return;
 			}
-			url = '/admin/menuReg.do';
+			url = '/admin/commReg.do';
 		} else {
-			if ( !confirm('메뉴' + updProcConfirm) ) {
+			if ( !confirm('코드' + updProcConfirm) ) {
 				return;
 			}
-			url = '/admin/menuUpd.do';
+			url = '/admin/commUpd.do';
 		}
 
 		var params = {
-				menuId : menuId
-			  , menuNm : menuNm
-			  , menuPId : menuPId
-			  , menuUrl : menuUrl
-			  , menuDeptCd : menuDeptCd
-			  , menuLvl : menuLvl
-			  , menuSort : menuSort
-			  , menuCn : menuCn
-			  , menuIcon : menuIcon
-			  , menuUseYn : menuUseYn
+				commId : commId
+			  , commPId : commPId
+			  , commGroupCd : commGroupCd
+			  , commNm : commNm
+			  , commSortNo : commSortNo
+			  , commLvl : commLvl
+			  , commCn : commCn
+			  , commCd : commCd
+			  , commUseYn : commUseYn
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
@@ -133,19 +127,19 @@ $(document).ready(function() {
 	
 	// 메뉴 삭제 이벤트
 	$('#btnDel').on('click', function() {
-		var menuId = $('#menuId').val();
+		var commId = $('#commId').val();
 		
-		if ( isEmptyMsg(menuId, delDataChk) ) {
+		if ( isEmptyMsg(commId, delDataChk) ) {
 			return;
 		}
 		
-		if ( !confirm('메뉴' + delProcConfirm) ) {
+		if ( !confirm('코드' + delProcConfirm) ) {
 			return;
 		}
 
-		var url = '/admin/menuDel.do';
+		var url = '/admin/commDel.do';
 		var params = {
-				menuId : menuId
+				commId : commId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {

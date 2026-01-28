@@ -118,6 +118,106 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	
+	/**
+	* @methodName	 	: adminCommReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminCommReg(AdminCommDTO adminCommDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminCommReg ");
+
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( adminId.isEmpty() || adminId == null ) {
+				return 0;
+			}
+			adminCommDTO.setRegId(adminId); 
+	        adminCommDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminCommReg(adminCommDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminCommReg failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminCommUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminCommUpd(AdminCommDTO adminCommDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminCommUpd ");
+
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+
+			if (adminId == null || adminId.isEmpty()) {
+			    return 0;
+			}
+			adminCommDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminCommUpd(adminCommDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminCommUpd failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminCommDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통코드 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminCommDel(AdminCommDTO adminCommDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminCommDel ");
+
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( adminId.isEmpty() || adminId == null ) {
+				return 0;
+			}
+			
+			adminCommDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminCommDel(adminCommDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminCommDel failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
 	/**
 	* @methodName	 	: selectMenuList
 	* @author					: 최정석
@@ -148,7 +248,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 			return null;
 			
 		}
-
 	}
 	
 	/**
@@ -236,7 +335,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
 	    }
-		 
 
 	}
 	

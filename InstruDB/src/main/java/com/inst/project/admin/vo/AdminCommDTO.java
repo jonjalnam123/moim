@@ -13,8 +13,8 @@ public class AdminCommDTO {
 	private String commUseYn;
 	private String commCn;
 	private int commSortNo;
-	private String commCd;
 	private int commLvl;
+	private String commCd;
 	private String commDelYn;
 	private String regId;
 	private String regDt;

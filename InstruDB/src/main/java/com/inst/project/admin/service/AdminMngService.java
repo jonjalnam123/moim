@@ -17,8 +17,17 @@ public interface AdminMngService {
 	// 공통코드 레벨 2 조회
 	List<AdminCommDTO> selectCommList2();
 	
-	// 공통코드 상세 조회
+	// 관리자 공통코드 상세 조회
 	AdminCommDTO adminCommSelect(AdminCommDTO adminCommDTO);
+	
+	// 관리자 공통코드 등록
+	int adminCommReg(AdminCommDTO adminCommDTO, HttpServletRequest req);
+	
+	// 관리자 공통코드 수정
+	int adminCommUpd(AdminCommDTO adminCommDTO, HttpServletRequest req);
+	
+	// 관리자 공통코드 삭제
+	int adminCommDel(AdminCommDTO adminCommDTO, HttpServletRequest req);
 
 	// 메뉴 레벨 1 조회
 	List<AdminMenuDTO> selectMenuList();
@@ -51,6 +60,12 @@ public interface AdminMngService {
 	List<AdminUnitDTO> selectUnitList3();
 
 	List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO);
+
+
+
+
+
+
 
 
 

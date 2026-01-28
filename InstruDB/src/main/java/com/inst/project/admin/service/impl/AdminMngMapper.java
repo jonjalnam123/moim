@@ -20,6 +20,15 @@ public interface AdminMngMapper {
 	
 	// 관리자 공통코드 상세조회
 	AdminCommDTO adminCommSelect(AdminCommDTO adminCommDTO);
+	
+	// 관리자 공통코드 등록
+	int adminCommReg(AdminCommDTO adminCommDTO);
+	
+	// 관리자 공통코드 수정
+	int adminCommUpd(AdminCommDTO adminCommDTO);
+	
+	// 관리자 공통코드 삭제
+	int adminCommDel(AdminCommDTO adminCommDTO);
 
 	// 메뉴 레벨 1 조회
 	List<AdminMenuDTO> selectMenuList();
@@ -52,6 +61,12 @@ public interface AdminMngMapper {
 	List<AdminUnitDTO> selectUnitList3();
 
 	List<Map<String, Object>> adminMenuDeptCdSelect(String deptCd);
+
+
+
+
+
+
 
 
 
