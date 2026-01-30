@@ -50,13 +50,13 @@
           	</div>
           	
       	    <div class="field">
-            	<label for="menu_nm" class="required">부모 코드명</label>
+            	<label for="menu_nm" class="required">부모코드명</label>
             	<input type="text" id="commPNm" name="commPNm" class="form-control" />
             	<input type="hidden" id="commPId" name="commPId" class="form-control" />
           	</div>
           	
           	<div class="field">
-            	<label for="menu_nm" class="required">코드</label>
+            	<label for="menu_nm" class="required">공통코드</label>
             	<input type="text" id="commCd" name="commCd" class="form-control" />
           	</div>
           	

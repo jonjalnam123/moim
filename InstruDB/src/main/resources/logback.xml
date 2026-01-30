@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="5 seconds">
 
     <!-- 로그 폴더 위치 지정 (실행 위치 기준 ./logs) -->
     <property name="LOG_PATH" value="D:/InstruDB/Project/sts-4.32.2.RELEASE/logs"/>
@@ -26,10 +26,10 @@
     <!-- log4jdbc용 로거들은 그대로 유지 -->
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqlonly" level="OFF"/>
-    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.sqltiming" level="INFO"/>
     <logger name="jdbc.audit" level="OFF"/>
     <logger name="jdbc.resultset" level="OFF"/>
-    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.resultsettable" level="INFO"/>
     <logger name="jdbc.connection" level="OFF"/>
 
     <!-- root 로거: 콘솔 + 파일 둘 다로 내보내기 -->

@@ -190,6 +190,21 @@ public class CommonUtil {
 		return result;
 	}
 	
+	
+	/**
+	* @methodName	 	: isBlank
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: 빈 값 체크
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+	public static boolean isBlank(String s) {
+	    return s == null || s.trim().isEmpty();
+	}
+	
 	public static String toMd5(String s) {
 		byte[] temp = s.getBytes();
 		String result = null;

@@ -408,4 +408,89 @@
 	</select>
 	<!-- 관리자 유닛 3레벨 조회 [E] -->
 	
+	<!-- 관리자 부서 상세 조회 [S] -->
+	<select id="adminUnitSelect" parameterType="AdminUnitDTO" resultType="AdminUnitDTO">
+		/*AdminMng_SQL.adminUnitSelect*/
+		SELECT ADMIN_UNIT_ID
+				 , ADMIN_UNIT_NM
+				 , ADMIN_UNIT_P_ID
+				 , ( SELECT ADMIN_UNIT_NM FROM TB_ADMIN_UNIT_INFO WHERE ADMIN_UNIT_ID = #{adminUnitPId} ) AS ADMIN_UNIT_P_NM
+				 , ADMIN_UNIT_CD
+				 , ADMIN_UNIT_LVL
+				 , ADMIN_UNIT_SORT_NO
+				 , ADMIN_UNIT_USE_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_UNIT_INFO
+		WHERE 1=1
+		    AND ADMIN_UNIT_ID = #{adminUnitId}
+		    AND ADMIN_UNIT_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 부서 상세 조회 [E] -->
+
+	<!-- 관리자 부서 등록 [S] -->
+	<insert id="adminUnitReg" parameterType="AdminUnitDTO">
+		/*AdminMng_SQL.adminMenuReg*/
+		INSERT INTO TB_ADMIN_UNIT_INFO (
+			  ADMIN_UNIT_ID
+			, ADMIN_UNIT_NM
+			, ADMIN_UNIT_P_ID
+			, ADMIN_UNIT_CD
+			, ADMIN_UNIT_LVL
+			, ADMIN_UNIT_SORT_NO
+			, ADMIN_UNIT_CN
+			, ADMIN_UNIT_USE_YN
+			, ADMIN_UNIT_DEL_YN
+			, REG_ID
+			, REG_DT
+			, UPD_ID
+			, UPD_DT
+		) VALUES ( 
+			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{adminUnitNm}
+			, #{adminUnitPId}
+			, #{adminUnitCd}
+			, #{adminUnitLvl}
+			, #{adminUnitSortNo}
+			, #{adminUnitCn}
+			, #{adminUnitUseYn}
+			, 'N'
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		)
+	</insert>
+	<!-- 관리자 부서 등록 [E] -->
+	
+	<!-- 관리자 부서 수정 [S] -->
+	<update id="adminUnitUpd" parameterType="AdminUnitDTO">
+  		/*AdminMng_SQL.adminUnitUpd*/
+	  	UPDATE TB_ADMIN_UNIT_INFO
+	     	 SET ADMIN_UNIT_NM 			= #{adminUnitNm}
+				 , ADMIN_UNIT_CD			= #{adminUnitCd}
+				 , ADMIN_UNIT_LVL			= #{adminUnitLvl}
+				 , ADMIN_UNIT_SORT_NO	= #{adminUnitSortNo}
+				 , ADMIN_UNIT_CN			= #{adminUnitCn}
+				 , ADMIN_UNIT_USE_YN		= #{adminUnitUseYn}
+				 , UPD_ID						= #{updId}
+				 , UPD_DT						= NOW()
+	   	 WHERE ADMIN_UNIT_ID = #{adminUnitId} 
+	</update>
+	<!-- 관리자 부서 수정 [E] -->
+
+	<!-- 관리자 부서 삭제 [S] -->
+	<update id="adminUnitDel" parameterType="AdminUnitDTO">
+  		/*AdminMng_SQL.adminUnitDel*/
+	  	UPDATE TB_ADMIN_UNIT_INFO
+	     	 SET ADMIN_UNIT_DEL_YN = 'Y'
+	   	 WHERE ADMIN_UNIT_ID   = #{adminUnitId} 
+ 	   	 <if test="adminUnitPId == null or adminUnitPId == ''">
+	   	 	  OR ADMIN_UNIT_P_ID = #{adminUnitPId}
+	   	 </if>
+	</update>
+	<!-- 관리자 부서 삭제 [E] -->
+
 </mapper>

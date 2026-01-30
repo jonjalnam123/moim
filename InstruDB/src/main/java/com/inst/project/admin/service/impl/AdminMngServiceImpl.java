@@ -136,7 +136,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId.isEmpty() || adminId == null ) {
+			if ( adminId == null || CommonUtil.isBlank(adminId) ) {
 				return 0;
 			}
 			adminCommDTO.setRegId(adminId); 
@@ -170,7 +170,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
 
-			if (adminId == null || adminId.isEmpty()) {
+			if (adminId == null || CommonUtil.isBlank(adminId) ) {
 			    return 0;
 			}
 			adminCommDTO.setUpdId(adminId);
@@ -202,7 +202,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId.isEmpty() || adminId == null ) {
+			if (adminId == null  || CommonUtil.isBlank(adminId) ) {
 				return 0;
 			}
 			
@@ -331,7 +331,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	        
 		    String menuDeptCd = adminMenuDTO.getMenuDeptCd();
-		    if ( menuDeptCd == null || menuDeptCd.isEmpty() ) {
+		    if ( menuDeptCd == null || CommonUtil.isBlank(menuDeptCd) ) {
 		        return null;
 		    }
 
@@ -369,7 +369,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId.isEmpty() || adminId == null ) {
+			if ( adminId.isEmpty() || CommonUtil.isBlank(adminId) ) {
 				return 0;
 			}
 	        adminMenuDTO.setRegId(adminId); 
@@ -407,7 +407,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
 
-			if (adminId == null || adminId.isEmpty()) {
+			if (adminId == null || CommonUtil.isBlank(adminId) ) {
 			    return 0;
 			}
 	        adminMenuDTO.setUpdId(adminId);
@@ -439,7 +439,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId.isEmpty() || adminId == null ) {
+			if ( CommonUtil.isBlank(adminId) || adminId == null ) {
 				return 0;
 			}
 			
@@ -582,6 +582,138 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		}
 
+	}
+	
+	/**
+	* @methodName	 	: adminUnitSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminUnitDTO adminUnitSelect(AdminUnitDTO adminUnitDTO) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUnitSelect ");
+
+	    try {
+	        
+	    	AdminUnitDTO selectResult = adminMngMapper.adminUnitSelect(adminUnitDTO);
+	        if (selectResult == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return null;
+	        }
+
+	        return selectResult;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUnitSelect failed." );
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	
+	/**
+	* @methodName	 	: adminUnitReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUnitReg(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUnitReg ");
+
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( adminId == null || CommonUtil.isBlank(adminId) ) {
+				return 0;
+			}
+			adminUnitDTO.setRegId(adminId); 
+			adminUnitDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUnitReg(adminUnitDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUnitReg failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminUnitUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUnitUpd(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUnitUpd ");
+
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+
+			if (adminId == null || CommonUtil.isBlank(adminId) ) {
+			    return 0;
+			}
+			adminUnitDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUnitUpd(adminUnitDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUnitUpd failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminUnitDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUnitDel(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUnitDel ");
+
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if (adminId == null  || CommonUtil.isBlank(adminId) ) {
+				return 0;
+			}
+			
+			adminUnitDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUnitDel(adminUnitDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUnitDel failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
 	}
 	
 }

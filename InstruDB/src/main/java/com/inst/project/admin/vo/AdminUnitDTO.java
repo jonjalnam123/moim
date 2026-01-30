@@ -6,13 +6,15 @@ import lombok.Data;
 public class AdminUnitDTO {
 	
 	private String adminUnitId;
-	private String adminUnitPId;
 	private String adminUnitNm;
+	private String adminUnitPId;
+	private String adminUnitPNm;
 	private String adminUnitCd;
-	private String adminUnitLvl;
-	private String adminUnitSortNo;
+	private int adminUnitLvl;
+	private int adminUnitSortNo;
 	private String adminUnitUseYn;
 	private String adminUnitDelYn;
+	private String adminUnitCn;
 	private String regId;
 	private String regDt;
 	private String updId;

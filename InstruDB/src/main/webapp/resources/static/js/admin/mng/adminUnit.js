@@ -16,23 +16,144 @@ $(document).ready(function() {
 	  e.preventDefault();
 	  $('.tree a').removeClass('active');
 	  $(this).addClass('active');
-	  // 필요한 경우 우측 폼에 값 로드
-	  // loadForm($(this).data('id'));
 	});
 	
-    if ($.fn.select2) {
-        $('.form-select').select2({
-          placeholder: function(){ return $(this).data('placeholder') || '선택하세요'; },
-          allowClear: true,
-          width: 'resolve',
-          minimumResultsForSearch: Infinity,
-          // ↓↓↓ 스코프 고정: 생성 컨테이너/드롭다운에 식별 클래스 부여
-          containerCssClass: 'ez-s2',
-          selectionCssClass: 'ez-s2', 
-          dropdownCssClass: 'ez-s2',
-          // ↓↓↓ 드롭다운을 이 폼 카드 안에 붙여서 상위 선택자 스코프도 유지
-          dropdownParent: $('.form-card')
-        });
-     }
+	// 코드 상세조회
+	$('.unitTreeF, .unitTreeS, .unitTreeT').on('click', function() {
+		var adminUnitId = $(this).data('id');
+		var adminUnitPId = $(this).data('pid');
+		
+		if ( isEmptyMsg(adminUnitId, selectDataChk) ) {
+			return;
+		}
+
+		var url = '/admin/unitSelect.do';
+		var params = {
+				adminUnitId : adminUnitId
+			  , adminUnitPId : adminUnitPId
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var unitData = data.result;
+			if ( !isEmpty(unitData) ) {
+				
+				var adminUnitId = unitData.adminUnitId
+				var adminUnitNm = unitData.adminUnitNm
+				var adminUnitPId = unitData.adminUnitPId
+				var adminUnitPNm = unitData.adminUnitPNm
+				var adminUnitCd = unitData.adminUnitCd
+				var adminUnitLvl = unitData.adminUnitLvl
+				var adminUnitSortNo = unitData.adminUnitSortNo
+				var adminUnitUseYn = unitData.adminUnitUseYn
+				var adminUnitCn = unitData.adminUnitCn
+
+				$('#adminUnitId').val(adminUnitId);
+				$('#adminUnitNm').val(adminUnitNm);
+				$('#adminUnitPId').val(adminUnitPId);
+				$('#adminUnitPNm').val(adminUnitPNm);
+				$('#adminUnitCd').val(adminUnitCd);
+				$('#adminUnitLvl').val(Number(adminUnitLvl));
+				$('#adminUnitSortNo').val(Number(adminUnitSortNo));
+				$('#adminUnitCn').val(adminUnitCn);
+				$('input[name="adminUnitUseYn"][value="' + adminUnitUseYn + '"]').prop('checked', true);
+				
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
+	});
+	
+	$('#btnRef').on('click', function() {
+		window.location.reload();
+	});
+	
+	// 메뉴 등록 이벤트
+	$('#btnReg, #btnUpd').on('click', function() {
+		var btnVal = $(this).val();
+		var url = '';
+		
+		var adminUnitId = $('#adminUnitId').val();
+		var adminUnitNm = $('#adminUnitNm').val();
+		var adminUnitPId = $('#adminUnitPId').val();
+		var adminUnitCd = $('#adminUnitCd').val();
+		var adminUnitLvl = $('#adminUnitLvl').val();
+		var adminUnitSortNo = $('#adminUnitSortNo').val();
+		var adminUnitCn = $('#adminUnitCn').val();
+		var adminUnitUseYn = $('input[name="adminUnitUseYn"]:checked').val();
+		
+		// 2레벨 진행시
+		if ( isEmpty(adminUnitPId) && Number(adminUnitLvl) === 1 ) {
+			adminUnitPId = adminUnitId;
+		}
+		
+		// 3레벨 진행시
+		if ( isEmpty(commPId) && Number(adminUnitLvl) === 2 ) {
+			adminUnitPId = adminUnitId;
+		}
+		
+		if ( btnVal === 'I' ) {
+			if ( !confirm('부서' + regProcConfirm) ) {
+				return;
+			}
+			url = '/admin/unitReg.do';
+		} else {
+			if ( !confirm('부서' + updProcConfirm) ) {
+				return;
+			}
+			url = '/admin/unitUpd.do';
+		}
+
+		var params = {
+				adminUnitId : adminUnitId
+			  , adminUnitNm : adminUnitNm
+			  , adminUnitPId : adminUnitPId
+			  , adminUnitCd : adminUnitCd
+			  , adminUnitLvl : adminUnitLvl
+			  , adminUnitSortNo : adminUnitSortNo
+			  , adminUnitCn : adminUnitCn
+			  , adminUnitUseYn : adminUnitUseYn
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = Number(data.result);
+			if (result > 0) {
+				window.location.reload();
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
+	});
+	
+	// 메뉴 삭제 이벤트
+	$('#btnDel').on('click', function() {
+		var adminUnitId = $('#adminUnitId').val();
+		var adminUnitPId = $('#adminUnitPId').val();
+		
+		if ( isEmptyMsg(adminUnitId, delDataChk) ) {
+			return;
+		}
+		
+		if ( !confirm('부서' + delProcConfirm) ) {
+			return;
+		}
+
+		var url = '/admin/unitDel.do';
+		var params = {
+				adminUnitId : adminUnitId
+			  , adminUnitPId : adminUnitPId
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = Number(data.result);
+			if (result > 0) {
+				window.location.reload();
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
+	});
 	 
 });

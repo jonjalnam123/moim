@@ -62,5 +62,17 @@ public interface AdminMngMapper {
 
 	// 유닛 레벨 3 조회
 	List<AdminUnitDTO> selectUnitList3();
+	
+	// 관리자 부서 상세 조회
+	AdminUnitDTO adminUnitSelect(AdminUnitDTO adminUnitDTO);
+	
+	// 관리자 부서 등록
+	int adminUnitReg(AdminUnitDTO adminUnitDTO);
+	
+	// 관리자 부서 수정
+	int adminUnitUpd(AdminUnitDTO adminUnitDTO);
+
+	// 관리자 부서 삭제
+	int adminUnitDel(AdminUnitDTO adminUnitDTO);
 
 }

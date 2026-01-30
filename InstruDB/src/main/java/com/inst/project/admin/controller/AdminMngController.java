@@ -210,7 +210,7 @@ public class AdminMngController {
 		AdminMenuDTO selectResult = adminMngService.adminMenuSelect(adminMenuDTO);	
 		List<Map<String, Object>> menuDeptList = adminMngService.adminMenuDeptCdSelect(selectResult);
 
-		if ( menuDeptList == null  || menuDeptList.isEmpty() ) {
+		if ( menuDeptList == null ) {
 			List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitAllList();
 			result.put("adminUnitList", adminUnitList);
 		}
@@ -324,6 +324,97 @@ public class AdminMngController {
 		model.addAttribute("adminUnitList3", adminUnitList3);
 		
 		return "admin/mng/adminUnit.adm";
+	}
+	
+	/**
+	* @methodName	 	: adminUnitSelect
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/unitSelect.do")
+	@ResponseBody
+	public Map<String,Object> adminUnitSelect( @ModelAttribute AdminUnitDTO adminUnitDTO ) {
+		log.info(" [ AdminMngController ] : adminUnitSelect ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		AdminUnitDTO selectResult = adminMngService.adminUnitSelect(adminUnitDTO);	
+		
+		result.put("result", selectResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUnitReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/unitReg.do")
+	@ResponseBody
+	public Map<String,Object> adminUnitReg( @ModelAttribute AdminUnitDTO adminUnitDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUnitReg ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminUnitReg(adminUnitDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUnitUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/unitUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminUnitUpd( @ModelAttribute AdminUnitDTO adminUnitDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUnitUpd ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminUnitUpd(adminUnitDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUnitDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 부서 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/unitDel.do")
+	@ResponseBody
+	public Map<String,Object> adminUnitDel( @ModelAttribute AdminUnitDTO adminUnitDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUnitDel ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int delResult = adminMngService.adminUnitDel(adminUnitDTO, req);
+		result.put("result", delResult);
+
+		return result;
 	}
 
 }
