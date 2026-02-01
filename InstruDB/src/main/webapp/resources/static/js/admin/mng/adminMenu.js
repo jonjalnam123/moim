@@ -51,6 +51,8 @@ $(document).ready(function() {
 				var menuUseYn = menuData.menuUseYn
 				var menuIcon = menuData.menuIcon
 
+				$('#menuId').attr('data-id', menuId);
+				$('#menuNm').attr('data-nm', menuNm);
 				$('#menuId').val(menuId);
 				$('#menuNm').val(menuNm);
 				$('#menuPId').val(menuPId);
@@ -58,8 +60,8 @@ $(document).ready(function() {
 				setDeptOptions(adminUnitList)
 			  	setDeptSelected(menuDeptList);
 				$('#menuUrl').val(menuUrl);
-				$('#menuLvl').val(Number(menuLvl));
-				$('#menuSort').val(Number(menuSort));
+				$('#menuLvl').val(menuLvl).trigger('change');
+				$('#menuSort').val(menuSort);
 				$('#menuCn').val(menuCn);
 				$('#menuIcon').val(menuIcon);
 				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
@@ -111,17 +113,59 @@ $(document).ready(function() {
 		if ( isEmpty(menuPId) && Number(menuLvl) !== 0 ) {
 			menuPId = menuId;
 		}
-		
+
 		if ( btnVal === 'I' ) {
+			
+			if ( isEmptyMsg(menuNm, '메뉴명' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(menuNm, '메뉴 URL' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(menuLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(menuSort, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+			
+			var orgMenuNm = $('#menuNm').data('nm');
+			if (orgMenuNm === menuNm) {
+				alert(menuNmChk);
+				return;
+			}
+			
 			if ( !confirm('메뉴' + regProcConfirm) ) {
 				return;
 			}
 			url = '/admin/menuReg.do';
+			
 		} else {
+			
+			if ( isEmptyMsg(menuNm, '메뉴명' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(menuNm, '메뉴 URL' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(menuLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(menuSort, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+			
 			if ( !confirm('메뉴' + updProcConfirm) ) {
 				return;
 			}
 			url = '/admin/menuUpd.do';
+			
 		}
 
 		var params = {
@@ -187,8 +231,24 @@ $(document).ready(function() {
 	      containerCssClass: 'ez-s2',
 	      selectionCssClass: 'ez-s2', 
 	      dropdownCssClass: 'ez-s2',
-	      dropdownParent: $('.form-card'),
+	      dropdownParent: $('.form-card')
 	    });
+		
+		$('#menuLvl').select2({
+		  placeholder: '레벨 선택',
+		  allowClear: true,
+		  width: 'resolve',
+		  minimumResultsForSearch: Infinity,
+		  containerCssClass: 'ez-s2',
+		  selectionCssClass: 'ez-s2', 
+		  dropdownCssClass: 'ez-s2',
+		  dropdownParent: $('.form-card'),
+		  data: [
+		    { id: '', text: '선택' },
+		    { id: '0', text: '1레벨' },
+		    { id: '1', text: '2레벨' }
+		  ]
+		});
 	 }
 	 
 });

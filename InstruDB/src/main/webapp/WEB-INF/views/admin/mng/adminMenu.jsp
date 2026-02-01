@@ -51,7 +51,7 @@
 			          </div>
 			          
 			        <div class="field">
-			          <label for="menuPNm" class="required">부모 메뉴명</label>
+			          <label for="menuPNm" class="">부모 메뉴명</label>
 			          <input type="text" id="menuPNm" name="menuPNm" class="form-control" readonly />
 			          <input type="hidden" id="menuPId" name="menuPId"/>
 			        </div>
@@ -62,7 +62,7 @@
 					</div>
 	
 		          	<div class="field">
-			            <label for="menuDeptCd" class="required">부서</label>
+			            <label for="menuDeptCd" class="">부서</label>
 			            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple">
 			            	<c:forEach var="unitList" items="${adminUnitList}">
 			            		<c:if test="${unitList.adminUnitLvl eq 0}">
@@ -73,18 +73,19 @@
 		          	</div>
 		          	
 		          	<div class="field">
-					  <label for="menuIcon" class="required">아이콘명</label>
+					  <label for="menuIcon" class="">아이콘명</label>
 					  <input type="text" id="menuIcon" name="menuIcon" class="form-control" />
 					</div>
-			          
+		          	
 		          	<div class="field">
-		            	<label for="sort_no" class="required">레벨</label>
-			            <input type="number" id="menuLvl" name="menuLvl" class="form-control" min="0" max="1"/>
+			            <label for="menuLvl" class="required">레벨</label>
+			            <select id="menuLvl" name="menuLvl" class="form-select" style="width:100%;">
+			            </select>
 		          	</div>
 			          
 		          	<div class="field">
 			            <label for="sort_no" class="required">정렬순서</label>
-			            <input type="number" id="menuSort" name="menuSort" class="form-control" min="0"/>
+			            <input type="text" id="menuSort" name="menuSort" class="form-control" onkeyup="checkNum(this);" placeholder="숫자만 입력해주세요."/>
 		          	</div>
 			
 		          	<div class="field full">
