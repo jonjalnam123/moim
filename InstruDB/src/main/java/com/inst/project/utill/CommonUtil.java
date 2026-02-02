@@ -70,7 +70,7 @@ public class CommonUtil {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	public static boolean setAdminInfoSession( AdminDTO adminInfo, HttpServletRequest req ) {
-		log.info(" [ ComminUtil ] : setAdminInfoSession ");
+		log.info(" [ CommonUtil ] : setAdminInfoSession ");
 		
 		if ( adminInfo == null ) {
 			return false;

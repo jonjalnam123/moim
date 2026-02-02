@@ -116,8 +116,8 @@
           	</div>
           	
       	    <div class="field">
-            	<label for="menu_nm" class="required">부모부서명</label>
-            	<input type="text" id="adminUnitPNm" name="adminUnitPNm" class="form-control" />
+            	<label for="menu_nm" class="">부모부서명</label>
+            	<input type="text" id="adminUnitPNm" name="adminUnitPNm" class="form-control"  readonly/>
             	<input type="hidden" id="adminUnitPId" name="adminUnitPId" class="form-control" />
           	</div>
           	
@@ -126,10 +126,11 @@
             	<input type="text" id="adminUnitCd" name="adminUnitCd" class="form-control" />
           	</div>
           	
-          	<div class="field">
-            	<label for="sort_no" class="required">레벨</label>
-            	<input type="number" id="adminUnitLvl" name="adminUnitLvl" class="form-control" min="0" />
-          	</div>
+   			<div class="field">
+            	<label for="adminUnitLvl" class="required">레벨</label>
+            	<select id="adminUnitLvl" name="adminUnitLvl" class="form-select" style="width:100%;">
+            	</select>
+         	</div>
           
           	<div class="field">
             	<label for="sort_no" class="required">정렬순서</label>
@@ -156,8 +157,8 @@
 
         <div class="form-actions">
        		<button type="button" class="btn-refresh" 	id="btnRef"		value="R">초기화</button>
-        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
-          	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">저장</button>
+       		<button type="button" class="btn-insert"   	id="btnReg"   	value="I">추가</button>
+        	<button type="button" class="btn-update"		id="btnUpd" 		value="U">수정</button>
          	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
       	</div>
       </form>

@@ -49,11 +49,12 @@ $(document).ready(function() {
 
 				$('#adminUnitId').val(adminUnitId);
 				$('#adminUnitNm').val(adminUnitNm);
+				$('#adminUnitNm').attr('data-nm', adminUnitNm);
 				$('#adminUnitPId').val(adminUnitPId);
 				$('#adminUnitPNm').val(adminUnitPNm);
 				$('#adminUnitCd').val(adminUnitCd);
-				$('#adminUnitLvl').val(Number(adminUnitLvl));
-				$('#adminUnitSortNo').val(Number(adminUnitSortNo));
+				$('#adminUnitLvl').val(adminUnitLvl).trigger('change');
+				$('#adminUnitSortNo').val(adminUnitSortNo);
 				$('#adminUnitCn').val(adminUnitCn);
 				$('input[name="adminUnitUseYn"][value="' + adminUnitUseYn + '"]').prop('checked', true);
 				
@@ -88,20 +89,64 @@ $(document).ready(function() {
 		}
 		
 		// 3레벨 진행시
-		if ( isEmpty(commPId) && Number(adminUnitLvl) === 2 ) {
+		if ( !isEmpty(adminUnitPId) && Number(adminUnitLvl) === 2 ) {
 			adminUnitPId = adminUnitId;
 		}
 		
 		if ( btnVal === 'I' ) {
+			
+			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+
+			var unitNm = $('#adminUnitNm').data('nm');
+			if (unitNm === adminUnitNm) {
+				alert(adminUnitNmChk);
+				return;
+			}
+			
 			if ( !confirm('부서' + regProcConfirm) ) {
 				return;
 			}
+			
 			url = '/admin/unitReg.do';
+			
 		} else {
+			
+			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+			
 			if ( !confirm('부서' + updProcConfirm) ) {
 				return;
 			}
+			
 			url = '/admin/unitUpd.do';
+			
 		}
 
 		var params = {
@@ -155,5 +200,24 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	if ( $.fn.select2 ) {
+		$('#adminUnitLvl').select2({
+		  placeholder: '레벨 선택',
+		  allowClear: true,
+		  width: 'resolve',
+		  minimumResultsForSearch: Infinity,
+		  containerCssClass: 'ez-s2',
+		  selectionCssClass: 'ez-s2', 
+		  dropdownCssClass: 'ez-s2',
+		  dropdownParent: $('.form-card'),
+		  data: [
+		    { id: '', text: '선택' },
+		    { id: '0', text: '1레벨' },
+		    { id: '1', text: '2레벨' },
+		    { id: '2', text: '3레벨' }
+		  ]
+		});
+	 }
 	 
 });

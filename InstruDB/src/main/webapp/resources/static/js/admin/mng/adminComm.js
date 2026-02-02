@@ -55,7 +55,6 @@ $(document).ready(function() {
 				$('#commGroupCd').attr('data-nm', commGroupCd);
 				$('#commNm').val(commNm);
 				$('#commSortNo').val(commSortNo);
-				//$('#commLvl').val(commLvl);
 				$('#commLvl').val(commLvl).trigger('change');
 				$('#commCn').val(commCn);
 				$('#commCd').val(commCd);

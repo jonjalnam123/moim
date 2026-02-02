@@ -50,7 +50,7 @@
           	</div>
           	
       	    <div class="field">
-            	<label for="menu_nm" class="required">부모코드명</label>
+            	<label for="menu_nm" class="">부모코드명</label>
             	<input type="text" id="commPNm" name="commPNm" class="form-control" readonly/>
             	<input type="hidden" id="commPId" name="commPId" class="form-control" />
           	</div>
@@ -96,8 +96,8 @@
 
         <div class="form-actions">
        		<button type="button" class="btn-refresh" 	id="btnRef"		value="R">초기화</button>
-        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
-          	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">저장</button>
+       		<button type="button" class="btn-insert"   	id="btnReg"   	value="I">추가</button>
+        	<button type="button" class="btn-update"		id="btnUpd" 		value="U">수정</button>
          	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
       	</div>
       </form>
