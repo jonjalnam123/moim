@@ -51,7 +51,7 @@
           	
       	    <div class="field">
             	<label for="menu_nm" class="required">부모코드명</label>
-            	<input type="text" id="commPNm" name="commPNm" class="form-control" />
+            	<input type="text" id="commPNm" name="commPNm" class="form-control" readonly/>
             	<input type="hidden" id="commPId" name="commPId" class="form-control" />
           	</div>
           	
@@ -64,14 +64,15 @@
            		<label for="menu_nm" class="required">코드그룹</label>
             	<input type="text" id="commGroupCd" name="commGroupCd" class="form-control" />
           	</div>
-          	
-          	<div class="field">
-            	<label for="sort_no" class="required">레벨</label>
-            	<input type="number" id="commLvl" name="commLvl" class="form-control" min="0" />
-          	</div>
+          		
+   			<div class="field">
+            	<label for="commLvl" class="required">레벨</label>
+            	<select id="commLvl" name="commLvl" class="form-select" style="width:100%;">
+            	</select>
+         	</div>
           
           	<div class="field">
-            	<label for="sort_no" class="required">정렬순서</label>
+            	<label for="commSortNo" class="required">정렬순서</label>
             	<input type="number" id="commSortNo" name="commSortNo" class="form-control" min="0" />
           	</div>
 

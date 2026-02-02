@@ -52,9 +52,11 @@ $(document).ready(function() {
 				$('#commPId').val(commPId);
 				$('#commPNm').val(commPNm);
 				$('#commGroupCd').val(commGroupCd);
+				$('#commGroupCd').attr('data-nm', commGroupCd);
 				$('#commNm').val(commNm);
-				$('#commSortNo').val(Number(commSortNo));
-				$('#commLvl').val(Number(commLvl));
+				$('#commSortNo').val(commSortNo);
+				//$('#commLvl').val(commLvl);
+				$('#commLvl').val(commLvl).trigger('change');
 				$('#commCn').val(commCn);
 				$('#commCd').val(commCd);
 				$('input[name="commUseYn"][value="' + commUseYn + '"]').prop('checked', true);
@@ -91,15 +93,57 @@ $(document).ready(function() {
 		}
 		
 		if ( btnVal === 'I' ) {
+			
+			if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+			
+			var commGroupNm = $('#commGroupCd').data('nm');
+			if (commGroupNm === commGroupCd) {
+				alert(commGroupChk);
+				return;
+			}
+			
 			if ( !confirm('코드' + regProcConfirm) ) {
 				return;
 			}
 			url = '/admin/commReg.do';
+			
 		} else {
+			
+			if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
+				return;
+			}
+			
 			if ( !confirm('코드' + updProcConfirm) ) {
 				return;
 			}
 			url = '/admin/commUpd.do';
+			
 		}
 
 		var params = {
@@ -154,5 +198,23 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	if ( $.fn.select2 ) {
+		$('#commLvl').select2({
+		  placeholder: '레벨 선택',
+		  allowClear: true,
+		  width: 'resolve',
+		  minimumResultsForSearch: Infinity,
+		  containerCssClass: 'ez-s2',
+		  selectionCssClass: 'ez-s2', 
+		  dropdownCssClass: 'ez-s2',
+		  dropdownParent: $('.form-card'),
+		  data: [
+		    { id: '', text: '선택' },
+		    { id: '0', text: '1레벨' },
+		    { id: '1', text: '2레벨' }
+		  ]
+		});
+	 }
 	 
 });
