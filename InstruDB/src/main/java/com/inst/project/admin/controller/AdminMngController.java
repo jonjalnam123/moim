@@ -416,5 +416,37 @@ public class AdminMngController {
 
 		return result;
 	}
+	
+	/**
+	* @methodName	 	: getAdminUser
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 사용자 관리 화면 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value="/user.do")
+	public String getAdminUser(Model model, RedirectAttributes redirect) {
+		log.info(" [ AdminMngController ] : getAdminUser ");
+		
+//		// 공통코드 레벨 1 조회
+//		List<AdminCommDTO> adminCommList = adminMngService.selectCommList();
+//		
+//		// 공통코드 레벨 2 조회
+//		List<AdminCommDTO> adminCommList2 = adminMngService.selectCommList2();
+//		
+//		if( adminCommList == null || adminCommList2 == null) {
+//			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+//			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+//			return "redirect:/admin/error.do";
+//		}
+//
+//		model.addAttribute("commList", adminCommList);
+//		model.addAttribute("commList2", adminCommList2);
+		
+		return "admin/mng/adminUser.adm";
+	}
 
 }
