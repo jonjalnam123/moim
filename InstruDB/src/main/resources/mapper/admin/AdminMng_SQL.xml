@@ -492,5 +492,43 @@
 	   	 </if>
 	</update>
 	<!-- 관리자 부서 삭제 [E] -->
+	
+	<!-- 관리자 조회 [S] -->
+	<select id="selectAdminUser" resultType="AdminDTO">
+		/*AdminMng_SQL.adminUnitSelect*/
+		SELECT ADMIN_NO
+				 , ADMIN_ID
+				 , ADMIN_PW
+				 , ADMIN_NM
+				 , ADMIN_POSITION_CD
+				 , ADMIN_PH
+				 , ADMIN_POST_CD
+				 , ADMIN_ADDRESS
+				 , ADMIN_D_ADDRESS
+				 , ADMIN_DEL_YN
+				 , ADMIN_DEPT_CD
+				 , ADMIN_TEAM_CD
+				 , ADMIN_CN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		FROM TB_ADMIN_INFO
+	</select>
+	<!-- 관리자 조회 [E] -->
+	
+		<!-- 관리자 부서 상세 조회 [S] -->
+	<select id="selectAdminTeamList" parameterType="String" resultType="hashMap">
+		/*AdminMng_SQL.selectAdminTeamList*/
+		SELECT ADMIN_UNIT_ID 
+				 , ADMIN_UNIT_NM
+				 , ADMIN_UNIT_CD
+		  FROM TB_ADMIN_UNIT_INFO
+		WHERE 1=1
+		    AND ADMIN_UNIT_P_ID = #{adminUnitId}
+		    AND ADMIN_UNIT_LVL = '1'
+		    AND ADMIN_UNIT_DEL_YN = 'N'
+		 ORDER BY ADMIN_UNIT_SORT_NO ASC
+	</select>
 
 </mapper>

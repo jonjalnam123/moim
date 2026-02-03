@@ -74,16 +74,20 @@ main {
   flex: 1;
   padding: 16px;
   background-color: #fff;
-  overflow: auto;           /* 필요 시 스크롤 */
+  overflow: auto;
   box-sizing: border-box;
-  padding-bottom: 28px;     /* 푸터 겹침 방지 */
+  padding-bottom: 28px;
 }
+
+/* ✅ split-layout이 100% 높이 계산 되도록 보정 */
 main .content-wrapper {
   max-width: calc(100vw - 240px - 48px);
   width: 100%;
   margin: 0;
   padding: 0 12px;
   box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
 }
 
 /* ==============================
@@ -171,7 +175,6 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 
 /* 등록/삭제 우측 정렬 */
 #regBtn { margin-left: auto; }
-#delBtn {}
 .search-bar .search-form :is(.search-btn, #regBtn, #delBtn) {
   height: 36px;
   padding: 0 16px;
@@ -224,7 +227,7 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 ============================== */
 .page-header {
   margin-bottom: 12px;
-  position: static;     /* ✅ 고정 해제: 본문과 함께 스크롤 */
+  position: static;
   top: auto;
   z-index: auto;
   background: #fff;
@@ -372,28 +375,16 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 /* ==============================
    Select2 - 전역 최소 정의
 ============================== */
-.search-form .select2-container {
-  width: 170px !important;
-}
-
-.select2-container--default .select2-selection--single {
-  box-sizing: border-box;
-}
+.search-form .select2-container { width: 170px !important; }
+.select2-container--default .select2-selection--single { box-sizing: border-box; }
 
 /* ==============================
    Select2: ez-s2 스코프 한정 스킨
 ============================== */
-.form-card {
-  --control-h: 42px;
-}
+.form-card { --control-h: 42px; }
+.select2-container.ez-s2 { width: 100% !important; }
 
-.select2-container.ez-s2 {
-  width: 100% !important;
-}
-
-/* ─────────────────────────────
-   공통 (single / multiple)
-───────────────────────────── */
+/* 공통 (single / multiple) */
 .select2-container.ez-s2 .select2-selection--single,
 .select2-container.ez-s2 .select2-selection--multiple {
   min-height: var(--control-h);
@@ -404,73 +395,42 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 }
 
 /* focus */
-.select2-container--default.select2-container--focus.ez-s2
-.select2-selection--single,
-.select2-container--default.select2-container--focus.ez-s2
-.select2-selection--multiple {
+.select2-container--default.select2-container--focus.ez-s2 .select2-selection--single,
+.select2-container--default.select2-container--focus.ez-s2 .select2-selection--multiple {
   border-color: #66bb6a;
   box-shadow: 0 0 0 4px rgba(165,214,167,.35);
 }
 
-/* ─────────────────────────────
-   Single Select
-───────────────────────────── */
+/* Single */
 .select2-container.ez-s2 .select2-selection--single {
   height: var(--control-h);
   display: flex;
   align-items: center;
 }
-
-.select2-container.ez-s2
-.select2-selection--single
-.select2-selection__rendered {
+.select2-container.ez-s2 .select2-selection--single .select2-selection__rendered {
   height: 100%;
   padding: 0 32px 0 10px;
   line-height: normal;
   color: #333;
 }
+.select2-container.ez-s2 .select2-selection--single .select2-selection__placeholder { color: #8a8a8a; }
+.select2-container.ez-s2 .select2-selection--single .select2-selection__arrow { height: 100%; right: 8px; }
 
-.select2-container.ez-s2
-.select2-selection--single
-.select2-selection__placeholder {
-  color: #8a8a8a;
-}
-
-.select2-container.ez-s2
-.select2-selection--single
-.select2-selection__arrow {
-  height: 100%;
-  right: 8px;
-}
-
-/* ─────────────────────────────
-   Multiple Select
-───────────────────────────── */
-.select2-container.ez-s2 .select2-selection--multiple {
-  display: flex;
-  align-items: center;
-}
-
-.select2-container.ez-s2
-.select2-selection--multiple
-.select2-selection__rendered {
+/* Multiple */
+.select2-container.ez-s2 .select2-selection--multiple { display: flex; align-items: center; }
+.select2-container.ez-s2 .select2-selection--multiple .select2-selection__rendered {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
   margin: 0;
 }
-
-.select2-container.ez-s2
-.select2-selection--multiple
-.select2-selection__choice {
+.select2-container.ez-s2 .select2-selection--multiple .select2-selection__choice {
   border: 1px solid #a5d6a7;
   border-radius: 999px;
   padding: 4px 8px;
   background: #f4fbf4;
 }
-
-/* 멀티 select 검색 입력 textarea - 높이 고정 25px */
 
 /* 멀티 select 검색 입력 textarea 높이 고정 */
 .select2-container.ez-s2 .select2-selection--multiple .select2-search__field,
@@ -478,82 +438,56 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   height: 25px !important;
 }
 
-/* ─────────────────────────────
-   Dropdown
-───────────────────────────── */
-.select2-dropdown.ez-s2 {
-  border: 2px solid #a5d6a7;
-  border-radius: 8px;
-}
-
-.select2-dropdown.ez-s2
-.select2-results__option--highlighted {
+/* Dropdown */
+.select2-dropdown.ez-s2 { border: 2px solid #a5d6a7; border-radius: 8px; }
+.select2-dropdown.ez-s2 .select2-results__option--highlighted {
   background-color: #a8e6cf !important;
   color: #333 !important;
 }
 
 /* =========================
    Global Loading Spinner
-   ========================= */
+========================= */
 .idb-spinner-backdrop {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(4, 26, 32, 0.55); /* 어두운 틴트 */
+  background: rgba(4, 26, 32, 0.55);
   z-index: 2000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease-out;
 }
-
-/* 보여줄 때 이 클래스를 추가 */
-.idb-spinner-backdrop.is-active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+.idb-spinner-backdrop.is-active { opacity: 1; pointer-events: auto; }
 .idb-spinner-box {
   min-width: 120px;
   padding: 18px 22px;
   border-radius: 14px;
-  background: #0f2f35;               /* InstruDB 다크 틴트 */
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  background: #0f2f35;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
-
 .idb-spinner {
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #00b0a5;         /* 포인트 민트 */
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: #00b0a5;
   background: transparent;
   animation: idb-spin 0.75s linear infinite;
 }
-
-.idb-spinner-text {
-  font-size: 0.9rem;
-  color: #f5f7f9;
-  letter-spacing: 0.03em;
-}
-
-@keyframes idb-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* 버튼 안에서 쓰는 작은 인라인 스피너 (옵션) */
+.idb-spinner-text { font-size: 0.9rem; color: #f5f7f9; letter-spacing: 0.03em; }
+@keyframes idb-spin { to { transform: rotate(360deg); } }
 .idb-spinner-inline {
   width: 16px;
   height: 16px;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255,255,255,0.3);
   border-top-color: #00b0a5;
   animation: idb-spin 0.7s linear infinite;
   display: inline-block;
@@ -571,6 +505,7 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   #layoutSidenav_nav ul { display: flex; flex-direction: row; width: 100%; }
   #layoutSidenav_nav li { margin: 0 5px; flex: 1; }
   #layoutSidenav_nav a { text-align: center; padding: 8px; font-size: 0.9rem; }
+
   main { padding: 10px; }
   .table-grid { display: block; overflow-x: auto; white-space: nowrap; }
 
@@ -596,7 +531,7 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   .pagination button { font-size: 0.8rem; padding: 4px 8px; }
 }
 
-/* 반응형: 폼은 모바일 1열, 태블릿 2열 */
+/* 반응형: 폼은 모바일 1열 */
 @media (max-width: 768px) {
   .form-grid { grid-template-columns: 1fr; }
   .form-actions { flex-direction: column; }
@@ -604,52 +539,116 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 }
 
 /* =========================================================
-   좌/우 분할 레이아웃 (왼쪽 트리 + 오른쪽 폼)
-============================== */
+   ✅ split 레이아웃 정리
+   - 기본(.split-layout): 트리 + 폼 화면용 (2컬럼)
+   - 그리드 화면(.split-layout.grid-split): 리스트/그리드 + 폼 + 리사이저 (3컬럼)
+========================================================= */
+
+/* 기본: 트리/폼 화면은 원래대로(좌 340px + 우 1fr) */
 .split-layout {
   --left-w: 340px;
   --gap: 14px;
   height: 100%;
+  min-height: 0;
   display: grid;
   grid-template-columns: var(--left-w) 1fr;
   gap: var(--gap);
   box-sizing: border-box;
 }
-.split-left, .split-right { min-width: 0; border-radius: 12px; overflow: hidden; }
+
+/* 그리드+폼 전용: JSP에서 <div class="split-layout grid-split"> 로만 적용 */
+.split-layout.grid-split {
+  --left-w: 1100px;              /* ✅ 그리드 화면 기본 왼쪽 폭 */
+  --gap: 14px;
+  grid-template-columns: var(--left-w) var(--gap) 1fr;
+  gap: 0;                       /* 리사이저가 gap 역할 */
+}
+
+/* ✅ grid-split에서만 자식 배치 고정 (트리 화면 영향 X) */
+.split-layout.grid-split > .split-left { grid-column: 1; }
+.split-layout.grid-split > .split-resizer { grid-column: 2; }
+.split-layout.grid-split > .split-right { grid-column: 3; }
+
+/* 공통 패널 스타일 */
+.split-left, .split-right {
+  min-width: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
 .split-left {
   background: #f4fbf4;
   border: 1px solid #e0eee0;
   box-shadow: inset 0 0 0 1px rgba(168,230,207,.2);
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .split-right {
   background: #fff;
   border: 1px solid #e8eee8;
   box-shadow: 0 1px 6px rgba(0,0,0,.04);
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
+
+/* split 내부 스크롤 안정화 */
 .split-left .tree-scroll,
 .split-right .content-scroll {
   padding: 12px 14px;
   overflow: auto;
-  max-height: calc(100vh - 140px);
+  flex: 1;
+  min-height: 0;
+  max-height: none;
 }
 .split-right .form-card { max-width: 100%; }
 
+/* 리사이저는 grid-split에서만 */
+.split-layout:not(.grid-split) .split-resizer { display: none; }
+
+/* =========================================================
+   ✅ 리사이저(드래그 핸들) - grid-split 전용
+========================================================= */
+.split-layout.grid-split .split-resizer {
+  cursor: col-resize;
+  position: relative;
+  background: transparent;
+  touch-action: none;
+}
+.split-layout.grid-split .split-resizer::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(102,187,106,0.35);
+  transition: background .15s, width .15s;
+}
+.split-layout.grid-split .split-resizer:hover::before,
+body.is-resizing .split-layout.grid-split .split-resizer::before {
+  width: 5px;
+  background: rgba(102,187,106,0.6);
+}
+body.is-resizing { user-select: none; cursor: col-resize; }
+
+/* 트리 */
 .tree-header {
   padding: 12px 14px;
   font-weight: 700;
   color: #2e7d32;
   border-bottom: 1px solid #e3efe3;
   background: linear-gradient(#eef9ef, #e7f6ea);
-  position: sticky; top: 0; z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 .tree { list-style: none; margin: 0; padding-left: 0; font-size: 0.95rem; }
 .tree li { position: relative; padding: 6px 6px 6px 28px; border-radius: 8px; user-select: none; }
 .tree li:hover { background: #eaf6ee; }
 .tree a { color: #2b3a30; text-decoration: none; border-radius: 6px; padding: 4px 6px; display: inline-block; }
 .tree a.active { background: #a8e6cf; color: #1b5e20; font-weight: 700; box-shadow: 0 0 0 2px rgba(102,187,106,.35) inset; }
-
 .tree .tw {
   position: absolute; left: 6px; top: 7px; width: 16px; height: 16px;
   border: 1.5px solid #84c7a0; border-radius: 4px; background: #fff; cursor: pointer; padding: 0;
@@ -658,7 +657,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
 .tree .tw::before { left: 3px; right: 3px; top: 7px; height: 2px; }
 .tree .tw::after  { left: 7px; top: 3px; bottom: 3px; width: 2px; opacity: 1; }
 .tree li.open > .tw::after { opacity: 0; }
-
 .tree ul {
   list-style: none;
   margin: 6px 0 4px 0;
@@ -667,17 +665,129 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   display: none;
 }
 .tree li.open > ul { display: block; }
-
 .tree .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin: 0 6px 0 0; background: #81c784; vertical-align: middle; }
 
-/* 분할 레이아웃 반응형 */
-@media (max-width: 1024px) { .split-layout { --left-w: 300px; } }
+/* =========================================================
+   ✅ grid-split 전용: 왼쪽 리스트/그리드 패널 (list-panel)
+   - JSP: <aside class="split-left list-panel"> 로만 적용
+========================================================= */
+.split-layout.grid-split .split-left.list-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.split-layout.grid-split .split-left.list-panel .list-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e3efe3;
+  background: linear-gradient(#eef9ef, #e7f6ea);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.split-layout.grid-split .split-left.list-panel .list-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2b3a30;
+  white-space: nowrap;
+}
+
+/* ✅ 검색조건: 우측 상단 "일자" 배치 */
+.split-layout.grid-split .split-left.list-panel .list-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.split-layout.grid-split .split-left.list-panel .list-search .form-select,
+.split-layout.grid-split .split-left.list-panel .list-search .form-control {
+  height: 36px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  width: 160px;
+}
+.split-layout.grid-split .split-left.list-panel .list-search .form-control {
+  width: 220px;
+}
+.split-layout.grid-split .split-left.list-panel .list-search button {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.split-layout.grid-split .split-left.list-panel .list-body {
+  flex: 1;
+  min-height: 0;
+  padding: 12px 14px;
+}
+.split-layout.grid-split .split-left.list-panel .grid-wrap {
+  height: 100%;
+  min-height: 420px;
+  border: 1px solid #e0eee0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* RIGHT: 폼 헤더(있으면) */
+.split-right .form-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e3efe3;
+  background: linear-gradient(#eef9ef, #e7f6ea);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.split-right .form-header .title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2b3a30;
+}
+
+/* =========================================================
+   split 반응형
+========================================================= */
+@media (max-width: 1024px) {
+  .split-layout { --left-w: 300px; }
+  .split-layout.grid-split { --left-w: 420px; }
+}
+
+@media (max-width: 1100px) {
+  .split-layout.grid-split .split-left.list-panel .list-search { flex-wrap: wrap; }
+}
+
 @media (max-width: 900px) {
-  .split-layout { grid-template-columns: 1fr; height: auto; }
+  .split-layout,
+  .split-layout.grid-split {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 14px;
+  }
+  .split-resizer { display: none !important; }
+
   .split-left { order: 1; min-height: 280px; }
   .split-right { order: 2; margin-top: 8px; }
-  .split-left .tree-scroll, .split-right .content-scroll { max-height: none; }
+
   .form-grid { grid-template-columns: 1fr; }
+
+  .split-layout.grid-split .split-left.list-panel .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .split-layout.grid-split .split-left.list-panel .list-search {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
 }
 
 /* ==============================
@@ -691,7 +801,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   box-sizing: border-box;
   min-height: 70vh;
 }
-
 .error-card {
   width: 100%;
   max-width: 760px;
@@ -701,7 +810,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   box-shadow: 0 10px 22px rgba(0,0,0,0.07);
   overflow: hidden;
 }
-
 .error-card-header {
   background: linear-gradient(#eef9ef, #e7f6ea);
   border-bottom: 1px solid #e3efe3;
@@ -710,7 +818,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   gap: 14px;
   align-items: center;
 }
-
 .error-icon {
   width: 44px;
   height: 44px;
@@ -721,20 +828,8 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   border: 2px solid rgba(239,83,80,0.35);
   flex: 0 0 auto;
 }
-
-.error-icon svg {
-  width: 22px;
-  height: 22px;
-  fill: #ef5350;
-}
-
-.error-title-wrap {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
+.error-icon svg { width: 22px; height: 22px; fill: #ef5350; }
+.error-title-wrap { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .error-badge {
   display: inline-flex;
   align-items: center;
@@ -748,7 +843,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   background: rgba(239,83,80,0.10);
   border: 1px solid rgba(239,83,80,0.25);
 }
-
 .error-title {
   margin: 0;
   font-size: 1.2rem;
@@ -756,17 +850,8 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   color: #2b3a30;
   line-height: 1.25;
 }
-
-.error-subtitle {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #567;
-}
-
-.error-card-body {
-  padding: 16px 20px 18px 20px;
-}
-
+.error-subtitle { margin: 0; font-size: 0.95rem; color: #567; }
+.error-card-body { padding: 16px 20px 18px 20px; }
 .error-meta {
   margin-top: 12px;
   background: #f4fbf4;
@@ -776,7 +861,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   display: grid;
   gap: 8px;
 }
-
 .error-meta-row {
   display: grid;
   grid-template-columns: 110px 1fr;
@@ -784,19 +868,8 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   align-items: center;
   font-size: 0.92rem;
 }
-
-.error-meta-row .k {
-  color: #425a4f;
-  font-weight: 700;
-}
-
-.error-meta-row .v {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-}
-
+.error-meta-row .k { color: #425a4f; font-weight: 700; }
+.error-meta-row .v { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .error-meta code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.88rem;
@@ -810,7 +883,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 .btn-copy {
   height: 28px;
   padding: 0 10px;
@@ -822,7 +894,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   cursor: pointer;
 }
 .btn-copy:hover { background: #66bb6a; }
-
 .error-actions {
   margin-top: 14px;
   display: flex;
@@ -830,17 +901,12 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   justify-content: flex-end;
   flex-wrap: wrap;
 }
-
-.error-actions .btn {
-  min-width: 120px;
-}
-
+.error-actions .btn { min-width: 120px; }
 .error-details {
   margin-top: 12px;
   border-top: 1px dashed #d7e4d7;
   padding-top: 12px;
 }
-
 .error-details summary {
   cursor: pointer;
   font-weight: 700;
@@ -849,7 +915,6 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   list-style: none;
 }
 .error-details summary::-webkit-details-marker { display: none; }
-
 .error-details pre {
   margin: 10px 0 0 0;
   padding: 12px;
@@ -860,12 +925,56 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   font-size: 0.86rem;
   line-height: 1.45;
 }
-
-/* responsive */
 @media (max-width: 480px) {
   .error-card-header { padding: 16px 14px; }
   .error-card-body { padding: 14px 14px 16px 14px; }
   .error-meta-row { grid-template-columns: 90px 1fr; }
   .error-actions { justify-content: stretch; }
   .error-actions .btn { width: 100%; }
+}
+
+/* =========================================================
+   ✅ 모바일 스크롤 잠김 해결 (중요)
+   - body 스크롤 허용
+   - 고정 높이(calc) / 100% 높이 의존 제거
+========================================================= */
+@media ( max-width : 900px) {
+	html, body {
+		height: auto;
+		overflow: auto; /* ✅ 바깥 스크롤 허용 */
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* header 높이가 모바일에서 늘어나도 잘 따라가게 */
+	#layoutSidenav {
+		height: auto; /* ✅ calc(100% - 60px) 해제 */
+		min-height: 0;
+	}
+
+	/* 모바일은 body가 스크롤 담당, main은 내부 스크롤 강제 안 함 */
+	main {
+		overflow: visible;
+	}
+	main .content-wrapper {
+		height: auto;
+		min-height: 0;
+	}
+
+	/* split 내부 스크롤러들도 높이 100% 의존 제거 */
+	.content-scroll {
+		height: auto;
+		overflow: visible;
+		max-height: none;
+	}
+
+	/* ✅ TUI Grid는 높이가 필요하니 모바일에서는 그리드 영역을 '뷰포트 기준'으로 고정 */
+	.split-left .grid-wrap {
+		height: 45vh; /* 필요하면 40~60vh로 조절 */
+		min-height: 320px;
+	}
+
+	/* 왼쪽 리스트 바디는 body 스크롤에 맡김 */
+	.split-left .list-body {
+		overflow: visible;
+	}
 }

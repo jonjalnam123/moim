@@ -18,6 +18,7 @@
 <!-- JS 추가  -->
 <script src="${pageContext.request.contextPath}/resources/static/js/comm/commonMsg.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/comm/commonTool.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/comm/commonResize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- CSS 추가 -->

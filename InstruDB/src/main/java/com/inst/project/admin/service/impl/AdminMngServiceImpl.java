@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
+import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
@@ -504,7 +505,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitList= adminMngMapper.selectUnitList();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminUnitList);
 			
 			return adminUnitList;
 			
@@ -536,8 +536,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitList2= adminMngMapper.selectUnitList2();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminUnitList2);
-			
+
 			return adminUnitList2;
 			
 		} catch (Exception e) {
@@ -713,6 +712,62 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: getAdminUser
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 관리 화면 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminDTO> selectAdminUser() {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminUser ");
+
+	    try {
+	    	
+	    	List<AdminDTO> adminList = adminMngMapper.selectAdminUser();
+	     
+	        return adminList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminUser failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: getAdminUnitTeam
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛 팀 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<Map<String, Object>> selectAdminTeamList(String adminUnitId) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminTeamList ");
+
+	    try {
+	    	
+	    	 List<Map<String, Object>> adminTeamList = adminMngMapper.selectAdminTeamList(adminUnitId);
+	    	 
+	        return adminTeamList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminTeamList failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
 	    }
 	}
 	

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
+import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
@@ -421,32 +423,52 @@ public class AdminMngController {
 	* @methodName	 	: getAdminUser
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 사용자 관리 화면 조회
+	* @description			: 관리자 관리 화면 조회
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value="/user.do")
-	public String getAdminUser(Model model, RedirectAttributes redirect) {
+	public String getAdminUser( Model model, RedirectAttributes redirect ) {
 		log.info(" [ AdminMngController ] : getAdminUser ");
 		
-//		// 공통코드 레벨 1 조회
-//		List<AdminCommDTO> adminCommList = adminMngService.selectCommList();
-//		
-//		// 공통코드 레벨 2 조회
-//		List<AdminCommDTO> adminCommList2 = adminMngService.selectCommList2();
-//		
-//		if( adminCommList == null || adminCommList2 == null) {
-//			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
-//			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
-//			return "redirect:/admin/error.do";
-//		}
-//
-//		model.addAttribute("commList", adminCommList);
-//		model.addAttribute("commList2", adminCommList2);
+		List<AdminDTO> adminList = adminMngService.selectAdminUser();
+		
+		// 유닛 레벨 1 조회
+		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitList();
+		
+		if( adminList == null || adminUnitList == null) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
+		}
+		
+		model.addAttribute("adminList", adminList);
+		model.addAttribute("adminUnitList", adminUnitList);
 		
 		return "admin/mng/adminUser.adm";
+	}
+	
+	/**
+	* @methodName	 	: getAdminUnitTeam
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛 팀 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/teamSelect.do")
+	@ResponseBody
+	public List<Map<String, Object>> getAdminUnitTeam( @RequestParam String adminUnitId, RedirectAttributes redirect) {
+		log.info(" [ AdminMngController ] : getAdminUnitTeam ");
+
+		// 관리자 유닛 팀 조회 
+		List<Map<String, Object>> adminTeamList = adminMngService.selectAdminTeamList(adminUnitId);
+		
+		return adminTeamList;
 	}
 
 }

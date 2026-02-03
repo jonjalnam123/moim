@@ -1,69 +1,171 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script>
-	$(document).ready(function() {
-		// 셀렉트 박스 이벤트
-		$('#param').select2({
-			allowClear: true,
-			width: 'resolve',
-			minimumResultsForSearch: Infinity // 셀렉트박스 검색창 숨기기
-		});
-	});
-</script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUser.js"></script>
 
-<!-- Draw view [S] -->
-<div class="content-wrapper">
-  <div class="page-header">
-    <h2>샘플</h2>
-    <div class="breadcrumb">
-      <a href="#">샘플</a>&nbsp;&gt;&nbsp;<span>리스트화면</span>
-    </div>
-  </div>
+<div class="split-layout grid-split">
 
-  <!-- 검색 조건 -->
-  <div class="search-bar">
-    <form class="search-form" action="" method="get" id="seacrhForm">
-  		<select id="param" name="param" class="combo-scroll">  
-	      <option value="">전체</option>
-	      <option value="공지">공지</option>
-	      <option value="이벤트">이벤트</option>
-	      <option value="안내">안내</option>
-	      <option value="점검">점검</option>
-	      <option value="업데이트">업데이트</option>
-	  	</select>
-      <input type="text" class="search-input" placeholder="제목 검색">
-      <button type="button" id="searchBtn" class="search-btn">검색</button>
-      <button type="button" id="regBtn" class="btn-insert">등록</button>
-  	  <button type="button" id="delBtn" class="btn-delete">삭제</button>
-    </form>
-  </div>
+	<aside class="split-left list-panel">
+		<div class="list-header">
+      		<div class="list-title">관리자 목록</div>
 
-  <div class="table-wrapper">
-    <table class="table-grid">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>등록일</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>시스템 점검 안내</td><td>관리자</td><td>2025-09-30</td></tr>
-        <tr><td>2</td><td>이벤트 공지</td><td>운영팀</td><td>2025-09-28</td></tr>
-        <tr><td>3</td><td>업데이트 내역</td><td>개발팀</td><td>2025-09-25</td></tr>
-      </tbody>
-    </table>
-  </div>
+      		<div class="list-search">
+        		<select id="schType" class="form-select">
+	          		<option value="">전체</option>
+		          	<option value="code">코드</option>
+		          	<option value="name">명칭</option>
+        		</select>
 
-  <div class="pagination">
-    <button>&laquo;</button>
-    <button class="active">1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>&raquo;</button>
-  </div>
+        		<input id="schText" class="form-control" type="text" placeholder="검색어" />
 
+        		<select id="schUseYn" class="form-select">
+          			<option value="">사용여부 전체</option>
+          			<option value="Y">사용</option>
+          			<option value="N">미사용</option>
+        		</select>
+
+        		<button type="button" id="btnSearch" class="search-btn">조회</button>
+        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
+      		</div>
+    	</div>
+
+    	<div class="list-body">
+			<div class="grid-wrap" style="padding:10px; overflow:auto;">
+			    <table class="table-grid">
+		      		<thead>
+				        <tr>
+				          <th style="display: none;">번호</th>
+				          <th>아이디</th>
+				          <th>이름</th>
+				          <th>휴대폰</th>
+				          <th>우편번호</th>
+				          <th>주소</th>
+				          <th>상세주소</th>
+				          <th>부서코드</th>
+				          <th>팀코드</th>
+				          <th>직책코드</th>
+				          <th>삭제여부</th>
+				        </tr>
+			      	</thead>
+			      	<tbody>
+				      	<c:forEach var="admin" items="${adminList}">
+					        <tr>
+					        	<td style="display: none;">${admin.adminNo}</td>
+					        	<td>${admin.adminId}</td>
+					        	<td>${admin.adminNm}</td>
+					        	<td>${admin.adminPh}</td>
+					        	<td>${admin.adminPostCd}</td>
+					        	<td>${admin.adminAddress}</td>
+					        	<td>${admin.adminDAddress}</td>
+					        	<td>${admin.adminDeptCd}</td>
+					        	<td>${admin.adminTeamCd}</td>
+					        	<td>${admin.adminPositionCd}</td>
+					        	<td>${admin.adminDelYn}</td>
+					        </tr>
+				        </c:forEach>
+		      		</tbody>
+		    	</table>
+			</div>
+    	</div>
+	</aside>
+
+	<div class="split-resizer" id="splitResizer" aria-hidden="true"></div>
+
+	<section class="split-right">
+		<div class="content-scroll" style="padding:12px 14px;">
+	   		<div class="page-header">
+	        	<h2>사용자</h2>
+		        <div class="breadcrumb">
+		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>사용자</span>
+		        </div>
+	      	</div>
+	     	<div class="form-card">
+	       		<div class="form-grid">
+	          		<div class="field">
+	            		<label class="" for="fCode">아이디</label>
+	            		<input id="adminId" name="adminId" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	
+	          		<div class="field">
+	            		<label class="" for="fName">이름</label>
+	            		<input id="adminNm" name="adminNm" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="fName">휴대폰</label>
+	            		<input id="adminPh" name="adminPh" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="fName">우편번호</label>
+	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="fName">주소</label>
+	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="fName">상세주소</label>
+	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
+	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="adminDeptCd">부서</label>
+	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
+	            			<option value="">선택</option>
+	            			<c:forEach var="adminUnit" items="${adminUnitList}">
+	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
+	            			</c:forEach>
+	            		</select>
+	        			<!-- <div class="error">필수 선택입니다.</div> -->
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="adminTeamCd">팀</label>
+	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select">
+	              			<option value="Y">사용</option>
+	              			<option value="N">미사용</option>
+	            		</select>
+	        			<!-- <div class="error">필수 선택입니다.</div> -->
+	          		</div>
+	
+	          		<div class="field">
+	            		<label class="" for="adminPositionCd">직책</label>
+	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select">
+	              			<option value="Y">사용</option>
+	              			<option value="N">미사용</option>
+	            		</select>
+	        			<!-- <div class="error">필수 선택입니다.</div> -->
+	          		</div>
+	        
+	        	    <div class="field">
+	            		<label class="" for="fName">상세주소</label>
+	            		<input id="adminDelYn" name="adminDelYn" class="form-control" type="text"/>
+	          		</div>
+	
+	          		<div class="field full">
+	            		<label for="fDesc">설명</label>
+	            		<textarea id="fDesc" class="form-control"></textarea>
+	          		</div>
+	        	</div>
+	
+		        <div class="form-actions">
+		        	<button type="button" class="btn-refresh" 	id="btnRef"		value="R">신규</button>
+		        	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">저장</button>
+		        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
+		         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
+		        </div>
+	      	</div>
+	    </div>
+	</section>
+	
 </div>
 <!-- Draw view [E] -->

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.inst.project.admin.vo.AdminCommDTO;
+import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 
@@ -74,5 +75,11 @@ public interface AdminMngMapper {
 
 	// 관리자 부서 삭제
 	int adminUnitDel(AdminUnitDTO adminUnitDTO);
+
+	// 관리자 관리 화면 조회
+	List<AdminDTO> selectAdminUser();
+	
+	// 관리자 유닛 팀 조회
+	List<Map<String, Object>> selectAdminTeamList(String adminUnitId);
 
 }
