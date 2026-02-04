@@ -13,9 +13,12 @@ public class AdminDTO {
 	private String adminPostCd;
 	private String adminAddress;
 	private String adminDAddress;
-	private String adminDeptCd;
+	private String adminDeptCd; 
+	private String adminDeptNm; 
 	private String adminTeamCd;
+	private String adminTeamNm;
 	private String adminPositionCd;
+	private String adminPositionNm;
 	private String adminIp;
 	private String adminDelYn;
 	private String adminCn;

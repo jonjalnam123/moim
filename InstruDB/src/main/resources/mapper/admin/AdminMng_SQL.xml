@@ -500,7 +500,6 @@
 				 , ADMIN_ID
 				 , ADMIN_PW
 				 , ADMIN_NM
-				 , ADMIN_POSITION_CD
 				 , ADMIN_PH
 				 , ADMIN_POST_CD
 				 , ADMIN_ADDRESS
@@ -508,6 +507,7 @@
 				 , ADMIN_DEL_YN
 				 , ADMIN_DEPT_CD
 				 , ADMIN_TEAM_CD
+				 , ADMIN_POSITION_CD
 				 , ADMIN_CN
 				 , REG_ID
 				 , REG_DT

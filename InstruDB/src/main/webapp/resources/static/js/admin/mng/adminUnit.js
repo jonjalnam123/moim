@@ -20,6 +20,13 @@ $(document).ready(function() {
 	
 	// 코드 상세조회
 	$('.unitTreeF, .unitTreeS, .unitTreeT').on('click', function() {
+		
+		$('#btnRef').show();
+		$('#btnNew').show();
+		$('#btnUpd').show();
+		$('#btnDel').show();
+		$('#btnReg').hide();
+
 		var adminUnitId = $(this).data('id');
 		var adminUnitPId = $(this).data('pid');
 		
@@ -51,7 +58,6 @@ $(document).ready(function() {
 
 				$('#adminUnitId').val(adminUnitId);
 				$('#adminUnitNm').val(adminUnitNm);
-				$('#adminUnitNm').attr('data-nm', adminUnitNm);
 				$('#adminUnitPId').val(adminUnitPId);
 				$('#adminUnitPNm').val(adminUnitPNm);
 				$('#adminUnitCd').val(adminUnitCd);
@@ -67,8 +73,36 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('#btnRef').on('click', function() {
+	$('#btnRef').on('click', function(){
 		window.location.reload();
+	});
+	
+	// 신규 버튼 이벤트
+	$('#btnNew').on('click', function() {
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').hide();
+		
+		var adminUnitId = $('#adminUnitId').val();
+		var adminUnitNm = $('#adminUnitNm').val();
+		var adminUnitLvl = $('#adminUnitLvl').val();
+		
+		$('#adminUnitId').val('');
+		$('#adminUnitNm').val('');
+	 	$('#adminUnitPId').val(adminUnitId);
+		$('#adminUnitPNm').val(adminUnitNm);
+		$('#adminUnitCd').val('');
+		if ( Number(adminUnitLvl) === 0 ) {
+			$('#adminUnitLvl').val('1').trigger('change');
+		} else if (Number(adminUnitLvl) === 1) {
+			$('#adminUnitLvl').val('2').trigger('change');
+		}
+		$('#adminUnitSortNo').val('');	
+		$('#adminUnitCn').val('');	
+		
 	});
 	
 	// 메뉴 등록 이벤트
@@ -84,16 +118,6 @@ $(document).ready(function() {
 		var adminUnitSortNo = $('#adminUnitSortNo').val();
 		var adminUnitCn = $('#adminUnitCn').val();
 		var adminUnitUseYn = $('input[name="adminUnitUseYn"]:checked').val();
-		
-		// 2레벨 진행시
-		if ( isEmpty(adminUnitPId) && Number(adminUnitLvl) === 1 ) {
-			adminUnitPId = adminUnitId;
-		}
-		
-		// 3레벨 진행시
-		if ( !isEmpty(adminUnitPId) && Number(adminUnitLvl) === 2 ) {
-			adminUnitPId = adminUnitId;
-		}
 		
 		if ( btnVal === 'I' ) {
 			
@@ -113,9 +137,8 @@ $(document).ready(function() {
 				return;
 			}
 
-			var unitNm = $('#adminUnitNm').data('nm');
-			if (unitNm === adminUnitNm) {
-				alert(adminUnitNmChk);
+			if( isEmpty(adminUnitPId) && Number(adminUnitLvl) >= 1 ) {
+				alert(adminUnitLvChk);
 				return;
 			}
 			
@@ -202,24 +225,5 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	if ( $.fn.select2 ) {
-		$('#adminUnitLvl').select2({
-		  placeholder: '레벨 선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2', 
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('.form-card'),
-		  data: [
-		    { id: '', text: '선택' },
-		    { id: '0', text: '1레벨' },
-		    { id: '1', text: '2레벨' },
-		    { id: '2', text: '3레벨' }
-		  ]
-		});
-	 }
 	 
 });

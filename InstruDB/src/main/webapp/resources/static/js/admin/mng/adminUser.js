@@ -20,6 +20,9 @@ $(function () {
 	  $(this).addClass('active');
 	});
 	
+
+	var pendingTeamCd =  '';
+	var pendingPositionCd = '';
 	$('.adminInfoTr').on('dblclick', function() {
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');
@@ -58,9 +61,11 @@ $(function () {
 				$('#adminPostCd').attr('data-nm', adminPostCd);
 				$('#adminAddress').val(adminAddress);
 				$('#adminDAddress').val(adminDAddress);
+				
+				pendingTeamCd = adminTeamCd || '';
+				pendingPositionCd = adminPositionCd || '';
 				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				$('#adminTeamCd').val(adminTeamCd).trigger('change');
-				$('#adminPositionCd').val(adminPositionCd).trigger('change');
+				
 				$('#adminDelYn').val(adminDelYn);
 				$('#adminCn').val(adminCn);
 				
@@ -81,7 +86,7 @@ $(function () {
 	    	var unitTeamData = data || [];
 	    	var team = $('#adminTeamCd');
 
-	    	team.empty().append('<option value=""></option>');
+	    	team.empty().append('<option value="">선택</option>');
 
 		    if (!isEmptyArr(unitTeamData)) {
 				
@@ -95,11 +100,25 @@ $(function () {
 	
 		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
 		      	});
+				
 				team.append(html);
+				
+				if (pendingTeamCd != null) {
+				  team.val(pendingTeamCd).trigger('change');
+				} else {
+				  team.trigger('change');
+				}
+				
 	    	} else {
+				
 				$('#adminTeamDiv').hide();
 				$('#adminPositionDiv').hide();
+				
+				pendingTeamCd = null;
+				pendingPositionCd = null;
+				
 			}
+			
   		});
 	});
 	
@@ -113,7 +132,7 @@ $(function () {
 	    	var unitPositionData = data || [];
 	    	var position = $('#adminPositionCd');
 
-	    	position.empty().append('<option value=""></option>');
+	    	position.empty().append('<option value="">선택</option>');
 
 		    if (!isEmptyArr(unitPositionData)) {
 				
@@ -127,10 +146,22 @@ $(function () {
 	
 		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
 		      	});
+				
 				position.append(html);
+				
+				if (pendingPositionCd != null) {
+				  position.val(pendingPositionCd).trigger('change');
+				} else {
+				  position.trigger('change');
+				}
+				
 	    	} else {
 				$('#adminPositionDiv').hide();
 			}
+		
+			pendingTeamCd = null;
+			pendingPositionCd = null;
+			
   		});
 	});
 	
@@ -269,42 +300,5 @@ $(function () {
 			}
 		});
 	});
-	
-	if ( $.fn.select2 ) {
-		
-		$('#adminDeptCd').select2({
-		  placeholder: '선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2',
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('#adminDeptCd').closest('.form-card')
-		});
-		
-		$('#adminTeamCd').select2({
-		  placeholder: '선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2',
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('#adminTeamCd').closest('.form-card')
-		});
-		
-		$('#adminPositionCd').select2({
-		  placeholder: '선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2',
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('#adminPositionCd').closest('.form-card')
-		});
-		
-	 }
-	 
+ 
 });

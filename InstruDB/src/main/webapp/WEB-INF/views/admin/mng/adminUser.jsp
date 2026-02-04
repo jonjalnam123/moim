@@ -117,9 +117,9 @@
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="adminDeptCd">부서</label>
+	            		<label class="required" for="adminDeptCd">부서</label>
 	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
-	            			<option value=""></option>
+	            			<option value="">선택</option>
 	            			<c:forEach var="adminUnit" items="${adminUnitList}">
 	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
 	            			</c:forEach>
@@ -131,7 +131,6 @@
 	            		<label class="" for="adminTeamCd">팀</label>
 	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >
 	            		</select>
-	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	
 	          		<div id="adminPositionDiv" class="field" style="display: none;">
