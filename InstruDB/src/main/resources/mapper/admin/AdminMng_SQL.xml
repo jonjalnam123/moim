@@ -517,8 +517,14 @@
 	</select>
 	<!-- 관리자 조회 [E] -->
 	
-		<!-- 관리자 부서 상세 조회 [S] -->
-	<select id="selectAdminTeamList" parameterType="String" resultType="hashMap">
+	<!-- 관리자 부서 상세 조회 [S] -->
+	<resultMap id="adminTeamMap" type="map">
+	  <result column="ADMIN_UNIT_ID" property="adminUnitId"/>
+	  <result column="ADMIN_UNIT_NM" property="adminUnitNm"/>
+	  <result column="ADMIN_UNIT_CD" property="adminUnitCd"/>
+	</resultMap>
+
+	<select id="selectAdminTeamList" parameterType="String" resultMap="adminTeamMap">
 		/*AdminMng_SQL.selectAdminTeamList*/
 		SELECT ADMIN_UNIT_ID 
 				 , ADMIN_UNIT_NM
@@ -528,7 +534,48 @@
 		    AND ADMIN_UNIT_P_ID = #{adminUnitId}
 		    AND ADMIN_UNIT_LVL = '1'
 		    AND ADMIN_UNIT_DEL_YN = 'N'
-		 ORDER BY ADMIN_UNIT_SORT_NO ASC
+	ORDER BY ADMIN_UNIT_SORT_NO ASC
 	</select>
-
+	
+	<select id="selectAdminPositionList" parameterType="String" resultMap="adminTeamMap">
+		/*AdminMng_SQL.selectAdminPositionList*/
+		SELECT ADMIN_UNIT_ID 
+				 , ADMIN_UNIT_NM
+				 , ADMIN_UNIT_CD
+		  FROM TB_ADMIN_UNIT_INFO
+		WHERE 1=1
+		    AND ADMIN_UNIT_P_ID = #{adminUnitId}
+		    AND ADMIN_UNIT_LVL = '2'
+		    AND ADMIN_UNIT_DEL_YN = 'N'
+    ORDER BY ADMIN_UNIT_SORT_NO ASC
+	</select>
+	<!-- 관리자 부서 상세 조회 [E] -->
+	
+	<!-- 관리자 관리자 정보 조회 [S] -->
+	<select id="selectAdminUserInfo" resultType="AdminDTO">
+		/*AdminMng_SQL.selectAdminUserInfo*/
+		SELECT ADMIN_NO
+				 , ADMIN_ID
+				 , ADMIN_PW
+				 , ADMIN_NM
+				 , ADMIN_POSITION_CD
+				 , ADMIN_PH
+				 , ADMIN_POST_CD
+				 , ADMIN_ADDRESS
+				 , ADMIN_D_ADDRESS
+				 , ADMIN_DEL_YN
+				 , ADMIN_DEPT_CD
+				 , ADMIN_TEAM_CD
+				 , ADMIN_CN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		FROM TB_ADMIN_INFO
+	  WHERE 1=1 
+	      AND ADMIN_NO = #{adminNo}
+	      AND ADMIN_ID = #{adminId}
+	</select>
+	<!-- 관리자 관리자 정보 조회 [E] -->
+	
 </mapper>

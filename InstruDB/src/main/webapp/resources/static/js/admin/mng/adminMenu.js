@@ -34,10 +34,12 @@ $(document).ready(function() {
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
+			
 			var menuData = data.result;
 			var menuDeptList = data.menuDeptList;
 			var adminUnitList = data.adminUnitList;
-			if ( !isEmpty(menuData) ) {
+			
+			if ( !isEmpty(menuData) && !isEmptyArr(menuDeptList) && !isEmptyArr(adminUnitList) ) {
 				
 				var menuId = menuData.menuId
 				var menuNm = menuData.menuNm

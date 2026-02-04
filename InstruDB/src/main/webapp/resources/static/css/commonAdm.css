@@ -445,6 +445,19 @@ textarea.form-control { min-height: 110px; resize: vertical; }
   color: #333 !important;
 }
 
+.select2-container .select2-selection--single .select2-selection__clear{
+  position: absolute;
+  right: 26px;        /* 화살표 왼쪽 */
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  float: none;
+  font-size: 16px;
+  line-height: 1;
+  color: #777;
+  cursor: pointer;
+}
+
 /* =========================
    Global Loading Spinner
 ========================= */

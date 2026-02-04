@@ -34,7 +34,6 @@
 			    <table class="table-grid">
 		      		<thead>
 				        <tr>
-				          <th style="display: none;">번호</th>
 				          <th>아이디</th>
 				          <th>이름</th>
 				          <th>휴대폰</th>
@@ -48,9 +47,8 @@
 				        </tr>
 			      	</thead>
 			      	<tbody>
-				      	<c:forEach var="admin" items="${adminList}">
-					        <tr>
-					        	<td style="display: none;">${admin.adminNo}</td>
+				      	<c:forEach var="admin" items="${adminList}" varStatus="cnt">
+					        <tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
 					        	<td>${admin.adminId}</td>
 					        	<td>${admin.adminNm}</td>
 					        	<td>${admin.adminPh}</td>
@@ -84,6 +82,7 @@
 	          		<div class="field">
 	            		<label class="" for="fCode">아이디</label>
 	            		<input id="adminId" name="adminId" class="form-control" type="text" />
+	            		<input type="hidden" id="adminNo" name="adminNo" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	
@@ -120,7 +119,7 @@
 	          		<div class="field">
 	            		<label class="" for="adminDeptCd">부서</label>
 	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
-	            			<option value="">선택</option>
+	            			<option value=""></option>
 	            			<c:forEach var="adminUnit" items="${adminUnitList}">
 	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
 	            			</c:forEach>
@@ -128,26 +127,22 @@
 	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	          		
-	          		<div class="field">
+	          		<div id="adminTeamDiv" class="field" style="display: none;">
 	            		<label class="" for="adminTeamCd">팀</label>
-	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select">
-	              			<option value="Y">사용</option>
-	              			<option value="N">미사용</option>
+	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >
 	            		</select>
 	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	
-	          		<div class="field">
+	          		<div id="adminPositionDiv" class="field" style="display: none;">
 	            		<label class="" for="adminPositionCd">직책</label>
-	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select">
-	              			<option value="Y">사용</option>
-	              			<option value="N">미사용</option>
+	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select" >
 	            		</select>
 	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	        
 	        	    <div class="field">
-	            		<label class="" for="fName">상세주소</label>
+	            		<label class="" for="fName">삭제여부</label>
 	            		<input id="adminDelYn" name="adminDelYn" class="form-control" type="text"/>
 	          		</div>
 	

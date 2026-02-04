@@ -78,15 +78,13 @@ public interface AdminMngService {
 	// 관리자 관리 화면 조회
 	List<AdminDTO> selectAdminUser();
 	
+	// 관리자 관리자 정보 조회
+	AdminDTO selectAdminUserInfo(AdminDTO adminDTO);
+	
 	// 관리자 유닛 팀 조회
 	List<Map<String, Object>> selectAdminTeamList(String adminUnitId);
 
-
-
-
-
-
-
-
+	// 관리자 유닛 직책 조회
+	List<Map<String, Object>> selectAdminPositionList(String adminUnitId);
 
 }

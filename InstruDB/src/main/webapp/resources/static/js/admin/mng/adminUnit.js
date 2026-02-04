@@ -34,7 +34,9 @@ $(document).ready(function() {
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
+			
 			var unitData = data.result;
+			
 			if ( !isEmpty(unitData) ) {
 				
 				var adminUnitId = unitData.adminUnitId

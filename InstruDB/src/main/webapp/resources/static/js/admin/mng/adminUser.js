@@ -20,36 +20,118 @@ $(function () {
 	  $(this).addClass('active');
 	});
 	
+	$('.adminInfoTr').on('dblclick', function() {
+		var rowKey = $(this).data('rowkey');
+		var adminNo = $(this).data('no');
+		var adminId = $(this).data('id');
+		
+	  	var url = '/admin/userInfo.do';
+	  	var params = { 
+			adminNo: adminNo
+		  , adminId : adminId
+		 };
+	  	var dataType = 'json';
+
+		ajaxStart(url, params, dataType, function(data) {
+			
+			var adminInfo = data.adminInfo;
+			
+			if ( !isEmpty(adminInfo) ) {
+				
+				var adminNo = adminInfo.adminNo
+				var adminId = adminInfo.adminId
+				var adminNm = adminInfo.adminNm
+				var adminPh = adminInfo.adminPh
+				var adminPostCd = adminInfo.adminPostCd
+				var adminAddress = adminInfo.adminAddress
+				var adminDAddress = adminInfo.adminDAddress
+				var adminDeptCd = adminInfo.adminDeptCd
+				var adminTeamCd = adminInfo.adminTeamCd
+				var adminPositionCd = adminInfo.adminPositionCd
+				var adminDelYn = adminInfo.adminDelYn
+				var adminCn = adminInfo.adminCn
+
+				$('#adminNo').val(adminNo);
+				$('#adminId').val(adminId);
+				$('#adminNm').val(adminNm);
+				$('#adminPh').val(adminPh);
+				$('#adminPostCd').attr('data-nm', adminPostCd);
+				$('#adminAddress').val(adminAddress);
+				$('#adminDAddress').val(adminDAddress);
+				$('#adminDeptCd').val(adminDeptCd).trigger('change');
+				$('#adminTeamCd').val(adminTeamCd).trigger('change');
+				$('#adminPositionCd').val(adminPositionCd).trigger('change');
+				$('#adminDelYn').val(adminDelYn);
+				$('#adminCn').val(adminCn);
+				
+			} else {
+				var url = '/admin/error.do';
+				goToUri(url);
+			}
+		});
+	});
+	
 	$('#adminDeptCd').on('change', function() {
-	  const adminUnitId = $(this).find('option:selected').data('id'); // option의 data-id
-	  const url = '/admin/teamSelect.do';
-	  const params = { adminUnitId: adminUnitId };
-	  const dataType = 'json';
+  		var adminUnitId = $(this).find('option:selected').data('id');
+	  	var url = '/admin/teamSelect.do';
+	  	var params = { adminUnitId: adminUnitId };
+	  	var dataType = 'json';
 
-	  ajaxStart(url, params, dataType, function(data) {
-	    const unitTeamData = data || [];
+		ajaxStart(url, params, dataType, function(data) {
+	    	var unitTeamData = data || [];
+	    	var team = $('#adminTeamCd');
 
-	    const $team = $('#adminTeamCd');
+	    	team.empty().append('<option value=""></option>');
 
-	    // 1) 기존 옵션 초기화 (placeholder만 남기고 싶으면 아래처럼)
-	    $team.empty().append('<option value="">선택</option>');
+		    if (!isEmptyArr(unitTeamData)) {
+				
+				$('#adminTeamDiv').show();
+				
+	      		var html = '';
+	      		$.each(unitTeamData, function(idx, val){
+		        	var id = val.adminUnitId;
+		        	var nm = val.adminUnitNm;
+		        	var cd = val.adminUnitCd;
+	
+		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
+		      	});
+				team.append(html);
+	    	} else {
+				$('#adminTeamDiv').hide();
+				$('#adminPositionDiv').hide();
+			}
+  		});
+	});
+	
+	$('#adminTeamCd').on('change', function() {
+  		var adminUnitId = $(this).find('option:selected').data('id');
+	  	var url = '/admin/posotionSelect.do';
+	  	var params = { adminUnitId: adminUnitId };
+	  	var dataType = 'json';
 
-	    if (!isEmptyArr(unitTeamData)) {
-	      // 2) 옵션 문자열 누적 후 한번에 append
-	      let html = '';
-	      $.each(unitTeamData, function(idx, val){
-			console.log('val===', val);
-	        const id = val.adminUnitId;   // 서버 필드명 확인
-			console.log('id===', id);
-	        const nm = val.adminUnitNm;
-	        const cd = val.adminUnitCd;
+		ajaxStart(url, params, dataType, function(data) {
+	    	var unitPositionData = data || [];
+	    	var position = $('#adminPositionCd');
 
-	        html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-	      });
+	    	position.empty().append('<option value=""></option>');
 
-	      $team.append(html);
-	    }
-	  });
+		    if (!isEmptyArr(unitPositionData)) {
+				
+				$('#adminPositionDiv').show();
+				
+	      		var html = '';
+	      		$.each(unitPositionData, function(idx, val){
+		        	var id = val.adminUnitId;
+		        	var nm = val.adminUnitNm;
+		        	var cd = val.adminUnitCd;
+	
+		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
+		      	});
+				position.append(html);
+	    	} else {
+				$('#adminPositionDiv').hide();
+			}
+  		});
 	});
 	
 	$('#btnRef').on('click', function() {
@@ -189,6 +271,7 @@ $(function () {
 	});
 	
 	if ( $.fn.select2 ) {
+		
 		$('#adminDeptCd').select2({
 		  placeholder: '선택',
 		  allowClear: true,
@@ -199,6 +282,29 @@ $(function () {
 		  dropdownCssClass: 'ez-s2',
 		  dropdownParent: $('#adminDeptCd').closest('.form-card')
 		});
+		
+		$('#adminTeamCd').select2({
+		  placeholder: '선택',
+		  allowClear: true,
+		  width: 'resolve',
+		  minimumResultsForSearch: Infinity,
+		  containerCssClass: 'ez-s2',
+		  selectionCssClass: 'ez-s2',
+		  dropdownCssClass: 'ez-s2',
+		  dropdownParent: $('#adminTeamCd').closest('.form-card')
+		});
+		
+		$('#adminPositionCd').select2({
+		  placeholder: '선택',
+		  allowClear: true,
+		  width: 'resolve',
+		  minimumResultsForSearch: Infinity,
+		  containerCssClass: 'ez-s2',
+		  selectionCssClass: 'ez-s2',
+		  dropdownCssClass: 'ez-s2',
+		  dropdownParent: $('#adminPositionCd').closest('.form-card')
+		});
+		
 	 }
 	 
 });

@@ -23,6 +23,7 @@ import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.utill.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -451,6 +452,29 @@ public class AdminMngController {
 	}
 	
 	/**
+	* @methodName	 	: getAdminUserInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 관리자 정보 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userInfo.do")
+	@ResponseBody
+	public Map<String, Object> getAdminUserInfo( @ModelAttribute AdminDTO adminDTO ) {
+		log.info(" [ AdminMngController ] : getAdminUserInfo ");
+		
+		Map<String, Object> result = new HashMap<>();
+		AdminDTO adminInfo = adminMngService.selectAdminUserInfo(adminDTO);
+		
+		result.put("adminInfo", adminInfo);
+
+		return result;
+	}
+	
+	/**
 	* @methodName	 	: getAdminUnitTeam
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
@@ -462,7 +486,7 @@ public class AdminMngController {
 	*/
 	@PostMapping(value = "/teamSelect.do")
 	@ResponseBody
-	public List<Map<String, Object>> getAdminUnitTeam( @RequestParam String adminUnitId, RedirectAttributes redirect) {
+	public List<Map<String, Object>> getAdminUnitTeam( @RequestParam(defaultValue = "") String adminUnitId ) {
 		log.info(" [ AdminMngController ] : getAdminUnitTeam ");
 
 		// 관리자 유닛 팀 조회 
@@ -470,5 +494,28 @@ public class AdminMngController {
 		
 		return adminTeamList;
 	}
+	
+	/**
+	* @methodName	 	: getAdminUnitPosition
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛 직책 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/posotionSelect.do")
+	@ResponseBody
+	public List<Map<String, Object>> getAdminUnitPosition( @RequestParam(defaultValue = "") String adminUnitId ) {
+		log.info(" [ AdminMngController ] : getAdminUnitPosition ");
+		
+		// 관리자 유닛 직책 조회
+		List<Map<String, Object>> adminPositionList = adminMngService.selectAdminPositionList(adminUnitId);
+		
+		return adminPositionList;
+	}
+	
+	
 
 }

@@ -34,7 +34,9 @@ $(document).ready(function() {
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
+			
 			var commData = data.result;
+			
 			if ( !isEmpty(commData) ) {
 				
 				var commId = commData.commId

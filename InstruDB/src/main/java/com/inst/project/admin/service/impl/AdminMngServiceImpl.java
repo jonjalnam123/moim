@@ -41,16 +41,16 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 
 			List<AdminCommDTO> adminCommList = adminMngMapper.selectCommList();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminCommList);
-			
+			if ( adminCommList == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+			}
 			return adminCommList;
-			
+
 		} catch (Exception e) {
-			
 	        log.error("[ AdminMngServiceImpl ] : selectCommList failed. {}", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
-			
 			return null;
 		}
 
@@ -72,16 +72,17 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminCommDTO> adminCommList2 = adminMngMapper.selectCommList2();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminCommList2);
+			if ( adminCommList2 == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+			}
 			
 			return adminCommList2;
 			
 		} catch (Exception e) {
-			
 	        log.error("[ AdminMngServiceImpl ] : selectCommList2 failed. {}", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
-			
 			return null;
 		}
 		
@@ -105,7 +106,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        
 	    	AdminCommDTO selectResult = adminMngMapper.adminCommSelect(adminCommDTO);
 	        if (selectResult == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 	            return null;
 	        }
 
@@ -137,9 +138,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId == null || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
+			
 			adminCommDTO.setRegId(adminId); 
 	        adminCommDTO.setUpdId(adminId);
 	        
@@ -170,10 +173,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-
-			if (adminId == null || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
 			}
+			
 			adminCommDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminCommUpd(adminCommDTO);
@@ -203,7 +207,8 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if (adminId == null  || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
 			
@@ -236,7 +241,10 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminMenuDTO> adminMenuList = adminMngMapper.selectMenuList();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminMenuList);
+			if ( adminMenuList == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+			}
 			
 			return adminMenuList;
 			
@@ -267,7 +275,10 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminMenuDTO> adminMenuList2= adminMngMapper.selectMenuList2();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminMenuList2);
+			if ( adminMenuList2 == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+			}
 			
 			return adminMenuList2;
 			
@@ -301,7 +312,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        
 	    	AdminMenuDTO selectResult = adminMngMapper.adminMenuSelect(adminMenuDTO);
 	        if (selectResult == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 	            return null;
 	        }
 
@@ -332,7 +343,8 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	        
 		    String menuDeptCd = adminMenuDTO.getMenuDeptCd();
-		    if ( menuDeptCd == null || CommonUtil.isBlank(menuDeptCd) ) {
+		    if ( CommonUtil.isBlank(menuDeptCd) ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 		        return null;
 		    }
 
@@ -370,9 +382,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId.isEmpty() || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
+			
 	        adminMenuDTO.setRegId(adminId); 
 	        adminMenuDTO.setUpdId(adminId);
 	        
@@ -407,10 +421,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-
-			if (adminId == null || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
 			}
+			
 	        adminMenuDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminMenuUpd(adminMenuDTO);
@@ -440,7 +455,8 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( CommonUtil.isBlank(adminId) || adminId == null ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
 			
@@ -473,7 +489,10 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitAllList = adminMngMapper.selectUnitAllList();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminUnitAllList);
+		    if ( adminUnitAllList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
 			
 			return adminUnitAllList;
 			
@@ -505,7 +524,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitList= adminMngMapper.selectUnitList();
-			
+		    if ( adminUnitList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
 			return adminUnitList;
 			
 		} catch (Exception e) {
@@ -536,7 +559,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitList2= adminMngMapper.selectUnitList2();
-
+		    if ( adminUnitList2 == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
 			return adminUnitList2;
 			
 		} catch (Exception e) {
@@ -567,7 +594,10 @@ public class AdminMngServiceImpl implements AdminMngService {
 		try {
 			
 			List<AdminUnitDTO> adminUnitList3= adminMngMapper.selectUnitList3();
-			log.info(GlobalConfig.RESULT_LIST_MSG, adminUnitList3);
+		    if ( adminUnitList3 == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
 			
 			return adminUnitList3;
 			
@@ -601,7 +631,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        
 	    	AdminUnitDTO selectResult = adminMngMapper.adminUnitSelect(adminUnitDTO);
 	        if (selectResult == null) {
-	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 	            return null;
 	        }
 
@@ -633,9 +663,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if ( adminId == null || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
+			
 			adminUnitDTO.setRegId(adminId); 
 			adminUnitDTO.setUpdId(adminId);
 	        
@@ -666,10 +698,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-
-			if (adminId == null || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
 			}
+			
 			adminUnitDTO.setUpdId(adminId);
 	        
 	        return adminMngMapper.adminUnitUpd(adminUnitDTO);
@@ -699,7 +732,8 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-			if (adminId == null  || CommonUtil.isBlank(adminId) ) {
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
 			}
 			
@@ -716,7 +750,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	}
 	
 	/**
-	* @methodName	 	: getAdminUser
+	* @methodName	 	: selectAdminUser
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 관리 화면 조회
@@ -732,7 +766,11 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 	    	
 	    	List<AdminDTO> adminList = adminMngMapper.selectAdminUser();
-	     
+		    if ( adminList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
 	        return adminList;
 
 	    } catch (Exception e) {
@@ -744,7 +782,39 @@ public class AdminMngServiceImpl implements AdminMngService {
 	}
 	
 	/**
-	* @methodName	 	: getAdminUnitTeam
+	* @methodName	 	: getAdminUserInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 관리자 정보 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminDTO selectAdminUserInfo(AdminDTO adminDTO) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminUserInfo ");
+
+	    try {
+	    	
+	    	AdminDTO adminInfo = adminMngMapper.selectAdminUserInfo(adminDTO);
+	    	if ( adminInfo == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+	    	}  
+	    	 
+	        return adminInfo;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminUserInfo failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminTeamList
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 유닛 팀 조회
@@ -759,12 +829,48 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 	    	
-	    	 List<Map<String, Object>> adminTeamList = adminMngMapper.selectAdminTeamList(adminUnitId);
-	    	 
+	    	List<Map<String, Object>> adminTeamList = adminMngMapper.selectAdminTeamList(adminUnitId);
+		    if ( adminTeamList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
 	        return adminTeamList;
 
 	    } catch (Exception e) {
 	        log.error("[ AdminMngServiceImpl ] : selectAdminTeamList failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminPositionList
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유닛 직책 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<Map<String, Object>> selectAdminPositionList(String adminUnitId) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminPositionList ");
+
+	    try {
+	    	
+	    	List<Map<String, Object>> adminPositionList = adminMngMapper.selectAdminPositionList(adminUnitId);
+		    if ( adminPositionList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
+	        return adminPositionList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminPositionList failed.");
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
