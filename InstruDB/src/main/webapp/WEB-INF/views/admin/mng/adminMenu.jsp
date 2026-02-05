@@ -83,7 +83,6 @@
 		          	<div class="field">
 			            <label for="menuLvl" class="required">레벨</label>
 			            <select id="menuLvl" name="menuLvl" class="form-select" style="width:100%;" disabled>
-         	            	<!-- <option value="">선택</option> -->
 		            		<option value="0">1레벨</option>
 		            		<option value="1">2레벨</option>
 			            </select>

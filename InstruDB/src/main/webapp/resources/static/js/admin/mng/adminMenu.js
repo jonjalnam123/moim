@@ -125,8 +125,6 @@ $(document).ready(function() {
 		$('#menuSort').val('');
 		$('#menuCn').val('');	
 		
-		
-		
 	});
 	
 	// 추가 버튼 이벤트
@@ -198,11 +196,6 @@ $(document).ready(function() {
 			}
 			
 			if ( isEmptyMsg(menuSort, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-			
-			if( isEmpty(menuPId) && Number(menuLvl) >= 1 ) {
-				alert(menuLvRegChk);
 				return;
 			}
 	

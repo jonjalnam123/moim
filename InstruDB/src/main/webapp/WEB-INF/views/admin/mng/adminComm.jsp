@@ -17,7 +17,7 @@
 			        <ul>
 			          	<c:forEach var="comm2" items="${commList2}">
 				          	<c:if test="${comm.commId eq comm2.commPId && comm2.commLvl eq '1'}">
-				          		<li><span class="dot"></span><a href="#" class="commTreeS" data-id="${comm2.commId}" data-pid="${comm2.commPId}" >${comm2.commNm}</a></li>
+				          		<li><span class="dot"></span><a href="#" class="commTreeS" data-id="${comm2.commId}" data-pid="${comm2.commPId}" data-lv="${comm2.commLvl}">${comm2.commNm}</a></li>
 				          	</c:if>
 			          	</c:forEach>
 			        </ul>
@@ -67,13 +67,15 @@
           		
    			<div class="field">
             	<label for="commLvl" class="required">레벨</label>
-            	<select id="commLvl" name="commLvl" class="form-select" style="width:100%;">
+            	<select id="commLvl" name="commLvl" class="form-select" style="width:100%;" disabled>
+            		<option value="0">1레벨</option>
+            		<option value="1">2레벨</option>
             	</select>
          	</div>
           
           	<div class="field">
             	<label for="commSortNo" class="required">정렬순서</label>
-            	<input type="number" id="commSortNo" name="commSortNo" class="form-control" min="0" />
+            	<input type="text" id="commSortNo" name="commSortNo" class="form-control" onkeyup="checkNum(this);" placeholder="숫자만 입력해주세요." />
           	</div>
 
           	<div class="field full">
@@ -95,10 +97,11 @@
         </div>
 
         <div class="form-actions">
-       		<button type="button" class="btn-refresh" 	id="btnRef"		value="R">초기화</button>
-       		<button type="button" class="btn-insert"   	id="btnReg"   	value="I">추가</button>
-        	<button type="button" class="btn-update"		id="btnUpd" 		value="U">수정</button>
-         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
+  			<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   style="display: none;">초기화</button>
+       		<button type="button" class="btn-insert" 	id="btnNew"	value="N" 	style="display: none;">추가</button>
+       		<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
+        	<button type="button" class="btn-update"	id="btnUpd" 	value="U" 	style="display: none;">수정</button>
+         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 	style="display: none;">삭제</button>
       	</div>
       </form>
     </div>

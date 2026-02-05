@@ -20,12 +20,26 @@ $(document).ready(function() {
 	
 	// 코드 상세조회
 	$('.commTreeF, .commTreeS').on('click', function() {
+		
+		$('#btnUpd').show();
+		$('#btnDel').show();
+		$('#btnReg').hide();
+		$('#btnRef').show();
+		
 		var commId = $(this).data('id');
 		var commPId = $(this).data('pid');
+		var commLvl = $(this).data('lv');
 		
 		if ( isEmptyMsg(commId, selectDataChk) ) {
 			return;
 		}
+		
+		if ( Number(commLvl) ===  1 ) {
+			$('#btnNew').hide();
+		} else {
+			$('#btnNew').show();
+		}
+
 
 		var url = '/admin/commSelect.do';
 		var params = {
@@ -69,8 +83,55 @@ $(document).ready(function() {
 		});
 	});
 	
+	// 추가 버튼 이벤트
+	$('#btnNew').on('click', function() {
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').show();
+		
+		var commId = $('#commId').val();
+		var commNm = $('#commNm').val();
+		var commLvl = $('#commLvl').val();
+		
+		$('#commId').val('');
+		$('#commNm').val('');
+	 	$('#commPId').val(commId);
+		$('#commPNm').val(commNm);
+		$('#commCd').val('');
+		$('#commGroupCd').val('');
+		if ( Number(commLvl) === 0 ) {
+			$('#commLvl').val('1').trigger('change');
+		} else if ( Number(commLvl) === 1 ) {
+			$('#commLvl').val('1').trigger('change');
+		}
+		$('#commSortNo').val('');
+		$('#commCn').val('');	
+		
+	});
+	
+	// 초기화 버튼 이벤트
 	$('#btnRef').on('click', function() {
-		window.location.reload();
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').hide();
+		$('.commTreeS, .commTreeF').removeClass('active');
+
+		$('#commId').val('');
+		$('#commNm').val('');
+		$('#commPId').val('');
+		$('#commPNm').val('');
+		$('#commCd').val('');
+		$('#commGroupCd').val('');
+		$('#commLvl').val('0').trigger('change');
+		$('#commSortNo').val('');
+		$('#commCn').val('');	
+		
 	});
 	
 	// 메뉴 등록 이벤트
@@ -88,11 +149,6 @@ $(document).ready(function() {
 		var commCd = $('#commCd').val();
 		var commUseYn = $('input[name="commUseYn"]:checked').val();
 		
-		// 2레벨 진행시
-		if ( isEmpty(commPId) && Number(commLvl) !== 0 ) {
-			commPId = commId;
-		}
-		
 		if ( btnVal === 'I' ) {
 			
 			if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
@@ -108,12 +164,6 @@ $(document).ready(function() {
 			}
 
 			if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-			
-			var commGroupNm = $('#commGroupCd').data('nm');
-			if (commGroupNm === commGroupCd) {
-				alert(commGroupChk);
 				return;
 			}
 			
@@ -199,23 +249,5 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	if ( $.fn.select2 ) {
-		$('#commLvl').select2({
-		  placeholder: '레벨 선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2', 
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('.form-card'),
-		  data: [
-		    { id: '', text: '선택' },
-		    { id: '0', text: '1레벨' },
-		    { id: '1', text: '2레벨' }
-		  ]
-		});
-	 }
-	 
+
 });
