@@ -73,6 +73,7 @@ $(document).ready(function() {
 		});
 	});
 	
+	// 초기화 버튼 이벤트
 	$('#btnRef').on('click', function(){
 		window.location.reload();
 	});

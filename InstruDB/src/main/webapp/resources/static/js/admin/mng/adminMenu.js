@@ -20,9 +20,22 @@ $(document).ready(function() {
 	
 	// 메뉴 상세조회
 	$('.menuTreeF, .menuTreeS').on('click', function() {
+	
+		$('#btnUpd').show();
+		$('#btnDel').show();
+		$('#btnReg').hide();
+		$('#btnRef').show();
+		
 		var menuId = $(this).data('id');
 		var menuPId = $(this).data('pid');
-
+		var menuLvl = $(this).data('lv');
+		
+		if ( Number(menuLvl) ===  1 ) {
+			$('#btnNew').hide();
+		} else {
+			$('#btnNew').show();
+		}
+		
 		if ( isEmptyMsg(menuId, selectDataChk) ) {
 			return;
 		}
@@ -53,12 +66,11 @@ $(document).ready(function() {
 				var menuUseYn = menuData.menuUseYn
 				var menuIcon = menuData.menuIcon
 
-				$('#menuId').attr('data-id', menuId);
-				$('#menuNm').attr('data-nm', menuNm);
 				$('#menuId').val(menuId);
 				$('#menuNm').val(menuNm);
 				$('#menuPId').val(menuPId);
 				$('#menuPNm').val(menuPNm);
+				$('#adminUnitList').data('adminUnitList', adminUnitList || []);
 				setDeptOptions(adminUnitList)
 			  	setDeptSelected(menuDeptList);
 				$('#menuUrl').val(menuUrl);
@@ -69,26 +81,86 @@ $(document).ready(function() {
 				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
 				
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});
 	
 	// 부서선택 변경 이벤트
 	$('#menuDeptCd').on('change', function() {
-		var deptCd = $(this).val()
-		var deptCdList = [];
-		$.each(deptCd, function(idx, value){
-			if ( value !== '' ) {
-				deptCdList.push(value);
-			}
-		});
-		$('#menuDeptCd').val(deptCdList);
+	  var deptCd = $(this).val();
+
+	  if (deptCd == null) return;
+
+	  var deptCdList = [];
+	  $.each(deptCd, function(idx, value){
+	    if (value !== '') deptCdList.push(value);
+	  });
+
+	  $('#menuDeptCd').val(deptCdList);
 	});
 	
+	// 초기화 버튼 이벤트
 	$('#btnRef').on('click', function() {
-		window.location.reload();
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').hide();
+		$('.menuTreeS, .menuTreeF').removeClass('active');
+
+		$('#menuId').val('');
+		$('#menuNm').val('');
+		$('#menuPId').val('');
+		$('#menuPNm').val('');
+		$('#menuUrl').val('');
+
+		var adminUnitList = $('#adminUnitList').data('adminUnitList') || [];
+		setDeptOptions(adminUnitList);
+		$('#menuDeptCd').val(null).trigger('change');
+
+		$('#menuIcon').val('');
+		$('#menuLvl').val('0').trigger('change');
+		$('#menuSort').val('');
+		$('#menuCn').val('');	
+		
+		
+		
+	});
+	
+	// 추가 버튼 이벤트
+	$('#btnNew').on('click', function() {
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').show();
+		
+		var menuId = $('#menuId').val();
+		var menuNm = $('#menuNm').val();
+		var menuLvl = $('#menuLvl').val();
+		
+		$('#menuId').val('');
+		$('#menuNm').val('');
+	 	$('#menuPId').val(menuId);
+		$('#menuPNm').val(menuNm);
+		$('#menuUrl').val('');
+
+		var adminUnitList = $('#adminUnitList').data('adminUnitList') || [];
+		setDeptOptions(adminUnitList);
+		$('#menuDeptCd').val(null).trigger('change');
+		
+		$('#menuIcon').val('');
+		if ( Number(menuLvl) === 0 ) {
+			$('#menuLvl').val('1').trigger('change');
+		} else if ( Number(menuLvl) === 1 ) {
+			$('#menuLvl').val('1').trigger('change');
+		}
+		$('#menuSort').val('');
+		$('#menuCn').val('');	
+		
 	});
 	
 	// 메뉴 등록 이벤트
@@ -110,11 +182,6 @@ $(document).ready(function() {
 		if ( isEmptyArr(menuDeptCd) ){
 			menuDeptCd = '';
 		}
-		
-		// 2레벨 진행시
-		if ( isEmpty(menuPId) && Number(menuLvl) !== 0 ) {
-			menuPId = menuId;
-		}
 
 		if ( btnVal === 'I' ) {
 			
@@ -134,12 +201,11 @@ $(document).ready(function() {
 				return;
 			}
 			
-			var orgMenuNm = $('#menuNm').data('nm');
-			if (orgMenuNm === menuNm) {
-				alert(menuNmChk);
+			if( isEmpty(menuPId) && Number(menuLvl) >= 1 ) {
+				alert(menuLvRegChk);
 				return;
 			}
-			
+	
 			if ( !confirm('메뉴' + regProcConfirm) ) {
 				return;
 			}
@@ -235,24 +301,8 @@ $(document).ready(function() {
 	      dropdownCssClass: 'ez-s2',
 	      dropdownParent: $('.form-card')
 	    });
-		
-		$('#menuLvl').select2({
-		  placeholder: '레벨 선택',
-		  allowClear: true,
-		  width: 'resolve',
-		  minimumResultsForSearch: Infinity,
-		  containerCssClass: 'ez-s2',
-		  selectionCssClass: 'ez-s2', 
-		  dropdownCssClass: 'ez-s2',
-		  dropdownParent: $('.form-card'),
-		  data: [
-		    { id: '', text: '선택' },
-		    { id: '0', text: '1레벨' },
-		    { id: '1', text: '2레벨' }
-		  ]
-		});
 	 }
-	 
+
 });
 
 /*******************************
@@ -263,19 +313,19 @@ $(document).ready(function() {
 * PARAM : adminUnitList
 ********************************/
 function setDeptOptions(adminUnitList) {
-  var sel = $('#menuDeptCd');
-
-  if (sel.find('option').length > 0) return;
-
-  sel.empty();
-
-  adminUnitList.forEach(function(item) {
-    if (Number(item.adminUnitLvl) === 0) {
-      sel.append(new Option(item.adminUnitNm, item.adminUnitCd, false, false));
-    }
-  });
-
-  sel.trigger('change');
+  	var sel = $('#menuDeptCd');
+	
+  	if (sel.find('option').length > 0) return;
+	
+ 	sel.empty();
+	
+  	adminUnitList.forEach(function(item) {
+    	if (Number(item.adminUnitLvl) === 0) {
+      		sel.append(new Option(item.adminUnitNm, item.adminUnitCd, false, false));
+		}
+  	});
+	
+  	sel.trigger('change');
 }
 
 /*******************************

@@ -3,6 +3,9 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminMenu.js"></script>
 
+
+<form id="adminUnitList"></form>
+
 <!-- Draw view [S] -->
 <div class="split-layout">
 
@@ -18,7 +21,7 @@
 			          	<ul>
 				            <c:forEach var="menu2" items="${menuList2}">
 				            	<c:if test="${menu.menuId eq menu2.menuPId && menu2.menuLvl eq '1'}">
-				            		<li><span class="dot"></span><a href="#" class="menuTreeS" data-id="${menu2.menuId}" data-pid="${menu2.menuPId}">${menu2.menuNm}</a></li>
+				            		<li><span class="dot"></span><a href="#" class="menuTreeS" data-id="${menu2.menuId}" data-pid="${menu2.menuPId}" data-lv="${menu2.menuLvl}">${menu2.menuNm}</a></li>
 				            	</c:if>
 				            </c:forEach>
 			          	</ul>
@@ -79,7 +82,10 @@
 		          	
 		          	<div class="field">
 			            <label for="menuLvl" class="required">레벨</label>
-			            <select id="menuLvl" name="menuLvl" class="form-select" style="width:100%;">
+			            <select id="menuLvl" name="menuLvl" class="form-select" style="width:100%;" disabled>
+         	            	<!-- <option value="">선택</option> -->
+		            		<option value="0">1레벨</option>
+		            		<option value="1">2레벨</option>
 			            </select>
 		          	</div>
 			          
@@ -107,10 +113,11 @@
 	        	</div> 
 		
 		        <div class="form-actions">
-		        	<button type="button" class="btn-refresh" 	id="btnRef"		value="R">초기화</button>
-		        	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">추가</button>
-		        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
-		         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
+		       		<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   style="display: none;">초기화</button>
+		       		<button type="button" class="btn-insert" 	id="btnNew"	value="N" 	style="display: none;">추가</button>
+		       		<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
+		        	<button type="button" class="btn-update"	id="btnUpd" 	value="U" 	style="display: none;">수정</button>
+		         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 	style="display: none;">삭제</button>
 		        </div>
       		</form>
     	</div>

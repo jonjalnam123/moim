@@ -161,7 +161,7 @@
 
         <div class="form-actions">
        		<button type="button" class="btn-refresh" 	id="btnRef"		value="R" 	style="display: none;">초기화</button>
-       		<button type="button" class="btn-insert" 	id="btnNew"	value="R" 	style="display: none;">추가</button>
+       		<button type="button" class="btn-insert" 	id="btnNew"	value="N" 	style="display: none;">추가</button>
        		<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
         	<button type="button" class="btn-update"	id="btnUpd" 	value="U" 	style="display: none;">수정</button>
          	<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 	style="display: none;">삭제</button>
