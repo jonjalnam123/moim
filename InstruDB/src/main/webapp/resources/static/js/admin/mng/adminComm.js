@@ -18,6 +18,26 @@ $(document).ready(function() {
 	  $(this).addClass('active');
 	});
 	
+	// 공통코드 중복 체크
+	$('#commCd').on('keyup', function() {
+		var commCd = $(this).val();
+		var tableNm = 'tb_common_info';
+		var url = '/admin/uniqueDupliChk.do';
+			var params = {
+					uniqueKey : commCd
+				  , tableNm : tableNm
+			}
+			var dataType = 'json'
+			ajaxStart(url, params, dataType, function(data) {
+				var result = data.result;
+				if ( result === 'Y' ) {
+
+				} else {
+					goToUri('/admin/error.do');
+				}
+		});
+	});
+	
 	// 코드 상세조회
 	$('.commTreeF, .commTreeS').on('click', function() {
 		

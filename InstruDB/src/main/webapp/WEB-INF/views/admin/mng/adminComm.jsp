@@ -46,7 +46,7 @@
          	<div class="field">
             	<label for="menu_nm" class="required">코드명</label>
             	<input type="text" id="commNm" name="commNm" class="form-control" />
-            	<input type="hidden" id="commId" name="commId" class="form-control" />
+            	<input type="hidden" id="commId" name="commId" class="form-contrㅜㅜol" />
           	</div>
           	
       	    <div class="field">
@@ -57,7 +57,9 @@
           	
           	<div class="field">
             	<label for="menu_nm" class="required">공통코드</label>
-            	<input type="text" id="commCd" name="commCd" class="form-control" />
+            	<input type="text" id="commCd" name="commCd" class="form-control" required/>
+            	<div class="error">공통코드가 중복 됩니다. 다시 입력해주세요.</div>
+            	<small class="hint">영문/숫자, 공백 없이 입력</small>
           	</div>
           	
           	<div class="field">

@@ -2,13 +2,20 @@ package com.inst.project.admin.controller;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.inst.project.admin.service.AdminCommService;
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminErrorDTO;
 import com.inst.project.common.GlobalConfig;
 
@@ -18,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminCommController {
+	
+	@Autowired
+	AdminCommService adminCommService;
 	
 	private final Clock clock;
 	
@@ -64,5 +74,28 @@ public class AdminCommController {
 		model.addAttribute("adminErrorDate", adminErrorDate.format(GlobalConfig.ERR_FMT));
 		
 		return "admin/all/adminError.adm";
+	}
+	
+	/**
+	* @methodName	 	: selectUniqueDupliChk
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유니크 값 중복 체크
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/uniqueDupliChk.do")
+	@ResponseBody
+	public Map<String,Object> selectUniqueDupliChk( @ModelAttribute Map<String, Object> bodyMap ) {
+		log.info(" [ AdminMngController ] : selectUniqueDupliChk ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		String chkResult = adminCommService.selectUniqueDupliChk(bodyMap);	
+		
+		result.put("result", chkResult);
+
+		return result;
 	}
 }

@@ -21,17 +21,23 @@ $(document).ready(function() {
 	// 코드 상세조회
 	$('.unitTreeF, .unitTreeS, .unitTreeT').on('click', function() {
 		
-		$('#btnRef').show();
-		$('#btnNew').show();
 		$('#btnUpd').show();
 		$('#btnDel').show();
 		$('#btnReg').hide();
+		$('#btnRef').show();
 
 		var adminUnitId = $(this).data('id');
 		var adminUnitPId = $(this).data('pid');
+		var adminUnitLvl = $(this).data('lv');
 		
 		if ( isEmptyMsg(adminUnitId, selectDataChk) ) {
 			return;
+		}
+		
+		if ( Number(adminUnitLvl) ===  2 ) {
+			$('#btnNew').hide();
+		} else {
+			$('#btnNew').show();
 		}
 
 		var url = '/admin/unitSelect.do';
@@ -74,11 +80,27 @@ $(document).ready(function() {
 	});
 	
 	// 초기화 버튼 이벤트
-	$('#btnRef').on('click', function(){
-		window.location.reload();
+	$('#btnRef').on('click', function() {
+
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#btnDel').hide();
+		$('#btnUpd').hide();
+		$('#btnRef').hide();
+		$('.unitTreeF, .unitTreeS, .unitTreeT').removeClass('active');
+
+		$('#adminUnitId').val('');
+		$('#adminUnitNm').val('');
+		$('#adminUnitPId').val('');
+		$('#adminUnitPNm').val('');
+		$('#adminUnitCd').val('');
+		$('#adminUnitLvl').val('0').trigger('change');
+		$('#adminUnitSortNo').val('');
+		$('#adminUnitCn').val('');	
+		
 	});
 	
-	// 신규 버튼 이벤트
+	// 추가 버튼 이벤트
 	$('#btnNew').on('click', function() {
 
 		$('#btnReg').show();
@@ -99,6 +121,8 @@ $(document).ready(function() {
 		if ( Number(adminUnitLvl) === 0 ) {
 			$('#adminUnitLvl').val('1').trigger('change');
 		} else if (Number(adminUnitLvl) === 1) {
+			$('#adminUnitLvl').val('2').trigger('change');
+		} else if ( Number(adminUnitLvl) === 2) {
 			$('#adminUnitLvl').val('2').trigger('change');
 		}
 		$('#adminUnitSortNo').val('');	
@@ -135,11 +159,6 @@ $(document).ready(function() {
 			}
 
 			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-
-			if( isEmpty(adminUnitPId) && Number(adminUnitLvl) >= 1 ) {
-				alert(adminUnitLvChk);
 				return;
 			}
 			
