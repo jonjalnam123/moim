@@ -124,6 +124,8 @@
           	<div class="field">
             	<label for="menu_nm" class="required">부서코드</label>
             	<input type="text" id="adminUnitCd" name="adminUnitCd" class="form-control" />
+            	<div class="error" style="display: none;">공통코드가 중복 됩니다. 다시 입력해주세요.</div>
+            	<small class="hint" style="display: none;">사용가능한 공통코드 입니다.</small>
           	</div>
           	
    			<div class="field">

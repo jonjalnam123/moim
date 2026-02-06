@@ -23,18 +23,22 @@ $(document).ready(function() {
 		var commCd = $(this).val();
 		var tableNm = 'tb_common_info';
 		var url = '/admin/uniqueDupliChk.do';
-			var params = {
-					uniqueKey : commCd
-				  , tableNm : tableNm
+		var params = {
+			uniqueKey : commCd
+		  , tableNm : tableNm
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = data.result;
+			if ( result === 'Y' ) {
+				$('#commCd').attr('required', false);
+				$('.hint').show();
+				$('.error').hide();
+			} else {
+				$('#commCd').attr('required', true);
+				$('.hint').hide();
+				$('.error').show();
 			}
-			var dataType = 'json'
-			ajaxStart(url, params, dataType, function(data) {
-				var result = data.result;
-				if ( result === 'Y' ) {
-
-				} else {
-					goToUri('/admin/error.do');
-				}
 		});
 	});
 	
@@ -166,7 +170,7 @@ $(document).ready(function() {
 		var commSortNo = $('#commSortNo').val();
 		var commLvl = $('#commLvl').val();
 		var commCn = $('#commCn').val();
-		var commCd = $('#commCd').val();
+		var commCd = $('#commCd').val().toUpperCase();
 		var commUseYn = $('input[name="commUseYn"]:checked').val();
 		
 		if ( btnVal === 'I' ) {

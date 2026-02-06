@@ -18,6 +18,30 @@ $(document).ready(function() {
 	  $(this).addClass('active');
 	});
 	
+	// 공통코드 중복 체크
+	$('#adminUnitCd').on('keyup', function() {
+		var adminUnitCd = $(this).val();
+		var tableNm = 'tb_admin_unit_info';
+		var url = '/admin/uniqueDupliChk.do';
+		var params = {
+			uniqueKey : adminUnitCd
+		  , tableNm : tableNm
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = data.result;
+			if ( result === 'Y' ) {
+				$('#adminUnitCd').attr('required', false);
+				$('.hint').show();
+				$('.error').hide();
+			} else {
+				$('#adminUnitCd').attr('required', true);
+				$('.hint').hide();
+				$('.error').show();
+			}
+		});
+	});
+	
 	// 코드 상세조회
 	$('.unitTreeF, .unitTreeS, .unitTreeT').on('click', function() {
 		
@@ -130,7 +154,7 @@ $(document).ready(function() {
 		
 	});
 	
-	// 메뉴 등록 이벤트
+	// 부서 등록 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
@@ -138,7 +162,7 @@ $(document).ready(function() {
 		var adminUnitId = $('#adminUnitId').val();
 		var adminUnitNm = $('#adminUnitNm').val();
 		var adminUnitPId = $('#adminUnitPId').val();
-		var adminUnitCd = $('#adminUnitCd').val();
+		var adminUnitCd = $('#adminUnitCd').val().toUpperCase();
 		var adminUnitLvl = $('#adminUnitLvl').val();
 		var adminUnitSortNo = $('#adminUnitSortNo').val();
 		var adminUnitCn = $('#adminUnitCn').val();

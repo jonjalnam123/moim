@@ -22,7 +22,7 @@ function ajaxStart(url, params, dataType, callback) {
 	 	},
 	    success: function (data, status, xhr) {
 	        if (typeof callback === 'function' && callback !== null ) {
-				console.log('data>>>>', data);
+				console.log('조회한 결과 데이터 : ', data);
 	            callback(data);
 	        } else {
 	            console.warn("callback이 function이 아닙니다:", callback);

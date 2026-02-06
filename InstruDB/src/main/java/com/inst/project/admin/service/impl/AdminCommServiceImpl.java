@@ -1,26 +1,18 @@
 package com.inst.project.admin.service.impl;
 
-import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminCommService;
-import com.inst.project.admin.service.AdminMngService;
-import com.inst.project.admin.vo.AdminCommDTO;
-import com.inst.project.admin.vo.AdminDTO;
-import com.inst.project.admin.vo.AdminMenuDTO;
-import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service("adminMngService")
+@Service("adminCommService")
 public class AdminCommServiceImpl implements AdminCommService {
 
 	@Autowired
@@ -48,9 +40,16 @@ public class AdminCommServiceImpl implements AdminCommService {
 				return GlobalConfig.N;
 			}
 			
-			// 테이블명에 따른 분기 처리 로직 진행 해야함.
+			String uniqueKeyVal = uniqueKey.toUpperCase();
+			bodyMap.put("uniqueKey", uniqueKeyVal);
 			
-			int resultChk = adminCommMapper.selectUniqueDupliChk(bodyMap);
+			int resultChk = 0;
+			if ( tableNm.equals("tb_common_info") ) {
+				resultChk = adminCommMapper.selectCommCdDupliChk(bodyMap);
+			} else if ( tableNm.equals("tb_admin_unit_info") ) {
+				resultChk = adminCommMapper.selectUnitCdDupliChk(bodyMap);
+			}
+
 			if( resultChk > 0 ) {
 				result = GlobalConfig.N;
 			} else {
