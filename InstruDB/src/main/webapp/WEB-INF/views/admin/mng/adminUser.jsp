@@ -55,9 +55,9 @@
 					        	<td>${admin.adminPostCd}</td>
 					        	<td>${admin.adminAddress}</td>
 					        	<td>${admin.adminDAddress}</td>
-					        	<td>${admin.adminDeptCd}</td>
-					        	<td>${admin.adminTeamCd}</td>
-					        	<td>${admin.adminPositionCd}</td>
+					        	<td>${admin.adminDeptNm}</td>
+					        	<td>${admin.adminTeamNm}</td>
+					        	<td>${admin.adminPositionNm}</td>
 					        	<td>${admin.adminDelYn}</td>
 					        </tr>
 				        </c:forEach>

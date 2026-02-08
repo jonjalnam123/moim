@@ -495,25 +495,34 @@
 	
 	<!-- 관리자 조회 [S] -->
 	<select id="selectAdminUser" resultType="AdminDTO">
-		/*AdminMng_SQL.adminUnitSelect*/
+		/*AdminMng_SQL.selectAdminUser*/
 		SELECT ADMIN_NO
-				 , ADMIN_ID
-				 , ADMIN_PW
-				 , ADMIN_NM
-				 , ADMIN_PH
-				 , ADMIN_POST_CD
-				 , ADMIN_ADDRESS
-				 , ADMIN_D_ADDRESS
-				 , ADMIN_DEL_YN
-				 , ADMIN_DEPT_CD
-				 , ADMIN_TEAM_CD
-				 , ADMIN_POSITION_CD
-				 , ADMIN_CN
-				 , REG_ID
-				 , REG_DT
-				 , UPD_ID
-				 , UPD_DT
-		FROM TB_ADMIN_INFO
+				  , ADMIN_ID
+				  , ADMIN_PW
+				  , ADMIN_NM
+				  , ADMIN_PH
+				  , ADMIN_POST_CD
+				  , ADMIN_ADDRESS
+				  , ADMIN_D_ADDRESS
+				  , ADMIN_DEL_YN
+				  , ADMIN_DEPT_CD
+				  , ( SELECT b.ADMIN_UNIT_NM 
+				  		 FROM TB_ADMIN_UNIT_INFO b 
+				  	   WHERE ADMIN_DEPT_CD = b.ADMIN_UNIT_CD ) AS ADMIN_DEPT_NM
+				  , ADMIN_TEAM_CD
+				  , ( SELECT b.ADMIN_UNIT_NM 
+				         FROM TB_ADMIN_UNIT_INFO b 
+				       WHERE ADMIN_TEAM_CD = b.ADMIN_UNIT_CD ) AS ADMIN_TEAM_NM
+				  , ADMIN_POSITION_CD
+				  , ( SELECT b.ADMIN_UNIT_NM 
+				         FROM TB_ADMIN_UNIT_INFO b 
+				       WHERE ADMIN_POSITION_CD = b.ADMIN_UNIT_CD ) AS ADMIN_POSITION_NM
+				  , ADMIN_CN
+				  , REG_ID
+				  , REG_DT
+				  , UPD_ID
+				  , UPD_DT
+		   FROM TB_ADMIN_INFO
 	</select>
 	<!-- 관리자 조회 [E] -->
 	
@@ -553,7 +562,7 @@
 	
 	<!-- 관리자 관리자 정보 조회 [S] -->
 	<select id="selectAdminUserInfo" resultType="AdminDTO">
-		/*AdminMng_SQL.selectAdminUserInfo*/
+		/*AdminMng_SQL.selectAdminUserInfo*/  
 		SELECT ADMIN_NO
 				 , ADMIN_ID
 				 , ADMIN_PW
