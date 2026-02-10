@@ -518,6 +518,10 @@
 				         FROM TB_ADMIN_UNIT_INFO b 
 				       WHERE ADMIN_POSITION_CD = b.ADMIN_UNIT_CD ) AS ADMIN_POSITION_NM
 				  , ADMIN_CN
+				  , ADMIN_GENDER
+				  , CASE WHEN ADMIN_GENDER = 'M' THEN '남자'
+				 		    WHEN ADMIN_GENDER = 'W' THEN '여자'
+				 		   	  ELSE NULL END AS ADMIN_GENDER_NM
 				  , REG_ID
 				  , REG_DT
 				  , UPD_ID
@@ -576,6 +580,7 @@
 				 , ADMIN_DEPT_CD
 				 , ADMIN_TEAM_CD
 				 , ADMIN_CN
+				 , ADMIN_GENDER
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID

@@ -43,6 +43,7 @@
 				          <th>부서코드</th>
 				          <th>팀코드</th>
 				          <th>직책코드</th>
+				          <th>성별</th>
 				          <th>삭제여부</th>
 				        </tr>
 			      	</thead>
@@ -58,6 +59,7 @@
 					        	<td>${admin.adminDeptNm}</td>
 					        	<td>${admin.adminTeamNm}</td>
 					        	<td>${admin.adminPositionNm}</td>
+					        	<td>${admin.adminGenderNm}</td>
 					        	<td>${admin.adminDelYn}</td>
 					        </tr>
 				        </c:forEach>
@@ -98,20 +100,21 @@
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
-	          		<div class="field">
-	            		<label class="" for="fName">우편번호</label>
-	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" />
+	          		<div class="field zip-field">
+	            		<label class="" for="adminPostCd">우편번호</label>
+	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
+	            		<input type="button" class="btn btn-zip" id="getPostCode" value="우편번호 찾기">
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="fName">주소</label>
-	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" />
+	            		<label class="" for="adminAddress">주소</label>
+	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="fName">상세주소</label>
+	            		<label class="" for="adminDAddress">상세주소</label>
 	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
@@ -141,9 +144,21 @@
 	          		</div>
 	        
 	        	    <div class="field">
-	            		<label class="" for="fName">삭제여부</label>
+	            		<label class="" for="adminDelYn">삭제여부</label>
 	            		<input id="adminDelYn" name="adminDelYn" class="form-control" type="text"/>
 	          		</div>
+	          		
+		          	<div class="field">
+			            <label class="required">성별</label>
+			            <div>
+		              		<label style="margin-right:10px;">
+			                	<input type="radio" name="adminGender" value="M" checked /> 남자
+			              	</label>
+			              	<label>
+			                	<input type="radio" name="adminGender" value="W" /> 여자
+			              	</label>
+			            </div>
+		          	</div>
 	
 	          		<div class="field full">
 	            		<label for="fDesc">설명</label>

@@ -20,6 +20,12 @@ $(function () {
 	  $(this).addClass('active');
 	});
 	
+	// 우편번호 찾기 이벤트
+	$('#getPostCode').on('click', function(){
+		var postId =  $('#adminPostCd').attr('id');
+		var adId = $('#adminAddress').attr('id');
+		execDaumPostcode( postId, adId )
+	})
 
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
@@ -53,6 +59,7 @@ $(function () {
 				var adminPositionCd = adminInfo.adminPositionCd
 				var adminDelYn = adminInfo.adminDelYn
 				var adminCn = adminInfo.adminCn
+				var adminGender = adminInfo.adminGender
 
 				$('#adminNo').val(adminNo);
 				$('#adminId').val(adminId);
@@ -67,6 +74,7 @@ $(function () {
 				$('#adminDeptCd').val(adminDeptCd).trigger('change');
 				
 				$('#adminDelYn').val(adminDelYn);
+				$('input[name="adminGender"][value="' + adminGender + '"]').prop('checked', true);
 				$('#adminCn').val(adminCn);
 				
 			} else {

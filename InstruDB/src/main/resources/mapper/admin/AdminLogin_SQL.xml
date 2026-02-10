@@ -18,6 +18,8 @@
 				 , ADMIN_DEL_YN
 				 , ADMIN_DEPT_CD
 				 , ADMIN_TEAM_CD
+				 , ADMIN_CN
+				 , ADMIN_GENDER
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
