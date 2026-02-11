@@ -751,7 +751,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	
 	/**
 	* @methodName	 	: selectAdminUser
-	* @author					: 최정석
+	* @author				: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 관리 화면 조회
 	* ===================================
@@ -775,6 +775,37 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    } catch (Exception e) {
 	        log.error("[ AdminMngServiceImpl ] : selectAdminUser failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminGradeList
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 등급 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminCommDTO> selectAdminGradeList() {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminGradeList ");
+	    try {
+	    	
+	    	List<AdminCommDTO> adminGradeList = adminMngMapper.selectAdminGradeList();
+		    if ( adminGradeList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
+	        return adminGradeList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminGradeList failed.");
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;

@@ -21,9 +21,12 @@ public class AdminDTO {
 	private String adminPositionNm;
 	private String adminIp;
 	private String adminDelYn;
+	private String adminDelYnNm;
 	private String adminCn;
 	private String adminGender;
 	private String adminGenderNm;
+	private String adminRegGb;
+	private String adminGradeCd;
 	private String regId;
 	private String regDt;
 	private String updId;

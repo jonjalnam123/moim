@@ -78,6 +78,9 @@ public interface AdminMngMapper {
 
 	// 관리자 관리 화면 조회
 	List<AdminDTO> selectAdminUser();
+	
+	// 관리자 등급 조회
+	List<AdminCommDTO> selectAdminGradeList();
 
 	// 관리자 관리자 정보 조회
 	AdminDTO selectAdminUserInfo(AdminDTO adminDTO);
@@ -87,5 +90,7 @@ public interface AdminMngMapper {
 	
 	// 관리자 유닛 직책 조회
 	List<Map<String, Object>> selectAdminPositionList(String adminUnitId);
+
+
 
 }

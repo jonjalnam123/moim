@@ -90,6 +90,8 @@ public class CommonUtil {
 	    String adminTeamCd = adminInfo.getAdminTeamCd();
 	    String adminPositionCd = adminInfo.getAdminPositionCd();
 	    String adminGender = adminInfo.getAdminGender();
+	    String adminRegGb = adminInfo.getAdminRegGb();
+	    String adminGradeCd = adminInfo.getAdminGradeCd();
 	    
 	    session.setAttribute("adminId", adminId);
 	    session.setAttribute("adminNm", adminNm);
@@ -98,6 +100,8 @@ public class CommonUtil {
 	    session.setAttribute("adminTeamCd", adminTeamCd);
 	    session.setAttribute("adminPositionCd", adminPositionCd);
 	    session.setAttribute("adminGender", adminGender);
+	    session.setAttribute("adminRegGb", adminRegGb);
+	    session.setAttribute("adminGradeCd", adminGradeCd);
 	    
 		return true;
 	}

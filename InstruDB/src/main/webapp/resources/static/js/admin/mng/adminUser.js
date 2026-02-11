@@ -26,10 +26,17 @@ $(function () {
 		var adId = $('#adminAddress').attr('id');
 		execDaumPostcode( postId, adId )
 	})
-
+	
+	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
 	$('.adminInfoTr').on('dblclick', function() {
+		
+		$('#btnUpd').show();
+		$('#btnDel').show();
+		$('#btnReg').hide();
+		$('#btnRef').show();
+		
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');
 		var adminId = $(this).data('id');
@@ -57,23 +64,24 @@ $(function () {
 				var adminDeptCd = adminInfo.adminDeptCd
 				var adminTeamCd = adminInfo.adminTeamCd
 				var adminPositionCd = adminInfo.adminPositionCd
-				var adminDelYn = adminInfo.adminDelYn
 				var adminCn = adminInfo.adminCn
 				var adminGender = adminInfo.adminGender
+				var adminGradeCd = adminInfo.adminGradeCd
 
 				$('#adminNo').val(adminNo);
 				$('#adminId').val(adminId);
 				$('#adminNm').val(adminNm);
 				$('#adminPh').val(adminPh);
-				$('#adminPostCd').attr('data-nm', adminPostCd);
+				$('#adminPostCd').val(adminPostCd);
 				$('#adminAddress').val(adminAddress);
 				$('#adminDAddress').val(adminDAddress);
 				
+				$('#adminDeptCd').val(adminDeptCd).trigger('change');
 				pendingTeamCd = adminTeamCd || '';
 				pendingPositionCd = adminPositionCd || '';
-				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				
-				$('#adminDelYn').val(adminDelYn);
+
+				$('#adminGradeCd').val(adminGradeCd).trigger('change');
+
 				$('input[name="adminGender"][value="' + adminGender + '"]').prop('checked', true);
 				$('#adminCn').val(adminCn);
 				
@@ -84,6 +92,7 @@ $(function () {
 		});
 	});
 	
+	// 부서 입력 이벤트
 	$('#adminDeptCd').on('change', function() {
   		var adminUnitId = $(this).find('option:selected').data('id');
 	  	var url = '/admin/teamSelect.do';
@@ -130,6 +139,7 @@ $(function () {
   		});
 	});
 	
+	// 팀 입력 이벤트
 	$('#adminTeamCd').on('change', function() {
   		var adminUnitId = $(this).find('option:selected').data('id');
 	  	var url = '/admin/posotionSelect.do';
@@ -182,50 +192,47 @@ $(function () {
 		var btnVal = $(this).val();
 		var url = '';
 		
-		var adminUnitId = $('#adminUnitId').val();
-		var adminUnitNm = $('#adminUnitNm').val();
-		var adminUnitPId = $('#adminUnitPId').val();
-		var adminUnitCd = $('#adminUnitCd').val();
-		var adminUnitLvl = $('#adminUnitLvl').val();
-		var adminUnitSortNo = $('#adminUnitSortNo').val();
-		var adminUnitCn = $('#adminUnitCn').val();
-		var adminUnitUseYn = $('input[name="adminUnitUseYn"]:checked').val();
-		
-		// 2레벨 진행시
-		if ( isEmpty(adminUnitPId) && Number(adminUnitLvl) === 1 ) {
-			adminUnitPId = adminUnitId;
-		}
-		
-		// 3레벨 진행시
-		if ( !isEmpty(adminUnitPId) && Number(adminUnitLvl) === 2 ) {
-			adminUnitPId = adminUnitId;
-		}
+		var adminNo = $('#adminNo').val();
+		var adminId = $('#adminId').val();
+		var adminNm = $('#adminNm').val();
+		var adminPh = $('#adminPh').val();
+		var adminPostCd = $('#adminPostCd').val();
+		var adminAddress = $('#adminAddress').val();
+		var adminDAddress = $('#adminDAddress').val();
+		var adminDeptCd = $('#adminDeptCd').val();
+		var adminTeamCd = $('#adminTeamCd').val();
+		var adminPositionCd = $('#adminPositionCd').val();
+		var adminGradeCd = $('#adminGradeCd').val();
+		var adminGender =  $('input[name="adminGender"]:checked').val();
+		var adminCn =  $('#adminCn').val();
 		
 		if ( btnVal === 'I' ) {
 			
-			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
+			if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
+			if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
+			if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-
-			var unitNm = $('#adminUnitNm').data('nm');
-			if (unitNm === adminUnitNm) {
-				alert(adminUnitNmChk);
+			if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
 				return;
 			}
 			
-			if ( !confirm('부서' + regProcConfirm) ) {
+			if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
+				return;
+			}
+			
+			if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
 				return;
 			}
 			
@@ -233,23 +240,31 @@ $(function () {
 			
 		} else {
 			
-			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
+			if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
+			if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
+			if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
 				return;
 			}
 
-			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
+			if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
 				return;
 			}
-			
-			if ( !confirm('부서' + updProcConfirm) ) {
+
+			if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
+				return;
+			}
+
+			if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
 				return;
 			}
 			

@@ -505,6 +505,9 @@
 				  , ADMIN_ADDRESS
 				  , ADMIN_D_ADDRESS
 				  , ADMIN_DEL_YN
+				  , CASE WHEN ADMIN_DEL_YN = 'Y' THEN '삭제'
+				  		     WHEN ADMIN_DEL_YN = 'N' THEN '미삭제'
+				  		     ELSE NULL END AS ADMIN_DEL_YN_NM
 				  , ADMIN_DEPT_CD
 				  , ( SELECT b.ADMIN_UNIT_NM 
 				  		 FROM TB_ADMIN_UNIT_INFO b 
@@ -520,8 +523,10 @@
 				  , ADMIN_CN
 				  , ADMIN_GENDER
 				  , CASE WHEN ADMIN_GENDER = 'M' THEN '남자'
-				 		    WHEN ADMIN_GENDER = 'W' THEN '여자'
-				 		   	  ELSE NULL END AS ADMIN_GENDER_NM
+				 		     WHEN ADMIN_GENDER = 'W' THEN '여자'
+				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
+				  , ADMIN_REG_GB
+				  , ADMIN_GRADE_CD
 				  , REG_ID
 				  , REG_DT
 				  , UPD_ID
@@ -529,6 +534,21 @@
 		   FROM TB_ADMIN_INFO
 	</select>
 	<!-- 관리자 조회 [E] -->
+	
+	<!-- 관리자 등급 조회 [S] -->
+	<select id="selectAdminGradeList" resultType="AdminCommDTO">
+		/*AdminMng_SQL.selectAdminGradeList*/
+		SELECT COMM_CD 
+				  , COMM_NM
+		  FROM TB_COMMON_INFO
+		WHERE 1=1
+		    AND COMM_GROUP_CD = 'ADMGRADE'
+		    AND COMM_USE_YN = 'Y'
+		    AND COMM_DEL_YN = 'N'
+		    AND COMM_LVL != 0
+   ORDER BY COMM_SORT_NO ASC;
+	</select>
+	<!-- 관리자 등급 조회 [E] -->
 	
 	<!-- 관리자 부서 상세 조회 [S] -->
 	<resultMap id="adminTeamMap" type="map">
@@ -581,6 +601,8 @@
 				 , ADMIN_TEAM_CD
 				 , ADMIN_CN
 				 , ADMIN_GENDER
+				 , ADMIN_REG_GB
+				 , ADMIN_GRADE_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID

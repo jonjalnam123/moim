@@ -439,7 +439,10 @@ public class AdminMngController {
 		// 유닛 레벨 1 조회
 		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitList();
 		
-		if( adminList == null || adminUnitList == null) {
+		// 관리자 등급 조회
+		List<AdminCommDTO> adminGradeList = adminMngService.selectAdminGradeList();
+
+		if( adminList == null || adminUnitList == null || adminGradeList == null) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
@@ -447,6 +450,7 @@ public class AdminMngController {
 		
 		model.addAttribute("adminList", adminList);
 		model.addAttribute("adminUnitList", adminUnitList);
+		model.addAttribute("adminGradeList", adminGradeList);
 		
 		return "admin/mng/adminUser.adm";
 	}

@@ -60,7 +60,7 @@
 					        	<td>${admin.adminTeamNm}</td>
 					        	<td>${admin.adminPositionNm}</td>
 					        	<td>${admin.adminGenderNm}</td>
-					        	<td>${admin.adminDelYn}</td>
+					        	<td>${admin.adminDelYnNm}</td>
 					        </tr>
 				        </c:forEach>
 		      		</tbody>
@@ -142,13 +142,19 @@
 	            		</select>
 	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
-	        
-	        	    <div class="field">
-	            		<label class="" for="adminDelYn">삭제여부</label>
-	            		<input id="adminDelYn" name="adminDelYn" class="form-control" type="text"/>
+	          		
+        			<div class="field">
+	            		<label class="required" for="adminGradeCd">권한등급</label>
+	            		<select id="adminGradeCd" name="adminGradeCd" class="form-select" style="width:100%;">
+	            			<option value="">선택</option>
+	            			<c:forEach var="adminGrade" items="${adminGradeList}">
+	            				<option value="${adminGrade.commCd}">${adminGrade.commNm}</option>
+	            			</c:forEach>
+	            		</select>	
+	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	          		
-		          	<div class="field">
+	          		<div class="field">
 			            <label class="required">성별</label>
 			            <div>
 		              		<label style="margin-right:10px;">
@@ -167,10 +173,11 @@
 	        	</div>
 	
 		        <div class="form-actions">
-		        	<button type="button" class="btn-refresh" 	id="btnRef"		value="R">신규</button>
-		        	<button type="button" class="btn-insert"   	id="btnReg"   	value="I">저장</button>
-		        	<button type="button" class="btn-update"	id="btnUpd" 	value="U">수정</button>
-		         	<button type="button" class="btn-delete"  	id="btnDel" 		value="D">삭제</button>
+  					<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   	style="display: none;">초기화</button>
+       				<button type="button" class="btn-insert" 		id="btnNew"		value="N" 		style="display: none;">추가</button>
+       				<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
+        			<button type="button" class="btn-update"		id="btnUpd" 		value="U" 		style="display: none;">수정</button>
+         			<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 		style="display: none;">삭제</button>
 		        </div>
 	      	</div>
 	    </div>
