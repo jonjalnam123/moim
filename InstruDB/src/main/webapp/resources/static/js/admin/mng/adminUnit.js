@@ -20,7 +20,10 @@ $(document).ready(function() {
 	
 	// 공통코드 중복 체크
 	$('#adminUnitCd').on('keyup', function() {
-		var adminUnitCd = $(this).val();
+		var adminUnitCdVal = $(this).val();
+		var adminUnitCd = getEngUpperCase(adminUnitCdVal);
+		$(this).val(adminUnitCd);
+		
 		var tableNm = 'tb_admin_unit_info';
 		var url = '/admin/uniqueDupliChk.do';
 		var params = {
@@ -49,6 +52,9 @@ $(document).ready(function() {
 		$('#btnDel').show();
 		$('#btnReg').hide();
 		$('#btnRef').show();
+		
+		$('.hint').hide();
+		$('.error').hide();
 
 		var adminUnitId = $(this).data('id');
 		var adminUnitPId = $(this).data('pid');
@@ -90,7 +96,9 @@ $(document).ready(function() {
 				$('#adminUnitNm').val(adminUnitNm);
 				$('#adminUnitPId').val(adminUnitPId);
 				$('#adminUnitPNm').val(adminUnitPNm);
+				
 				$('#adminUnitCd').val(adminUnitCd);
+				
 				$('#adminUnitLvl').val(adminUnitLvl).trigger('change');
 				$('#adminUnitSortNo').val(adminUnitSortNo);
 				$('#adminUnitCn').val(adminUnitCn);
@@ -162,60 +170,41 @@ $(document).ready(function() {
 		var adminUnitId = $('#adminUnitId').val();
 		var adminUnitNm = $('#adminUnitNm').val();
 		var adminUnitPId = $('#adminUnitPId').val();
-		var adminUnitCd = $('#adminUnitCd').val().toUpperCase();
+		
+		var adminUnitCd = $('#adminUnitCd').val();
+
 		var adminUnitLvl = $('#adminUnitLvl').val();
 		var adminUnitSortNo = $('#adminUnitSortNo').val();
 		var adminUnitCn = $('#adminUnitCn').val();
 		var adminUnitUseYn = $('input[name="adminUnitUseYn"]:checked').val();
 		
+		
+		if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
+			return;
+		}
+		
+		if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
+			return;
+		}
+		
 		if ( btnVal === 'I' ) {
-			
-			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-			
 			if ( !confirm('부서' + regProcConfirm) ) {
 				return;
 			}
-			
 			url = '/admin/unitReg.do';
-			
 		} else {
-			
-			if ( isEmptyMsg(adminUnitNm, '부서명' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitCd, '부서코드' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitLvl, '레벨' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
-			
 			if ( !confirm('부서' + updProcConfirm) ) {
 				return;
 			}
-			
 			url = '/admin/unitUpd.do';
-			
 		}
 
 		var params = {

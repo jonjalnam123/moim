@@ -271,3 +271,15 @@ function showGlobalLoading() {
 function hideGlobalLoading() {
     $('#globalLoading').removeClass('is-active');
 }
+
+/*******************************
+* FuntionNm : getEngUpperCase
+* Date : 2025.10.02
+* Author : CJS
+* Description : 영어 대문자 전환
+********************************/
+function getEngUpperCase(val) {
+	var valReplToEng = val.replace(/[^a-zA-Z]/g, ''); 
+	var valReplToEngUpper = valReplToEng.toUpperCase();
+	return valReplToEngUpper;
+}

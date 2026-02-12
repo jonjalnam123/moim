@@ -20,7 +20,10 @@ $(document).ready(function() {
 	
 	// 공통코드 중복 체크
 	$('#commCd').on('keyup', function() {
-		var commCd = $(this).val();
+		var commCdVal = $(this).val();
+		var commCd = getEngUpperCase(commCdVal);
+		$(this).val(commCd);
+		
 		var tableNm = 'tb_common_info';
 		var url = '/admin/uniqueDupliChk.do';
 		var params = {
@@ -49,6 +52,8 @@ $(document).ready(function() {
 		$('#btnDel').show();
 		$('#btnReg').hide();
 		$('#btnRef').show();
+		
+		$('#commGroupCd').prop('readonly', true);
 		
 		var commId = $(this).data('id');
 		var commPId = $(this).data('pid');
@@ -119,13 +124,14 @@ $(document).ready(function() {
 		var commId = $('#commId').val();
 		var commNm = $('#commNm').val();
 		var commLvl = $('#commLvl').val();
+		var commGroupCd = $('#commGroupCd').val();
 		
 		$('#commId').val('');
 		$('#commNm').val('');
 	 	$('#commPId').val(commId);
 		$('#commPNm').val(commNm);
 		$('#commCd').val('');
-		$('#commGroupCd').val('');
+		$('#commGroupCd').val(commGroupCd);
 		if ( Number(commLvl) === 0 ) {
 			$('#commLvl').val('1').trigger('change');
 		} else if ( Number(commLvl) === 1 ) {
@@ -138,6 +144,8 @@ $(document).ready(function() {
 	
 	// 초기화 버튼 이벤트
 	$('#btnRef').on('click', function() {
+		
+		$('#commGroupCd').prop('readonly', false);
 
 		$('#btnReg').show();
 		$('#btnNew').hide();
