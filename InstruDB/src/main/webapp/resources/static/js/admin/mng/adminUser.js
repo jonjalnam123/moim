@@ -206,81 +206,59 @@ $(function () {
 		var adminGender =  $('input[name="adminGender"]:checked').val();
 		var adminCn =  $('#adminCn').val();
 		
+		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+			return;
+		}
+
+		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
+			return;
+		}
+		
 		if ( btnVal === 'I' ) {
-			
-			if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+			if ( !confirm('관리자' + regProcConfirm) ) {
 				return;
 			}
-
-			if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
-				return;
-			}
-			
-			if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
-				return;
-			}
-			
-			if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
-				return;
-			}
-			
-			if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
-				return;
-			}
-			
-			url = '/admin/unitReg.do';
-			
+			url = '/admin/userReg.do';
 		} else {
-			
-			if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+			if ( !confirm('관리자' + updProcConfirm) ) {
 				return;
 			}
-
-			if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
-				return;
-			}
-			
-			url = '/admin/unitUpd.do';
-			
+			url = '/admin/userUpd.do';
 		}
 
 		var params = {
-				adminUnitId : adminUnitId
-			  , adminUnitNm : adminUnitNm
-			  , adminUnitPId : adminUnitPId
-			  , adminUnitCd : adminUnitCd
-			  , adminUnitLvl : adminUnitLvl
-			  , adminUnitSortNo : adminUnitSortNo
-			  , adminUnitCn : adminUnitCn
-			  , adminUnitUseYn : adminUnitUseYn
+				adminId : adminId
+			  , adminNm : adminNm
+			  , adminPh : adminPh
+			  , adminPostCd : adminPostCd
+			  , adminAddress : adminAddress
+			  , adminDAddress : adminDAddress
+			  , adminDeptCd : adminDeptCd
+			  , adminTeamCd : adminTeamCd
+			  , adminPositionCd : adminPositionCd
+			  , adminGradeCd : adminGradeCd
+			  , adminGender : adminGender
+			  , adminCn : adminCn
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {

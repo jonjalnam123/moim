@@ -90,6 +90,15 @@ public interface AdminMngMapper {
 	
 	// 관리자 유닛 직책 조회
 	List<Map<String, Object>> selectAdminPositionList(String adminUnitId);
+	
+	// 관리자 등록
+	int adminUserReg(AdminDTO adminDTO);
+	
+	// 관리자 수정
+	int adminUserUpd(AdminDTO adminDTO);
+
+	// 관리자 삭제
+	int adminUserDel(AdminDTO adminDTO);
 
 
 

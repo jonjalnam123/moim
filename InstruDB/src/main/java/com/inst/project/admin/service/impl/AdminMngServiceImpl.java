@@ -659,7 +659,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	@Override
 	public int adminUnitReg(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitReg ");
-
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
@@ -694,7 +693,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	@Override
 	public int adminUnitUpd(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitUpd ");
-
 	    try {
 			
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
@@ -728,7 +726,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	@Override
 	public int adminUnitDel(AdminUnitDTO adminUnitDTO, HttpServletRequest req) {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitDel ");
-
 	    try {
 	    	
 			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
@@ -905,6 +902,107 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminUserReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUserReg(AdminDTO adminDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUserReg ");
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+			
+			adminDTO.setRegId(adminId); 
+			adminDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUserReg(adminDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUserReg failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        
+	        return 0;
+	    }
+	}
+
+	/**
+	* @methodName	 	: adminUserUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUserUpd(AdminDTO adminDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUserUpd ");
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+			    return 0;
+			}
+			
+			adminDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUserUpd(adminDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUserUpd failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminUserUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUserDel(AdminDTO adminDTO, HttpServletRequest req) {
+		log.info(" [ AdminMngServiceImpl ] : adminUserDel ");
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+			
+			adminDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUserDel(adminDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUserDel failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
 	    }
 	}
 	

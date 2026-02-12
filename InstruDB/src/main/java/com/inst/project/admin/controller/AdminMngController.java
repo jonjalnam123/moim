@@ -391,9 +391,9 @@ public class AdminMngController {
 		log.info(" [ AdminMngController ] : adminUnitUpd ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		int regResult = adminMngService.adminUnitUpd(adminUnitDTO, req);
+		int updResult = adminMngService.adminUnitUpd(adminUnitDTO, req);
 		
-		result.put("result", regResult);
+		result.put("result", updResult);
 
 		return result;
 	}
@@ -518,6 +518,74 @@ public class AdminMngController {
 		List<Map<String, Object>> adminPositionList = adminMngService.selectAdminPositionList(adminUnitId);
 		
 		return adminPositionList;
+	}
+	
+	/**
+	* @methodName	 	: adminUnitReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userReg.do")
+	@ResponseBody
+	public Map<String,Object> adminUserReg( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUserReg ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int regResult = adminMngService.adminUserReg(adminDTO, req);
+		
+		result.put("result", regResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUserUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminUserUpd( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUserUpd ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int updResult = adminMngService.adminUserUpd(adminDTO, req);
+		
+		result.put("result", updResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUserUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userDel.do")
+	@ResponseBody
+	public Map<String,Object> adminUserDel( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUserDel ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int delResult = adminMngService.adminUserDel(adminDTO, req);
+		result.put("result", delResult);
+
+		return result;
 	}
 	
 	

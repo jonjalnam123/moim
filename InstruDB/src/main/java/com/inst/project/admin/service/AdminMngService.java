@@ -89,6 +89,15 @@ public interface AdminMngService {
 
 	// 관리자 유닛 직책 조회
 	List<Map<String, Object>> selectAdminPositionList(String adminUnitId);
+	
+	// 관리자 등록
+	int adminUserReg(AdminDTO adminDTO, HttpServletRequest req);
+	
+	// 관리자 수정
+	int adminUserUpd(AdminDTO adminDTO, HttpServletRequest req);
+
+	// 관리자 삭제
+	int adminUserDel(AdminDTO adminDTO, HttpServletRequest req);
 
 
 }
