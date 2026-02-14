@@ -48,9 +48,13 @@
 	
 				<div class="form-grid">
 		          	<div class="field">
-			            <label for="menu_nm" class="required">메뉴명</label>
+			            <label for="menuNm" class="required">메뉴명</label>
 			            <input type="text" id="menuNm" name="menuNm" class="form-control"/>
-			             <input type="hidden" id="menuId" name="menuId"/>
+			            <input type="hidden" id="menuNmChk" name="menuNmChk" class="form-control"/>
+			            <input type="hidden" id="menuNmOrg" name="menuNmOrg" class="form-control"/>
+			            <input type="hidden" id="menuId" name="menuId"/>
+                       	<div class="error" style="display: none;">메뉴명이 중복 됩니다. 다시 입력해주세요.</div>
+            			<small class="hint" style="display: none;">사용가능한 메뉴명 입니다.</small>
 			          </div>
 			          
 			        <div class="field">

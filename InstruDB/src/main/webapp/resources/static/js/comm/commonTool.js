@@ -5,6 +5,10 @@
  */
 
 /*******************************
+* AJAX 관련 [S]
+********************************/
+
+/*******************************
 * FuntionNm : ajaxStart
 * Date : 2025.10.02
 * Author : CJS
@@ -38,6 +42,30 @@ function ajaxStart(url, params, dataType, callback) {
 }
 
 /*******************************
+* FuntionNm : showGlobalLoading
+* Date : 2025.10.02
+* Author : CJS
+* Description : 로딩관련
+********************************/
+function showGlobalLoading() {
+    $('#globalLoading').addClass('is-active');
+}
+
+function hideGlobalLoading() {
+    $('#globalLoading').removeClass('is-active');
+}
+
+/*******************************
+* AJAX 관련 [E]
+********************************/
+
+
+
+/*******************************
+* 기능 관련 [S]
+********************************/
+
+/*******************************
 * FuntionNm : getNowUri
 * Date : 2025.10.02
 * Author : CJS
@@ -46,43 +74,6 @@ function ajaxStart(url, params, dataType, callback) {
 function getNowUri() {
 	const fullUrl = window.location.origin;
 	return fullUrl;
-}
-
-/*******************************
-* FuntionNm : execDaumPostcode
-* Date : 2025.10.02
-* Author : CJS
-* Description : 카카오 주소 찾기
-********************************/
-function execDaumPostcode(postId, adId) {
-    new kakao.Postcode({
-        oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var roadAddr = data.roadAddress; // 도로명 주소 변수
-            var extraRoadAddr = ''; // 참고 항목 변수
-
-            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                extraRoadAddr += data.bname;
-            }
-            // 건물명이 있고, 공동주택일 경우 추가한다.
-            if(data.buildingName !== '' && data.apartment === 'Y'){
-               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-            }
-            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if(extraRoadAddr !== ''){
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
-            }
-
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById(postId).value = data.zonecode;
-            document.getElementById(adId).value = roadAddr;
-        }
-    }).open();
 }
 
 /*******************************
@@ -165,6 +156,16 @@ function callConfirm(conMsg) {
 	}
 	return result;
 };
+
+/*******************************
+* 기능 관련 [E]
+********************************/
+
+
+
+/*******************************
+* 유효성 검사 관련 [S]
+********************************/
 
 /*******************************
 * FuntionNm : checkNum(obj)
@@ -259,20 +260,6 @@ function padZero(obj) {
 }
 
 /*******************************
-* FuntionNm : showGlobalLoading
-* Date : 2025.10.02
-* Author : CJS
-* Description : 로딩관련
-********************************/
-function showGlobalLoading() {
-    $('#globalLoading').addClass('is-active');
-}
-
-function hideGlobalLoading() {
-    $('#globalLoading').removeClass('is-active');
-}
-
-/*******************************
 * FuntionNm : getEngUpperCase
 * Date : 2025.10.02
 * Author : CJS
@@ -283,3 +270,127 @@ function getEngUpperCase(val) {
 	var valReplToEngUpper = valReplToEng.toUpperCase();
 	return valReplToEngUpper;
 }
+
+/*******************************
+* FuntionNm : onlyKorEng
+* Date : 2025.10.02
+* Author : CJS
+* Description : 한국어, 영어만 입력 가능
+********************************/
+function onlyKorEng(val) {
+    return val.replace(/[^가-힣a-zA-Z]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyKor
+* Date : 2026.02.14
+* Author : CJS
+* Description : 한글만 입력 가능
+********************************/
+function onlyKor(val) {
+    return val.replace(/[^가-힣]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyEng
+* Date : 2026.02.14
+* Author : CJS
+* Description : 영어만 입력 가능
+********************************/
+function onlyEng(val) {
+    return val.replace(/[^a-zA-Z]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyEngLower
+* Date : 2026.02.14
+* Author : CJS
+* Description : 영어 소문자만 입력 가능
+********************************/
+function onlyEngLower(val) {
+    return val.replace(/[^a-z]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyEngNum
+* Date : 2026.02.14
+* Author : CJS
+* Description : 영어 + 숫자만 입력 가능
+********************************/
+function onlyEngNum(val) {
+    return val.replace(/[^a-zA-Z0-9]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyKorNum
+* Date : 2026.02.14
+* Author : CJS
+* Description : 한글 + 숫자만 입력 가능
+********************************/
+function onlyKorNum(val) {
+    return val.replace(/[^가-힣0-9]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyKorEngSpace
+* Date : 2026.02.14
+* Author : CJS
+* Description : 한글, 영어, 공백 허용
+********************************/
+function onlyKorEngSpace(val) {
+    return val.replace(/[^가-힣a-zA-Z\s]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyIdRule
+* Date : 2026.02.14
+* Author : CJS
+* Description : 아이디용 문자만 허용
+********************************/
+function onlyIdRule(val) {
+    return val.replace(/[^a-zA-Z0-9._-]/g, '');
+}
+
+/*******************************
+* FuntionNm : onlyEmailChar
+* Date : 2026.02.14
+* Author : CJS
+* Description : 이메일 문자만 허용
+********************************/
+function onlyEmailChar(val) {
+    return val.replace(/[^a-zA-Z0-9@._-]/g, '');
+}
+
+/*******************************
+* FuntionNm : removeSpecialChar
+* Date : 2026.02.14
+* Author : CJS
+* Description : 특수문자 제거
+********************************/
+function removeSpecialChar(val) {
+    return val.replace(/[^가-힣a-zA-Z0-9\s]/g, '');
+}
+
+/*******************************
+* FuntionNm : trimValue
+* Date : 2026.02.14
+* Author : CJS
+* Description : 앞뒤 공백 제거
+********************************/
+function trimValue(val) {
+    return val.replace(/^\s+|\s+$/g, '');
+}
+
+/*******************************
+* FuntionNm : removeMultiSpace
+* Date : 2026.02.14
+* Author : CJS
+* Description : 연속 공백 제거
+********************************/
+function removeMultiSpace(val) {
+    return val.replace(/\s{2,}/g, ' ');
+}
+
+/*******************************
+* 유효성 검사 관련 [E]
+********************************/

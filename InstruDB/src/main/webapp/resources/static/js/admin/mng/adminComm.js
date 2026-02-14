@@ -23,7 +23,17 @@ $(document).ready(function() {
 		var commCdVal = $(this).val();
 		var commCd = getEngUpperCase(commCdVal);
 		$(this).val(commCd);
+
+		var commCdOrg = $('#commCdOrg').val();
 		
+		if ( isEmpty(commCd) || commCd === commCdOrg ) {
+			$('#commCdChk').val('');
+			$('#commCd').prop('required', false);
+			$('.hint').hide();
+			$('.error').hide();
+			return;
+		}
+
 		var tableNm = 'tb_common_info';
 		var url = '/admin/uniqueDupliChk.do';
 		var params = {
@@ -33,6 +43,7 @@ $(document).ready(function() {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = data.result;
+			$('#commCdChk').val(result);
 			if ( result === 'Y' ) {
 				$('#commCd').attr('required', false);
 				$('.hint').show();
@@ -53,6 +64,9 @@ $(document).ready(function() {
 		$('#btnReg').hide();
 		$('#btnRef').show();
 		
+		$('.hint').hide();
+		$('.error').hide();
+		
 		$('#commGroupCd').prop('readonly', true);
 		
 		var commId = $(this).data('id');
@@ -68,7 +82,6 @@ $(document).ready(function() {
 		} else {
 			$('#btnNew').show();
 		}
-
 
 		var url = '/admin/commSelect.do';
 		var params = {
@@ -102,12 +115,15 @@ $(document).ready(function() {
 				$('#commSortNo').val(commSortNo);
 				$('#commLvl').val(commLvl).trigger('change');
 				$('#commCn').val(commCn);
+				
 				$('#commCd').val(commCd);
+/*				$('#commCd').attr('data-id', commCd);*/
+				$('#commCdOrg').val(commCd);
+				
 				$('input[name="commUseYn"][value="' + commUseYn + '"]').prop('checked', true);
 				
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});
@@ -130,7 +146,14 @@ $(document).ready(function() {
 		$('#commNm').val('');
 	 	$('#commPId').val(commId);
 		$('#commPNm').val(commNm);
+		
 		$('#commCd').val('');
+		$('#commCdOrg').val('');
+		$('#commCdChk').val('');
+		$('#commCd').prop('required', false);
+		$('.hint').hide();
+		$('.error').hide();
+		
 		$('#commGroupCd').val(commGroupCd);
 		if ( Number(commLvl) === 0 ) {
 			$('#commLvl').val('1').trigger('change');
@@ -158,7 +181,14 @@ $(document).ready(function() {
 		$('#commNm').val('');
 		$('#commPId').val('');
 		$('#commPNm').val('');
+		
 		$('#commCd').val('');
+		$('#commCdOrg').val('');
+		$('#commCd').prop('required', false);
+		$('#commCdChk').val('');
+		$('.hint').hide();
+		$('.error').hide();
+		
 		$('#commGroupCd').val('');
 		$('#commLvl').val('0').trigger('change');
 		$('#commSortNo').val('');
@@ -180,24 +210,34 @@ $(document).ready(function() {
 		var commCn = $('#commCn').val();
 		var commCd = $('#commCd').val().toUpperCase();
 		var commUseYn = $('input[name="commUseYn"]:checked').val();
+		var commCdChk = $('#commCdChk').val();
+		
+		if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
+			return;
+		}
+
+		if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
+			return;
+		}
+		
+		if( isEmptyMsg(commCd,  '공통코드' + dataEmpty) ) {
+			return;
+		}
+
+		if  ( commCdChk === 'N' ) {
+			alert('공통코드' + dataChk)
+			return;
+		}
 		
 		if ( btnVal === 'I' ) {
-			
-			if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
-				return;
-			}
-			
-			if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
 			
 			if ( !confirm('코드' + regProcConfirm) ) {
 				return;
@@ -205,22 +245,6 @@ $(document).ready(function() {
 			url = '/admin/commReg.do';
 			
 		} else {
-			
-			if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
-				return;
-			}
-
-			if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
-				return;
-			}
 			
 			if ( !confirm('코드' + updProcConfirm) ) {
 				return;
@@ -246,8 +270,7 @@ $(document).ready(function() {
 			if (result > 0) {
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});

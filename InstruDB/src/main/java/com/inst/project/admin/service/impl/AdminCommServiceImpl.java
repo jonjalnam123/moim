@@ -48,6 +48,8 @@ public class AdminCommServiceImpl implements AdminCommService {
 				resultChk = adminCommMapper.selectCommCdDupliChk(bodyMap);
 			} else if ( tableNm.equals("tb_admin_unit_info") ) {
 				resultChk = adminCommMapper.selectUnitCdDupliChk(bodyMap);
+			} else if ( tableNm.equals("tb_admin_menu_info") ) {
+				resultChk = adminCommMapper.selectMenuNmDupliChk(bodyMap);
 			}
 
 			if( resultChk > 0 ) {

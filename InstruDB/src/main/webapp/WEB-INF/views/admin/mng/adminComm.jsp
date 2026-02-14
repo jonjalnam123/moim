@@ -44,26 +44,28 @@
         <div class="form-grid">
         
          	<div class="field">
-            	<label for="menu_nm" class="required">코드명</label>
+            	<label for="commNm" class="required">코드명</label>
             	<input type="text" id="commNm" name="commNm" class="form-control" />
             	<input type="hidden" id="commId" name="commId" class="form-contrㅜㅜol" />
           	</div>
           	
       	    <div class="field">
-            	<label for="menu_nm" class="">부모코드명</label>
+            	<label for="commPNm" class="">부모코드명</label>
             	<input type="text" id="commPNm" name="commPNm" class="form-control" readonly/>
             	<input type="hidden" id="commPId" name="commPId" class="form-control" />
           	</div>
           	
           	<div class="field">
-            	<label for="menu_nm" class="required">공통코드</label>
+            	<label for="commCd" class="required">공통코드</label>
             	<input type="text" id="commCd" name="commCd" class="form-control"/>
+            	<input type="hidden" id="commCdChk" name="commCdChk" class="form-control"/>
+            	<input type="hidden" id="commCdOrg" name="commCdOrg" class="form-control"/>
             	<div class="error" style="display: none;">공통코드가 중복 됩니다. 다시 입력해주세요.</div>
             	<small class="hint" style="display: none;">사용가능한 공통코드 입니다.</small>
           	</div>
           	
           	<div class="field">
-           		<label for="menu_nm" class="required">코드그룹</label>
+           		<label for="commGroupCd" class="required">코드그룹</label>
             	<input type="text" id="commGroupCd" name="commGroupCd" class="form-control" />
           	</div>
           		
@@ -81,7 +83,7 @@
           	</div>
 
           	<div class="field full">
-            	<label for="menu_desc">설명</label>
+            	<label for="commCn">설명</label>
             	<textarea id="commCn" name="commCn" class="form-control" placeholder="간단한 설명을 입력하세요."></textarea>
           	</div>
 

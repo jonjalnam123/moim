@@ -42,14 +42,22 @@ public class AdminLoginServiceImpl implements AdminLoginService {
         HttpSession seession = req.getSession(false);
         
 	    try {
-	        if (adminInfo == null) return GlobalConfig.N;
+	    	// 가입된 정보 없음.
+	        if (adminInfo == null) {
+	        	adminDTO.setAdminIp(adminIp);
+	        	adminLoginMapper.insertEmptyAdminLoginLog(adminDTO);
+	        	return GlobalConfig.E;
+	        }
 
 	        boolean adminIdChk = CommonUtil.loginIdChk(adminId, adminInfo.getAdminId());
 	        boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
-
-	        if (!(adminIdChk && adminPwChk)) return GlobalConfig.N;
-
 	        adminInfo.setAdminIp(adminIp);
+	        
+	        // 아이디, 비밀번호 불일치
+	        if (!(adminIdChk && adminPwChk)) {
+	        	adminLoginMapper.insertLoginFailLog(adminInfo);
+	        	return GlobalConfig.N;
+	        }
 
 	        boolean sessionResult = CommonUtil.setAdminInfoSession(adminInfo, req);
 	        int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
@@ -65,7 +73,8 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 		    if (seession != null) {
 		    	seession.invalidate();
 		    }
-
+		    
+		    // 로그인 실패
 		    adminLoginMapper.insertLoginFailLog(adminInfo);
 
 	        return GlobalConfig.N;
@@ -97,7 +106,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        String adminIp = CommonUtil.getAdminInfoSession("adminIp", req);
 	        
 	        adminInfo.setAdminId(adminId);
-	        adminInfo.setAdminId(adminIp);
+	        adminInfo.setAdminIp(adminIp);
 
 	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
 	        if (instCnt > 0) {

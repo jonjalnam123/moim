@@ -5,7 +5,7 @@
 <mapper namespace="com.inst.project.admin.service.impl.AdminLoginMapper">
 
 	<select id="selectAdminInfo" parameterType="AdminDTO" resultType="AdminDTO">
-		/* AdminLogin_SQL.adminLoginProc */
+		/* AdminLogin_SQL.selectAdminInfo */
 		SELECT ADMIN_NO
 				 , ADMIN_ID
 				 , ADMIN_PW
@@ -28,6 +28,27 @@
 	    WHERE ADMIN_ID = #{adminId}
 	        AND ADMIN_DEL_YN = 'N'
 	</select>
+	
+	<insert id="insertEmptyAdminLoginLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertEmptyAdminLoginLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_YN
+			     , LOGIN_LOG_GB
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'E'
+				 , 'EMPTY ADMIN INFO'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
 	
 	<insert id="insertAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertAdminLoginLog */

@@ -81,6 +81,7 @@ public class GlobalConfig {
     public static final String Y 	     	= "Y";
     public static final String N         	= "N";
     public static final String D 			= "D";
+    public static final String E 			= "E";
 
     public static final String USE_Y     = "Y";
     public static final String USE_N     = "N";

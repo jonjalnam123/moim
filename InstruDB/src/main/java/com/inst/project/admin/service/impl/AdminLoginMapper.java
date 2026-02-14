@@ -10,6 +10,9 @@ public interface AdminLoginMapper {
 	// 관리자 로그인 프로세스
 	AdminDTO selectAdminInfo(AdminDTO adminDTO);
 	
+	// 관리자 가입정보 없음 저장
+	void insertEmptyAdminLoginLog(AdminDTO adminDTO);
+	
 	// 관리자 로그인 이력 저장
 	int insertAdminLoginLog(AdminDTO adminDTO);
 	

@@ -24,6 +24,16 @@ $(document).ready(function() {
 		var adminUnitCd = getEngUpperCase(adminUnitCdVal);
 		$(this).val(adminUnitCd);
 		
+		var adminUnitCdOrg = $('#adminUnitCdOrg').val();
+
+		if ( isEmpty(adminUnitCd) || adminUnitCd === adminUnitCdOrg ) {
+			$('#adminUnitCdChk').val('');
+			$('#adminUnitCd').prop('required', false);
+			$('.hint').hide();
+			$('.error').hide();
+			return;
+		}
+		
 		var tableNm = 'tb_admin_unit_info';
 		var url = '/admin/uniqueDupliChk.do';
 		var params = {
@@ -33,6 +43,7 @@ $(document).ready(function() {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = data.result;
+			$('#adminUnitCdChk').val(result);
 			if ( result === 'Y' ) {
 				$('#adminUnitCd').attr('required', false);
 				$('.hint').show();
@@ -98,6 +109,7 @@ $(document).ready(function() {
 				$('#adminUnitPNm').val(adminUnitPNm);
 				
 				$('#adminUnitCd').val(adminUnitCd);
+				$('#adminUnitCdOrg').val(adminUnitCd);
 				
 				$('#adminUnitLvl').val(adminUnitLvl).trigger('change');
 				$('#adminUnitSortNo').val(adminUnitSortNo);
@@ -125,7 +137,14 @@ $(document).ready(function() {
 		$('#adminUnitNm').val('');
 		$('#adminUnitPId').val('');
 		$('#adminUnitPNm').val('');
+		
 		$('#adminUnitCd').val('');
+		$('#adminUnitCdOrg').val('');
+		$('#adminUnitCd').prop('required', false);
+		$('#adminUnitCdChk').val('');
+		$('.hint').hide();
+		$('.error').hide();
+		
 		$('#adminUnitLvl').val('0').trigger('change');
 		$('#adminUnitSortNo').val('');
 		$('#adminUnitCn').val('');	
@@ -149,7 +168,14 @@ $(document).ready(function() {
 		$('#adminUnitNm').val('');
 	 	$('#adminUnitPId').val(adminUnitId);
 		$('#adminUnitPNm').val(adminUnitNm);
+		
 		$('#adminUnitCd').val('');
+		$('#adminUnitCdOrg').val('');
+		$('#adminUnitCdChk').val('');
+		$('#adminUnitCd').prop('required', false);
+		$('.hint').hide();
+		$('.error').hide();
+		
 		if ( Number(adminUnitLvl) === 0 ) {
 			$('#adminUnitLvl').val('1').trigger('change');
 		} else if (Number(adminUnitLvl) === 1) {
@@ -172,6 +198,7 @@ $(document).ready(function() {
 		var adminUnitPId = $('#adminUnitPId').val();
 		
 		var adminUnitCd = $('#adminUnitCd').val();
+		var adminUnitCdChk = $('#adminUnitCdChk').val();
 
 		var adminUnitLvl = $('#adminUnitLvl').val();
 		var adminUnitSortNo = $('#adminUnitSortNo').val();
@@ -192,6 +219,11 @@ $(document).ready(function() {
 		}
 
 		if ( isEmptyMsg(adminUnitSortNo, '정렬순서' + dataEmpty) ) {
+			return;
+		}
+
+		if  ( adminUnitCdChk === 'N' ) {
+			alert('부서코드' + dataChk)
 			return;
 		}
 		

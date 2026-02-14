@@ -3,6 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.inst.project.admin.service.impl.AdminCommMapper">
+	
+	<!-- 관리자 메뉴명 중복 체크 [S]  -->
+	<select id="selectMenuNmDupliChk" parameterType="map" resultType="int">
+		/*AdminMng_SQL.selectMenuNmDupliChk*/
+		SELECT COUNT(*)
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_NM = #{uniqueKey}
+		    AND MENU_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 메뉴명 중복 체크 [E]  -->
 
 	<!-- 관리자 공통코드 중복 체크 [S]  -->
 	<select id="selectCommCdDupliChk" parameterType="map" resultType="int">
@@ -15,7 +26,7 @@
 	</select>
 	<!-- 관리자 공통코드 중복 체크 [E]  -->
 	
-	<!-- 관리자 부섬코드 중복 체크 [S]  -->
+	<!-- 관리자 부서코드 중복 체크 [S]  -->
 	<select id="selectUnitCdDupliChk" parameterType="map" resultType="int">
 		/*AdminMng_SQL.selectUnitCdDupliChk*/
 		SELECT COUNT(*)
@@ -24,6 +35,6 @@
 		    AND ADMIN_UNIT_CD = #{uniqueKey}
 		    AND ADMIN_UNIT_DEL_YN = 'N'
 	</select>
-	<!-- 관리자 부섬코드 중복 체크 [E]  -->
+	<!-- 관리자 부서코드 중복 체크 [E]  -->
 	
 </mapper>
