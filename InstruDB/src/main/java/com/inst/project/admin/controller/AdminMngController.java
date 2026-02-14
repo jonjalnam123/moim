@@ -588,6 +588,41 @@ public class AdminMngController {
 		return result;
 	}
 	
-	
+	/**
+	* @methodName	 	: getAdminUserAcceptInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 미승인 정보 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value = "/userAccept.do")
+	public String getAdminUserAcceptInfo( Model model, RedirectAttributes redirect ) {
+		log.info(" [ AdminMngController ] : getAdminUserAcceptInfo ");
+		
+		// 미승인 상태 관리자들 조회해서 진행하는 메소드 짜야함...!!!!!!!!
+		
+		List<AdminDTO> adminList = adminMngService.selectAdminUser();
+		
+		// 유닛 레벨 1 조회
+		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitList();
+		
+		// 관리자 등급 조회
+		List<AdminCommDTO> adminGradeList = adminMngService.selectAdminGradeList();
 
+		if( adminList == null || adminUnitList == null || adminGradeList == null) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do"; 
+		}
+		
+		model.addAttribute("adminList", adminList);
+		model.addAttribute("adminUnitList", adminUnitList);
+		model.addAttribute("adminGradeList", adminGradeList);
+		
+		return "admin/mng/adminUser.adm";
+	}
+	
 }

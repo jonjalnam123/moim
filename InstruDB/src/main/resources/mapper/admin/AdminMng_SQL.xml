@@ -527,11 +527,14 @@
 				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
 				  , ADMIN_REG_GB
 				  , ADMIN_GRADE_CD
+				  , ADMIN_REG_ACCEPT
 				  , REG_ID
 				  , REG_DT
 				  , UPD_ID
 				  , UPD_DT
 		   FROM TB_ADMIN_INFO
+		 WHERE 1=1 
+		     AND ADMIN_REG_ACCEPT = 'Y'
 	</select>
 	<!-- 관리자 조회 [E] -->
 	
@@ -603,6 +606,7 @@
 				 , ADMIN_GENDER
 				 , ADMIN_REG_GB
 				 , ADMIN_GRADE_CD
+				 , ADMIN_REG_ACCEPT
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID

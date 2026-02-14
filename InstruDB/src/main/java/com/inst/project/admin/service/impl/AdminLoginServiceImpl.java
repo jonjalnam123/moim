@@ -52,11 +52,18 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        boolean adminIdChk = CommonUtil.loginIdChk(adminId, adminInfo.getAdminId());
 	        boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
 	        adminInfo.setAdminIp(adminIp);
+	        String adminRegAccept = adminInfo.getAdminRegAccept();
 	        
 	        // 아이디, 비밀번호 불일치
 	        if (!(adminIdChk && adminPwChk)) {
 	        	adminLoginMapper.insertLoginFailLog(adminInfo);
 	        	return GlobalConfig.N;
+	        }
+	        
+	        // 관리자 가입 미승인 상태
+	        if ( !CommonUtil.isBlank(adminRegAccept) && adminRegAccept.equals("N") ) {
+	        	adminLoginMapper.insertNotAcceptAdminLoginLog(adminInfo);
+	        	return GlobalConfig.A;
 	        }
 
 	        boolean sessionResult = CommonUtil.setAdminInfoSession(adminInfo, req);

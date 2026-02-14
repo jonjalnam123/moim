@@ -1,7 +1,7 @@
 /**
  * 작성자 : 최정석
  * 작성날짜 : 2025.08.07
- * 내용 : adminUser 스크립트
+ * 내용 : adminUserAccept 스크립트
  */
 $(function () {
 	

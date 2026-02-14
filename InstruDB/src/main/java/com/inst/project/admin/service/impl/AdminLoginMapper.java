@@ -13,6 +13,9 @@ public interface AdminLoginMapper {
 	// 관리자 가입정보 없음 저장
 	void insertEmptyAdminLoginLog(AdminDTO adminDTO);
 	
+	// 관리자 가입 미승인 상태
+	void insertNotAcceptAdminLoginLog(AdminDTO adminInfo);
+	
 	// 관리자 로그인 이력 저장
 	int insertAdminLoginLog(AdminDTO adminDTO);
 	
@@ -21,5 +24,7 @@ public interface AdminLoginMapper {
 
 	// 관리자 로그아웃 이력 저장
 	int insertAdminLogOutLog(AdminDTO adminInfo);
+
+
 
 }

@@ -7,26 +7,29 @@
 	<select id="selectAdminInfo" parameterType="AdminDTO" resultType="AdminDTO">
 		/* AdminLogin_SQL.selectAdminInfo */
 		SELECT ADMIN_NO
-				 , ADMIN_ID
-				 , ADMIN_PW
-				 , ADMIN_NM
-				 , ADMIN_POSITION_CD
-				 , ADMIN_PH
-				 , ADMIN_POST_CD
-				 , ADMIN_ADDRESS
-				 , ADMIN_D_ADDRESS
-				 , ADMIN_DEL_YN
-				 , ADMIN_DEPT_CD
-				 , ADMIN_TEAM_CD
-				 , ADMIN_CN
-				 , ADMIN_GENDER
-				 , REG_ID
-				 , REG_DT
-				 , UPD_ID
-				 , UPD_DT
-		  FROM TB_ADMIN_INFO
-	    WHERE ADMIN_ID = #{adminId}
-	        AND ADMIN_DEL_YN = 'N'
+				  , ADMIN_ID
+				  , ADMIN_PW
+				  , ADMIN_NM
+				  , ADMIN_POSITION_CD
+				  , ADMIN_PH
+				  , ADMIN_POST_CD
+				  , ADMIN_ADDRESS
+				  , ADMIN_D_ADDRESS
+				  , ADMIN_DEL_YN
+				  , ADMIN_DEPT_CD
+				  , ADMIN_TEAM_CD
+				  , ADMIN_CN
+				  , ADMIN_GENDER
+			 	  , ADMIN_REG_GB
+		 		  , ADMIN_GRADE_CD
+				  , ADMIN_REG_ACCEPT
+				  , REG_ID
+				  , REG_DT
+				  , UPD_ID
+				  , UPD_DT
+		   FROM TB_ADMIN_INFO
+	     WHERE ADMIN_ID = #{adminId}
+	         AND ADMIN_DEL_YN = 'N'
 	</select>
 	
 	<insert id="insertEmptyAdminLoginLog" parameterType="AdminDTO">
@@ -35,8 +38,8 @@
 				   LOGIN_LOG_ID
 			     , LOGIN_ADMIN_ID
 			     , LOGIN_LOG_ADMIN_IP
-			     , LOGIN_LOG_LOGIN_YN
-			     , LOGIN_LOG_GB
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
 			     , REG_DT
 			     , UPD_DT 
 		) VALUES (
@@ -50,14 +53,35 @@
 		);
 	</insert>
 	
+	<insert id="insertNotAcceptAdminLoginLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertNotAcceptAdminLoginLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'A'
+				 , 'NOT ACCEPT ADMIN'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+	
 	<insert id="insertAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertAdminLoginLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
 				   LOGIN_LOG_ID
 			     , LOGIN_ADMIN_ID
 			     , LOGIN_LOG_ADMIN_IP
-			     , LOGIN_LOG_LOGIN_YN
-			     , LOGIN_LOG_GB
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
 			     , REG_DT
 			     , UPD_DT 
 		) VALUES (
@@ -77,8 +101,8 @@
 				   LOGIN_LOG_ID
 			     , LOGIN_ADMIN_ID
 			     , LOGIN_LOG_ADMIN_IP
-			     , LOGIN_LOG_LOGIN_YN
-			     , LOGIN_LOG_GB
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
 			     , REG_DT
 			     , UPD_DT 
 		) VALUES (
@@ -98,8 +122,8 @@
 				   LOGIN_LOG_ID
 			     , LOGIN_ADMIN_ID
 			     , LOGIN_LOG_ADMIN_IP
-			     , LOGIN_LOG_LOGIN_YN
-			     , LOGIN_LOG_GB
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
 			     , REG_DT
 			     , UPD_DT 
 		) VALUES (

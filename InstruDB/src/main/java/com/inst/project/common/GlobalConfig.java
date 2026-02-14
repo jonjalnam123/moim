@@ -80,8 +80,9 @@ public class GlobalConfig {
 
     public static final String Y 	     	= "Y";
     public static final String N         	= "N";
-    public static final String D 			= "D";
-    public static final String E 			= "E";
+    public static final String D 			= "D"; // 중복데이터 관련
+    public static final String E 			= "E"; // 빈 데이터 관련
+    public static final String A 			= "A"; // 승인 관련
 
     public static final String USE_Y     = "Y";
     public static final String USE_N     = "N";

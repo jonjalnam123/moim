@@ -92,6 +92,7 @@ public class CommonUtil {
 	    String adminGender = adminInfo.getAdminGender();
 	    String adminRegGb = adminInfo.getAdminRegGb();
 	    String adminGradeCd = adminInfo.getAdminGradeCd();
+	    String adminRegAccept = adminInfo.getAdminRegAccept();
 	    
 	    session.setAttribute("adminId", adminId);
 	    session.setAttribute("adminNm", adminNm);
@@ -102,6 +103,7 @@ public class CommonUtil {
 	    session.setAttribute("adminGender", adminGender);
 	    session.setAttribute("adminRegGb", adminRegGb);
 	    session.setAttribute("adminGradeCd", adminGradeCd);
+	    session.setAttribute("adminRegAccept", adminRegAccept);
 	    
 		return true;
 	}

@@ -27,6 +27,7 @@ public class AdminDTO {
 	private String adminGenderNm;
 	private String adminRegGb;
 	private String adminGradeCd;
+	private String adminRegAccept;
 	private String regId;
 	private String regDt;
 	private String updId;
