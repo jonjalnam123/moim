@@ -47,7 +47,7 @@
 				 , #{adminId}
 				 , #{adminIp}
 				 , 'E'
-				 , 'EMPTY ADMIN INFO'
+				 , 'EMPTY'
 				 , NOW()
 				 , NOW()
 		);
@@ -67,8 +67,29 @@
 				   ( SELECT FN_GET_UNIQUE_KEY() )
 				 , #{adminId}
 				 , #{adminIp}
-				 , 'A'
-				 , 'NOT ACCEPT ADMIN'
+				 , 'NA'
+				 , 'NOTACCEPT'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+	
+	<insert id="insertRejectAdminLoginLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertRejectAdminLoginLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'R'
+				 , 'REJECT'
 				 , NOW()
 				 , NOW()
 		);

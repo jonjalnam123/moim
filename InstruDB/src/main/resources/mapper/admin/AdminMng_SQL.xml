@@ -618,4 +618,58 @@
 	</select>
 	<!-- 관리자 관리자 정보 조회 [E] -->
 	
+	<!-- 관리자 가입승인관리 조회 [S] -->
+	<select id="selectAdminUserAcceptInfo" resultType="AdminDTO">
+		/*AdminMng_SQL.selectAdminUserAcceptInfo*/
+		SELECT ADMIN_NO
+				  , ADMIN_ID
+				  , ADMIN_NM
+				  , ADMIN_PH
+				  , ADMIN_POST_CD
+				  , ADMIN_ADDRESS
+				  , ADMIN_D_ADDRESS
+				  , ADMIN_GENDER
+				  , CASE WHEN ADMIN_GENDER = 'M' THEN '남자'
+				 		     WHEN ADMIN_GENDER = 'W' THEN '여자'
+				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
+				  , ADMIN_REG_GB
+				  , ADMIN_REG_ACCEPT
+				  , CASE WHEN ADMIN_REG_ACCEPT = 'N' THEN '미승인'
+			 		         WHEN ADMIN_REG_ACCEPT = 'R' THEN '반려'
+		 		   	           ELSE NULL END AS ADMIN_REG_ACCEPT_NM
+				  , REG_ID
+				  , TO_CHAR(REG_DT, 'YYYY.MM.DD') AS REG_DT
+				  , UPD_ID
+				  , UPD_DT
+		   FROM TB_ADMIN_INFO
+		 WHERE 1=1 
+		     AND ADMIN_REG_ACCEPT != 'Y'
+		     AND ADMIN_REG_GB = '00'
+	</select>
+	<!-- 관리자 가입승인관리 조회 [E] -->
+	
+	<!-- 관리자 가입승인관리 상세 조회 [S] -->
+	<select id="selectAdminUserAcceptDtlInfo" resultType="AdminDTO">
+		/*AdminMng_SQL.selectAdminUserAcceptDtlInfo*/  
+		SELECT A.ADMIN_NO
+				 , A.ADMIN_ID
+				 , A.ADMIN_NM
+				 , A.ADMIN_PH
+				 , A.ADMIN_POST_CD
+				 , A.ADMIN_ADDRESS
+				 , A.ADMIN_D_ADDRESS
+				 , A.ADMIN_GENDER
+				 , A.ADMIN_REG_ACCEPT
+				 , ( SELECT B.REJECT_CN FROM TB_ADMIN_REJECT_INFO B WHERE A.ADMIN_ID = B.ADMIN_ID ) AS ADMIN_REJECT_CN
+				 , A.REG_ID
+				 , A.REG_DT
+				 , A.UPD_ID
+				 , A.UPD_DT
+		FROM TB_ADMIN_INFO A
+	  WHERE 1=1 
+	      AND A.ADMIN_NO = #{adminNo}
+	      AND A.ADMIN_ID = #{adminId}
+	</select>
+	<!-- 관리자 가입승인관리 상세 조회 [E] -->
+	
 </mapper>

@@ -24,14 +24,21 @@ $(document).ready(function(){
 		}
 		var dataType = 'json'
 	 	ajaxStart(url, params, dataType, function(data) {
-	        if (data.result === 'Y' ) { // 로그인 성공
+	        if (data.result === 'SUCCESS' ) { // 로그인 성공
 	        	window.location.href = '/admin/main.do'
-	        } else if (data.result === 'D'){ // 로그인 중복.
+	        } else if (data.result === 'DISTINCT'){ // 로그인 중복.
 				if ( confirm(loginDistinct) ) {
 					
 				} 
-	        } else if ( data.result === 'E' ) { // 가입된 정보 없음.
+	        } else if ( data.result === 'EMPTY' ) { // 가입된 정보 없음.
 				alert(loginEmpty);
+				return;
+			} else if ( data.result === 'NOTACCEPT' ) { // 가입 미승인 상태
+				alert(loginNotAccept);
+				return;
+			} else if ( data.result === 'REJECT' ) {
+				// TODO 추후에 반려 조회 팝업이 떠야할 것 같음.
+				alert(loginReject);
 				return;
 			} else { // 아이디, 비밀번호 불일치
 				alert(loginFailMsg);

@@ -7,19 +7,6 @@ $(function () {
 	
 	initSplitResizeJQ(); 
 	
-	// 트리 열기/닫기
-	$(document).on('click', '.tree .tw', function(e){
-	  e.preventDefault();
-	  $(this).closest('li').toggleClass('open');
-	});
-	
-	// 트리 항목 선택 시 활성 표시
-	$(document).on('click', '.tree a', function(e){
-	  e.preventDefault();
-	  $('.tree a').removeClass('active');
-	  $(this).addClass('active');
-	});
-	
 	// 우편번호 찾기 이벤트
 	$('#getPostCode').on('click', function(){
 		var postId =  $('#adminPostCd').attr('id');

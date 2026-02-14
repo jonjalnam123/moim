@@ -46,7 +46,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        if (adminInfo == null) {
 	        	adminDTO.setAdminIp(adminIp);
 	        	adminLoginMapper.insertEmptyAdminLoginLog(adminDTO);
-	        	return GlobalConfig.E;
+	        	return GlobalConfig.LOGIN_E;
 	        }
 
 	        boolean adminIdChk = CommonUtil.loginIdChk(adminId, adminInfo.getAdminId());
@@ -57,19 +57,25 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        // 아이디, 비밀번호 불일치
 	        if (!(adminIdChk && adminPwChk)) {
 	        	adminLoginMapper.insertLoginFailLog(adminInfo);
-	        	return GlobalConfig.N;
+	        	return GlobalConfig.LOGIN_N;
 	        }
 	        
 	        // 관리자 가입 미승인 상태
 	        if ( !CommonUtil.isBlank(adminRegAccept) && adminRegAccept.equals("N") ) {
 	        	adminLoginMapper.insertNotAcceptAdminLoginLog(adminInfo);
-	        	return GlobalConfig.A;
+	        	return GlobalConfig.LOGIN_NA;
+	        }
+	        
+	        // 관리자 가입승인 반려 상태
+	        if ( !CommonUtil.isBlank(adminRegAccept) && adminRegAccept.equals("R") ) {
+	        	adminLoginMapper.insertRejectAdminLoginLog(adminInfo);
+	        	return GlobalConfig.LOGIN_R;
 	        }
 
 	        boolean sessionResult = CommonUtil.setAdminInfoSession(adminInfo, req);
 	        int instCnt = adminLoginMapper.insertAdminLoginLog(adminInfo);
 
-	        return (sessionResult && instCnt > 0) ? GlobalConfig.Y : GlobalConfig.N;
+	        return (sessionResult && instCnt > 0) ? GlobalConfig.LOGIN_Y : GlobalConfig.LOGIN_N;
 
 	    } catch (Exception e) {
 	        log.error("[ AdminLoginServiceImpl ] : adminLoginProc failed. adminId={}, ip={}", adminId, adminIp, e);
@@ -84,7 +90,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 		    // 로그인 실패
 		    adminLoginMapper.insertLoginFailLog(adminInfo);
 
-	        return GlobalConfig.N;
+	        return GlobalConfig.LOGIN_N;
 	    }
 	}
 	

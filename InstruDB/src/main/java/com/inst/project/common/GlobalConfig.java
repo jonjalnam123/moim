@@ -80,9 +80,6 @@ public class GlobalConfig {
 
     public static final String Y 	     	= "Y";
     public static final String N         	= "N";
-    public static final String D 			= "D"; // 중복데이터 관련
-    public static final String E 			= "E"; // 빈 데이터 관련
-    public static final String A 			= "A"; // 승인 관련
 
     public static final String USE_Y     = "Y";
     public static final String USE_N     = "N";
@@ -130,5 +127,18 @@ public class GlobalConfig {
      * ============================ */
 
     public static final String SYS_GB_INSTRUDB     = "InstruDB";
+    
+    /* ============================
+     *  로그인 관련
+     * ============================ */
+    
+    public static final String LOGIN_Y 	     	= "SUCCESS";		// 로그인 성공
+    public static final String LOGIN_N         	= "FAIL";				// 로그인 실패
+    
+    public static final String LOGIN_D 			= "DISTINCT"; 		// 중복로그인
+    public static final String LOGIN_E 			= "EMPTY"; 			// 로그인정보 없음
+    public static final String LOGIN_NA 		= "NOTACCEPT";	// 가입승인
+    public static final String LOGIN_R 			= "REJECT"; 			// 로그인 반려
+    
 }
 

@@ -7,41 +7,14 @@ $(function () {
 	
 	initSplitResizeJQ(); 
 	
-	// 트리 열기/닫기
-	$(document).on('click', '.tree .tw', function(e){
-	  e.preventDefault();
-	  $(this).closest('li').toggleClass('open');
-	});
-	
-	// 트리 항목 선택 시 활성 표시
-	$(document).on('click', '.tree a', function(e){
-	  e.preventDefault();
-	  $('.tree a').removeClass('active');
-	  $(this).addClass('active');
-	});
-	
-	// 우편번호 찾기 이벤트
-	$('#getPostCode').on('click', function(){
-		var postId =  $('#adminPostCd').attr('id');
-		var adId = $('#adminAddress').attr('id');
-		execDaumPostcode( postId, adId )
-	})
-	
 	// 그리드 더블클릭 이벤트
-	var pendingTeamCd =  '';
-	var pendingPositionCd = '';
 	$('.adminInfoTr').on('dblclick', function() {
-		
-		$('#btnUpd').show();
-		$('#btnDel').show();
-		$('#btnReg').hide();
-		$('#btnRef').show();
 		
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');
 		var adminId = $(this).data('id');
 		
-	  	var url = '/admin/userInfo.do';
+	  	var url = '/admin/userAcceptInfo.do';
 	  	var params = { 
 			adminNo: adminNo
 		  , adminId : adminId
@@ -50,23 +23,20 @@ $(function () {
 
 		ajaxStart(url, params, dataType, function(data) {
 			
-			var adminInfo = data.adminInfo;
+			var adminAcceptInfo = data.adminAcceptInfo;
 			
-			if ( !isEmpty(adminInfo) ) {
+			if ( !isEmpty(adminAcceptInfo) ) {
 				
-				var adminNo = adminInfo.adminNo
-				var adminId = adminInfo.adminId
-				var adminNm = adminInfo.adminNm
-				var adminPh = adminInfo.adminPh
-				var adminPostCd = adminInfo.adminPostCd
-				var adminAddress = adminInfo.adminAddress
-				var adminDAddress = adminInfo.adminDAddress
-				var adminDeptCd = adminInfo.adminDeptCd
-				var adminTeamCd = adminInfo.adminTeamCd
-				var adminPositionCd = adminInfo.adminPositionCd
-				var adminCn = adminInfo.adminCn
-				var adminGender = adminInfo.adminGender
-				var adminGradeCd = adminInfo.adminGradeCd
+				var adminNo = adminAcceptInfo.adminNo
+				var adminId = adminAcceptInfo.adminId
+				var adminNm = adminAcceptInfo.adminNm
+				var adminPh = adminAcceptInfo.adminPh
+				var adminPostCd = adminAcceptInfo.adminPostCd
+				var adminAddress = adminAcceptInfo.adminAddress
+				var adminDAddress = adminAcceptInfo.adminDAddress
+				var adminGender = adminAcceptInfo.adminGender
+				var adminRegAccept = adminAcceptInfo.adminRegAccept
+				var adminRejectCn = adminAcceptInfo.adminRejectCn
 
 				$('#adminNo').val(adminNo);
 				$('#adminId').val(adminId);
@@ -75,120 +45,18 @@ $(function () {
 				$('#adminPostCd').val(adminPostCd);
 				$('#adminAddress').val(adminAddress);
 				$('#adminDAddress').val(adminDAddress);
-				
-				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				pendingTeamCd = adminTeamCd || '';
-				pendingPositionCd = adminPositionCd || '';
-
-				$('#adminGradeCd').val(adminGradeCd).trigger('change');
-
+				$('#adminRegAccept').val(adminRegAccept).trigger('change');
 				$('input[name="adminGender"][value="' + adminGender + '"]').prop('checked', true);
-				$('#adminCn').val(adminCn);
+				$('#adminRejectCn').val(adminRejectCn);
 				
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});
 	
-	// 부서 입력 이벤트
-	$('#adminDeptCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/teamSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitTeamData = data || [];
-	    	var team = $('#adminTeamCd');
-
-	    	team.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitTeamData)) {
-				
-				$('#adminTeamDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitTeamData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				team.append(html);
-				
-				if (pendingTeamCd != null) {
-				  team.val(pendingTeamCd).trigger('change');
-				} else {
-				  team.trigger('change');
-				}
-				
-	    	} else {
-				
-				$('#adminTeamDiv').hide();
-				$('#adminPositionDiv').hide();
-				
-				pendingTeamCd = null;
-				pendingPositionCd = null;
-				
-			}
-			
-  		});
-	});
-	
-	// 팀 입력 이벤트
-	$('#adminTeamCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/posotionSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitPositionData = data || [];
-	    	var position = $('#adminPositionCd');
-
-	    	position.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitPositionData)) {
-				
-				$('#adminPositionDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitPositionData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				position.append(html);
-				
-				if (pendingPositionCd != null) {
-				  position.val(pendingPositionCd).trigger('change');
-				} else {
-				  position.trigger('change');
-				}
-				
-	    	} else {
-				$('#adminPositionDiv').hide();
-			}
-		
-			pendingTeamCd = null;
-			pendingPositionCd = null;
-			
-  		});
-	});
-	
-	$('#btnRef').on('click', function() {
-		window.location.reload();
-	});
-	
-	// 메뉴 등록 이벤트
-	$('#btnReg, #btnUpd').on('click', function() {
+	// 승인 버튼 이벤트
+	$('#btnReg').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
 		

@@ -100,6 +100,12 @@ public interface AdminMngMapper {
 	// 관리자 삭제
 	int adminUserDel(AdminDTO adminDTO);
 
+	// 관리자 가입승인관리 조회
+	List<AdminDTO> selectAdminUserAcceptInfo();
+	
+	// 관리자 가입승인관리 상세 조회
+	AdminDTO selectAdminUserAcceptDtlInfo(AdminDTO adminDTO);
+
 
 
 }

@@ -1006,4 +1006,68 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	/**
+	* @methodName	 	: selectAdminUserAcceptInfo
+	* @author				: 최정석
+	* @date            		: 2026. 02. 14
+	* @description			: 관리자 가입승인관리 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 02. 14        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminDTO> selectAdminUserAcceptInfo() {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminUserAcceptInfo ");
+
+	    try {
+	    	
+	    	List<AdminDTO> adminAcceptList = adminMngMapper.selectAdminUserAcceptInfo();
+		    if ( adminAcceptList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
+	        return adminAcceptList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminAcceptList failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminUserAcceptDtlInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 가입승인관리 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminDTO selectAdminUserAcceptDtlInfo(AdminDTO adminDTO) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminUserAcceptDtlInfo ");
+
+	    try {
+	    	
+	    	AdminDTO adminAcceptInfo = adminMngMapper.selectAdminUserAcceptDtlInfo(adminDTO);
+	    	if ( adminAcceptInfo == null ) {
+	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return null;
+	    	}  
+	    	 
+	        return adminAcceptInfo;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminUserAcceptDtlInfo failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
 }
