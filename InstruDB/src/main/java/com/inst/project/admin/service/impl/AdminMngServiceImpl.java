@@ -1070,4 +1070,77 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    }
 	}
 	
+	/**
+	* @methodName	 	: adminUserAcceptUpd
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 가입승인관리 승인 진행
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUserAcceptUpd(AdminDTO adminDTO, HttpServletRequest req) {
+	    log.info(" [ AdminMngServiceImpl ] : adminUserAcceptUpd ");
+	    try {
+			
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+			    return 0;
+			}
+			
+			adminDTO.setUpdId(adminId);
+	        
+	        return adminMngMapper.adminUserAcceptUpd(adminDTO);
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUserAcceptUpd failed.", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminUserAcceptDel
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 가입승인관리 반려 진행
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminUserAcceptDel(AdminDTO adminDTO, HttpServletRequest req) {
+		log.info(" [ AdminMngServiceImpl ] : adminUserAcceptDel ");
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+			
+			adminDTO.setRegId(adminId);
+			adminDTO.setUpdId(adminId);
+			
+			int rejectResult = 0;
+			int result = adminMngMapper.adminUserAcceptDel(adminDTO);
+			if ( result > 0) {
+				rejectResult = adminMngMapper.adminUserRejectCnReg(adminDTO);
+			}
+	        
+	        return rejectResult;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : adminUserAcceptDel failed.");
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
 }

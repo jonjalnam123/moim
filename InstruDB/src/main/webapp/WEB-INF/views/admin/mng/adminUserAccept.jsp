@@ -137,8 +137,8 @@
 	
 		        <div class="form-actions">
 <!--   					<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   	style="display: none;">초기화</button> -->
-       				<button type="button" class="btn-insert"   	id="btnReg"   	value="I">승인</button>
-        			<button type="button" class="btn-update"		id="btnDel" 		value="U">반려</button>
+       				<button type="button" class="btn-insert"   	id="btnReg"   	value="U">승인</button>
+        			<button type="button" class="btn-update"		id="btnDel" 		value="D">반려</button>
 		        </div>
 	      	</div>
 	    </div>

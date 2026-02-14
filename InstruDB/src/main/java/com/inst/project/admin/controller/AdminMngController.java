@@ -638,4 +638,49 @@ public class AdminMngController {
 		return result;
 	}
 	
+	/**
+	* @methodName	 	: adminUserAcceptUpd
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 가입승인관리 승인 진행
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userAcceptUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminUserAcceptUpd( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUserAcceptUpd ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int updResult = adminMngService.adminUserAcceptUpd(adminDTO, req);
+		
+		result.put("result", updResult);
+
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminUserAcceptDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 가입승인관리 반려 진행
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/userAcceptDel.do")
+	@ResponseBody
+	public Map<String,Object> adminUserAcceptDel( @ModelAttribute AdminDTO adminDTO, HttpServletRequest req ) {
+		log.info(" [ AdminMngController ] : adminUserAcceptDel ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int delResult = adminMngService.adminUserAcceptDel(adminDTO, req);
+		result.put("result", delResult);
+
+		return result;
+	}
+	
 }

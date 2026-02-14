@@ -106,6 +106,15 @@ public interface AdminMngMapper {
 	// 관리자 가입승인관리 상세 조회
 	AdminDTO selectAdminUserAcceptDtlInfo(AdminDTO adminDTO);
 
+	// 관리자 가입승인관리 승인 진행
+	int adminUserAcceptUpd(AdminDTO adminDTO);
+
+	// 관리자 가입승인관리 반려 진행
+	int adminUserAcceptDel(AdminDTO adminDTO);
+	
+	// 관리자 가입승인관리 반려 사유 등록
+	int adminUserRejectCnReg(AdminDTO adminDTO);
+
 
 
 }
