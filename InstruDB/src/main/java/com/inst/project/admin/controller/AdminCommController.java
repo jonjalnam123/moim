@@ -1,6 +1,6 @@
 package com.inst.project.admin.controller;
 
-import java.time.Clock;
+import java.time.Clock; 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,13 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.inst.project.admin.service.AdminCommService;
-import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminErrorDTO;
 import com.inst.project.common.GlobalConfig;
 
@@ -100,4 +98,5 @@ public class AdminCommController {
 
 		return result;
 	}
+	
 }

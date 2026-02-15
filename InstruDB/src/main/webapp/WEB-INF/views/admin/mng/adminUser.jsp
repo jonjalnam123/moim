@@ -3,31 +3,47 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUser.js"></script>
 
+<%-- 	<form action="/admin/user.do" id="frm">
+	<input type="hidden" name="pageNum" value="1" id="pageNum">
+	<select name="kind" id="kind">
+		<option class="s" value="title">제목</option>
+		<option class="s" value="contents">내용</option>
+		<option class="s" value="writer">작성자</option>
+	</select>
+	<input type="text" name="search" id="search" value="${pager.search}">
+	<button type="submit" id="btn">검색</button>
+	</form> --%>
+
+<input type="hidden"  id="pageKind" name="pageKind" value="${pager.kind}">
+<input type="hidden"  id="pageNumF" name="pageNumF" value="${pager.pageNum}">
+
 <div class="split-layout grid-split">
-
 	<aside class="split-left list-panel">
-		<div class="list-header">
-      		<div class="list-title">관리자 목록</div>
-
-      		<div class="list-search">
-        		<select id="schType" class="form-select">
-	          		<option value="">전체</option>
-		          	<option value="code">코드</option>
-		          	<option value="name">명칭</option>
-        		</select>
-
-        		<input id="schText" class="form-control" type="text" placeholder="검색어" />
-
-        		<select id="schUseYn" class="form-select">
-          			<option value="">사용여부 전체</option>
-          			<option value="Y">사용</option>
-          			<option value="N">미사용</option>
-        		</select>
-
-        		<button type="button" id="btnSearch" class="search-btn">조회</button>
-        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
-      		</div>
-    	</div>
+		<form action="/admin/user.do" id="adminUserSearchForm">
+			<input type="hidden"  id="pageNum" name="pageNum" value="1">
+			<div class="list-header">
+	      		<div class="list-title">관리자 목록</div>
+	
+	      		<div class="list-search">
+	        		<select id="kind" name="kind" class="form-select">
+		          		<!-- <option class="s" value="">전체</option> -->
+			          	<option class="s" value="adminNm">이름</option>
+			          	<option class="s" value="adminId">아이디</option>
+	        		</select>
+	
+	        		<input id="search" name="search" class="form-control" type="text" placeholder="검색어" value="${pager.search}"/>
+	
+	<!--         		<select id="schUseYn" class="form-select">
+	          			<option value="">사용여부 전체</option>
+	          			<option value="Y">사용</option>
+	          			<option value="N">미사용</option>
+	        		</select> -->
+	
+	        		<button type="submit" id="btnSearch" class="search-btn">조회</button>
+	        		<!-- <button type="button" id="btnReset" class="btn-refresh">초기화</button> -->
+	      		</div>
+	    	</div>
+	   	</form>
 
     	<div class="list-body">
 			<div class="grid-wrap" style="padding:10px; overflow:auto;">
@@ -65,6 +81,16 @@
 				        </c:forEach>
 		      		</tbody>
 		    	</table>
+		    	
+		    	<!-- 페이징 -->
+			    <div class="pagination" id="paging">
+				    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+	    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+						<button class="p" data-list-pn="${i}">${i}</button>
+					</c:forEach>
+				    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+			  	</div>
+			  	
 			</div>
     	</div>
 	</aside>

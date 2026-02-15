@@ -24,6 +24,7 @@ import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
+import com.inst.project.utill.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -431,11 +432,12 @@ public class AdminMngController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value="/user.do")
-	public String getAdminUser( Model model, RedirectAttributes redirect ) {
+	public String getAdminUser( Model model, RedirectAttributes redirect, Pager pager ) {
 		log.info(" [ AdminMngController ] : getAdminUser ");
-		
-		List<AdminDTO> adminList = adminMngService.selectAdminUser();
-		
+		System.out.println("pager===" + pager);
+		//List<AdminDTO> adminList = adminMngService.selectAdminUser();
+		List<AdminDTO> adminList = adminMngService.selectAdminUserPager( pager );
+
 		// 유닛 레벨 1 조회
 		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitList();
 		
@@ -451,9 +453,11 @@ public class AdminMngController {
 		model.addAttribute("adminList", adminList);
 		model.addAttribute("adminUnitList", adminUnitList);
 		model.addAttribute("adminGradeList", adminGradeList);
+		model.addAttribute("pager", pager);
 		
 		return "admin/mng/adminUser.adm";
 	}
+
 	
 	/**
 	* @methodName	 	: getAdminUserInfo

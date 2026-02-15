@@ -735,4 +735,49 @@
 	</insert>
 	<!-- 관리자 가입승인관리 반려 사유 등록 [E] -->
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<select id="getList" parameterType="Pager" resultType="AdminDTO">
+    SELECT *
+    FROM TB_ADMIN_INFO
+    WHERE
+        <choose>
+            <when test="kind == 'adminNm'">ADMIN_NM</when>
+            <when test="kind == 'adminId'">ADMIN_ID</when>
+            <otherwise>ADMIN_NM</otherwise>
+        </choose>
+        LIKE '%' || #{search} || '%'
+    ORDER BY REG_DT DESC 
+    LIMIT #{perPage} OFFSET #{startRow}
+</select>
+
+<select id="getTotalCount" parameterType="Pager" resultType="Long">
+    select count(*)
+    from TB_ADMIN_INFO
+    WHERE
+        <choose>
+            <when test="kind == 'adminNm'">ADMIN_NM</when>
+            <when test="kind == 'adminId'">ADMIN_ID</when>
+            <otherwise>ADMIN_NM</otherwise>
+        </choose>
+        LIKE '%' || #{search} || '%'
+</select>
+	
+	
 </mapper>

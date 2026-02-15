@@ -9,6 +9,7 @@ import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
+import com.inst.project.utill.Pager;
 
 @Mapper
 public interface AdminMngMapper {
@@ -114,6 +115,19 @@ public interface AdminMngMapper {
 	
 	// 관리자 가입승인관리 반려 사유 등록
 	int adminUserRejectCnReg(AdminDTO adminDTO);
+
+	
+	
+	
+	
+	
+	
+	
+	
+	Long getTotalCount(Pager pager);
+
+	
+	List<AdminDTO> getList(Pager pager);
 
 
 

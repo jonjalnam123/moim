@@ -9,6 +9,7 @@ import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
+import com.inst.project.utill.Pager;
 
 public interface AdminMngService {
 	
@@ -110,6 +111,11 @@ public interface AdminMngService {
 	
 	// 관리자 가입승인관리 반려 진행
 	int adminUserAcceptDel(AdminDTO adminDTO, HttpServletRequest req);
+
+	
+	
+	
+	List<AdminDTO> selectAdminUserPager(Pager pager);
 
 
 }

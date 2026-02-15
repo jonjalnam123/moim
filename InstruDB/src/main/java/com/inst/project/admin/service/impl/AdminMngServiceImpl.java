@@ -15,6 +15,7 @@ import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
+import com.inst.project.utill.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -1141,6 +1142,16 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
 	    }
+	}
+	
+	@Override
+	public List<AdminDTO> selectAdminUserPager(Pager pager) {
+		pager.makeRow();
+		
+		Long totalCount = adminMngMapper.getTotalCount(pager);
+		pager.makeNum(totalCount);
+			
+		return adminMngMapper.getList(pager);
 	}
 	
 }

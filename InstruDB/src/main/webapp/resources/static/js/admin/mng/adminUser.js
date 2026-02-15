@@ -7,6 +7,42 @@ $(function () {
 	
 	initSplitResizeJQ(); 
 	
+
+	var kind = 	$('#pageKind').val();
+	var pageNumF = 	$('#pageNumF').val();
+	
+	
+	setKind(kind, pageNumF);
+
+	function setKind(kind, pageNumF) {
+		
+		console.log('kind===', kind);
+		
+		$(".s").each(function() {
+			if($(this).val()==kind){
+				$(this).prop("selected", true);
+			}
+		})
+		
+		console.log('pageNum===', pageNumF);
+	$(".p").each(function() {
+			if($(this).attr("data-list-pn") === pageNum){
+				$(this).addClass('active');
+			}
+		})
+	};
+
+	$(".p").click(function() {
+		//$(this).addClass('active');
+		const n= $(this).attr("data-list-pn");
+		$("#pageNum").val(n);
+		$('#adminUserSearchForm').submit(); 
+	});
+	
+	
+	
+	
+	
 	// 우편번호 찾기 이벤트
 	$('#getPostCode').on('click', function(){
 		var postId =  $('#adminPostCd').attr('id');
