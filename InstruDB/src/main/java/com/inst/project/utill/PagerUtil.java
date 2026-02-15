@@ -3,13 +3,13 @@ package com.inst.project.utill;
 import lombok.Data;
 
 @Data
-public class Pager {
+public class PagerUtil {
 
     /** 검색 컬럼 */
-    private String kind;
+    private String searchGb;
 
     /** 검색어 */
-    private String search;
+    private String searchTxt;
 
     /** 현재 페이지 번호 */
     private Integer pageNum;
@@ -33,11 +33,11 @@ public class Pager {
        기본값 처리 Getter
     ================================ */
 
-    public String getSearch() {
-        if (this.search == null) {
-            this.search = "";
+    public String getSearchTxt() {
+        if (this.searchTxt == null) {
+            this.searchTxt = "";
         }
-        return this.search;
+        return this.searchTxt;
     }
 
     public Integer getPageNum() {

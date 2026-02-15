@@ -28,7 +28,7 @@ package com.inst.project.utill;
 * @author
 *    Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland, www.source-code.biz
 */
-public class Base64CoderUtill {
+public class Base64CoderUtil {
 
 	// The line separator string of the operating system.
 	private static final String systemLineSeparator = System.getProperty("line.separator");
@@ -223,6 +223,6 @@ public class Base64CoderUtill {
 	   return out; }
 
 	// Dummy constructor.
-	private Base64CoderUtill() {}
+	private Base64CoderUtil() {}
 
 } // end class Base64Coder

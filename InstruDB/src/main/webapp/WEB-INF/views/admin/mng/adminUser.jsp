@@ -3,48 +3,31 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUser.js"></script>
 
-<%-- 	<form action="/admin/user.do" id="frm">
-	<input type="hidden" name="pageNum" value="1" id="pageNum">
-	<select name="kind" id="kind">
-		<option class="s" value="title">제목</option>
-		<option class="s" value="contents">내용</option>
-		<option class="s" value="writer">작성자</option>
-	</select>
-	<input type="text" name="search" id="search" value="${pager.search}">
-	<button type="submit" id="btn">검색</button>
-	</form> --%>
-
-<input type="hidden"  id="pageKind" name="pageKind" value="${pager.kind}">
-<input type="hidden"  id="pageNumF" name="pageNumF" value="${pager.pageNum}">
+<!-- Model 파라미터 -->
+<input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
+<input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
 
 <div class="split-layout grid-split">
 	<aside class="split-left list-panel">
+		<!--  조회 조건 [S] -->
 		<form action="/admin/user.do" id="adminUserSearchForm">
 			<input type="hidden"  id="pageNum" name="pageNum" value="1">
 			<div class="list-header">
-	      		<div class="list-title">관리자 목록</div>
-	
+	      		<div class="list-title"></div>
 	      		<div class="list-search">
-	        		<select id="kind" name="kind" class="form-select">
-		          		<!-- <option class="s" value="">전체</option> -->
+	        		<select id="searchGb" name=searchGb class="form-select">
 			          	<option class="s" value="adminNm">이름</option>
 			          	<option class="s" value="adminId">아이디</option>
 	        		</select>
-	
-	        		<input id="search" name="search" class="form-control" type="text" placeholder="검색어" value="${pager.search}"/>
-	
-	<!--         		<select id="schUseYn" class="form-select">
-	          			<option value="">사용여부 전체</option>
-	          			<option value="Y">사용</option>
-	          			<option value="N">미사용</option>
-	        		</select> -->
-	
-	        		<button type="submit" id="btnSearch" class="search-btn">조회</button>
-	        		<!-- <button type="button" id="btnReset" class="btn-refresh">초기화</button> -->
+	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
+	        		<button type="button" id="btnSearch" class="search-btn">조회</button>
+	        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
 	      		</div>
 	    	</div>
 	   	</form>
-
+		<!--  조회 조건 [E] -->
+		
+		<!--  그리드 [S] -->
     	<div class="list-body">
 			<div class="grid-wrap" style="padding:10px; overflow:auto;">
 			    <table class="table-grid">
@@ -82,7 +65,7 @@
 		      		</tbody>
 		    	</table>
 		    	
-		    	<!-- 페이징 -->
+		    	<!-- 페이징 [S] -->
 			    <div class="pagination" id="paging">
 				    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
 	    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
@@ -90,9 +73,12 @@
 					</c:forEach>
 				    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
 			  	</div>
+			  	<!-- 페이징 [E] -->
 			  	
 			</div>
     	</div>
+    	<!--  그리드 [E] -->
+    	
 	</aside>
 
 	<div class="split-resizer" id="splitResizer" aria-hidden="true"></div>
@@ -100,9 +86,9 @@
 	<section class="split-right">
 		<div class="content-scroll" style="padding:12px 14px;">
 	   		<div class="page-header">
-	        	<h2>사용자</h2>
+	        	<h2>관리자관리</h2>
 		        <div class="breadcrumb">
-		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>사용자</span>
+		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>관리자관리</span>
 		        </div>
 	      	</div>
 	     	<div class="form-card">
@@ -129,7 +115,7 @@
 	          		<div class="field zip-field">
 	            		<label class="" for="adminPostCd">우편번호</label>
 	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
-	            		<input type="button" class="btn btn-zip" id="getPostCode" value="우편번호 찾기">
+	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		

@@ -3,32 +3,31 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUserAccept.js"></script>
 
+<!-- Model 파라미터 -->
+<input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
+<input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
+
 <div class="split-layout grid-split">
-
 	<aside class="split-left list-panel">
-		<div class="list-header">
-      		<div class="list-title">관리자 목록</div>
+		<!--  조회 조건 [S] -->
+		<form action="/admin/userAccept.do" id="adminUserAcceptSearchForm">
+			<input type="hidden"  id="pageNum" name="pageNum" value="1">
+			<div class="list-header">
+	      		<div class="list-title"></div>
+	      		<div class="list-search">
+	        		<select id="searchGb" name=searchGb class="form-select">
+			          	<option class="s" value="adminNm">이름</option>
+			          	<option class="s" value="adminId">아이디</option>
+	        		</select>
+	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
+	        		<button type="button" id="btnSearch" class="search-btn">조회</button>
+	        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
+	      		</div>
+	    	</div>
+	   	</form>
+		<!--  조회 조건 [E] -->
 
-      		<div class="list-search">
-        		<select id="schType" class="form-select">
-	          		<option value="">전체</option>
-		          	<option value="code">코드</option>
-		          	<option value="name">명칭</option>
-        		</select>
-
-        		<input id="schText" class="form-control" type="text" placeholder="검색어" />
-
-        		<select id="schUseYn" class="form-select">
-          			<option value="">사용여부 전체</option>
-          			<option value="Y">사용</option>
-          			<option value="N">미사용</option>
-        		</select>
-
-        		<button type="button" id="btnSearch" class="search-btn">조회</button>
-        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
-      		</div>
-    	</div>
-
+		<!--  그리드 [S] -->
     	<div class="list-body">
 			<div class="grid-wrap" style="padding:10px; overflow:auto;">
 			    <table class="table-grid">
@@ -61,8 +60,21 @@
 				        </c:forEach>
 		      		</tbody>
 		    	</table>
+		    	
+		    	<!-- 페이징 [S] -->
+			    <div class="pagination" id="paging">
+				    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+	    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+						<button class="p" data-list-pn="${i}">${i}</button>
+					</c:forEach>
+				    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+			  	</div>
+			  	<!-- 페이징 [E] -->
+			  	
 			</div>
     	</div>
+    	<!--  그리드 [E] -->
+    	
 	</aside>
 
 	<div class="split-resizer" id="splitResizer" aria-hidden="true"></div>

@@ -64,7 +64,7 @@ public class CryptoUtill {
 		byte[] inputBytes1 = amalgam.getBytes("UTF8");
 		byte[] outputBytes1 = cipher.doFinal(inputBytes1);
 
-		String outputStr1 = Base64CoderUtill.encodeLines(outputBytes1);
+		String outputStr1 = Base64CoderUtil.encodeLines(outputBytes1);
 		return outputStr1.replaceAll("\r\n", "\n").replaceAll("\n", "");
 	}
 
@@ -74,7 +74,7 @@ public class CryptoUtill {
 		javax.crypto.Cipher cipher = javax.crypto.Cipher.getInstance("DES/ECB/PKCS5Padding");
 		cipher.init(javax.crypto.Cipher.DECRYPT_MODE, key);
 
-		byte[] inputBytes1  = Base64CoderUtill.decodeLines(codedID);
+		byte[] inputBytes1  = Base64CoderUtil.decodeLines(codedID);
 		byte[] outputBytes2 = cipher.doFinal(inputBytes1);
 
 		String strResult = new String(outputBytes2,"UTF8");

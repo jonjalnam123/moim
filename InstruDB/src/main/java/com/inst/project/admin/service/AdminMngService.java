@@ -9,7 +9,7 @@ import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
-import com.inst.project.utill.Pager;
+import com.inst.project.utill.PagerUtil;
 
 public interface AdminMngService {
 	
@@ -77,7 +77,7 @@ public interface AdminMngService {
 	int adminUnitDel(AdminUnitDTO adminUnitDTO, HttpServletRequest req);
 
 	// 관리자 관리 화면 조회
-	List<AdminDTO> selectAdminUser();
+	List<AdminDTO> selectAdminUser(PagerUtil pager);
 	
 	// 관리자 등급 조회
 	List<AdminCommDTO> selectAdminGradeList();
@@ -101,7 +101,7 @@ public interface AdminMngService {
 	int adminUserDel(AdminDTO adminDTO, HttpServletRequest req);
 	
 	// 관리자 가입승인관리 조회
-	List<AdminDTO> selectAdminUserAcceptInfo();
+	List<AdminDTO> selectAdminUserAcceptInfo( PagerUtil pager );
 	
 	// 관리자 가입승인관리 상세 조회
 	AdminDTO selectAdminUserAcceptDtlInfo(AdminDTO adminDTO);
@@ -111,11 +111,5 @@ public interface AdminMngService {
 	
 	// 관리자 가입승인관리 반려 진행
 	int adminUserAcceptDel(AdminDTO adminDTO, HttpServletRequest req);
-
-	
-	
-	
-	List<AdminDTO> selectAdminUserPager(Pager pager);
-
 
 }

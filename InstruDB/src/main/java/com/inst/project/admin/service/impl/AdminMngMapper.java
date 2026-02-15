@@ -9,7 +9,7 @@ import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
-import com.inst.project.utill.Pager;
+import com.inst.project.utill.PagerUtil;
 
 @Mapper
 public interface AdminMngMapper {
@@ -77,8 +77,11 @@ public interface AdminMngMapper {
 	// 관리자 부서 삭제
 	int adminUnitDel(AdminUnitDTO adminUnitDTO);
 
+	// 관리자 총 건수 조회
+	Long selectAdminUserTotalCount(PagerUtil pager);
+	
 	// 관리자 관리 화면 조회
-	List<AdminDTO> selectAdminUser();
+	List<AdminDTO> selectAdminUser(PagerUtil pager);
 	
 	// 관리자 등급 조회
 	List<AdminCommDTO> selectAdminGradeList();
@@ -101,8 +104,11 @@ public interface AdminMngMapper {
 	// 관리자 삭제
 	int adminUserDel(AdminDTO adminDTO);
 
+	// 관리자 가입승인관리 총 건수 조회
+	Long selectAdminUserAcceptTotalCount(PagerUtil pager);
+	
 	// 관리자 가입승인관리 조회
-	List<AdminDTO> selectAdminUserAcceptInfo();
+	List<AdminDTO> selectAdminUserAcceptInfo(PagerUtil pager);
 	
 	// 관리자 가입승인관리 상세 조회
 	AdminDTO selectAdminUserAcceptDtlInfo(AdminDTO adminDTO);
@@ -115,19 +121,6 @@ public interface AdminMngMapper {
 	
 	// 관리자 가입승인관리 반려 사유 등록
 	int adminUserRejectCnReg(AdminDTO adminDTO);
-
-	
-	
-	
-	
-	
-	
-	
-	
-	Long getTotalCount(Pager pager);
-
-	
-	List<AdminDTO> getList(Pager pager);
 
 
 

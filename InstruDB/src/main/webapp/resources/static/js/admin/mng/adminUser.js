@@ -3,45 +3,36 @@
  * 작성날짜 : 2025.08.07
  * 내용 : adminUser 스크립트
  */
+
 $(function () {
 	
+	// 리사이즈 함수
 	initSplitResizeJQ(); 
-	
 
-	var kind = 	$('#pageKind').val();
-	var pageNumF = 	$('#pageNumF').val();
+	// 페이징 이벤트 [S]
+	var searchGb = 	$('#searchGbParam').val();
+	var pageNum = 	$('#pageNumParam').val();
+	setPagingParam(searchGb, pageNum);
 	
-	
-	setKind(kind, pageNumF);
-
-	function setKind(kind, pageNumF) {
-		
-		console.log('kind===', kind);
-		
-		$(".s").each(function() {
-			if($(this).val()==kind){
-				$(this).prop("selected", true);
-			}
-		})
-		
-		console.log('pageNum===', pageNumF);
-	$(".p").each(function() {
-			if($(this).attr("data-list-pn") === pageNum){
-				$(this).addClass('active');
-			}
-		})
-	};
-
+	// 페이징 버튼 이벤트
 	$(".p").click(function() {
-		//$(this).addClass('active');
-		const n= $(this).attr("data-list-pn");
+		var n= $(this).attr("data-list-pn");
 		$("#pageNum").val(n);
 		$('#adminUserSearchForm').submit(); 
 	});
 	
+	// 조회 버튼 이벤트
+	$('#btnSearch').on('click', function() {
+		$('#adminUserSearchForm').submit(); 
+	});
 	
-	
-	
+	// 엔터키 이벤트
+	$('#searchTxt').on('keydown', function(e) {
+	    if (e.key === 'Enter') {
+	        $('#btnSearch').trriger('click');
+	    }
+	});
+	// 페이징 이벤트 [E]
 	
 	// 우편번호 찾기 이벤트
 	$('#getPostCode').on('click', function(){
@@ -324,5 +315,25 @@ $(function () {
 			}
 		});
 	});
- 
 });
+
+/*******************************
+* FuntionNm : setPagingParam
+* Date : 2026.02.15
+* Author : CJS
+* Description : 페이징 진행 후 페이징 데이터 세팅 함수
+* PARAM : kind : 조회 조건, pageNum : 조회 페이지 번호
+********************************/
+function setPagingParam(searchGb, pageNum) {
+	$(".s").each(function() {
+		if( $(this).val() === searchGb ){
+			$(this).prop("selected", true);
+		}
+	})
+	
+	$(".p").each(function() {
+		if( $(this).attr("data-list-pn") === pageNum ){
+			$(this).addClass('active');
+		}
+	})
+};

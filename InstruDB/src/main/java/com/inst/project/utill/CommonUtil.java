@@ -2152,7 +2152,7 @@ public class CommonUtil {
 	public static String AesCryptH(String inputStr){
 		try {
 			String EncBase64Str = "";
-			EncBase64Str = AesCryptoUtill.encrypt(inputStr);
+			EncBase64Str = AesCryptoUtil.encrypt(inputStr);
 			byte[] EncBStr = Base64.decodeBase64(EncBase64Str);
 			String returnStr = "";
 			returnStr = toHex(EncBStr);
@@ -2172,7 +2172,7 @@ public class CommonUtil {
 			byte[] EncBStr = hexToByteArray(inputStr);
 
 			String DecBase64Str = Base64.encodeBase64String(EncBStr);
-			String DecStr = AesCryptoUtill.decrypt(DecBase64Str);
+			String DecStr = AesCryptoUtil.decrypt(DecBase64Str);
 
 	    	return DecStr;
 		}

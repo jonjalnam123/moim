@@ -15,7 +15,7 @@ import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
-import com.inst.project.utill.Pager;
+import com.inst.project.utill.PagerUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -758,12 +758,18 @@ public class AdminMngServiceImpl implements AdminMngService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public List<AdminDTO> selectAdminUser() {
+	public List<AdminDTO> selectAdminUser( PagerUtil pager ) {
 	    log.info(" [ AdminMngServiceImpl ] : selectAdminUser ");
 
 	    try {
 	    	
-	    	List<AdminDTO> adminList = adminMngMapper.selectAdminUser();
+			pager.makeRow();
+			
+			// 관리자 총 건수 조회
+			Long totalCount = adminMngMapper.selectAdminUserTotalCount( pager );
+			pager.makeNum(totalCount);
+	    	
+	    	List<AdminDTO> adminList = adminMngMapper.selectAdminUser( pager );
 		    if ( adminList == null ) {
 		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 		        return null;
@@ -1018,12 +1024,18 @@ public class AdminMngServiceImpl implements AdminMngService {
 	* 2026. 02. 14        		최정석       			최초 생성
 	*/
 	@Override
-	public List<AdminDTO> selectAdminUserAcceptInfo() {
+	public List<AdminDTO> selectAdminUserAcceptInfo( PagerUtil pager ) {
 	    log.info(" [ AdminMngServiceImpl ] : selectAdminUserAcceptInfo ");
 
 	    try {
 	    	
-	    	List<AdminDTO> adminAcceptList = adminMngMapper.selectAdminUserAcceptInfo();
+			pager.makeRow();
+			
+			// 관리자 가입승인관리 총 건수 조회
+			Long totalCount = adminMngMapper.selectAdminUserAcceptTotalCount( pager ); 
+			pager.makeNum(totalCount);
+	    	
+	    	List<AdminDTO> adminAcceptList = adminMngMapper.selectAdminUserAcceptInfo( pager);
 		    if ( adminAcceptList == null ) {
 		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 		        return null;
@@ -1142,16 +1154,6 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
 	    }
-	}
-	
-	@Override
-	public List<AdminDTO> selectAdminUserPager(Pager pager) {
-		pager.makeRow();
-		
-		Long totalCount = adminMngMapper.getTotalCount(pager);
-		pager.makeNum(totalCount);
-			
-		return adminMngMapper.getList(pager);
 	}
 	
 }

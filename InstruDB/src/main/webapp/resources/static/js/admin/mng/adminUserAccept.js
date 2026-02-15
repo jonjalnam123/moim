@@ -7,6 +7,31 @@ $(function () {
 	
 	initSplitResizeJQ(); 
 	
+	// 페이징 이벤트 [S]
+	var searchGb = 	$('#searchGbParam').val();
+	var pageNum = 	$('#pageNumParam').val();
+	setPagingParam(searchGb, pageNum);
+
+	// 페이징 버튼 이벤트
+	$(".p").on('click', function() {
+		var n= $(this).attr("data-list-pn");
+		$("#pageNum").val(n);
+		$('#adminUserAcceptSearchForm').submit(); 
+	});
+
+	// 조회 버튼 이벤트
+	$('#btnSearch').on('click', function() {
+		$('#adminUserAcceptSearchForm').submit(); 
+	});
+
+	// 엔터키 이벤트
+	$('#searchTxt').on('keydown', function(e) {
+	    if (e.key === 'Enter') {
+	        $('#btnSearch').trriger('click');
+	    }
+	});
+	// 페이징 이벤트 [E]
+	
 	// 그리드 더블클릭 이벤트
 	$('.adminInfoTr').on('dblclick', function() {
 		
@@ -115,5 +140,25 @@ $(function () {
 			}
 		});
 	});
- 
 });
+
+/*******************************
+* FuntionNm : setPagingParam
+* Date : 2026.02.15
+* Author : CJS
+* Description : 페이징 진행 후 페이징 데이터 세팅 함수
+* PARAM : kind : 조회 조건, pageNum : 조회 페이지 번호
+********************************/
+function setPagingParam(searchGb, pageNum) {
+	$(".s").each(function() {
+		if( $(this).val() === searchGb ){
+			$(this).prop("selected", true);
+		}
+	})
+	
+	$(".p").each(function() {
+		if( $(this).attr("data-list-pn") === pageNum ){
+			$(this).addClass('active');
+		}
+	})
+};

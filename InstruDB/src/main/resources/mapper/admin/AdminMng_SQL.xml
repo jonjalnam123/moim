@@ -505,8 +505,24 @@
 	</update>
 	<!-- 관리자 부서 삭제 [E] -->
 	
+	<!-- 관리자 총 건수 조회 [S] -->
+	<select id="selectAdminUserTotalCount" parameterType="PagerUtil" resultType="Long">
+		/*AdminMng_SQL.selectAdminUserTotalCount*/
+    	SELECT COUNT(*)
+	      FROM TB_ADMIN_INFO
+	    WHERE 1=1
+		 	AND ADMIN_REG_ACCEPT = 'Y'
+	    <if test="searchGb == 'adminNm'">
+		    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+			AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	</select>
+	<!-- 관리자 총 건수 조회 [E] -->
+	
 	<!-- 관리자 조회 [S] -->
-	<select id="selectAdminUser" resultType="AdminDTO">
+	<select id="selectAdminUser" parameterType="PagerUtil"  resultType="AdminDTO">
 		/*AdminMng_SQL.selectAdminUser*/
 		SELECT ADMIN_NO
 				  , ADMIN_ID
@@ -546,7 +562,15 @@
 				  , UPD_DT
 		   FROM TB_ADMIN_INFO
 		 WHERE 1=1 
-		     AND ADMIN_REG_ACCEPT = 'Y'
+		 	 AND ADMIN_REG_ACCEPT = 'Y'
+	    <if test="searchGb == 'adminNm'">
+		     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+		     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+         ORDER BY UPD_DT DESC 
+           LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 조회 [E] -->
 	
@@ -630,6 +654,23 @@
 	</select>
 	<!-- 관리자 관리자 정보 조회 [E] -->
 	
+	<!-- 관리자 가입승인관리 총 건수 조회 [S] -->
+	<select id="selectAdminUserAcceptTotalCount" parameterType="PagerUtil" resultType="Long">
+		/*AdminMng_SQL.selectAdminUserAcceptTotalCount*/
+    	SELECT COUNT(*)
+	      FROM TB_ADMIN_INFO
+	    WHERE 1=1
+		     AND ADMIN_REG_ACCEPT != 'Y'
+		     AND ADMIN_REG_GB = '00'
+	    <if test="searchGb == 'adminNm'">
+		    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+			AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	</select>
+	<!-- 관리자 가입승인관리 총 건수 조회 [E] -->
+	
 	<!-- 관리자 가입승인관리 조회 [S] -->
 	<select id="selectAdminUserAcceptInfo" resultType="AdminDTO">
 		/*AdminMng_SQL.selectAdminUserAcceptInfo*/
@@ -650,13 +691,21 @@
 			 		         WHEN ADMIN_REG_ACCEPT = 'R' THEN '반려'
 		 		   	           ELSE NULL END AS ADMIN_REG_ACCEPT_NM
 				  , REG_ID
-				  , TO_CHAR(REG_DT, 'YYYY.MM.DD') AS REG_DT
+				  , TO_CHAR(REG_DT, 'YYYY.MM.DD HH:MM:SS') AS REG_DT
 				  , UPD_ID
 				  , UPD_DT
 		   FROM TB_ADMIN_INFO
 		 WHERE 1=1 
 		     AND ADMIN_REG_ACCEPT != 'Y'
 		     AND ADMIN_REG_GB = '00'
+		<if test="searchGb == 'adminNm'">
+		     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+		     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+         ORDER BY REG_DT DESC 
+           LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 가입승인관리 조회 [E] -->
 	
@@ -734,50 +783,5 @@
 		)
 	</insert>
 	<!-- 관리자 가입승인관리 반려 사유 등록 [E] -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<select id="getList" parameterType="Pager" resultType="AdminDTO">
-    SELECT *
-    FROM TB_ADMIN_INFO
-    WHERE
-        <choose>
-            <when test="kind == 'adminNm'">ADMIN_NM</when>
-            <when test="kind == 'adminId'">ADMIN_ID</when>
-            <otherwise>ADMIN_NM</otherwise>
-        </choose>
-        LIKE '%' || #{search} || '%'
-    ORDER BY REG_DT DESC 
-    LIMIT #{perPage} OFFSET #{startRow}
-</select>
 
-<select id="getTotalCount" parameterType="Pager" resultType="Long">
-    select count(*)
-    from TB_ADMIN_INFO
-    WHERE
-        <choose>
-            <when test="kind == 'adminNm'">ADMIN_NM</when>
-            <when test="kind == 'adminId'">ADMIN_ID</when>
-            <otherwise>ADMIN_NM</otherwise>
-        </choose>
-        LIKE '%' || #{search} || '%'
-</select>
-	
-	
 </mapper>

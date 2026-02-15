@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class AesCryptoUtill {
+public class AesCryptoUtil {
 
 	public static byte[] byteIv  = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 	public static String strKey  = "2013_ftvs_nsm2142013_ftvs_nsm214";
