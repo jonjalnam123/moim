@@ -5,7 +5,7 @@
  */
 
 $(function () {
-	
+	// 아이디 중복 체크 로직 진행해야함....
 	// 리사이즈 함수
 	initSplitResizeJQ(); 
 
@@ -201,7 +201,7 @@ $(function () {
 		window.location.reload();
 	});
 	
-	// 메뉴 등록 이벤트
+	// 관리자 등록 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
@@ -261,7 +261,8 @@ $(function () {
 		}
 
 		var params = {
-				adminId : adminId
+			    adminNo : adminNo
+			  , adminId : adminId
 			  , adminNm : adminNm
 			  , adminPh : adminPh
 			  , adminPostCd : adminPostCd
@@ -280,29 +281,29 @@ $(function () {
 			if (result > 0) {
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});
 	
 	// 메뉴 삭제 이벤트
 	$('#btnDel').on('click', function() {
-		var adminUnitId = $('#adminUnitId').val();
-		var adminUnitPId = $('#adminUnitPId').val();
+		var adminNo = $('#adminNo').val();
+		var adminId = $('#adminId').val();
+		var adminNm = $('#adminNm').val();
 		
-		if ( isEmptyMsg(adminUnitId, delDataChk) ) {
+		if ( isEmptyMsg(adminId, delDataChk) ) {
 			return;
 		}
 		
-		if ( !confirm('부서' + delProcConfirm) ) {
+		if ( !confirm(adminNm + ' 관리자' + delProcConfirm) ) {
 			return;
 		}
 
-		var url = '/admin/unitDel.do';
+		var url = '/admin/userDel.do';
 		var params = {
-				adminUnitId : adminUnitId
-			  , adminUnitPId : adminUnitPId
+				adminNo : adminNo
+			  , adminId : adminId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
@@ -310,8 +311,7 @@ $(function () {
 			if (result > 0) {
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});

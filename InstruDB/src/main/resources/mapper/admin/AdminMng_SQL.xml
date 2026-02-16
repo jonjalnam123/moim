@@ -589,6 +589,91 @@
 	</select>
 	<!-- 관리자 등급 조회 [E] -->
 	
+	<!-- 관리자 등록 [S] -->
+	<insert id="adminUserReg" parameterType="AdminDTO">
+		/*AdminMng_SQL.adminUserReg*/
+		INSERT INTO TB_ADMIN_INFO (
+		 	  ADMIN_NO
+			, ADMIN_ID
+			, ADMIN_NM
+			, ADMIN_PH
+			, ADMIN_POST_CD
+			, ADMIN_ADDRESS
+			, ADMIN_D_ADDRESS
+			, ADMIN_DEL_YN
+			, ADMIN_DEPT_CD
+			, ADMIN_TEAM_CD
+			, ADMIN_POSITION_CD
+			, ADMIN_CN
+			, ADMIN_GENDER
+			, ADMIN_REG_GB
+			, ADMIN_GRADE_CD
+			, ADMIN_REG_ACCEPT
+			, REG_ID
+			, REG_DT
+			, UPD_ID
+			, UPD_DT
+		) VALUES (
+			(SELECT FN_GET_UNIQUE_KEY())
+			, #{adminId}
+			, #{adminNm}
+			, #{adminPh}
+			, #{adminPostCd}
+			, #{adminAddress}
+			, #{adminDAddress}
+			, 'N'
+			, #{adminDeptCd}
+			, #{adminTeamCd}
+			, #{adminPositionCd}
+			, #{adminCn}
+			, #{adminGender}
+			, '01'
+			, #{adminGradeCd}
+			, 'Y'
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		);
+	</insert>
+	<!-- 관리자 등록 [E] -->
+	
+	<!-- 관리자 삭제 [S] -->
+	<update id="adminUserUpd" parameterType="AdminDTO">
+  		/*AdminMng_SQL.adminUserUpd*/
+	  	UPDATE TB_ADMIN_INFO
+	     	  SET ADMIN_DEL_YN = 'Y'
+				  , UPD_ID = #{updId}
+				  , UPD_DT = NOW()
+		WHERE 1=1
+		    AND ADMIN_NO = #{adminNo}
+		    AND ADMIN_ID = ${adminId}
+	</update>
+	<!-- 관리자 삭제 [E] -->
+	
+	<!-- 관리자 수정 [S] -->
+	<update id="adminUserDel" parameterType="AdminDTO">
+  		/*AdminMng_SQL.adminUserDel*/
+	  	UPDATE TB_ADMIN_INFO
+	     	  SET ADMIN_ID 					= #{adminId}
+				  , ADMIN_NM 					= #{adminNm}
+				  , ADMIN_PH 					= #{adminPh}
+				  , ADMIN_POST_CD 			= #{adminPostCd}
+				  , ADMIN_ADDRESS 			= #{adminAddress}
+				  , ADMIN_D_ADDRESS 		= #{adminDAddress}
+				  , ADMIN_DEPT_CD 			= #{adminDeptCd}
+				  , ADMIN_TEAM_CD 			= #{adminTeamCd}
+				  , ADMIN_POSITION_CD 	= #{adminPositionCd}
+				  , ADMIN_CN 					= #{adminCn}
+				  , ADMIN_GENDER 			= #{adminGender}
+				  , ADMIN_GRADE_CD 		= #{adminGradeCd}
+				  , UPD_ID 						= #{updId}
+				  , UPD_DT 						= NOW()
+		WHERE 1=1
+		    AND ADMIN_NO = #{adminNo}
+	</update>
+	<!-- 관리자 수정 [E] -->
+	
 	<!-- 관리자 부서 상세 조회 [S] -->
 	<resultMap id="adminTeamMap" type="map">
 	  <result column="ADMIN_UNIT_ID" property="adminUnitId"/>

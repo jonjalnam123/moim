@@ -94,39 +94,39 @@
 	     	<div class="form-card">
 	       		<div class="form-grid">
 	          		<div class="field">
-	            		<label class="" for="fCode">아이디</label>
+	            		<label class="required" for="adminId">아이디</label>
 	            		<input id="adminId" name="adminId" class="form-control" type="text" />
 	            		<input type="hidden" id="adminNo" name="adminNo" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	
 	          		<div class="field">
-	            		<label class="" for="fName">이름</label>
+	            		<label class="required" for="adminNm">이름</label>
 	            		<input id="adminNm" name="adminNm" class="form-control" type="text" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="fName">휴대폰</label>
+	            		<label class="required" for="adminPh">휴대폰</label>
 	            		<input id="adminPh" name="adminPh" class="form-control" type="text" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field zip-field">
-	            		<label class="" for="adminPostCd">우편번호</label>
+	            		<label class="required" for="adminPostCd">우편번호</label>
 	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
 	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="adminAddress">주소</label>
+	            		<label class="required" for="adminAddress">주소</label>
 	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="" for="adminDAddress">상세주소</label>
+	            		<label class="required" for="adminDAddress">상세주소</label>
 	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
 	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
@@ -143,13 +143,13 @@
 	          		</div>
 	          		
 	          		<div id="adminTeamDiv" class="field" style="display: none;">
-	            		<label class="" for="adminTeamCd">팀</label>
+	            		<label class="required" for="adminTeamCd">팀</label>
 	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >
 	            		</select>
 	          		</div>
 	
 	          		<div id="adminPositionDiv" class="field" style="display: none;">
-	            		<label class="" for="adminPositionCd">직책</label>
+	            		<label class="required" for="adminPositionCd">직책</label>
 	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select" >
 	            		</select>
 	        			<!-- <div class="error">필수 선택입니다.</div> -->
