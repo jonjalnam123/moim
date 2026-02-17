@@ -15,6 +15,9 @@ public interface AdminCommMapper {
 	
 	// 관리자 부서코드 유니크 값 중복 체크
 	int selectUnitCdDupliChk(Map<String, Object> bodyMap);
+	
+	// 관리자 ID 중복 체크 
+	int selectAdminIdDupliChk(Map<String, Object> bodyMap);
 
 	
 	

@@ -25,6 +25,7 @@ var sessionLogOutMsg 	= '세션이 만료되어 로그아웃됩니다.';
 **************************************************************/	
 var dataEmpty 		= '를(을) 입력해주세요.';
 var dataChk 			= '를(을) 확인해주세요.';
+var dataDupliChk 	= '중복확인을 진행해주세요.';
 
 var selectDataChk 	= '조회할 데이터를 선택해주세요.';
 var updDataChk 	= '수정할 데이터를 선택해주세요.';

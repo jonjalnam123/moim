@@ -1,5 +1,7 @@
 package com.inst.project.admin.service.impl;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -131,6 +133,45 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 
 	    } catch (Exception e) {
 	        log.error("[ AdminLoginServiceImpl ] : adminLogOutProc failed.");
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
+	        return GlobalConfig.N;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminLoginPwSet
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 비밀번호 설정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public String adminLoginPwSet(AdminDTO adminDTO) {
+	    log.info(" [ AdminLoginServiceImpl ] : adminLoginPwSet ");
+	    try {
+	    	
+	    	AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
+	    	String adminPw = adminInfo.getAdminPw();
+	    	if ( CommonUtil.isBlank(adminPw) ) { // 관리자 등록 :  비밀번호 초기 설정
+	    		
+	    	} else { // 본인 가입 : 비밀번호 변경 또는 관리자 등록 초기설정 후 비밀번호 변경
+	    		
+	    	}
+	    		
+	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
+	        if (instCnt > 0) {
+	            return GlobalConfig.Y;
+	        }
+
+	        return GlobalConfig.N;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminLoginServiceImpl ] : adminLoginPwSet failed.");
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 

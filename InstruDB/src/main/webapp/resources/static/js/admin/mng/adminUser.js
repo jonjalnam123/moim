@@ -5,7 +5,6 @@
  */
 
 $(function () {
-	// 아이디 중복 체크 로직 진행해야함....
 	// 리사이즈 함수
 	initSplitResizeJQ(); 
 
@@ -34,6 +33,55 @@ $(function () {
 	});
 	// 페이징 이벤트 [E]
 	
+	// 아이디 입력 이벤트 [S]
+	$('#adminId').on('keyup', function() {
+		$('.hint').hide();
+		$('.error').hide();
+		
+		var adminIdVal = $(this).val();
+		var adminId = onlyEngNum(adminIdVal);
+		$('#adminId').val(adminId);
+	});
+	// 아이디 입력 이벤트 [E]
+	
+	// 이름 입력 이벤트 [S]
+	$('#adminNm').on('keyup', function() {
+		var adminNmVal = $(this).val();
+		var adminNm = onlyKorEng(adminNmVal);
+		$('#adminNm').val(adminNm);
+	});
+	// 이름 입력 이벤트 [E]
+	
+	// 아이디 중복체크 [S]
+	$('#adminIdChkBtn').on('click', function() {
+
+		var adminId = $('#adminId').val();
+		
+		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
+			return;
+		}
+
+		var tableNm = 'tb_admin_info';
+		var url = '/admin/uniqueDupliChk.do';
+		var params = {
+			uniqueKey : adminId
+		  , tableNm : tableNm
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = data.result;
+			$('#adminIdChk').val(result);
+			if ( result === 'Y' ) {
+				$('.hint').show();
+				$('.error').hide();
+			} else {
+				$('.hint').hide();
+				$('.error').show();
+			}
+		});
+	});
+	// 아이디 중복체크 [E]
+	
 	// 우편번호 찾기 이벤트
 	$('#getPostCode').on('click', function(){
 		var postId =  $('#adminPostCd').attr('id');
@@ -49,7 +97,13 @@ $(function () {
 		$('#btnUpd').show();
 		$('#btnDel').show();
 		$('#btnReg').hide();
-		$('#btnRef').show();
+		$('#btnNew').show();
+		
+		$('#adminIdChkBtn').hide();
+		$('#adminId').attr('readonly', true);
+		
+		$('.hint').hide();
+		$('.error').hide();
 		
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');
@@ -83,7 +137,10 @@ $(function () {
 				var adminGradeCd = adminInfo.adminGradeCd
 
 				$('#adminNo').val(adminNo);
+				
 				$('#adminId').val(adminId);
+				$('#adminIdOrg').val(adminId);
+				
 				$('#adminNm').val(adminNm);
 				$('#adminPh').val(adminPh);
 				$('#adminPostCd').val(adminPostCd);
@@ -100,8 +157,7 @@ $(function () {
 				$('#adminCn').val(adminCn);
 				
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUri('/admin/error.do');
 			}
 		});
 	});
@@ -197,8 +253,32 @@ $(function () {
   		});
 	});
 	
-	$('#btnRef').on('click', function() {
-		window.location.reload();
+	// 신규 버튼 이벤트
+	$('#btnNew').on('click', function() {
+		
+		$('#btnUpd').hide();
+		$('#btnDel').hide();
+		$('#btnReg').show();
+		$('#btnNew').hide();
+		$('#adminIdChkBtn').show();
+		
+		$('#adminId').attr('readonly', false);
+		
+		$('#adminNo').val('');
+		$('#adminId').val('');
+		$('#adminNm').val('');
+		$('#adminPh').val('');
+		$('#adminPostCd').val('');
+		$('#adminAddress').val('');
+		$('#adminDAddress').val('');
+		$('#adminDeptCd').val('').trigger('change');
+		$('#adminTeamCd').val('');
+		$('#adminPositionCd').val('');
+		$('#adminGradeCd').val('');
+		$('input[name="adminGender"][value="M"]').prop('checked', true);
+		$('#adminCn').val('');
+		$('#adminIdChk').val('');
+		
 	});
 	
 	// 관리자 등록 이벤트
@@ -219,8 +299,19 @@ $(function () {
 		var adminGradeCd = $('#adminGradeCd').val();
 		var adminGender =  $('input[name="adminGender"]:checked').val();
 		var adminCn =  $('#adminCn').val();
+		var adminIdChk = $('#adminIdChk').val();
 		
 		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+			return;
+		}
+		
+		if ( adminIdChk === '' ) {
+			alert('아이디' + dataDupliChk);
+			return;
+		}
+		
+		if ( adminIdChk === 'N') {
+			alert('아이디' + dataChk);
 			return;
 		}
 

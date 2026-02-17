@@ -12,6 +12,27 @@ $(document).ready(function(){
 		} 
 	 });
 	 
+	// 관리자 비밀번호 설정 이벤트
+	$('#adminPwSetBtn').on('click', function() {
+		var adminId = $("#adminId").val();
+		goToUri('/admin/loginPw.do?adminId='+adminId);
+	});
+	 
+	 
+	 
+	/*$('#adminPwSetBtn').on('click', function() {
+		var adminId = $("#adminId").val();
+		
+		var url = '/admin/loginPwSet.do';
+		var params = {
+				adminId : adminId
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = data.result;
+		});
+	});*/
+	 
 	// 관리자 로그인 버튼 이벤트
 	$('#adminLoginBtn').on('click', function() {
 		var adminId = $("#adminId").val();

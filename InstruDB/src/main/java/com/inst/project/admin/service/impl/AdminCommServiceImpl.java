@@ -40,16 +40,21 @@ public class AdminCommServiceImpl implements AdminCommService {
 				return GlobalConfig.N;
 			}
 			
-			String uniqueKeyVal = uniqueKey.toUpperCase();
-			bodyMap.put("uniqueKey", uniqueKeyVal);
-			
 			int resultChk = 0;
 			if ( tableNm.equals("tb_common_info") ) {
+				String uniqueKeyVal = uniqueKey.toUpperCase();
+				bodyMap.put("uniqueKey", uniqueKeyVal);
 				resultChk = adminCommMapper.selectCommCdDupliChk(bodyMap);
 			} else if ( tableNm.equals("tb_admin_unit_info") ) {
+				String uniqueKeyVal = uniqueKey.toUpperCase();
+				bodyMap.put("uniqueKey", uniqueKeyVal);
 				resultChk = adminCommMapper.selectUnitCdDupliChk(bodyMap);
 			} else if ( tableNm.equals("tb_admin_menu_info") ) {
+				String uniqueKeyVal = uniqueKey.toUpperCase();
+				bodyMap.put("uniqueKey", uniqueKeyVal);
 				resultChk = adminCommMapper.selectMenuNmDupliChk(bodyMap);
+			} else if ( tableNm.equals("tb_admin_info") ) {
+				resultChk = adminCommMapper.selectAdminIdDupliChk(bodyMap);
 			}
 
 			if( resultChk > 0 ) {

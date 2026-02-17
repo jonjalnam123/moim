@@ -37,4 +37,15 @@
 	</select>
 	<!-- 관리자 부서코드 중복 체크 [E]  -->
 	
+	<!-- 관리자 부서코드 중복 체크 [S]  -->
+	<select id="selectAdminIdDupliChk" parameterType="map" resultType="int">
+		/*AdminMng_SQL.selectAdminIdDupliChk*/
+		SELECT COUNT(*)
+		  FROM TB_ADMIN_INFO
+		WHERE 1=1
+		    AND ADMIN_ID = #{uniqueKey}
+		    AND ADMIN_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 부서코드 중복 체크 [E]  -->
+	
 </mapper>

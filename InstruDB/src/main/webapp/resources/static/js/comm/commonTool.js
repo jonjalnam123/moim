@@ -42,6 +42,33 @@ function ajaxStart(url, params, dataType, callback) {
 }
 
 /*******************************
+* FuntionNm : ajaxNoLoadingxStart
+* Date : 2025.10.02
+* Author : CJS
+* Description : 공통 AJAX 통신 함수
+* PARAM : URL, PARAMS, DATATYPE, CALLBACK
+********************************/
+function ajaxNoLoadingxStart(url, params, dataType, callback) {
+	$.ajax({
+	    url: url,
+	    method: 'post',
+	    data : params,
+	    dataType : dataType,
+	    success: function (data, status, xhr) {
+	        if (typeof callback === 'function' && callback !== null ) {
+				console.log('조회한 결과 데이터 : ', data);
+	            callback(data);
+	        } else {
+	            console.warn("callback이 function이 아닙니다:", callback);
+	        }
+	    },
+	    error: function (data, status, err) {
+			console.error("AJAX 에러", err);
+	    }
+	});
+}
+
+/*******************************
 * FuntionNm : showGlobalLoading
 * Date : 2025.10.02
 * Author : CJS
@@ -206,6 +233,22 @@ function checkNumOnlyTwo(obj) {
     }
     if (obj.value.length > 2) {
         obj.value = obj.value.substring(0, 2);
+    }
+}
+
+/*******************************
+* FuntionNm : checkNumPhone(obj)
+* Date : 2025.10.20
+* Author : CJS
+* Description : 숫자만 11자리 구하는 함수 ( 핸드폰 )
+********************************/
+function checkNumPhone(obj) {
+    var regExp = /[^0-9]/g;
+    if (regExp.test(obj.value)) {
+        obj.value = obj.value.replace(regExp, '');
+    }
+    if (obj.value.length > 11) {
+        obj.value = obj.value.substring(0, 11);
     }
 }
 

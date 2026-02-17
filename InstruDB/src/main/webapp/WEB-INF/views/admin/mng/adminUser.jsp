@@ -93,42 +93,41 @@
 	      	</div>
 	     	<div class="form-card">
 	       		<div class="form-grid">
-	          		<div class="field">
+	          		
+	          		<div class="field zip-field">
 	            		<label class="required" for="adminId">아이디</label>
-	            		<input id="adminId" name="adminId" class="form-control" type="text" />
+	            		<input id="adminId" name="adminId" class="form-control" type="text"/>
 	            		<input type="hidden" id="adminNo" name="adminNo" />
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	            		<input type="button" class="btn btn-zip" id="adminIdChkBtn" value="중복확인"  style="color : white;">
+	            		<input type="hidden" id="adminIdChk" name="adminIdChk" />
+	            		<div class="error" style="display: none;">중복된 아이디 입니다.</div>
+            			<small class="hint" style="display: none;">사용가능한 아이디 입니다.</small>
 	          		</div>
 	
 	          		<div class="field">
 	            		<label class="required" for="adminNm">이름</label>
 	            		<input id="adminNm" name="adminNm" class="form-control" type="text" />
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
 	            		<label class="required" for="adminPh">휴대폰</label>
-	            		<input id="adminPh" name="adminPh" class="form-control" type="text" />
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
+	            		<input id="adminPh" name="adminPh" class="form-control" type="text" onkeyup="checkNumPhone(this);" placeholder="숫자만 입력해주세요."/>
 	          		</div>
 	          		
 	          		<div class="field zip-field">
 	            		<label class="required" for="adminPostCd">우편번호</label>
 	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
 	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
 	            		<label class="required" for="adminAddress">주소</label>
 	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
 	            		<label class="required" for="adminDAddress">상세주소</label>
 	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
-	            		<!-- <div class="error">필수 입력입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
@@ -139,7 +138,6 @@
 	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
 	            			</c:forEach>
 	            		</select>
-	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	          		
 	          		<div id="adminTeamDiv" class="field" style="display: none;">
@@ -152,7 +150,6 @@
 	            		<label class="required" for="adminPositionCd">직책</label>
 	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select" >
 	            		</select>
-	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	          		
         			<div class="field">
@@ -163,7 +160,6 @@
 	            				<option value="${adminGrade.commCd}">${adminGrade.commNm}</option>
 	            			</c:forEach>
 	            		</select>	
-	        			<!-- <div class="error">필수 선택입니다.</div> -->
 	          		</div>
 	          		
 	          		<div class="field">
@@ -180,13 +176,12 @@
 	
 	          		<div class="field full">
 	            		<label for="fDesc">설명</label>
-	            		<textarea id="fDesc" class="form-control"></textarea>
+	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
 	          		</div>
 	        	</div>
 	
 		        <div class="form-actions">
-  					<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   	style="display: none;">초기화</button>
-       				<button type="button" class="btn-insert" 		id="btnNew"		value="N" 		style="display: none;">추가</button>
+       				<button type="button" class="btn-insert" 		id="btnNew"		value="N" 		style="display: none;">신규</button>
        				<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
         			<button type="button" class="btn-update"		id="btnUpd" 		value="U" 		style="display: none;">수정</button>
          			<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 		style="display: none;">삭제</button>

@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminDTO;
+import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -95,6 +97,54 @@ public class AdminLoginController {
 	    String resultData = adminLoginService.adminLogOutProc(req);
 	    
 	    result.put("result", resultData);
+		
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: adminLoginPwSet
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 비밀번호 설정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value = "/loginPw.do")
+	public String adminLoginPw( @RequestParam String adminId ) {
+		log.info(" [ AdminLoginController ] : adminLoginPw ");
+		
+		return "admin/login/adminLoginPw.none";
+	}
+	
+	/**
+	* @methodName	 	: adminLoginPwSet
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 비밀번호 설정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/loginPwSet.do")
+	@ResponseBody
+	public Map<String,Object> adminLoginPwSet( @ModelAttribute AdminDTO adminDTO ) {
+		log.info(" [ AdminLoginController ] : adminLoginPwSet ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		String resultData = adminLoginService.adminLoginPwSet(adminDTO);
+		
+		if ( resultData.equals("Y") ) {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+		} else {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
+		}
 		
 		return result;
 	}

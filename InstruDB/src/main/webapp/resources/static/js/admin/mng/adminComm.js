@@ -41,7 +41,7 @@ $(document).ready(function() {
 		  , tableNm : tableNm
 		}
 		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
+		ajaxNoLoadingxStart(url, params, dataType, function(data) {
 			var result = data.result;
 			$('#commCdChk').val(result);
 			if ( result === 'Y' ) {
