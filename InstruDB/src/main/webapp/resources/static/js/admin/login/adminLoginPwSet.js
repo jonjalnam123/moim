@@ -5,8 +5,8 @@
  */
 $(function () {
 	
-	// 비밀번호 입력 포커스
-	$('#adminPw').focus();
+	// 현재 비밀번호 입력 포커스
+	$('#adminPwNow').focus();
 
 	// 공백입력 방지 이벤트
 	$('#adminPwNow, #adminPw, #adminPwChk').on('input', function() {
