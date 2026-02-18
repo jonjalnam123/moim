@@ -7,7 +7,6 @@
 <!-- Model Param [S] -->
 <input type="hidden" id="adminNo" name="adminNo" value="${adminInfo.adminNo}">
 <input type="hidden" id="adminId" name="adminId" value="${adminInfo.adminId}">
-<input type="hidden" id="pageFlag" name="pageFlag" value="${pageFlag}">
 <!-- Model Param [E] -->
 
 <!-- Draw view [S] -->

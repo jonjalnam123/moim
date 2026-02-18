@@ -9,9 +9,35 @@ $(function () {
 	$('#adminPw').focus();
 
 	// 공백입력 방지 이벤트
-	$('#adminPw, #adminPwChk').on('input', function() {
+	$('#adminPwNow, #adminPw, #adminPwChk').on('input', function() {
 	    var val = $(this).val();
 	    $(this).val(removeSpace(val));
+	});
+	
+	// 현재 비밀번호 입력 이벤트
+	$('#adminPwNow').on('keyup', function() {
+		
+		var adminNo = $('#adminNo').val();
+		var adminId = $('#adminId').val();
+		var adminPw = $(this).val();
+
+
+		var url = '/admin/loginPwNowChk.do';
+		var params = {
+				adminNo : adminNo
+			  , adminId : adminId
+			  , adminPw : adminPw
+		}
+		var dataType = 'json'
+		ajaxNoLoadingxStart(url, params, dataType, function(data) {
+			var result = data.result;
+			if ( result === 'Y' ) {
+				
+			} else {
+				alert('현재 비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
+			}
+		});
+		
 	});
 	
 	// 비밀번호 입력 이벤트

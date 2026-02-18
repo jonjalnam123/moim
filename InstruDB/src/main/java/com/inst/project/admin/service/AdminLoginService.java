@@ -17,6 +17,9 @@ public interface AdminLoginService {
 
 	// 관리자 비밀번호 설정
 	String adminLoginPwSet(AdminDTO adminDTO);
+	
+	// 관리자 현재 비밀번호 체크
+	String adminLoginPwNowchk(AdminDTO adminDTO);
 
 
 }

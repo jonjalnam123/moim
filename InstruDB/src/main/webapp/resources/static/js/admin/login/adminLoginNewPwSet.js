@@ -14,12 +14,6 @@ $(function () {
 	    $(this).val(removeSpace(val));
 	});
 	
-	// 현재 비밀번호 입력 이벤트
-	$('#adminPwNow').on('keyup', function() {
-		var adminPwNow = $(this).val();
-
-	});
-	
 	// 비밀번호 입력 이벤트
 	$('#adminPw').on('keyup', function() {
 		var adminPw = $(this).val();

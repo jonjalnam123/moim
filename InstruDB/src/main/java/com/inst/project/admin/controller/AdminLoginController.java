@@ -1,10 +1,9 @@
 package com.inst.project.admin.controller;
 
-import java.util.HashMap;
+import java.util.HashMap; 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminDTO;
-import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
 
@@ -30,14 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/admin")
 public class AdminLoginController {
 
-    private final AopController aopController;
-
 	@Autowired
 	AdminLoginService adminLoginService;
-
-    AdminLoginController(AopController aopController) {
-        this.aopController = aopController;
-    }
 	
 	/**
 	* @methodName	 	: getAdminLogin
@@ -147,6 +139,29 @@ public class AdminLoginController {
 		model.addAttribute("adminInfo", adminInfo);
 
 		return url;
+	}
+	
+	/**
+	* @methodName	 	: adminLoginPwNowchk
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 현재 비밀번호 체크
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/loginPwNowChk.do")
+	@ResponseBody
+	public Map<String,Object> adminLoginPwNowchk( @ModelAttribute AdminDTO adminDTO ) {
+		log.info(" [ AdminLoginController ] : adminLoginPwNowchk ");
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		String result = adminLoginService.adminLoginPwNowchk(adminDTO);
+		
+		resultMap.put("result", result);
+		
+		return resultMap;
 	}
 	
 	/**
