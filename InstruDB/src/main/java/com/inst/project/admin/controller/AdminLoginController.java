@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.utill.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -102,20 +104,46 @@ public class AdminLoginController {
 	}
 	
 	/**
-	* @methodName	 	: adminLoginPwSet
+	* @methodName	 	: getAdminLoginPw
 	* @author				: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 비밀번호 설정
+	* @description			: 관리자 비밀번호 설정 화면 조회 
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/loginPw.do")
-	public String adminLoginPw( @RequestParam String adminId ) {
-		log.info(" [ AdminLoginController ] : adminLoginPw ");
+	public String getAdminLoginPw( @RequestParam String adminId, Model model, RedirectAttributes redirect) {
+		log.info(" [ AdminLoginController ] : getAdminLoginPw ");
 		
-		return "admin/login/adminLoginPw.none";
+		String url = "";
+		AdminDTO adminDTO = new AdminDTO();
+		if ( !CommonUtil.isBlank(adminId) ) {
+			adminDTO.setAdminId(adminId);
+		}
+		
+		AdminDTO adminInfo = adminLoginService.getAdminLoginPw(adminDTO);
+		
+		String pageFlag = "";
+		String adminPw = adminInfo.getAdminPw();
+		String adminRegGb = adminInfo.getAdminRegGb();
+		if ( CommonUtil.isBlank(adminPw) && adminRegGb.equals("01") ) {	// 슈퍼관리자 등록 비밀번호 초기 설정
+			pageFlag = "newPwSet";
+			url = "admin/login/adminLoginNewPwSet.none";
+		} else if ( !CommonUtil.isBlank(adminPw) ){ // 일반 비밀번호 설정
+			pageFlag = "pwSet";
+			url = "admin/login/adminLoginPwSet.none";
+		} else {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			url = "admin/login/adminErrorNone.none";
+		}
+		
+		model.addAttribute("adminInfo", adminInfo);
+		model.addAttribute("pageFlag", pageFlag);
+		
+		return url;
 	}
 	
 	/**

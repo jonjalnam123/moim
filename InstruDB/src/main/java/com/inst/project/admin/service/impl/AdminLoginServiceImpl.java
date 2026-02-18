@@ -141,6 +141,37 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	}
 	
 	/**
+	* @methodName	 	: getAdminLoginPw
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 비밀번호 설정 화면 조회 
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminDTO getAdminLoginPw(AdminDTO adminDTO) {
+	    log.info(" [ AdminLoginServiceImpl ] : getAdminLoginPw ");
+	    try {
+	    	
+			AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
+			if ( adminInfo == null ) {
+				return null;
+			}
+
+			return adminInfo;
+			
+	    } catch (Exception e) {
+	        log.error("[ AdminLoginServiceImpl ] : getAdminLoginPw failed.");
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
+	        return null;
+	    }
+	}
+	
+	/**
 	* @methodName	 	: adminLoginPwSet
 	* @author				: 최정석
 	* @date            		: 2026. 1. 6.
