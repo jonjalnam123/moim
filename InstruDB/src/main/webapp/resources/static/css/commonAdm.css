@@ -217,6 +217,13 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 .login-input:focus { border-color: #66bb6a; outline: none; box-shadow: 0 0 4px #a5d6a7; }
 .login-actions { display: flex; gap: 8px; margin-top: 15px; }
 
+.login-actions .pwshow-btn {
+  flex: 1; text-align: center; padding: 10px; border-radius: 6px;
+  font-size: 0.9rem; background-color: #0080ff; color: #fff !important;
+  text-decoration: none !important; transition: 0.2s;
+}
+.login-actions .pwshow-btn:hover { background-color: #0080c0; }
+
 .login-actions .reg-btn {
   flex: 1; text-align: center; padding: 10px; border-radius: 6px;
   font-size: 0.9rem; background-color: #81c784; color: #fff !important;
@@ -233,17 +240,17 @@ button:disabled, .btn:disabled { background-color: #c8e6c9; cursor: not-allowed;
 
 .login-actions .join-btn {
   flex: 1; text-align: center; padding: 10px; border-radius: 6px;
-  font-size: 0.9rem; background-color: #81c784; color: #fff !important;
+  font-size: 0.9rem; background-color: #c0c0c0; color: #fff !important;
   text-decoration: none !important; transition: 0.2s;
 }
-.login-actions .join-btn:hover { background-color: #66bb6a; }
+.login-actions .join-btn:hover { background-color: #808080; }
 
 .login-actions .pwset-btn {
   flex: 1; text-align: center; padding: 10px; border-radius: 6px;
-  font-size: 0.9rem; background-color: #81c784; color: #fff !important;
+  font-size: 0.9rem; background-color: #0080ff; color: #fff !important;
   text-decoration: none !important; transition: 0.2s;
 }
-.login-actions .pwset-btn:hover { background-color: #66bb6a; }
+.login-actions .pwset-btn:hover { background-color: #0080c0; }
 
 .login-actions .action-btn {
   flex: 1; text-align: center; padding: 10px; border-radius: 6px;

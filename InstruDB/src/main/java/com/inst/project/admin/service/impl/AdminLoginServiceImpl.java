@@ -187,15 +187,19 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    try {
 	    	
 	    	String result = "";
-	    	String adminPw = adminDTO.getAdminPw();
+	    	String adminPw = adminDTO.getAdminPw(); //내가 입력한 번호
 	    	AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
 	    	if ( adminInfo == null ) {
 	    		return GlobalConfig.N;
 	    	}
 
 	        boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
+	        if( adminPwChk ) {
+	        	result = GlobalConfig.Y;
+	        } else {
+	        	result = GlobalConfig.N;
+	        }
 
-	        
 			return result;
 			
 	    } catch (Exception e) {
@@ -203,7 +207,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 
-	        return null;
+	        return GlobalConfig.N;
 	    }
 	}
 	

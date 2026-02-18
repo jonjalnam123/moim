@@ -26,12 +26,13 @@
 	      	<div class="form-group">
 	        	<input type="password" id="adminPwChk" name="adminPwChk" class="login-input" placeholder="비밀번호 확인" readonly>
 	        	<input type="hidden" id="adminPwChkResult" name="adminPwChkResult">
-	        	<div class="error">특수문자 1개 이상 영어, 숫자만 14자리 입력</div>
+	        	<div class="error">현재 비밀번호를 입력해주세요.</div>
 	      	</div>
 	
 	      	<div class="login-actions">
-		        <button type="button" id="adminCancelBtn" 	class="cancel-btn" >취소</button>
-		        <button type="button" id="adminRegBtn" 		class="reg-btn">설정</button>
+	      		<button type="button" id="adminShowPwBtn" 	class="pwshow-btn" >번호확인</button>
+		        <button type="button" id="adminCancelBtn" 		class="cancel-btn" >취소</button>
+		        <button type="button" id="adminRegBtn" 			class="reg-btn">설정</button>
 	      	</div>
 	</div>
 </div>
