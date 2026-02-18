@@ -30,8 +30,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/admin")
 public class AdminLoginController {
 
+    private final AopController aopController;
+
 	@Autowired
 	AdminLoginService adminLoginService;
+
+    AdminLoginController(AopController aopController) {
+        this.aopController = aopController;
+    }
 	
 	/**
 	* @methodName	 	: getAdminLogin
@@ -117,32 +123,29 @@ public class AdminLoginController {
 	public String getAdminLoginPw( @RequestParam String adminId, Model model, RedirectAttributes redirect) {
 		log.info(" [ AdminLoginController ] : getAdminLoginPw ");
 		
-		String url = "";
 		AdminDTO adminDTO = new AdminDTO();
 		if ( !CommonUtil.isBlank(adminId) ) {
 			adminDTO.setAdminId(adminId);
 		}
 		
 		AdminDTO adminInfo = adminLoginService.getAdminLoginPw(adminDTO);
+		if(adminInfo == null) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/errorNone.do";
+		}
 		
-		String pageFlag = "";
+		String url = "";
 		String adminPw = adminInfo.getAdminPw();
 		String adminRegGb = adminInfo.getAdminRegGb();
 		if ( CommonUtil.isBlank(adminPw) && adminRegGb.equals("01") ) {	// 슈퍼관리자 등록 비밀번호 초기 설정
-			pageFlag = "newPwSet";
 			url = "admin/login/adminLoginNewPwSet.none";
 		} else if ( !CommonUtil.isBlank(adminPw) ){ // 일반 비밀번호 설정
-			pageFlag = "pwSet";
 			url = "admin/login/adminLoginPwSet.none";
-		} else {
-			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
-			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
-			url = "admin/login/adminErrorNone.none";
 		}
 		
 		model.addAttribute("adminInfo", adminInfo);
-		model.addAttribute("pageFlag", pageFlag);
-		
+
 		return url;
 	}
 	

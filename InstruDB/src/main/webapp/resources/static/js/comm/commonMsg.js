@@ -14,6 +14,7 @@ var loginDistinct 			= '현재 다른곳에서 로그인되어 있습니다. 여
 var loginEmpty 				= '가입된 정보가 없습니다. 회원가입을 진행해주세요.';
 var loginNotAccept 		= '가입 미승인 상태입니다. 관리자에에 문의해주세요.';
 var loginReject 				= '가입승인이 반려되었습니다. 다시 회원가입 해주세요.';
+var chkIdPwSet 				= '비밀번호 설정을 위해 아이디를 입력해주세요.';
 
 var logOutFailMsg 		= '로그아웃을 다시 진행해주세요.';
 var sessionLogOutMsg 	= '세션이 만료되어 로그아웃됩니다.';

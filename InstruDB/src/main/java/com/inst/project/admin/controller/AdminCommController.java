@@ -77,6 +77,44 @@ public class AdminCommController {
 	}
 	
 	/**
+	* @methodName	 	: getAdminError
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공통 에러 화면 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value="/errorNone.do")
+	public String getAdminErrorNone( @ModelAttribute AdminErrorDTO adminErrorDTO, Model model) {
+		log.info(" [ AdminCommController ] : getAdminErrorNone ");
+		
+		LocalDateTime now = now();
+		adminErrorDTO.setAdminErrorDate(now);
+		
+		String adminErrorCd = "";
+		String adminErrorMsg = "";
+		
+		if ( adminErrorCd.isEmpty() && adminErrorMsg.isEmpty() ) {
+			adminErrorCd = GlobalConfig.RESULT_SYS_ERR_CD;
+			adminErrorMsg = GlobalConfig.RESULT_SYS_ERR_MSG;
+		} else {
+			adminErrorCd = adminErrorDTO.getAdminErrorCd();
+			adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
+		}
+		
+		LocalDateTime adminErrorDate = adminErrorDTO.getAdminErrorDate();
+		
+		model.addAttribute("adminErrorCd", adminErrorCd);
+		model.addAttribute("adminErrorMsg", adminErrorMsg);
+		model.addAttribute("adminErrorDate", adminErrorDate.format(GlobalConfig.ERR_FMT));
+		
+		return "admin/all/adminErrorNone.none";
+		
+	}
+	
+	/**
 	* @methodName	 	: selectUniqueDupliChk
 	* @author				: 최정석
 	* @date            		: 2026. 1. 6.

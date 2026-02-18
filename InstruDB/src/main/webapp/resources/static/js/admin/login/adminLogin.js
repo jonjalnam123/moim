@@ -15,6 +15,9 @@ $(document).ready(function(){
 	// 관리자 비밀번호 설정 이벤트
 	$('#adminPwSetBtn').on('click', function() {
 		var adminId = $("#adminId").val();
+		if ( isEmptyMsg(adminId, chkIdPwSet) ) {
+			return;
+		}
 		goToUri('/admin/loginPw.do?adminId='+adminId);
 	});
 	 

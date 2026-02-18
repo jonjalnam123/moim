@@ -3,7 +3,7 @@
  * 작성날짜 : 2025.08.07
  * 내용 : adminMenu 스크립트
  */
-$(document).ready(function() {
+$(function () {
 	
 	// 트리 열기/닫기
 	$(document).on('click', '.tree .tw', function(e){

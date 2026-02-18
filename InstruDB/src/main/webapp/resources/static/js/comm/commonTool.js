@@ -435,5 +435,25 @@ function removeMultiSpace(val) {
 }
 
 /*******************************
+* FuntionNm : validatePassword
+* Date : 2026.02.14
+* Author : CJS
+* Description : 특수문자, 영어, 숫자만 입력 비밀번호 체크 
+********************************/
+function validatePassword(pw) {
+    var regex = /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
+    return regex.test(pw);
+}
+
+/*******************************
+* FuntionNm : removeSpace
+* Date : 2026.02.14
+* Author : CJS
+* Description : 공백제거
+********************************/
+function removeSpace(val) {
+    return val.replace(/\s/g, '');
+}
+/*******************************
 * 유효성 검사 관련 [E]
 ********************************/
