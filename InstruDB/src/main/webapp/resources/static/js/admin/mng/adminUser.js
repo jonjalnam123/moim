@@ -281,7 +281,7 @@ $(function () {
 		
 	});
 	
-	// 관리자 등록 이벤트
+	// 관리자 등록, 수정 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
@@ -305,14 +305,16 @@ $(function () {
 			return;
 		}
 		
-		if ( adminIdChk === '' ) {
-			alert('아이디' + dataDupliChk);
-			return;
-		}
-		
-		if ( adminIdChk === 'N') {
-			alert('아이디' + dataChk);
-			return;
+		if ( btnVal === 'I' ) {
+			if ( adminIdChk === '' ) {
+				alert('아이디' + dataDupliChk);
+				return;
+			}
+			
+			if ( adminIdChk === 'N') {
+				alert('아이디' + dataChk);
+				return;
+			}
 		}
 
 		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {

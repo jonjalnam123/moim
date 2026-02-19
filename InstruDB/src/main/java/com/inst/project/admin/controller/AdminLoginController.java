@@ -68,15 +68,9 @@ public class AdminLoginController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		String resultData = adminLoginService.adminLoginProc(adminDTO, req);
 		
-		if ( resultData.equals("Y") ) {
-			result.put("result", resultData);
-			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
-			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
-		} else {
-			result.put("result", resultData);
-			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
-			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
-		}
+		result.put("result", resultData);
+		result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+		result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
 		
 		return result;
 	}

@@ -19,7 +19,7 @@ $(function () {
 	});
 	
 	// 메뉴명 중복 체크
-	$('#menuNm').on('keyup', function() {
+/*	$('#menuNm').on('keyup', function() {
 		var menuNmVal = $(this).val();
 		var menuNm = onlyKorEng(menuNmVal);
 		$(this).val(menuNm);
@@ -54,7 +54,7 @@ $(function () {
 				$('.error').show();
 			}
 		});
-	});
+	});*/
 	
 	// 메뉴 상세조회
 	$('.menuTreeF, .menuTreeS').on('click', function() {
@@ -73,8 +73,10 @@ $(function () {
 		
 		if ( Number(menuLvl) ===  1 ) {
 			$('#btnNew').hide();
+			$('#menuDeptCdDiv').show();
 		} else {
 			$('#btnNew').show();
+			$('#menuDeptCdDiv').hide();
 		}
 		
 		if ( isEmptyMsg(menuId, selectDataChk) ) {
@@ -153,15 +155,16 @@ $(function () {
 		$('#btnUpd').hide();
 		$('#btnRef').hide();
 		$('.menuTreeS, .menuTreeF').removeClass('active');
+		$('#menuDeptCdDiv').hide();
 
 		$('#menuId').val('');
-		
 		$('#menuNm').val('');
-		$('#menuNmOrg').val('');
+		
+/*		$('#menuNmOrg').val('');
 		$('#menuNm').prop('required', false);
 		$('#menuNmChk').val('');
 		$('.hint').hide();
-		$('.error').hide();
+		$('.error').hide();*/
 		
 		$('#menuPId').val('');
 		$('#menuPNm').val('');
@@ -186,19 +189,20 @@ $(function () {
 		$('#btnDel').hide();
 		$('#btnUpd').hide();
 		$('#btnRef').show();
+		$('#menuDeptCdDiv').show();
 		
 		var menuId = $('#menuId').val();
 		var menuNm = $('#menuNm').val();
 		var menuLvl = $('#menuLvl').val();
 		
 		$('#menuId').val('');
-		
 		$('#menuNm').val('');
-		$('#menuNmOrg').val('');
+		
+/*		$('#menuNmOrg').val('');
 		$('#menuNmChk').val('');
 		$('#menuNm').prop('required', false);
 		$('.hint').hide();
-		$('.error').hide();
+		$('.error').hide();*/
 		
 	 	$('#menuPId').val(menuId);
 		$('#menuPNm').val(menuNm);
@@ -234,7 +238,7 @@ $(function () {
 		var menuCn = $('#menuCn').val();
 		var menuIcon = $('#menuIcon').val();
 		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
-		var menuNmChk = $('#menuNmChk').val();
+		/*var menuNmChk = $('#menuNmChk').val();*/
 		
 		if ( isEmptyArr(menuDeptCd) ){
 			menuDeptCd = '';
@@ -256,10 +260,10 @@ $(function () {
 			return;
 		}
 
-		if  ( menuNmChk === 'N' ) {
+/*		if  ( menuNmChk === 'N' ) {
 			alert('메뉴명' + dataChk)
 			return;
-		}
+		}*/
 
 		if ( btnVal === 'I' ) {
 			if ( !confirm('메뉴' + regProcConfirm) ) {

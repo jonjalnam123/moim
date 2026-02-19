@@ -20,13 +20,13 @@
 	        	<input type="text" id="adminId" name="adminId" class="login-input" placeholder="아이디" value="mark1">
 	      	</div>
 	      	<div class="form-group">
-	        	<input type="password" id="adminPw" name="adminPw" class="login-input" placeholder="비밀번호" value="1234">
+	        	<input type="password" id="adminPw" name="adminPw" class="login-input" placeholder="비밀번호" value="@rlaekgns07077">
 	      	</div>
 	
 	      	<div class="login-actions">
 		       	<button type="button" id="adminJoinBtn" 		class="join-btn">JOIN</button>
 		        <button type="button" id="adminPwSetBtn" 	class="pwset-btn">PWSET</button>
-		        <button type="button" id="adminLoginBtn"	class="action-btn">LOGIN</button>
+		        <button type="button" id="adminLoginBtn"		class="action-btn">LOGIN</button>
 	      	</div>
 	</div>
 </div>

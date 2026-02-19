@@ -1,7 +1,5 @@
 package com.inst.project.admin.service.impl;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -55,12 +53,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        boolean adminPwChk = PasswordHashUtil.matchesBcrypt(adminPw, adminInfo.getAdminPw());
 	        adminInfo.setAdminIp(adminIp);
 	        String adminRegAccept = adminInfo.getAdminRegAccept();
-	        
-	        // 아이디, 비밀번호 불일치
-	        if (!(adminIdChk && adminPwChk)) {
-	        	adminLoginMapper.insertLoginFailLog(adminInfo);
-	        	return GlobalConfig.LOGIN_N;
-	        }
+	        String adminRegGb = adminInfo.getAdminRegGb();
 	        
 	        // 관리자 가입 미승인 상태
 	        if ( !CommonUtil.isBlank(adminRegAccept) && adminRegAccept.equals("N") ) {
@@ -72,6 +65,18 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        if ( !CommonUtil.isBlank(adminRegAccept) && adminRegAccept.equals("R") ) {
 	        	adminLoginMapper.insertRejectAdminLoginLog(adminInfo);
 	        	return GlobalConfig.LOGIN_R;
+	        }
+	        
+	        // 관리자가 회원등록 비밀번호 초기설정 상태
+	        if ( !CommonUtil.isBlank(adminRegGb) && adminRegGb.equals("01") && CommonUtil.isBlank(adminInfo.getAdminPw())) {
+	        	adminLoginMapper.insertAdminLoginLog(adminInfo);
+	        	return GlobalConfig.LOGIN_PW;
+	        }
+	        
+	        // 아이디, 비밀번호 불일치
+	        if (!(adminIdChk && adminPwChk)) {
+	        	adminLoginMapper.insertLoginFailLog(adminInfo);
+	        	return GlobalConfig.LOGIN_N;
 	        }
 
 	        boolean sessionResult = CommonUtil.setAdminInfoSession(adminInfo, req);

@@ -71,6 +71,9 @@ public class AdminDTO {
 	// 관리자 등급코드 ( 00 : 관리자, 01 : 운영자, 02 : 매니저 )
 	private String adminGradeCd;
 	
+	// 관리자 등급코드명
+	private String adminGradeNm;
+	
 	// 관리자 등록승인여부 ( Y : 승인, N : 미승인, R : 반려)
 	private String adminRegAccept;
 	

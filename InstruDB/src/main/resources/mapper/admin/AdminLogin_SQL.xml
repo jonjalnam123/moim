@@ -126,6 +126,29 @@
 	</insert>
 	<!--  로그인 관리자 로그인 저장 [E]-->
 	
+	<!--  관리자가 회원등록 비밀번호 초기설정 상태 [S]-->
+	<insert id="insertPwSetAdminLoginLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertPwSetAdminLoginLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'PW'
+				 , 'PWSET'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+	<!--  관리자가 회원등록 비밀번호 초기설정 상태 [E]-->
+	
 	<!--  로그인 관리자 로그인 실패 저장 [S]-->
 	<insert id="insertLoginFailLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertLoginFailLog */

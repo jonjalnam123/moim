@@ -139,6 +139,7 @@ public class GlobalConfig {
     public static final String LOGIN_E 			= "EMPTY"; 			// 로그인정보 없음
     public static final String LOGIN_NA 		= "NOTACCEPT";	// 가입승인
     public static final String LOGIN_R 			= "REJECT"; 			// 로그인 반려
+    public static final String LOGIN_PW 		= "PWSET"; 			// 관리자등록 회원 초기비번 설정
     
 }
 

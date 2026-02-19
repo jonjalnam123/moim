@@ -31,19 +31,6 @@ $(function () {
 		}
 		goToUri('/admin/loginPw.do?adminId='+adminId);
 	});
-	
-	/*$('#adminPwSetBtn').on('click', function() {
-		var adminId = $("#adminId").val();
-		
-		var url = '/admin/loginPwSet.do';
-		var params = {
-				adminId : adminId
-		}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
-			var result = data.result;
-		});
-	});*/
 	 
 	// 관리자 로그인 버튼 이벤트
 	$('#adminLoginBtn').on('click', function() {
@@ -72,6 +59,9 @@ $(function () {
 			} else if ( data.result === 'REJECT' ) {
 				// TODO 추후에 반려 조회 팝업이 떠야할 것 같음.
 				alert(loginReject);
+				return;
+			} else if ( data.result === 'PWSET' ) { // 관리자 등록 회원 초기비번 설정
+				alert(loginPwSet);
 				return;
 			} else { // 아이디, 비밀번호 불일치
 				alert(loginFailMsg);

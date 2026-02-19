@@ -50,11 +50,12 @@
 		          	<div class="field">
 			            <label for="menuNm" class="required">메뉴명</label>
 			            <input type="text" id="menuNm" name="menuNm" class="form-control"/>
-			            <input type="hidden" id="menuNmChk" name="menuNmChk" class="form-control"/>
-			            <input type="hidden" id="menuNmOrg" name="menuNmOrg" class="form-control"/>
 			            <input type="hidden" id="menuId" name="menuId"/>
+			            
+<!-- 			            <input type="hidden" id="menuNmChk" name="menuNmChk" class="form-control"/>
+			            <input type="hidden" id="menuNmOrg" name="menuNmOrg" class="form-control"/>
                        	<div class="error" style="display: none;">메뉴명이 중복 됩니다. 다시 입력해주세요.</div>
-            			<small class="hint" style="display: none;">사용가능한 메뉴명 입니다.</small>
+            			<small class="hint" style="display: none;">사용가능한 메뉴명 입니다.</small> -->
 			          </div>
 			          
 			        <div class="field">
@@ -68,8 +69,8 @@
 					  <input type="text" id="menuUrl" name="menuUrl" class="form-control" />
 					</div>
 	
-		          	<div class="field">
-			            <label for="menuDeptCd" class="">부서</label>
+		          	<div class="field" id="menuDeptCdDiv" style="display: none;">
+			            <label for="menuDeptCd" class="">관리부서</label>
 			            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple">
 			            	<c:forEach var="unitList" items="${adminUnitList}">
 			            		<c:if test="${unitList.adminUnitLvl eq 0}">

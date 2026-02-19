@@ -19,6 +19,9 @@ public interface AdminLoginMapper {
 	// 관리자 가입 승인 반려 상태
 	void insertRejectAdminLoginLog(AdminDTO adminInfo);
 	
+	//관리자가 회원등록 비밀번호 초기설정 상태
+	void insertPwSetAdminLoginLog(AdminDTO adminInfo);
+	
 	// 관리자 로그인 이력 저장
 	int insertAdminLoginLog(AdminDTO adminDTO);
 	
@@ -30,5 +33,7 @@ public interface AdminLoginMapper {
 
 	// 관리자 비밀번호 설정
 	int updateAdminLoginPwSet(AdminDTO adminDTO);
+
+
 
 }

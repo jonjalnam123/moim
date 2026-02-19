@@ -555,6 +555,13 @@
 				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
 				  , ADMIN_REG_GB
 				  , ADMIN_GRADE_CD
+  				  , ( SELECT b.COMM_NM 
+				         FROM TB_COMMON_INFO b 
+				       WHERE 1=1
+				           AND ADMIN_GRADE_CD = b.COMM_CD
+				           AND b.COMM_GROUP_CD = 'ADMGRADE'
+				           AND COMM_USE_YN = 'Y'
+		    			   AND COMM_DEL_YN = 'N' ) AS ADMIN_GRADE__NM
 				  , ADMIN_REG_ACCEPT
 				  , REG_ID
 				  , REG_DT
@@ -640,25 +647,11 @@
 	</insert>
 	<!-- 관리자 등록 [E] -->
 	
-	<!-- 관리자 삭제 [S] -->
+	<!-- 관리자 수정 [S] -->
 	<update id="adminUserUpd" parameterType="AdminDTO">
   		/*AdminMng_SQL.adminUserUpd*/
 	  	UPDATE TB_ADMIN_INFO
-	     	  SET ADMIN_DEL_YN = 'Y'
-				  , UPD_ID = #{updId}
-				  , UPD_DT = NOW()
-		WHERE 1=1
-		    AND ADMIN_NO = #{adminNo}
-		    AND ADMIN_ID = ${adminId}
-	</update>
-	<!-- 관리자 삭제 [E] -->
-	
-	<!-- 관리자 수정 [S] -->
-	<update id="adminUserDel" parameterType="AdminDTO">
-  		/*AdminMng_SQL.adminUserDel*/
-	  	UPDATE TB_ADMIN_INFO
-	     	  SET ADMIN_ID 					= #{adminId}
-				  , ADMIN_NM 					= #{adminNm}
+	     	  SET ADMIN_NM 					= #{adminNm}
 				  , ADMIN_PH 					= #{adminPh}
 				  , ADMIN_POST_CD 			= #{adminPostCd}
 				  , ADMIN_ADDRESS 			= #{adminAddress}
@@ -673,8 +666,22 @@
 				  , UPD_DT 						= NOW()
 		WHERE 1=1
 		    AND ADMIN_NO = #{adminNo}
+		    AND ADMIN_ID  = #{adminId}		  
 	</update>
 	<!-- 관리자 수정 [E] -->
+	
+	<!-- 관리자 삭제 [S] -->
+	<update id="adminUserDel" parameterType="AdminDTO">
+  		/*AdminMng_SQL.adminUserDel*/
+	  	UPDATE TB_ADMIN_INFO
+	     	  SET ADMIN_DEL_YN = 'Y'
+				  , UPD_ID = #{updId}
+				  , UPD_DT = NOW()
+		WHERE 1=1
+		    AND ADMIN_NO = #{adminNo}
+		    AND ADMIN_ID = ${adminId}
+	</update>
+	<!-- 관리자 삭제 [E] -->
 	
 	<!-- 관리자 부서 상세 조회 [S] -->
 	<resultMap id="adminTeamMap" type="map">

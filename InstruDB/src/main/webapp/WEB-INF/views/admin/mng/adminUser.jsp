@@ -43,6 +43,7 @@
 				          <th>팀코드</th>
 				          <th>직책코드</th>
 				          <th>성별</th>
+				          <th>권한등급</th>
 				          <th>삭제여부</th>
 				        </tr>
 			      	</thead>
@@ -59,6 +60,7 @@
 					        	<td>${admin.adminTeamNm}</td>
 					        	<td>${admin.adminPositionNm}</td>
 					        	<td>${admin.adminGenderNm}</td>
+					        	<td>${admin.adminGradeNm}</td>
 					        	<td>${admin.adminDelYnNm}</td>
 					        </tr>
 				        </c:forEach>
