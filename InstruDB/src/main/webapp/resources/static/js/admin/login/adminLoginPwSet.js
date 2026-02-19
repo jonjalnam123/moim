@@ -70,7 +70,7 @@ $(function () {
 		var adminPwNow = $('#adminPwNow').val();
 		var adminPwNowResult = $('#adminPwNowResult').val();
 		
-		if ( adminPwNowResult === 'N' ) {
+		if ( adminPwNowResult === 'N' || isEmpty(adminPwNowResult)) {
 			return;
 		}
 		
@@ -109,7 +109,7 @@ $(function () {
 		var adminPw = $(this).val();
 		$('#adminPwChkResult').val('N');
 		
-		if ( adminPwResult === 'N' ) {
+		if ( adminPwResult === 'N' || isEmpty(adminPwResult) ) {
 			return;
 		}
 
@@ -190,7 +190,6 @@ $(function () {
 			return;
 		}
 	});
-
 	
 	// 취소 버튼 이벤트
 	$('#adminCancelBtn').on('click', function() {

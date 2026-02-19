@@ -10,7 +10,7 @@ $(function () {
 	var sendParamGb = $('#sendParamGb').val();
 	if( !isEmpty(sendParam) && !isEmpty(sendParamGb) ) {
 		if( sendParamGb === 'N' ) {
-			alert('아이디 : ' + sendParam + ' 의 회원가입 정보가 없습니다. 다시 확인해주세요.');
+			alert(sendParam + ' ' + chkIdPwSetEmpty);
 			goToUri('/admin/login.do');
 		}
 	}
