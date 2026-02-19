@@ -20,7 +20,11 @@ $(function () {
 		var adminNo = $('#adminNo').val();
 		var adminId = $('#adminId').val();
 		var adminPw = $(this).val();
-		$('#adminPwNowResult').val('N');
+		var adminPwNowResult = $('#adminPwNowResult').val();
+		
+		if ( adminPwNowResult === 'Y' ) {
+			return;
+		}
 		
 		if (adminPw.length > 14) {
 		    adminPw = adminPw.substring(0, 14);
@@ -63,6 +67,13 @@ $(function () {
 		$('#adminPwResult').val('N');
 		$('#adminPwChk').val('');
 		
+		var adminPwNow = $('#adminPwNow').val();
+		var adminPwNowResult = $('#adminPwNowResult').val();
+		
+		if ( adminPwNowResult === 'N' ) {
+			return;
+		}
+		
 		if (adminPw.length > 14) {
 		    adminPw = adminPw.substring(0, 14);
 		    $(this).val(adminPw);
@@ -74,6 +85,12 @@ $(function () {
 			
 			$('.error').css('color', '#e53935');
 		    $('.error').text('특수문자 1개 이상 영어, 숫자만 14자리 입력');
+		} else if ( adminPwNow === adminPw ) {
+			$('#adminPwResult').val('N');
+			$('#adminPwChk').attr('readonly', true);
+			
+			$('.error').css('color', '#e53935');
+			$('.error').text('현재 비밀번호와 같은 비밀번호를 사용할 수 없습니다.');
 		} else {
 			$('#adminPwResult').val('Y');
 			
@@ -114,16 +131,41 @@ $(function () {
 		}	
 	});
 	
-	// 등록 이벤트
+	// 설정 이벤트
 	$('#adminRegBtn').on('click', function() {
 		var adminPwNowResult = $('#adminPwNowResult').val();
 		var adminPwResult = $('#adminPwResult').val();
 		var adminPwChkResult = $('#adminPwChkResult').val();
 		
+		var adminNo = $('#adminNo').val();
+		var adminId = $('#adminId').val();
+		var adminPw = $('#adminPw').val();
+		
 		if ( adminPwNowResult === 'Y' && adminPwResult === 'Y' && adminPwChkResult === 'Y' ) {
-			
+
+			if ( !confirm(pwSettingChk) ) {
+				return;
+			}
+
+			var url = '/admin/loginPwSet.do';
+			var params = {
+					adminNo : adminNo
+				  , adminId : adminId
+				  , adminPw : adminPw
+			}
+			var dataType = 'json'
+			ajaxStart(url, params, dataType, function(data) {
+				var result = data.result;
+				if ( result === 'Y' ) {
+					alert(pwSettingOk);
+					goToUri('/admin/login.do');
+				} else {
+					goToUri('/admin/errorNone.do');
+				}
+			});
+
 		} else {
-			alert('비밀번호를 다시 확인해주세요.');
+			alert(chkPw);
 			return;
 		}
 		

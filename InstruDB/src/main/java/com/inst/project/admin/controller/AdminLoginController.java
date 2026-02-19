@@ -42,8 +42,11 @@ public class AdminLoginController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/login.do")
-	public String getAdminLogin() {
+	public String getAdminLogin( @RequestParam(required = false) Map<String, Object> bodyMap, Model model ) {
 		log.info(" [ AdminLoginController ] : getAdminLogin ");
+		if ( bodyMap != null ) {
+			model.addAttribute("result", bodyMap);
+		}
 		return "admin/login/adminLogin.none";
 	}
 	
@@ -121,10 +124,10 @@ public class AdminLoginController {
 		}
 		
 		AdminDTO adminInfo = adminLoginService.getAdminLoginPw(adminDTO);
-		if(adminInfo == null) {
-			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
-			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
-			return "redirect:/admin/errorNone.do";
+		if(adminInfo == null) { // 가입정보 없음
+			redirect.addAttribute("sendParam", adminId);
+			redirect.addAttribute("sendParamGb", GlobalConfig.N);
+			return "redirect:/admin/login.do";
 		}
 		
 		String url = "";
@@ -156,12 +159,20 @@ public class AdminLoginController {
 	public Map<String,Object> adminLoginPwNowchk( @ModelAttribute AdminDTO adminDTO ) {
 		log.info(" [ AdminLoginController ] : adminLoginPwNowchk ");
 		
-		Map<String, Object> resultMap = new HashMap<>();
-		String result = adminLoginService.adminLoginPwNowchk(adminDTO);
+		Map<String, Object> result = new HashMap<>();
+		String resultData = adminLoginService.adminLoginPwNowchk(adminDTO);
 		
-		resultMap.put("result", result);
+		if ( resultData.equals("Y") ) {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+		} else {
+			result.put("result", resultData);
+			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
+		}
 		
-		return resultMap;
+		return result;
 	}
 	
 	/**

@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.inst.project.admin.service.impl.AdminLoginMapper">
-
+	
+	<!--  로그인 관리자 조회 [S]-->
 	<select id="selectAdminInfo" parameterType="AdminDTO" resultType="AdminDTO">
 		/* AdminLogin_SQL.selectAdminInfo */
 		SELECT ADMIN_NO
@@ -31,7 +32,9 @@
 	     WHERE ADMIN_ID = #{adminId}
 	         AND ADMIN_DEL_YN = 'N'
 	</select>
+	<!--  로그인 관리자 조회 [E]-->
 	
+	<!--  로그인 관리자 정보 없음 저장 [S]-->
 	<insert id="insertEmptyAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertEmptyAdminLoginLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -52,7 +55,9 @@
 				 , NOW()
 		);
 	</insert>
+	<!--  로그인 관리자 정보 없음 저장 [E]-->
 	
+	<!--  로그인 관리자 가입 미승인 저장 [S]-->
 	<insert id="insertNotAcceptAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertNotAcceptAdminLoginLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -73,7 +78,9 @@
 				 , NOW()
 		);
 	</insert>
+	<!--  로그인 관리자 가입 미승인 저장 [E]-->
 	
+	<!--  로그인 관리자 가입 거부 저장 [S]-->
 	<insert id="insertRejectAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertRejectAdminLoginLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -94,7 +101,9 @@
 				 , NOW()
 		);
 	</insert>
+	<!--  로그인 관리자 가입 거부 저장 [E]-->
 	
+	<!--  로그인 관리자 로그인 저장 [S]-->
 	<insert id="insertAdminLoginLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertAdminLoginLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -115,7 +124,9 @@
 				 , NOW()
 		);
 	</insert>
+	<!--  로그인 관리자 로그인 저장 [E]-->
 	
+	<!--  로그인 관리자 로그인 실패 저장 [S]-->
 	<insert id="insertLoginFailLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertLoginFailLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -136,7 +147,9 @@
 				 , NOW()
 		);
 	</insert>
+	<!--  로그인 관리자 로그인 실패 저장 [E]-->
 	
+	<!--  로그인 관리자 로그아웃 저장 [S]-->
 	<insert id="insertAdminLogOutLog" parameterType="AdminDTO">
 		/* AdminLogin_SQL.insertAdminLogOutLog */
 		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
@@ -157,5 +170,17 @@
 				 , NOW()
 		);
 	</insert>
-
+	<!--  로그인 관리자 로그아웃 저장 [E]-->
+	
+	<!--  로그인 관리자 비밀번호 설정 [S]-->
+	<update id="updateAdminLoginPwSet" parameterType="AdminDTO">
+		/* AdminLogin_SQL.updateAdminLoginPwSet */
+		UPDATE TB_ADMIN_INFO 
+			 SET ADMIN_PW = #{adminPw}
+		 WHERE 1=1
+		     AND ADMIN_NO = #{adminNo}
+			 AND ADMIN_ID = #{adminId}
+			 AND ADMIN_DEL_YN = 'N';
+	</update>
+	<!--  로그인 관리자 비밀번호 설정 [E]-->
 </mapper>

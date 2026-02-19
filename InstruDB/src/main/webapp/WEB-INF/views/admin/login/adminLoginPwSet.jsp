@@ -28,9 +28,13 @@
 	        	<input type="hidden" id="adminPwChkResult" name="adminPwChkResult">
 	        	<div class="error">현재 비밀번호를 입력해주세요.</div>
 	      	</div>
+	      	<div>
+	      		<label for="adminShowPwBtn">
+	      			<input type="checkbox" id="adminShowPwBtn" name="adminShowPwBtn" style="margin-left: 220px;">번호확인
+	      		</label>
+	      	</div>
 	
 	      	<div class="login-actions">
-	      		<button type="button" id="adminShowPwBtn" 	class="pwshow-btn" >번호확인</button>
 		        <button type="button" id="adminCancelBtn" 		class="cancel-btn" >취소</button>
 		        <button type="button" id="adminRegBtn" 			class="reg-btn">설정</button>
 	      	</div>

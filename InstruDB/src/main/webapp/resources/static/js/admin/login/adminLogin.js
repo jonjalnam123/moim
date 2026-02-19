@@ -1,10 +1,21 @@
 /**
  * 작성자 : 최정석
  * 작성날짜 : 2025.08.07
- * 내용 : 회원가입 페이지 스크립트
+ * 내용 : adminLogin 스크립트
  */
-$(document).ready(function(){
+$(function () {
 	
+	// 패스워드 설정시 가입정보 식별 [S]
+	var sendParam = $('#sendParam').val();
+	var sendParamGb = $('#sendParamGb').val();
+	if( !isEmpty(sendParam) && !isEmpty(sendParamGb) ) {
+		if( sendParamGb === 'N' ) {
+			alert('아이디 : ' + sendParam + ' 의 회원가입 정보가 없습니다. 다시 확인해주세요.');
+			goToUri('/admin/login.do');
+		}
+	}
+	// 패스워드 설정시 가입정보 식별 [E]
+
 	// 엔터키 이벤트
 	$('#adminPw').on('keyup', function(key) {
 		if (key.keyCode == 13) {
@@ -20,9 +31,7 @@ $(document).ready(function(){
 		}
 		goToUri('/admin/loginPw.do?adminId='+adminId);
 	});
-	 
-	 
-	 
+	
 	/*$('#adminPwSetBtn').on('click', function() {
 		var adminId = $("#adminId").val();
 		

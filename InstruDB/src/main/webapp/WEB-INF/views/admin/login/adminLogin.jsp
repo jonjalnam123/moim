@@ -4,6 +4,13 @@
 <!-- Script Part -->
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/login/adminLogin.js"></script>
 
+<!-- Model Param [S] -->
+<c:if test="${not empty result}">
+	<input type="hidden" id="sendParam" name="sendParam" value="${result.sendParam}">
+	<input type="hidden" id="sendParamGb" name="sendParamGb" value="${result.sendParamGb}">
+</c:if>
+<!-- Model Param [E] -->
+
 <!-- Draw view [S] -->
 <div class="login-container">
 	<div class="login-box">

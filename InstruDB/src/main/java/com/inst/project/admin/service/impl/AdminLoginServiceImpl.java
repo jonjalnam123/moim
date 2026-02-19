@@ -225,16 +225,14 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	public String adminLoginPwSet(AdminDTO adminDTO) {
 	    log.info(" [ AdminLoginServiceImpl ] : adminLoginPwSet ");
 	    try {
-	    	
-	    	AdminDTO adminInfo = adminLoginMapper.selectAdminInfo(adminDTO);
-	    	String adminPw = adminInfo.getAdminPw();
-	    	if ( CommonUtil.isBlank(adminPw) ) { // 관리자 등록 :  비밀번호 초기 설정
-	    		
-	    	} else { // 본인 가입 : 비밀번호 변경 또는 관리자 등록 초기설정 후 비밀번호 변경
-	    		
+	    	String adminPw = adminDTO.getAdminPw();
+	    	if(adminPw == null ) {
+	    		 return GlobalConfig.N;
 	    	}
-	    		
-	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
+	    	String adminPwEnc = PasswordHashUtil.hashWithBcrypt(adminPw);
+	    	adminDTO.setAdminPw(adminPwEnc);
+	    	
+	        int instCnt = adminLoginMapper.updateAdminLoginPwSet(adminDTO);
 	        if (instCnt > 0) {
 	            return GlobalConfig.Y;
 	        }
