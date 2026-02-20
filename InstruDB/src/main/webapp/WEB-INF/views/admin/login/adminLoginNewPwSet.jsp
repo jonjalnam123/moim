@@ -22,7 +22,7 @@
 	      	<div class="form-group">
 	        	<input type="password" id="adminPwChk" name="adminPwChk" class="login-input" placeholder="비밀번호 확인" readonly>
 	        	<input type="hidden" id="adminPwChkResult" name="adminPwChkResult">
-	        	<div class="error">특수문자 1개 이상 영어, 숫자만 14자리 입력</div>
+	        	<div class="error is-show">특수문자 1개 이상 영어, 숫자만 14자리 입력</div>
 	      	</div>
 	      	
     		<div class="form-group pw-help">

@@ -16,7 +16,7 @@
 			<h2 class="login-title">비밀번호 재설정</h2>
 			
       		<div class="form-group">
-        		<input type="password" id="adminPwNow" name="adminPwNow" class="login-input" placeholder="현재 비밀번호" >
+        		<input type="password" id="adminPwNow" name="adminPwNow" class="login-input" placeholder="현재 비밀번호">
         		<input type="hidden" id="adminPwNowResult" name="adminPwNowResult">
       		</div>
       		<div class="form-group">
