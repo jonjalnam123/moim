@@ -23,6 +23,11 @@ $(function () {
 		} 
 	 });
 	 
+	// 관리자 가입 버튼 이벤트
+	$('#adminJoinBtn').on('click',function() {
+		goToUri('/admin/agree.do');
+	});
+	 
 	// 관리자 비밀번호 설정 이벤트
 	$('#adminPwSetBtn').on('click', function() {
 		var adminId = $("#adminId").val();

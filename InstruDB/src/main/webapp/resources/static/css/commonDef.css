@@ -1067,3 +1067,212 @@ body.is-resizing { user-select: none; cursor: col-resize; }
   .field.zip-field > input.form-control{ grid-column: 1; }
   .field.zip-field > .btn-zip{ grid-column: 1; width: 100%; }
 }
+
+/* ==============================
+   ✅ 타일즈 없이 단독 에러페이지 중앙 정렬
+   - content-wrapper가 main 밖에 있어도 100vh 기준으로 센터링
+============================== */
+.content-wrapper.error-page{
+  max-width: none;          /* sidebar 계산(max-width: calc(...)) 영향 제거 */
+  width: 100%;
+  height: 100vh;            /* 뷰포트 전체를 기준으로 잡음 */
+  padding: 24px 12px;       /* 기존 error-screen padding 역할 */
+  box-sizing: border-box;
+  display: flex;
+  overflow: auto;           /* 작은 화면에서 카드가 커도 스크롤 가능 */
+  background: #f8fdf8;
+}
+
+/* error-screen의 min-height(70vh) 대신 wrapper가 센터 기준이 되게 */
+.content-wrapper.error-page > .error-screen{
+  flex: 1;
+  min-height: 0;
+  padding: 0;               /* wrapper 패딩 사용 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   ✅ 타일즈 미적용(단독) 회원가입 센터링
+========================================================= */
+/* ✅ 단독 회원가입: 항상 스크롤 보장(전역 body overflow:hidden 우회) */
+.content-wrapper.signup-page{
+  position: fixed;
+  inset: 0;                 /* top/right/bottom/left:0 */
+  max-width: none;
+  width: 100%;
+
+  overflow-y: auto;         /* ✅ 스크롤은 여기서 */
+  overflow-x: hidden;
+
+  padding: 24px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;  /* 가로 가운데 */
+  align-items: flex-start;  /* 세로는 위에서 시작(윗부분 잘림 방지) */
+
+  background: #f8fdf8;
+  -webkit-overflow-scrolling: touch; /* 모바일 스크롤 부드럽게 */
+}
+
+/* 카드 폭만 제한 */
+.content-wrapper.signup-page .signup-card{
+  width: 100%;
+  max-width: 760px;
+  margin: 0;
+}
+
+/* (선택) 화면이 충분히 높을 때만 약간 내려서 “가운데 느낌” */
+@media (min-height: 820px){
+  .content-wrapper.signup-page{
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+/* =========================================================
+   ✅ 타일즈 미적용(단독) 약관동의 페이지
+   - 전역 body overflow:hidden 영향 회피
+   - 항상 스크롤 보장
+========================================================= */
+.content-wrapper.terms-page{
+  position: fixed;
+  inset: 0;
+  max-width: none;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 12px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;   /* 위 잘림 방지 */
+  background: #f8fdf8;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content-wrapper.terms-page .terms-card{
+  width: 100%;
+  max-width: 900px;
+  margin: 0;
+}
+
+/* 전체동의 박스 */
+.terms-all{
+  border: 1px solid #e0eee0;
+  border-radius: 12px;
+  background: #f4fbf4;
+  padding: 12px 14px;
+  margin: 10px 0 14px 0;
+}
+
+.terms-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 약관 아이템 */
+.terms-item{
+  border: 1px solid #e3e7e3;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.terms-item-head{
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(#eef9ef, #e7f6ea);
+  border-bottom: 1px solid #e3efe3;
+}
+
+.terms-check{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  user-select: none;
+}
+.terms-check input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+  accent-color: #66bb6a;
+}
+.terms-check-text{
+  color: #2b3a30;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* 작은 버튼 */
+.btn-sm{
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  line-height: 28px;
+}
+
+/* 약관 본문 */
+.terms-item-body{
+  padding: 12px 14px;
+}
+.terms-box{
+  border: 1px solid #e0eee0;
+  background: #f8fdf8;
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 260px;     /* ✅ 길면 내부 스크롤 */
+  overflow: auto;
+  line-height: 1.55;
+  color: #2b3a30;
+}
+
+.terms-box h4{
+  margin: 12px 0 6px 0;
+  font-size: 0.98rem;
+  color: #2e7d32;
+}
+.terms-box p{ margin: 6px 0; }
+.terms-box ul, .terms-box ol{ margin: 6px 0 6px 18px; padding: 0; }
+.terms-footer-note{
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #567;
+}
+
+/* 간단 표 형태(개인정보 안내) */
+.terms-table{
+  margin-top: 10px;
+  border: 1px solid #dfe7df;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.terms-row{
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  padding: 10px 12px;
+  border-top: 1px solid #dfe7df;
+}
+.terms-row:first-child{ border-top: 0; }
+.terms-row .k{
+  font-weight: 800;
+  color: #425a4f;
+}
+.terms-row .v{
+  color: #2b3a30;
+}
+
+/* 모바일 */
+@media (max-width: 480px){
+  .terms-row{ grid-template-columns: 90px 1fr; }
+  .terms-item-head{ flex-direction: column; align-items: flex-start; }
+}

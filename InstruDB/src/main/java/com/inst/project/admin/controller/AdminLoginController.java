@@ -31,6 +31,24 @@ public class AdminLoginController {
 	@Autowired
 	AdminLoginService adminLoginService;
 	
+	
+	/**
+	* @methodName	 	: getAdminJoin
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 로그인 화면 호출
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value = "/agree.do")
+	public String getAdminAgree() {
+		log.info(" [ AdminLoginController ] : getAdminAgree ");
+		return "admin/login/adminAgree.none";
+	}
+	
+	
 	/**
 	* @methodName	 	: getAdminLogin
 	* @author					: 최정석

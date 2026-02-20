@@ -88,9 +88,9 @@
 	<section class="split-right">
 		<div class="content-scroll" style="padding:12px 14px;">
 	   		<div class="page-header">
-	        	<h2>관리자관리</h2>
+	        	<h2>관리자</h2>
 		        <div class="breadcrumb">
-		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>관리자관리</span>
+		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>사원관리</span>
 		        </div>
 	      	</div>
 	     	<div class="form-card">
