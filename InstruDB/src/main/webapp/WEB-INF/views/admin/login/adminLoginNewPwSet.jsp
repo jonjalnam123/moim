@@ -24,11 +24,13 @@
 	        	<input type="hidden" id="adminPwChkResult" name="adminPwChkResult">
 	        	<div class="error">특수문자 1개 이상 영어, 숫자만 14자리 입력</div>
 	      	</div>
-	      	<div>
-	      		<label for="adminShowPwBtn">
-	      			<input type="checkbox" id="adminShowPwBtn" name="adminShowPwBtn" style="margin-left: 220px;">번호확인
-	      		</label>
-	      	</div>
+	      	
+    		<div class="form-group pw-help">
+			  <label class="pw-toggle" for="adminShowPwBtn">
+			    <input type="checkbox" id="adminShowPwBtn" name="adminShowPwBtn">
+			    <span>비밀번호 표시</span>
+			  </label>
+			</div>
 	
 	      	<div class="login-actions">
 		        <button type="button" id="adminCancelBtn" 		class="cancel-btn" >취소</button>

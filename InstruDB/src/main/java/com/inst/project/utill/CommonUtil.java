@@ -213,6 +213,68 @@ public class CommonUtil {
 	    return s == null || s.trim().isEmpty();
 	}
 	
+	/**
+	* @methodName	 	: isNull
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: Null 체크 후 String 리턴
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+	public static String isNull(Object o){
+		if(o == null){
+			return "";
+		}else{
+			return o.toString().trim();
+		} // end of if
+	}
+	
+	/**
+	* @methodName	 	: isNull
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: Null 체크 후 특정 String 리턴
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+	public static String isNull(Object o, String s){
+		if("".equals(isNull(o))){
+			return s;
+		}else{
+			return o.toString().trim();
+		} // end of if
+	}
+
+	/**
+	* @methodName	 	: isNullToZero
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: Null 체크 후 특정 0 또는 String으로 리턴
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+	public static String isNullToZero(Object o){
+		if(o == null){
+			return "0";
+		}
+		else if(o.toString().isEmpty()) {
+			return "0";
+		}
+		else{
+			return o.toString().trim();
+		} // end of if
+	}
+	
+	
+	
+	
+	
 	public static String toMd5(String s) {
 		byte[] temp = s.getBytes();
 		String result = null;
@@ -688,39 +750,7 @@ public class CommonUtil {
 			return sb.toString();
 		}
 
-		/**
-		 * 臾몄옄�뿴�씠 Null�씠硫� ""�쓣 由ы꽩�븳�떎.
-		 *
-		 * @param value 諛붽� 臾몄옄�뿴
-		 * @return value null�씠硫� ""由ы꽩
-		 */
-		public static String isNull(Object o){
-			if(o == null){
-				return "";
-			}else{
-				return o.toString().trim();
-			} // end of if
-		}
-
-		public static String isNull(Object o, String s){
-			if("".equals(isNull(o))){
-				return s;
-			}else{
-				return o.toString().trim();
-			} // end of if
-		}
-
-		public static String isNullToZero(Object o){
-			if(o == null){
-				return "0";
-			}
-			else if(o.toString().isEmpty()) {
-				return "0";
-			}
-			else{
-				return o.toString().trim();
-			} // end of if
-		}
+		
 		
 		/**
 		 * 臾몄옄�뿴�씠 Null�씠硫� ""�쓣 由ы꽩�븳�떎.

@@ -33,10 +33,10 @@ public class AdminLoginController {
 	
 	
 	/**
-	* @methodName	 	: getAdminJoin
+	* @methodName	 	: getAdminAgree
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 로그인 화면 호출
+	* @description			: 관리자 회원가입 약관동의 페이지 조회
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
@@ -46,6 +46,28 @@ public class AdminLoginController {
 	public String getAdminAgree() {
 		log.info(" [ AdminLoginController ] : getAdminAgree ");
 		return "admin/login/adminAgree.none";
+	}
+	
+	/**
+	* @methodName	 	: getAdminJoin
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 회원가입 페이지 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping(value = "/join.do")
+	public String getAdminJoin( @RequestParam(required = false) Map<String, Object> bodyMap, Model model ) {
+		log.info(" [ AdminLoginController ] : getAdminJoin ");
+		if ( bodyMap != null ) {
+			model.addAttribute( "agreeService", CommonUtil.isNull(bodyMap.get("agreeService")) );
+			model.addAttribute( "agreePrivacy", CommonUtil.isNull(bodyMap.get("agreePrivacy")) );
+			model.addAttribute( "agreeMarketing", CommonUtil.isNull(bodyMap.get("agreeMarketing")) );
+			model.addAttribute( "agreeConsign", CommonUtil.isNull(bodyMap.get("agreeConsign")) );
+		}
+		return "admin/login/adminJoin.none";
 	}
 	
 	

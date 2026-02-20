@@ -7,7 +7,7 @@
 <!-- Draw view [S] -->
 <div class="content-wrapper terms-page">
   <section class="terms-screen" aria-label="약관 동의">
-    <form class="form-card terms-card" action="/admin/join.do" method="post">
+    <form class="form-card terms-card" action="/admin/join.do" method="get">
     
       <h3 class="form-title">약관 동의</h3>
       <p class="form-desc">
@@ -31,7 +31,7 @@
               <input type="checkbox" class="agree-item req" name="agreeService" value="Y" />
               <span class="terms-check-text">[필수] 서비스 이용약관 동의</span>
             </label>
-            <button type="button" class="btn btn-refresh btn-sm terms-toggle">내용보기</button>
+            <button type="button" class="btn-refresh btn-sm terms-toggle">내용보기</button>
           </div>
 
           <div class="terms-item-body">
@@ -87,7 +87,7 @@
               <input type="checkbox" class="agree-item req" name="agreePrivacy" value="Y" />
               <span class="terms-check-text">[필수] 개인정보 수집·이용 동의</span>
             </label>
-            <button type="button" class="btn btn-refresh btn-sm terms-toggle">내용보기</button>
+            <button type="button" class="btn-refresh btn-sm terms-toggle">내용보기</button>
           </div>
 
           <div class="terms-item-body">
@@ -131,7 +131,7 @@
               <input type="checkbox" class="agree-item opt" name="agreeMarketing" value="Y" />
               <span class="terms-check-text">[선택] 마케팅/이벤트 정보 수신 동의</span>
             </label>
-            <button type="button" class="btn btn-refresh btn-sm terms-toggle">내용보기</button>
+            <button type="button" class="btn-refresh btn-sm terms-toggle">내용보기</button>
           </div>
 
           <div class="terms-item-body">
@@ -153,7 +153,7 @@
               <input type="checkbox" class="agree-item opt" name="agreeConsign" value="Y" />
               <span class="terms-check-text">[선택] 개인정보 처리위탁 안내 확인</span>
             </label>
-            <button type="button" class="btn btn-refresh btn-sm terms-toggle">내용보기</button>
+            <button type="button" class="btn-refresh btn-sm terms-toggle">내용보기</button>
           </div>
 
           <div class="terms-item-body">
@@ -170,7 +170,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn-cancel" onclick="history.back();">이전</button>
+        <button type="button" class="btn-delete" onclick="history.back();">취소</button>
         <button type="submit" class="btn-insert" id="nextBtn" disabled>동의하고 계속</button>
       </div>
 

@@ -21,13 +21,7 @@ $(function(){
      var checked = this.checked;
      $('.agree-item').prop('checked', checked).trigger('change');
    });
-
-   // 필수 체크 상태에 따라 버튼 활성화
-   function refreshNextBtn(){
-     var ok = $('.agree-item.req:checked').length === $('.agree-item.req').length;
-     $('#nextBtn').prop('disabled', !ok);
-   }
-
+   
    // 개별 체크 -> 전체동의 상태 동기화 + 버튼 갱신
    $('.agree-item').on('change', function(){
      var all = $('.agree-item').length;
@@ -38,3 +32,9 @@ $(function(){
 
    refreshNextBtn();
  });
+ 
+ // 필수 체크 상태에 따라 버튼 활성화
+ function refreshNextBtn(){
+   var ok = $('.agree-item.req:checked').length === $('.agree-item.req').length;
+   $('#nextBtn').prop('disabled', !ok);
+ }
