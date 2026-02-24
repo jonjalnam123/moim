@@ -20,6 +20,9 @@ public interface AdminLoginService {
 	
 	// 관리자 비밀번호 설정
 	String adminLoginPwSet(AdminDTO adminDTO);
+	
+	// 관리자 회원가입 이메일 인증
+	int getAdminJoinMailChk(String adminEmail);
 
 
 }

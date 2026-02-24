@@ -70,6 +70,33 @@ public class AdminLoginController {
 		return "admin/login/adminJoin.none";
 	}
 	
+	/**
+	* @methodName	 	: getAdminJoinMailChk
+	* @author					: 최정석
+	* @date            		: 2026. 02. 24
+	* @description			: 관리자 회원가입 이메일 인증
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	*  2026. 02. 24        		최정석       			최초 생성
+	*/
+	@PostMapping(value="/joinMailChk.do")
+	@ResponseBody
+	public Map<String, Object> getAdminJoinMailChk( @RequestParam String adminEmail ) {
+		log.info(" [ AdminLoginController ] : getAdminJoinMailChk ");
+		Map<String, Object> result = new HashMap<String,Object>();
+		int emailCode = adminLoginService.getAdminJoinMailChk(adminEmail);
+		if ( emailCode > 0 ) {
+			result.put("result", emailCode);
+			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+		} else {
+			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
+		}
+		return result;
+	}
+	
 	
 	/**
 	* @methodName	 	: getAdminLogin

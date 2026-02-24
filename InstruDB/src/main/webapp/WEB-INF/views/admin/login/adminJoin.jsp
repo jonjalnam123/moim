@@ -45,36 +45,44 @@
 		        	<small class="error" id="pwMismatch">비밀번호가 일치하지 않습니다.</small>
 		      	</div>
 		
-		      	<div class="field">
-		        	<label for="email" class="required">이메일</label>
-		        	<input id="email" name="email" class="form-control" type="email" placeholder="name@example.com" required />
+		      	<div class="field zip-field">
+	            	<label class="required" for="adminEmail">이메일</label>
+	            	<input id="adminEmailOrg" name="adminEmailOrg" type="hidden"/>
+		        	<input id="adminEmail" name="adminEmail" class="form-control" type="email" placeholder="name@example.com" required />
+	           		<button type="button" class="btn-zip" id="getEamilChkBtn">인증</button>
+	           		<small class="error">유효한 이메일이 필요합니다.</small>
+		      	</div>
+		      	
+		      	<div class="field" id="emailChkDiv">
+		        	<label for="emailChk">메일인증번호</label>
+		        	<input type="text" id="emailChk" name="emailChk" class="form-control" />
 		        	<small class="error">유효한 이메일이 필요합니다.</small>
 		      	</div>
-		
-		      	<div class="field">
-		        	<label for="phone">연락처</label>
-		        	<input id="phone" name="phone" class="form-control" type="tel" placeholder="010-1234-5678" pattern="^0\\d{1,2}-\\d{3,4}-\\d{4}$" />
-		        	<small class="hint">형식: 010-1234-5678</small>
-		        	<small class="error">연락처 형식이 올바르지 않습니다.</small>
+		      	
+     			<div class="field zip-field">
+	            	<label class="required" for="adminPhone">연락처</label>
+	            	<input id="adminPhoneOrg" name="adminPhoneOrg" type="hidden"/>
+		        	<input id="adminPhone" name="adminPhone" class="form-control" type="email" placeholder="숫자만 입력해주세요." required />
+	           		<button type="button" class="btn-zip" id="getPhoneChkBtn">인증</button>
+	           		<small class="error">유효한 이메일이 필요합니다.</small>
+		      	</div>
+		      	
+ 			    <div class="field" id="poneChkDiv">
+		        	<label for="emailChk">핸드폰인증번호</label>
+		        	<input type="text" id="poneChk" name="poneChk" class="form-control" />
+		        	<small class="error">유효한 이메일이 필요합니다.</small>
 		      	</div>
 	
 				<!-- 우편번호 -->
 				<div class="field zip-field">
-<!-- 				  	<label for="postCd" class="required">우편번호</label>
-				  	<input id="postCd" name="postCd" class="form-control" type="text" placeholder="우편번호" readonly required />
-				  	<button type="button" class="btn-zip" id="btnPost">우편번호 찾기</button>
-				  	<small class="error">우편번호는 필수입니다.</small> -->
-		            	<label class="required" for="adminPostCd">우편번호</label>
-	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly required/>
-	            		<button type="button" class="btn-zip" id="getPostCode">찾기</button>
-	            		<small class="error">우편번호는 필수입니다.</small>
+	            	<label class="required" for="adminPostCd">우편번호</label>
+	           		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly required/>
+	           		<button type="button" class="btn-zip" id="getPostCode">찾기</button>
+	           		<small class="error">우편번호는 필수입니다.</small>
 				</div>
 				
 				<!-- ✅ 주소: full 제거 (다른 인풋과 동일 폭) -->
 				<div class="field">
-<!-- 			  		<label for="addr1" class="required">주소</label>
-				  	<input id="addr1" name="addr1" class="form-control" type="text" placeholder="기본주소" readonly required />
-				  	<small class="error">주소는 필수입니다.</small> -->
 	           		<label class="required" for="adminAddress">주소</label>
 	           		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
 				</div>

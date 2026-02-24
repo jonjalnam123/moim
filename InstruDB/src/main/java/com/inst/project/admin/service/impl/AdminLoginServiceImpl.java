@@ -1,9 +1,15 @@
 package com.inst.project.admin.service.impl;
 
+import java.util.Random;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminLoginService;
@@ -20,6 +26,49 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 
 	@Autowired
 	AdminLoginMapper adminLoginMapper;
+	
+	@Autowired
+	JavaMailSenderImpl mailSender;
+	
+	//랜덤번호 추출 메소드
+	public int makeRandomNumber() {
+		log.info("=== makeRandomNumber 진입 ===");
+		Random r = new Random();
+		int checkNum = r.nextInt(888888) + 111111;
+		log.info("인증번호 : " + checkNum);
+		return checkNum;
+	}
+	
+	@Override
+	public int getAdminJoinMailChk(String adminEmail) {
+		int authNumber = makeRandomNumber();
+		String setFrom = "jeongseogc26@gmail.com";
+		String toMail = adminEmail;
+		String title = "🐶WnM 가입 인증 이메일 입니다.";
+		String content = 
+				"안녕하세요. WnM을 방문해주셔서 감사합니다. 멍!" +
+                "<br><br>" + 
+			    "인증 번호는 " + authNumber + "입니다. 멍!" + 
+			    "<br>" + 
+			    "해당 인증번호를 인증번호 확인란에 기입하여 주세요. 멍멍!";
+		mailSend(setFrom, toMail, title, content);
+		return authNumber;
+	}
+	
+	//이메일 전송 메소드
+	public void mailSend(String setFrom, String toMail, String title, String content) {
+		MimeMessage message = mailSender.createMimeMessage();
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message,true,"utf-8");
+			helper.setFrom(setFrom);
+			helper.setTo(toMail);
+			helper.setSubject(title);
+			helper.setText(content,true);
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	* @methodName	 	: adminLoginProc
