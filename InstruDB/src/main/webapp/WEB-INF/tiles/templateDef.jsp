@@ -40,4 +40,14 @@
 	    </main>
 	  </div>
 </body>
+
+
+<!-- 로딩 아이콘 -->
+<div id="globalLoading" class="idb-spinner-backdrop">
+    <div class="idb-spinner-box">
+        <div class="idb-spinner"></div>
+        <div class="idb-spinner-text">잠시만 기다려 주세요...</div>
+    </div>
+</div>
+
 </html>

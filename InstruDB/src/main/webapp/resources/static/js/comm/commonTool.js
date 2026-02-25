@@ -405,6 +405,66 @@ function onlyEmailChar(val) {
 }
 
 /*******************************
+* FuntionNm : onlyEmailCharChk
+* Date : 2026.02.14
+* Author : CJS
+* Description : 이메일 형식 체크
+********************************/
+// 이메일 형식 체크 (실무용: 과도하게 엄격하지 않게)
+function isValidEmail(email) {
+  if (email == null) return false;
+
+  email = String(email).trim();
+  if (email.length === 0) return false;
+  if (email.length > 254) return false;           // 일반적으로 허용되는 최대 길이
+
+  // 공백 금지
+  if (/\s/.test(email)) return false;
+
+  // @ 정확히 1개
+  var at = email.indexOf("@");
+  if (at <= 0 || at !== email.lastIndexOf("@")) return false;
+
+  var local = email.slice(0, at);
+  var domain = email.slice(at + 1);
+
+  // 로컬/도메인 최소 길이
+  if (local.length === 0 || domain.length === 0) return false;
+
+  // 로컬파트 규칙(간단/실무형)
+  // - 시작/끝 점(.) 금지, 연속 점(..) 금지
+  // - 허용 문자: 영문/숫자/._%+- (일반적인 수준)
+  if (local.length > 64) return false;
+  if (local[0] === "." || local[local.length - 1] === ".") return false;
+  if (local.indexOf("..") !== -1) return false;
+  if (!/^[A-Za-z0-9._%+-]+$/.test(local)) return false;
+
+  // 도메인 규칙(라벨 단위)
+  // - 영문/숫자/하이픈/점
+  // - 라벨 시작/끝 하이픈 금지
+  // - 최소 1개 이상의 점(= TLD 존재) 요구
+  // - TLD는 2~63자
+  if (domain.length > 253) return false;
+  if (domain[0] === "." || domain[domain.length - 1] === ".") return false;
+  if (!/^[A-Za-z0-9.-]+$/.test(domain)) return false;
+
+  var parts = domain.split(".");
+  if (parts.length < 2) return false;
+
+  for (var i = 0; i < parts.length; i++) {
+    var label = parts[i];
+    if (label.length === 0) return false;
+    if (label.length > 63) return false;
+    if (label[0] === "-" || label[label.length - 1] === "-") return false;
+    if (!/^[A-Za-z0-9-]+$/.test(label)) return false;
+  }
+
+  var tld = parts[parts.length - 1];
+  if (tld.length < 2 || tld.length > 63) return false;
+
+  return true;
+}
+/*******************************
 * FuntionNm : removeSpecialChar
 * Date : 2026.02.14
 * Author : CJS
@@ -441,7 +501,7 @@ function removeMultiSpace(val) {
 * Description : 특수문자, 영어, 숫자만 입력 비밀번호 체크 
 ********************************/
 function validatePassword(pw) {
-    var regex = /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
+    var regex = /^(?=.*[A-Za-z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
     return regex.test(pw);
 }
 
@@ -454,6 +514,23 @@ function validatePassword(pw) {
 function removeSpace(val) {
     return val.replace(/\s/g, '');
 }
+
+/*******************************
+* FuntionNm : checkNumSixRepl
+* Date : 2025.10.20
+* Author : CJS
+* Description : 숫자만 6자리 허용
+********************************/
+function checkNumSixRepl(obj) {
+	var val = obj.value;
+	
+	if (val.length > 6) {
+	    val = val.slice(0, 6);
+	}
+	
+	obj.value = val.replace(/[^0-9]/g, '');
+}
+
 /*******************************
 * 유효성 검사 관련 [E]
 ********************************/

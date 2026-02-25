@@ -1,95 +1,318 @@
 /**
  * 작성자 : 최정석
  * 작성날짜 : 2025.08.07
- * 내용 : adminLogin 스크립트
+ * 내용 : adminJoin 스크립트 (통합 최종본)
  */
 $(function () {
 
-	// 이메일 인증 버튼 이벤트
-	var code = '';
-	$('#getEamilChkBtn').click(function() {
-		var adminEmail = $('#adminEmail').val();
-		$('#adminEmailOrg').val(adminEmail);
+    /* ==============================
+       공통 변수
+    ============================== */
+    var totalSeconds = 180;
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var adminEmailCode = '';
+
+    /* ==============================
+       타이머 영역
+    ============================== */
+    function formatTime(seconds) {
+        var min = Math.floor(seconds / 60);
+        var sec = seconds % 60;
+        return (min < 10 ? "0" + min : min) + ":" +
+               (sec < 10 ? "0" + sec : sec);
+    }
+
+    function resetTimerUI() {
+        remaining = totalSeconds;
+        $('#adminEmaliNumChk').attr('placeholder', formatTime(remaining));
+    }
+
+    function stopTimer() {
+        if (intervalId !== null) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+    }
+
+    function expireProcess() {
+
+        stopTimer();
+
+        alert("3분이 종료되었습니다.");
+
+        $('#adminEmail').val('').prop('readonly', false);
+
+        $('#adminEmaliNumChk')
+            .val('')
+            .prop('readonly', true)
+            .attr('placeholder', formatTime(totalSeconds));
+
+        $('#adminEmailChkBtn').show().prop('disabled', false);
+        $('#adminEmailReChkBtn').hide();
+        $('#adminEmailNumChkBtn').prop('disabled', true);
+
+        $('#adminEmailChkYn').val('N');
+    }
+
+    function startTimer() {
+
+        stopTimer();
+        remaining = totalSeconds;
+
+        $('#adminEmaliNumChk').attr('placeholder', formatTime(remaining));
+
+        intervalId = setInterval(function () {
+
+            remaining--;
+            $('#adminEmaliNumChk').attr('placeholder', formatTime(remaining));
+
+            if (remaining <= 0) {
+                expireProcess();
+            }
+
+        }, 1000);
+    }
+
+    resetTimerUI();
+
+    /* ==============================
+       비밀번호 검증 영역
+    ============================== */
+
+    $('#pwMatch').hide();
+    $('#pwMismatch').hide();
+    $('#adminPw').closest('.field').find('.error').hide();
+
+    function validatePwAll() {
+
+        var pw = $('#adminPw').val();
+        var pwChk = $('#adminPwChk').val();
+        var $pwError = $('#adminPw').closest('.field').find('.error');
 		
-		var url = '/admin/joinMailChk.do';
+		if (pw.length > 14) {
+		    pw = pw.substring(0, 14);
+		    $(this).val(pw);
+		}
+
+        if (!pw || pw.length < 14 || !validatePassword(pw)) {
+            $pwError.text('특수문자 1개 이상 영어, 숫자만 14자리 입력').show();
+            return false;
+        }
+
+        $pwError.hide();
+
+        if (pwChk) {
+            if (pw !== pwChk) {
+				$('#pwMatch').hide();
+                $('#pwMismatch').show();
+                return false;
+            } else {
+				$('#pwMatch').show();
+                $('#pwMismatch').hide();
+            }
+        }
+
+        return true;
+    }
+	
+	// 아이디 입력 이벤트 [S]
+	$('#adminId').on('keyup', function() {
+		var adminIdVal = $(this).val();
+		var adminId = onlyEngNum(adminIdVal);
+		$('#adminId').val(adminId);
+	});
+	// 아이디 입력 이벤트 [E]
+	
+	// 이름 입력 이벤트 [S]
+	$('#adminNm').on('keyup', function() {
+		var adminNmVal = $(this).val();
+		var adminNm = onlyKorEng(adminNmVal);
+		$('#adminNm').val(adminNm);
+	});
+	// 이름 입력 이벤트 [E]
+	
+	// 아이디 중복체크 [S]
+	$('#adminIdChkBtn').on('click', function() {
+
+		var adminId = $('#adminId').val();
+		
+		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
+			return;
+		}
+
+		var tableNm = 'tb_admin_info';
+		var url = '/admin/uniqueDupliChk.do';
 		var params = {
-				adminEmail : adminEmail
-		};
-		var dataType = 'json';
-	 	ajaxStart(url, params, dataType, function(data) {
-			code = data.result;
-			var resultCd = data.resultCd;
-			if(  resultCd === '00' ) {
-				$('#emailChkDiv').show();
-				alert(joinMailChkResult);
+			uniqueKey : adminId
+		  , tableNm : tableNm
+		}
+		var dataType = 'json'
+		ajaxNoLoadingxStart(url, params, dataType, function(data) {
+			var result = data.result;
+			$('#adminIdChk').val(result);
+			if ( result === 'Y' ) { // 중복 X
+				if ( !confirm(joinIdChkSucConfirm) ) {
+					return;
+				} else {
+					$('#adminId').prop('readonly', true);
+					$('#adminIdChkBtn').prop('disabled', true);
+					$('#adminNm').focus();
+				}
+			} else { // 중복
+				alert(joinIdChkFail);
 			}
 		});
 	});
+	// 아이디 중복체크 [E]
 
-	// 이메일 인증 코드 이벤트
-	$('#emailChk').on('keyup', function () {
-		$(this).val(checkNum('mailCheckInput'));
-		
-		var inputCode = $(this).val();
-		var resultMsg = $('#mailCheckWarn');
-		
-		if ( !isEmpty(inputCode) ) {
-			resultMsg.html('');
+	// 비밀번호 입력 이벤트 [S]
+    $('#adminPw').on('input', validatePwAll);
+    $('#adminPwChk').on('input', validatePwAll);
+	// 비밀번호 입력 이벤트 [E]
+	
+	// 공백입력 방지 이벤트
+	$('#adminId, #adminNm,#adminPw, #adminPwChk').on('input', function() {
+	    var val = $(this).val();
+	    $(this).val(removeSpace(val));
+	});
+
+    /* ==============================
+       이메일 인증 요청
+    ============================== */
+    $('#adminEmailChkBtn').click(function () {
+
+        var adminEmail = $('#adminEmail').val();
+
+        if (isEmptyMsg(adminEmail, '이메일' + dataEmpty)) {
+            $('#adminEmail').focus();
+            return;
+        }
+
+        if (!isValidEmail(adminEmail)) {
+            alert(joinMailVali);
+            $('#adminEmail').focus();
+            return;
+        }
+
+        ajaxStart('/admin/joinMailChk.do',
+            { adminEmail: adminEmail },
+            'json',
+            function (data) {
+
+                adminEmailCode = data.result;
+
+                if (data.resultCd === '00') {
+
+                    $('#adminEmail').prop('readonly', true);
+                    $('#adminEmailChkBtn').prop('disabled', true);
+
+                    $('#adminEmaliNumChk').prop('readonly', false);
+                    $('#adminEmailNumChkBtn').prop('disabled', false);
+
+                    alert(joinMailChkResult);
+
+                    startTimer();
+
+                } else {
+                    alert(joinMailChkResultFail);
+                }
+            });
+    });
+
+    /* ==============================
+       인증번호 확인
+    ============================== */
+    $('#adminEmailNumChkBtn').on('click', function () {
+
+        var inputCode = $('#adminEmaliNumChk').val();
+		console.log('adminEmailCode==', adminEmailCode);
+        if (Number(inputCode) === adminEmailCode) {
+
+            stopTimer();
+
+            $('#adminEmailChkYn').val('Y');
+
+            $('#adminEmaliNumChk').prop('readonly', true);
+            $('#adminEmailNumChkBtn').prop('disabled', true);
+			
+			$('#adminEmailChkBtn').hide();
+			$('#adminEmailReChkBtn').hide();
+			$('#adminEmailNumChkBtn').hide();
+
+            alert(joinMailChkResultMsg);
+
+        } else {
+
+            $('#adminEmailChkYn').val('N');
+
+            $('#adminEmailChkBtn').hide();
+            $('#adminEmailReChkBtn').show();
+
+            alert(joinMailChkResultFailMsg);
+        }
+    });
+
+    /* ==============================
+       재인증
+    ============================== */
+    $('#adminEmailReChkBtn').on('click', function () {
+
+        stopTimer();
+        resetTimerUI();
+
+        $('#adminEmailChkBtn').show().prop('disabled', false);
+        $('#adminEmailReChkBtn').hide();
+
+        $('#adminEmail').val('').prop('readonly', false);
+
+        $('#adminEmaliNumChk').val('').prop('readonly', true);
+        $('#adminEmailNumChkBtn').prop('disabled', true);
+    });
+
+    /* ==============================
+       성별 단일선택
+    ============================== */
+    $('.gender-check').on('change', function () {
+        if ($(this).is(':checked')) {
+            $('.gender-check').not(this).prop('checked', false);
+        }
+    });
+
+    /* ==============================
+       우편번호
+    ============================== */
+    $('#getPostCode').on('click', function () {
+        execDaumPostcode(
+            $('#adminPostCd').attr('id'),
+            $('#adminAddress').attr('id')
+        );
+    });
+
+    /* ==============================
+       가입 버튼 최종 검증
+    ============================== */
+    $('#joinBtn').on('click', function (e) {
+
+        var isValid = true;
+
+        if (!validatePwAll()) {
+            isValid = false;
+			alert(joinChkPw);
+            $('#adminPw').focus();
 			return;
-		} else {
-			if(inputCode === code){
-				resultMsg.html('✅ 인증번호가 일치합니다.');
-				resultMsg.css('color','green');
-				$('#mailCheckBtn').attr('disabled', true); 
-				$('#mailCheckInput').attr('readonly', true);
-				$('#userEmail1').attr('readonly', true);
-				$('#userEmail2').attr('readonly', true);
-				$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
-		        $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
-		        $('#mailCheck').val('1');
-			}else{
-				resultMsg.html('❌ 인증번호가 불일치 합니다. 다시 확인해주세요!.');
-				resultMsg.css('color','red');
-				$('#mailCheck').val('0');
-			}	
-		}
-	});
-	
-	// 성별 체크 박스 이벤트
-	$('.gender-check').on('change', function () {
-  		if ($(this).is(':checked')) {
-	    	$('.gender-check').not(this).prop('checked', false);
-	  	}
-	});
-	
-	 // 비밀번호 일치 체크(간단)
-	 function checkPw(){
-	   var p1 = $('#userPw').val();
-	   var p2 = $('#userPw2').val();
-	   if(!p2){
-	     $('#pwMismatch').hide();
-	     return true;
-	   }
-	   var ok = (p1 === p2);
-	   $('#pwMismatch').toggle(!ok);
-	   return ok;
-	 }
-	 $('#userPw, #userPw2').on('input', checkPw);
-	 $('#pwMismatch').hide();
-	
-	 // 제출 시 비번 불일치면 막기
-	 $('#joinBtn').on('click', function(e){
-	   if(!checkPw()){
-	     e.preventDefault();
-	     $('#userPw2').focus();
-	   }
-	 });
-	
-	 // 우편번호 찾기 이벤트
-	 $('#getPostCode').on('click', function(){
-	 	var postId =  $('#adminPostCd').attr('id');
-	 	var adId = $('#adminAddress').attr('id');
-	 	execDaumPostcode( postId, adId )
-	 })
-	 
+        }
+
+        if ($('#adminEmailChkYn').val() !== 'Y') {
+            alert(joinChkEmail);
+            isValid = false;
+			return;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
 });

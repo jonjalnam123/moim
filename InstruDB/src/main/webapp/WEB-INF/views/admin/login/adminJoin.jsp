@@ -20,65 +20,56 @@
 		    <p class="form-desc">필수 항목을 입력해 주세요.</p>
 		
 		    <div class="form-grid">
-	      		<div class="field">
-		        	<label for="userId" class="required">아이디</label>
-		        	<input id="userId" name="userId" class="form-control" type="text" placeholder="아이디"/>
-		        	<!-- <small class="error">아이디는 필수입니다.</small> -->
+		      	
+		      	<div class="field zip-field">
+	            	<label class="required" for="adminId">아이디</label>
+		        	<input type="text" id="adminId" name="adminId" class="form-control" placeholder="아이디"/>
+		        	<input type="hidden" id="adminIdChk" name="adminIdChk"/>
+	           		<button type="button" class="btn-zip" id="adminIdChkBtn">중복확인</button>
 		      	</div>
 		
 		      	<div class="field">
-		        	<label for="userNm" class="required">이름</label>
-		        	<input id="userNm" name="userNm" class="form-control" type="text" placeholder="홍길동"/>
-		        	<!-- <small class="error">이름은 필수입니다.</small> -->
+		        	<label for="adminNm" class="required">이름</label>
+		        	<input id="adminNm" name="adminNm" class="form-control" type="text" placeholder="홍길동"/>
 		      	</div>
 		
 				<div class="field">
-		        	<label for="userPw" class="required">비밀번호</label>
-		        	<input id="userPw" name="userPw" class="form-control" type="password" placeholder="비밀번호" required />
-		        	<small class="hint">영문/숫자/특수문자 조합 권장</small>
-		        	<small class="error">비밀번호는 필수입니다.</small>
+		        	<label for="adminPw" class="required">비밀번호</label>
+		        	<input id="adminPw" name="adminPw" class="form-control" type="password" placeholder="비밀번호"/>
+		        	<small class="error">특수문자 1개 이상 영어, 숫자만 14자리 입력</small>
 		      	</div>
 		
 		      	<div class="field">
-		        	<label for="userPw2" class="required">비밀번호 확인</label>
-		       		<input id="userPw2" name="userPw2" class="form-control" type="password" placeholder="비밀번호 확인"/>
+		        	<label for="adminPwChk" class="required">비밀번호 확인</label>
+		       		<input id="adminPwChk" name="adminPwChk" class="form-control" type="password" placeholder="비밀번호 확인"/>
+		        	<small class="hint" id="pwMatch" style="display: none;">비밀번호가 일치합니다.</small>
 		        	<small class="error" id="pwMismatch">비밀번호가 일치하지 않습니다.</small>
 		      	</div>
 		
 		      	<div class="field zip-field">
 	            	<label class="required" for="adminEmail">이메일</label>
-	            	<input id="adminEmailOrg" name="adminEmailOrg" type="hidden"/>
-		        	<input id="adminEmail" name="adminEmail" class="form-control" type="email" placeholder="name@example.com" required />
-	           		<button type="button" class="btn-zip" id="getEamilChkBtn">인증</button>
-	           		<small class="error">유효한 이메일이 필요합니다.</small>
+		        	<input type="text" id="adminEmail" name="adminEmail" class="form-control" placeholder="name@example.com"/>
+	           		<button type="button" class="btn-zip" id="adminEmailChkBtn">인증</button>
+	           		<button type="button" class="btn-zip" id="adminEmailReChkBtn" style="display: none;">재인증</button>
+		      	</div>
+
+		      	<div class="field zip-field">
+	            	<label class="required" for="adminEmaliNumChk">인증번호</label>
+		        	<input type="text" id="adminEmaliNumChk" name="adminEmaliNumChk" class="form-control" placeholder="03:00" onkeyup="checkNumSixRepl(this)" readonly/>
+	           		<input type="hidden" id="adminEmailChkYn" name="adminEmailChkYn" value="N"/>
+	           		<button type="button" class="btn-zip" id="adminEmailNumChkBtn" disabled>확인</button>
 		      	</div>
 		      	
-		      	<div class="field" id="emailChkDiv">
-		        	<label for="emailChk">메일인증번호</label>
-		        	<input type="text" id="emailChk" name="emailChk" class="form-control" />
-		        	<small class="error">유효한 이메일이 필요합니다.</small>
-		      	</div>
-		      	
-     			<div class="field zip-field">
-	            	<label class="required" for="adminPhone">연락처</label>
-	            	<input id="adminPhoneOrg" name="adminPhoneOrg" type="hidden"/>
-		        	<input id="adminPhone" name="adminPhone" class="form-control" type="email" placeholder="숫자만 입력해주세요." required />
-	           		<button type="button" class="btn-zip" id="getPhoneChkBtn">인증</button>
-	           		<small class="error">유효한 이메일이 필요합니다.</small>
-		      	</div>
-		      	
- 			    <div class="field" id="poneChkDiv">
-		        	<label for="emailChk">핸드폰인증번호</label>
-		        	<input type="text" id="poneChk" name="poneChk" class="form-control" />
-		        	<small class="error">유효한 이메일이 필요합니다.</small>
-		      	</div>
+				<div class="field">
+	           		<label class="required" for="adminPh">연락처</label>
+	           		<input id="adminPh" name="adminPh" class="form-control" type="text" placeholder="숫자만 입력"/>
+				</div>
 	
 				<!-- 우편번호 -->
 				<div class="field zip-field">
 	            	<label class="required" for="adminPostCd">우편번호</label>
-	           		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly required/>
+	           		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
 	           		<button type="button" class="btn-zip" id="getPostCode">찾기</button>
-	           		<small class="error">우편번호는 필수입니다.</small>
 				</div>
 				
 				<!-- ✅ 주소: full 제거 (다른 인풋과 동일 폭) -->
@@ -89,8 +80,6 @@
 				
 				<!-- ✅ 상세주소: full 제거 -->
 				<div class="field">
-<!-- 				  	<label for="addr2">상세주소</label>
-				  	<input id="addr2" name="addr2" class="form-control" type="text" placeholder="상세주소" /> -->
             		<label class="required" for="adminDAddress">상세주소</label>
             		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
 				</div>
@@ -99,9 +88,9 @@
 				<div class="field">
 			  		<label class="required">성별</label>
 				  	<div class="check-chips" role="group" aria-label="성별 선택">
-				    	<input type="checkbox" id="genderM" name="gender" value="M" class="gender-check" />
+				    	<input type="checkbox" id="genderM" name="adminGender" value="M" class="gender-check" />
 				    	<label for="genderM">남</label>
-				    	<input type="checkbox" id="genderF" name="gender" value="F" class="gender-check" />
+				    	<input type="checkbox" id="genderF" name="adminGender" value="F" class="gender-check" />
 				    	<label for="genderF">여</label>
 				  	</div>
 			  		<small class="error">성별은 필수입니다.</small>
@@ -145,7 +134,7 @@
 		
 		    <div class="form-actions">
 	      		<button type="button" class="btn-delete" onclick="history.back();">취소</button>
-		      	<button type="submit" class="btn-insert" id="joinBtn">가입</button>
+		      	<button type="button" class="btn-insert" id="joinBtn">가입</button>
 	    	</div>
 	    	
 		</form>
