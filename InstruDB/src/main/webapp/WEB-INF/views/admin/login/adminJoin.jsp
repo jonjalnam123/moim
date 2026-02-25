@@ -36,13 +36,12 @@
 				<div class="field">
 		        	<label for="adminPw" class="required">비밀번호</label>
 		        	<input id="adminPw" name="adminPw" class="form-control" type="password" placeholder="비밀번호"/>
-		        	<small class="error">특수문자 1개 이상 영어, 숫자만 14자리 입력</small>
+		        	<small class="error"></small>
 		      	</div>
 		
 		      	<div class="field">
 		        	<label for="adminPwChk" class="required">비밀번호 확인</label>
-		       		<input id="adminPwChk" name="adminPwChk" class="form-control" type="password" placeholder="비밀번호 확인"/>
-		        	<small class="hint" id="pwMatch" style="display: none;">비밀번호가 일치합니다.</small>
+		       		<input id="adminPwChk" name="adminPwChk" class="form-control" type="password" placeholder="비밀번호 확인" readonly/>
 		        	<small class="error" id="pwMismatch">비밀번호가 일치하지 않습니다.</small>
 		      	</div>
 		

@@ -80,12 +80,10 @@ $(function () {
        비밀번호 검증 영역
     ============================== */
 
-    $('#pwMatch').hide();
     $('#pwMismatch').hide();
     $('#adminPw').closest('.field').find('.error').hide();
 
     function validatePwAll() {
-
         var pw = $('#adminPw').val();
         var pwChk = $('#adminPwChk').val();
         var $pwError = $('#adminPw').closest('.field').find('.error');
@@ -95,20 +93,20 @@ $(function () {
 		    $(this).val(pw);
 		}
 
-        if (!pw || pw.length < 14 || !validatePassword(pw)) {
+        if ( pw.length < 14 || !validatePassword(pw)) {
             $pwError.text('특수문자 1개 이상 영어, 숫자만 14자리 입력').show();
+			$('#adminPwChk').prop('readonly', true);
             return false;
         }
-
+		
+		$('#adminPwChk').prop('readonly', false);
         $pwError.hide();
 
         if (pwChk) {
             if (pw !== pwChk) {
-				$('#pwMatch').hide();
                 $('#pwMismatch').show();
                 return false;
             } else {
-				$('#pwMatch').show();
                 $('#pwMismatch').hide();
             }
         }
