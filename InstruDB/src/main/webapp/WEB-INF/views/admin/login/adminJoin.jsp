@@ -36,7 +36,7 @@
 				<div class="field">
 		        	<label for="adminPw" class="required">비밀번호</label>
 		        	<input id="adminPw" name="adminPw" class="form-control" type="password" placeholder="비밀번호"/>
-		        	<small class="error"></small>
+		        	<small class="error" id="adminPwMsg"></small>
 		      	</div>
 		
 		      	<div class="field">
@@ -60,8 +60,8 @@
 		      	</div>
 		      	
 				<div class="field">
-	           		<label class="required" for="adminPh">연락처</label>
-	           		<input id="adminPh" name="adminPh" class="form-control" type="text" placeholder="숫자만 입력"/>
+	           		<label class="required" for="adminPh">핸드폰</label>
+	           		<input id="adminPh" name="adminPh" class="form-control" type="text" placeholder="숫자만 입력 ex) 01012341234" onkeyup="checkNum(this)"/>
 				</div>
 	
 				<!-- 우편번호 -->
@@ -133,7 +133,7 @@
 		
 		    <div class="form-actions">
 	      		<button type="button" class="btn-delete" onclick="history.back();">취소</button>
-		      	<button type="button" class="btn-insert" id="joinBtn">가입</button>
+		      	<button type="button" class="btn-insert" id="joinBtn">가입요청</button>
 	    	</div>
 	    	
 		</form>

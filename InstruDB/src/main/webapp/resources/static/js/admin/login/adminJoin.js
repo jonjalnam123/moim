@@ -81,12 +81,17 @@ $(function () {
     ============================== */
 
     $('#pwMismatch').hide();
-    $('#adminPw').closest('.field').find('.error').hide();
+    $('#adminPwMsg').hide();
 
     function validatePwAll() {
+		
+		$('#pwMismatch').removeClass('hint'); 
+		$('#pwMismatch').addClass('error');
+		$('#pwMismatch').text('비밀번호가 일치하지 않습니다.');
+		
         var pw = $('#adminPw').val();
         var pwChk = $('#adminPwChk').val();
-        var $pwError = $('#adminPw').closest('.field').find('.error');
+        var $pwError = $('#adminPwMsg');
 		
 		if (pw.length > 14) {
 		    pw = pw.substring(0, 14);
@@ -96,6 +101,8 @@ $(function () {
         if ( pw.length < 14 || !validatePassword(pw)) {
             $pwError.text('특수문자 1개 이상 영어, 숫자만 14자리 입력').show();
 			$('#adminPwChk').prop('readonly', true);
+			$('#adminPwChk').val('');
+			$('#pwMismatch').hide();
             return false;
         }
 		
@@ -107,12 +114,24 @@ $(function () {
                 $('#pwMismatch').show();
                 return false;
             } else {
-                $('#pwMismatch').hide();
+                $('#pwMismatch').removeClass('error');
+                $('#pwMismatch').addClass('hint');
+                $('#pwMismatch').text('비밀번호가 일치합니다.');
             }
         }
 
         return true;
     }
+	
+	/* ==============================
+	   이벤트
+	============================== */
+	
+	// 공백입력 방지 이벤트
+	$('#adminId, #adminNm,#adminPw, #adminPwChk, #adminEmail, #adminEmaliNumChk, #adminPh').on('input', function() {
+	    var val = $(this).val();
+	    $(this).val(removeSpace(val));
+	});
 	
 	// 아이디 입력 이벤트 [S]
 	$('#adminId').on('keyup', function() {
@@ -148,11 +167,11 @@ $(function () {
 		var dataType = 'json'
 		ajaxNoLoadingxStart(url, params, dataType, function(data) {
 			var result = data.result;
-			$('#adminIdChk').val(result);
 			if ( result === 'Y' ) { // 중복 X
 				if ( !confirm(joinIdChkSucConfirm) ) {
 					return;
 				} else {
+					$('#adminIdChk').val(result);
 					$('#adminId').prop('readonly', true);
 					$('#adminIdChkBtn').prop('disabled', true);
 					$('#adminNm').focus();
@@ -168,12 +187,6 @@ $(function () {
     $('#adminPw').on('input', validatePwAll);
     $('#adminPwChk').on('input', validatePwAll);
 	// 비밀번호 입력 이벤트 [E]
-	
-	// 공백입력 방지 이벤트
-	$('#adminId, #adminNm,#adminPw, #adminPwChk').on('input', function() {
-	    var val = $(this).val();
-	    $(this).val(removeSpace(val));
-	});
 
     /* ==============================
        이메일 인증 요청
@@ -267,15 +280,17 @@ $(function () {
         $('#adminEmaliNumChk').val('').prop('readonly', true);
         $('#adminEmailNumChkBtn').prop('disabled', true);
     });
-
-    /* ==============================
-       성별 단일선택
-    ============================== */
-    $('.gender-check').on('change', function () {
-        if ($(this).is(':checked')) {
-            $('.gender-check').not(this).prop('checked', false);
-        }
-    });
+	
+	/* ==============================
+	   핸드폰
+	============================== */
+	$('#adminPh').on('keyup', function () {
+		var adminPh = $(this).val();
+		if ( adminPh.length > 11 ) {
+			adminPh = adminPh.substring(0, 11);
+			$(this).val(adminPh);
+		}
+	});
 
     /* ==============================
        우편번호
@@ -286,6 +301,15 @@ $(function () {
             $('#adminAddress').attr('id')
         );
     });
+	
+	/* ==============================
+	   성별 단일선택
+	============================== */
+	$('.gender-check').on('change', function () {
+	    if ($(this).is(':checked')) {
+	        $('.gender-check').not(this).prop('checked', false);
+	    }
+	});
 
     /* ==============================
        가입 버튼 최종 검증
@@ -293,24 +317,151 @@ $(function () {
     $('#joinBtn').on('click', function (e) {
 
         var isValid = true;
-
-        if (!validatePwAll()) {
-            isValid = false;
+		
+		// 약관동의 파라미터
+		var agreeService 				= $('#agreeService').val();
+		var agreePrivacy 				= $('#agreePrivacy').val();
+		var agreeMarketing 			= $('#agreeMarketing').val();
+		var agreeConsign 				= $('#agreeConsign').val();
+		
+		// 가입정보 파라미터
+		var adminId 				= $('#adminId').val();
+		var adminIdChk 			= $('#adminIdChk').val();
+		var adminNm 				= $('#adminNm').val();
+		var adminPw 				= $('#adminPw').val();
+		var adminPwChk 			= $('#adminPwChk').val();
+		var adminEmail 			= $('#adminEmail').val();
+		var adminEmaliNumChk 	= $('#adminEmaliNumChk').val();
+		var adminEmailChkYn 	= $('#adminEmailChkYn').val();
+		var adminPh 				= $('#adminPh').val();
+	    var adminPostCd 			= $('#adminPostCd').val();
+		var adminAddress 		= $('#adminAddress').val();
+		var adminDAddress 		= $('#adminDAddress').val();
+		var adminGender 			= $('input[name="adminGender"]:checked').val();
+		var adminCarYn 			= $('#adminCarYn').is(':checked') ? 'Y' : 'N';
+		var adminEmailAlertYn 	= $('#adminEmailAlertYn').is(':checked') ? 'Y' : 'N';
+		var adminSmsAlertYn 	= $('#adminSmsAlertYn').is(':checked') ? 'Y' : 'N';
+		
+		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
+			isValid = false;
+			$('#adminId').focus();
+			return;
+		}
+		
+		if ( adminIdChk !== 'Y' ) {
+			isValid = false;
+			alert(joinIdChk);
+			return;
+		}
+		
+		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
+			isValid = false;
+			$('#adminNm').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminPw, '비밀번호' + dataEmpty) ) {
+			isValid = false;
+			$('#adminPw').focus();
+			return;
+		}
+		
+		if (!validatePwAll()) {
+		    isValid = false;
 			alert(joinChkPw);
-            $('#adminPw').focus();
 			return;
-        }
-
-        if ($('#adminEmailChkYn').val() !== 'Y') {
-            alert(joinChkEmail);
-            isValid = false;
+		}
+		
+		if ( isEmptyMsg(adminPwChk, '비밀번호 확인' + dataEmpty) ) {
+			isValid = false;
+			$('#adminPwChk').focus();
 			return;
-        }
+		}
+		
+		if ( isEmptyMsg(adminEmail, '이메일' + dataEmpty) ) {
+			isValid = false;
+			$('#adminEmail').focus();
+			return;
+		}
+		
+		if (adminEmailChkYn !== 'Y') {
+		    alert(joinChkEmail);
+		    isValid = false;
+			return;
+		}
+		
+		if ( isEmptyMsg(adminEmaliNumChk, '인증번호' + dataEmpty) ) {
+			isValid = false;
+			$('#adminEmaliNumChk').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
+			isValid = false;
+			$('#adminPh').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
+			isValid = false;
+			$('#adminPostCd').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
+			isValid = false;
+			$('#adminAddress').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminDAddress, '상세주소' + dataEmpty) ) {
+			isValid = false;
+			$('#adminDAddress').focus();
+			return;
+		}
+		
+		if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
+			isValid = false;
+			$('#adminGender').focus();
+			return;
+		}
 
         if (!isValid) {
             e.preventDefault();
             return false;
         }
+
+		if ( !confirm(joinProcConfirm) ) {
+			return;
+		}
+		
+		var url = '/admin/joinProc.do';
+		var params = {
+				agreeService : agreeService
+			  , agreePrivacy : agreePrivacy
+			  , agreeMarketing : agreeMarketing
+			  , agreeConsign : agreeConsign
+			  , adminId : adminId
+			  , adminNm : adminNm
+			  , adminPw : adminPw
+			  , adminPwChk : adminPwChk
+			  , adminEmail : adminEmail
+			  , adminEmailChkYn : adminEmailChkYn
+			  , adminPh : adminPh
+			  , adminPostCd : adminPostCd
+			  , adminAddress : adminAddress
+			  , adminDAddress : adminDAddress
+			  , adminGender : adminGender
+			  , adminCarYn : adminCarYn
+			  , adminEmailAlertYn : adminEmailAlertYn
+			  , adminSmsAlertYn : adminSmsAlertYn
+		}
+		var dataType = 'json'
+		ajaxStart(url, params, dataType, function(data) {
+			var result = data.result
+			console.log('result====', result);
+		});
+		
     });
 
 });

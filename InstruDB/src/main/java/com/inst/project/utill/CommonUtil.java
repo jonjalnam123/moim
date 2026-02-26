@@ -271,7 +271,63 @@ public class CommonUtil {
 		} // end of if
 	}
 	
+	/**
+	* @methodName	 	: toCrypEnc
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: 암호화
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+    public static String toCrypEnc(String s) {
+
+        if (s == null || s.trim().isEmpty()) {
+            return s;
+        }
+
+        try {
+            return CryptoUtill.encrypt(s.trim());
+        } catch (Exception e) {
+            // 로그 남기기 (운영 환경에서는 Logger 사용 권장)
+            e.printStackTrace();
+            throw new RuntimeException("암호화 처리 중 오류 발생", e);
+        }
+    }
+
+	/**
+	* @methodName	 	: toCrypEnc
+	* @author					: 최정석
+	* @date            		: 2026. 1. 7.
+	* @description			: 복호화
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 7.        		최정석       			최초 생성
+	*/
+    public static String toCrypDec(String s) {
+
+        if (s == null || s.trim().isEmpty()) {
+            return s;
+        }
+
+        try {
+            return CryptoUtill.decrypt(s.trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("복호화 처리 중 오류 발생", e);
+        }
+    }
 	
+	
+    
+    
+    
+    
+    
+    
+    
 	
 	
 	
@@ -298,30 +354,6 @@ public class CommonUtil {
 			sha256.update(temp);
 			result = toHex(sha256.digest());
 
-		} catch(Exception e) {
-			return null;
-		}
-		return result;
-	}
-
-	public static String toCrypEnc(String s) {
-		String result = null;
-
-		try{
-			CryptoUtill crypto = new CryptoUtill();
-			result = crypto.encrypt(s);
-		} catch(Exception e) {
-			return null;
-		}
-		return result;
-	}
-
-	public static String toCrypDec(String s) {
-		String result = null;
-
-		try{
-			CryptoUtill crypto = new CryptoUtill();
-			result = crypto.decrypt(s);
 		} catch(Exception e) {
 			return null;
 		}

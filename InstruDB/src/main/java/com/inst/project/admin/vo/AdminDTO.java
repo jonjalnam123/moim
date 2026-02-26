@@ -14,11 +14,26 @@ public class AdminDTO {
 	// 관리자 비밀번호
 	private String adminPw;
 	
+	// 관리자 이메일
+	private String adminEmail;
+	
+	// 이메일인증구분 ( Y : 인증, N : 미인증 )
+	private String adminEmailChkYn;
+	
+	//이메일알림설정 ( Y : 수신, N : 미수신 )
+	private String adminEmailAlertYn;
+	
 	// 관리자 이름
 	private String adminNm;
 	
 	// 관리자 핸드폰
 	private String adminPh;
+	
+	// 핸드폰인증구분 ( Y : 인증, N : 미인증 )
+	private String adminSmsChkYn;
+	
+	// 문자알림설정 ( Y : 수신, N : 미수신 )
+	private String adminSmsAlertYn;
 	
 	// 관리자 우편번호
 	private String adminPostCd;
@@ -82,6 +97,9 @@ public class AdminDTO {
 	
 	// 관리자 가입승인 반려사유
 	private String adminRejectCn;
+	
+	// 차량소지유무 ( Y : 소지, N : 미소지 )
+	private String adminCarYn;
 	
 	// 관리자 등록자
 	private String regId;

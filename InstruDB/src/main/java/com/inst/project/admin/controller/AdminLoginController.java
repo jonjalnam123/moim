@@ -97,6 +97,34 @@ public class AdminLoginController {
 		return result;
 	}
 	
+	/**
+	* @methodName	 	: adminJoinProc
+	* @author					: 최정석
+	* @date            		: 2026. 02. 26
+	* @description			: 관리자 회원가입 요청 진행
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	*  2026. 02. 26        		최정석       			최초 생성
+	*/
+	@PostMapping(value="/joinProc.do")
+	@ResponseBody
+	public Map<String, Object> adminJoinProc( @ModelAttribute AdminDTO adminDTO ) {
+		log.info(" [ AdminLoginController ] : adminJoinProc ");
+		Map<String, Object> result = new HashMap<String,Object>();
+		log.info("adminDTO : {}", adminDTO);
+		int adminJoinProcResult = adminLoginService.adminJoinProc(adminDTO);
+//		if ( emailCode > 0 ) {
+//			result.put("result", emailCode);
+//			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+//			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+//		} else {
+//			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+//			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
+//		}
+		return result;
+	}
+	
 	
 	/**
 	* @methodName	 	: getAdminLogin

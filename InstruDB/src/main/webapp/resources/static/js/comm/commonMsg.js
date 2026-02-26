@@ -30,16 +30,18 @@ var sessionLogOutMsg 	= '세션이 만료되어 로그아웃됩니다.';
 * 작성날짜 : 2025.08.08
 * 내용 : 회원가입 관련
 **************************************************************/	
-var joinMailVali = '이메일 형식에 맞지 않습니다. 다시 입력해주세요.'
-var joinMailChkResult 	= '인증번호가 전송되었습니다.';
-var joinMailChkResultFail = '인증번호 전송에 실패하였습니다.';
-var joinMailChkResultMsg = '이메일 인증이 완료되었습니다.';
-var joinMailChkResultFailMsg = '인증번호가 일치하지 않습니다. 다시 확인해주세요.';
+var joinMailVali 					= '이메일 형식에 맞지 않습니다. 다시 입력해주세요.'
+var joinMailChkResult 			= '인증번호가 전송되었습니다.';
+var joinMailChkResultFail 		= '인증번호 전송에 실패하였습니다.';
+var joinMailChkResultMsg 		= '이메일 인증이 완료되었습니다.';
+var joinMailChkResultFailMsg 	= '인증번호가 일치하지 않습니다. 다시 확인해주세요.';
 
-var joinIdChkSucConfirm = '사용가능한 아이디 입니다. 사용하시겠습니까?'
-var joinIdChkFail = '사용이 불가능한 아이디 입니다. 다시 입력해주세요.'
-var joinChkPw = '비밀번호를 다시 확인해주세요.'; 
-var joinChkEmail = '이메일 인증을 해주세요.'; 
+var joinIdChk 						= '아이디 중복확인을 진행해주세요.'
+var joinIdChkSucConfirm 		= '사용가능한 아이디 입니다. 사용하시겠습니까?'
+var joinIdChkFail 					= '사용이 불가능한 아이디 입니다. 다시 입력해주세요.'
+var joinChkPw 						= '비밀번호를 다시 확인해주세요.'; 
+var joinChkEmail 					= '이메일 인증을 해주세요.'; 
+var joinProcConfirm 				= '회원가입을 진행하시겠습니까?'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -48,13 +50,13 @@ var joinChkEmail = '이메일 인증을 해주세요.';
 **************************************************************/	
 var dataEmpty 		= '를(을) 입력해주세요.';
 var dataChk 			= '를(을) 확인해주세요.';
-var dataDupliChk 	= '중복확인을 진행해주세요.';
+var dataDupliChk 		= '중복확인을 진행해주세요.';
 
 var selectDataChk 	= '조회할 데이터를 선택해주세요.';
-var updDataChk 	= '수정할 데이터를 선택해주세요.';
+var updDataChk 		= '수정할 데이터를 선택해주세요.';
 var delDataChk 		= '삭제할 데이터를 선택해주세요.';
 
-var regProcConfirm		= '를(을) 저장하시겠습니까?';
+var regProcConfirm	= '를(을) 저장하시겠습니까?';
 var updProcConfirm 	= '를(을) 수정하시겠습니까?';
 var delProcConfirm 	= '를(을) 삭제하시겠습니까?';
 
@@ -64,8 +66,8 @@ var delProcConfirm 	= '를(을) 삭제하시겠습니까?';
 * 내용 : 승인, 반려 관련
 **************************************************************/
 
-var acceptConfirm = '를(을) 승인하시겠습니까?'
-var rejectConfirm = '를(을) 반려하시겠습니까?'
+var acceptConfirm 	= '를(을) 승인하시겠습니까?'
+var rejectConfirm 		= '를(을) 반려하시겠습니까?'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -90,5 +92,5 @@ var commGroupChk = '동일한 코드그룹을 사용중입니다.'
 **************************************************************/	
 
 var adminUnitNmChk = '동일한 부서명을 사용중입니다.'
-var adminUnitLvChk = '초기 화면에서는 1레벨 부서만 추가할 수 있습니다.'
+var adminUnitLvChk 	= '초기 화면에서는 1레벨 부서만 추가할 수 있습니다.'
 
