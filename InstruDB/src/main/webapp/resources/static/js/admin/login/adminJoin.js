@@ -462,6 +462,9 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = data.result
 			console.log('result====', result);
+			if ( result > 0 ) {
+				goToUri('/admin/login.do');
+			} 
 		});
 		
     });
