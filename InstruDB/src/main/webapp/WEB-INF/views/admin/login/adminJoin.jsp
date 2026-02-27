@@ -62,6 +62,7 @@
 				<div class="field">
 	           		<label class="required" for="adminPh">핸드폰</label>
 	           		<input id="adminPh" name="adminPh" class="form-control" type="text" placeholder="숫자만 입력 ex) 01012341234" onkeyup="checkNum(this)"/>
+					<input type="hidden" id="adminSmsChkYn" name="adminSmsChkYn" value="N"/>
 				</div>
 	
 				<!-- 우편번호 -->

@@ -269,34 +269,35 @@
 				, REG_DT
 				, UPD_ID
 				, UPD_DT
-	) VALUES (
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'N'::CHARACTER VARYING,
-			'',
-			'',
-			'',
-			now(),
-			'',
-			now(),
-			'',
-			'',
-			'',
-			'',
-			'',
-			'N'::CHARACTER VARYING,
-			'',
-			'N'::CHARACTER VARYING,
-			'N'::CHARACTER VARYING,
-			'N'::CHARACTER VARYING,
-			'N'::CHARACTER VARYING,
-			'N'::CHARACTER VARYING);
+		) VALUES (
+			( SELECT FN_GET_UNIQUE_KEY() )
+			, #{adminId}
+			, #{adminNm}
+			, #{adminPw}
+			, #{adminEmail}
+			, #{adminEmailChkYn}
+			, #{adminEmailAlertYn}
+			, #{adminPh}
+			, #{adminSmsChkYn}
+			, #{adminSmsAlertYn}
+			, #{adminPostCd}
+			, #{adminAddress}
+			, #{adminDAddress}
+			, #{adminGender}
+			, #{adminCarYn}
+			, #{adminPositionCd}
+			, #{adminDeptCd}
+			, #{adminTeamCd}
+			, #{adminGradeCd}
+			, #{adminCn}
+			, '00'
+			, 'N'
+			, 'N'
+			, #{adminId}
+			, now()
+			, #{adminId}
+			, now()
+		);
 	</insert>
 	<!-- 관리자 회원가입 요청 진행 [E] -->
 </mapper>

@@ -334,6 +334,7 @@ $(function () {
 		var adminEmaliNumChk 	= $('#adminEmaliNumChk').val();
 		var adminEmailChkYn 	= $('#adminEmailChkYn').val();
 		var adminPh 				= $('#adminPh').val();
+		var adminSmsChkYn 		= $('#adminSmsChkYn').val();
 	    var adminPostCd 			= $('#adminPostCd').val();
 		var adminAddress 		= $('#adminAddress').val();
 		var adminDAddress 		= $('#adminDAddress').val();
@@ -444,17 +445,18 @@ $(function () {
 			  , adminId : adminId
 			  , adminNm : adminNm
 			  , adminPw : adminPw
-			  , adminPwChk : adminPwChk
 			  , adminEmail : adminEmail
 			  , adminEmailChkYn : adminEmailChkYn
+			  , adminEmailAlertYn : adminEmailAlertYn
 			  , adminPh : adminPh
+			  , adminSmsChkYn : adminSmsChkYn
+			  , adminSmsAlertYn : adminSmsAlertYn
 			  , adminPostCd : adminPostCd
 			  , adminAddress : adminAddress
 			  , adminDAddress : adminDAddress
 			  , adminGender : adminGender
 			  , adminCarYn : adminCarYn
-			  , adminEmailAlertYn : adminEmailAlertYn
-			  , adminSmsAlertYn : adminSmsAlertYn
+
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
