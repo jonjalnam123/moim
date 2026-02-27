@@ -1,5 +1,7 @@
 package com.inst.project.admin.vo;
 
+import java.util.Map;
+
 import lombok.Data;
 
 @Data
@@ -100,6 +102,13 @@ public class AdminDTO {
 	
 	// 차량소지유무 ( Y : 소지, N : 미소지 )
 	private String adminCarYn;
+	
+	// 약관동의 관련 [S]
+	private String agreeService;
+	private String agreeMarketing;
+	private String agreeConsign;
+	private String agreeGb;
+	// 약관동의 관련 [E]
 	
 	// 관리자 등록자
 	private String regId;

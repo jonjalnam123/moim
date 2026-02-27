@@ -2,6 +2,7 @@ package com.inst.project.admin.service.impl;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.inst.project.admin.vo.AdminAgreeDTO;
 import com.inst.project.admin.vo.AdminDTO;
 
 @Mapper
@@ -33,6 +34,12 @@ public interface AdminLoginMapper {
 
 	// 관리자 비밀번호 설정
 	int updateAdminLoginPwSet(AdminDTO adminDTO);
+	
+	// 관리자 회원가입 약관동의 정보 저장
+	int insertAdminAgreeInfo(AdminAgreeDTO adminAgreeDTO);
+	
+	// 관리자 회원가입 요청 진행
+	int insertAdminUserInfo(AdminDTO adminDTO);
 
 
 

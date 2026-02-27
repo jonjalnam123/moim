@@ -437,9 +437,9 @@ $(function () {
 		
 		var url = '/admin/joinProc.do';
 		var params = {
-				agreeService : agreeService
+			    agreeService : agreeService
 			  , agreePrivacy : agreePrivacy
-			  , agreeMarketing : agreeMarketing
+		 	  , agreeMarketing : agreeMarketing
 			  , agreeConsign : agreeConsign
 			  , adminId : adminId
 			  , adminNm : adminNm

@@ -13,7 +13,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminLoginService;
+import com.inst.project.admin.vo.AdminAgreeDTO;
 import com.inst.project.admin.vo.AdminDTO;
+import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.utill.CommonUtil;
 import com.inst.project.utill.PasswordHashUtil;
@@ -322,8 +324,65 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	*/
 	@Override
 	public int adminJoinProc(AdminDTO adminDTO) {
-		// TODO Auto-generated method stub
-		return 0;
+	    log.info(" [ AdminLoginServiceImpl ] : adminJoinProc ");
+	    try {
+	    	
+	    	// 가입자 정보
+	    	String adminId 			= adminDTO.getAdminId();
+	    	String adminPw 			= adminDTO.getAdminPw();
+	    	String adminEmail 		= adminDTO.getAdminEmail();
+	    	String adminPh 			= adminDTO.getAdminPh();
+	    	String adminAddress		= adminDTO.getAdminAddress();
+	    	String adminDAddress 	= adminDTO.getAdminDAddress();
+	    	
+	    	// 가입자 정보 암호화 [S]
+	    	String adminPwCrypt 			= PasswordHashUtil.hashWithBcrypt(adminPw);
+	    	String adminEmailCrypt 			= CommonUtil.toCrypEnc(adminEmail);
+	    	String adminPhCrypt 				= CommonUtil.toCrypEnc(adminPh);
+	    	String adminAddressCrypt 		= CommonUtil.toCrypEnc(adminAddress);
+	    	String adminDAddressCrypt 	= CommonUtil.toCrypEnc(adminDAddress);
+	    	
+	    	adminDTO.setAdminPw(adminPwCrypt);
+	    	adminDTO.setAdminEmail(adminEmailCrypt);
+	    	adminDTO.setAdminPh(adminPhCrypt);
+	    	adminDTO.setAdminAddress(adminAddressCrypt);
+	    	adminDTO.setAdminDAddress(adminDAddressCrypt);
+	    	// 가입자 정보 암호화 [E]
+
+			// 약관동의 정보 [S] 
+			String agreeService = adminDTO.getAgreeService();
+			String agreePrivacy = adminDTO.getAgreeService();
+			String agreeMarketing = adminDTO.getAgreeService();
+			String agreeConsign = adminDTO.getAgreeService();
+			
+			AdminAgreeDTO adminAgreeDTO = new AdminAgreeDTO();
+			adminAgreeDTO.setAgreeUserId(adminId);
+			adminAgreeDTO.setAgreeService(agreeService);
+			adminAgreeDTO.setAgreePrivacy(agreePrivacy);
+			adminAgreeDTO.setAgreeMarketing(agreeMarketing);
+			adminAgreeDTO.setAgreeConsign(agreeConsign);
+			adminAgreeDTO.setAgreeGb("00"); // 약관동의구분 ( 00 : 관리자, 01 : 일반 사용자 )
+			adminAgreeDTO.setRegId(adminId);
+			adminAgreeDTO.setUpdId(adminId);
+			// 약관동의 관련 [E]
+			
+			// 관리자 회원가입 약관동의 정보 저장
+			int agreeResult = adminLoginMapper.insertAdminAgreeInfo(adminAgreeDTO);
+			if ( agreeResult > 0 ) {
+				int adminUserResult = adminLoginMapper.insertAdminUserInfo(adminDTO);
+				return adminUserResult;
+			}
+
+			return 0;
+	
+	    } catch (Exception e) {
+	        log.error("[ AdminLoginServiceImpl ] : adminJoinProc failed.");
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	
+	        return 0;
+	    }
+	    
 	}
 	
 }
