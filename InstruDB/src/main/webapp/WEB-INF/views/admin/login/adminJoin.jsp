@@ -42,7 +42,7 @@
 		      	<div class="field">
 		        	<label for="adminPwChk" class="required">비밀번호 확인</label>
 		       		<input id="adminPwChk" name="adminPwChk" class="form-control" type="password" placeholder="비밀번호 확인" readonly/>
-		        	<small class="error" id="pwMismatch">비밀번호가 일치하지 않습니다.</small>
+		        	<small class="error" id="pwMismatch"></small>
 		      	</div>
 		
 		      	<div class="field zip-field">

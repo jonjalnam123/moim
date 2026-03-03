@@ -111,17 +111,18 @@ public class AdminLoginController {
 	@ResponseBody
 	public Map<String, Object> adminJoinProc( @ModelAttribute AdminDTO adminDTO ) {
 		log.info(" [ AdminLoginController ] : adminJoinProc ");
+		
 		Map<String, Object> result = new HashMap<String,Object>();
-		log.info("adminDTO : {}", adminDTO);
+		
 		int adminJoinProcResult = adminLoginService.adminJoinProc(adminDTO);
-//		if ( emailCode > 0 ) {
-//			result.put("result", emailCode);
-//			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
-//			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
-//		} else {
-//			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
-//			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
-//		}
+		if ( adminJoinProcResult > 0 ) {
+			result.put("result", adminJoinProcResult);
+			result.put("resultCd", GlobalConfig.RESULT_SUCC_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_SUCC_MSG);
+		} else {
+			result.put("resultCd", GlobalConfig.RESULT_FAIL_CD);
+			result.put("resultMsg", GlobalConfig.RESULT_FAIL_MSG);
+		}
 		return result;
 	}
 	

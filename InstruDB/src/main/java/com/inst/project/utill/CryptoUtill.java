@@ -12,7 +12,7 @@ public class CryptoUtill {
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final int KEY_SIZE = 256;
 
-    private static final byte[] KEY_BYTES = "YOUR_32_BYTE_SECRET_KEY_HERE!!".getBytes(); 
+    private static final byte[] KEY_BYTES = "0123456789ABCDEF0123456789ABCDEF".getBytes(); 
     // 반드시 32바이트 (환경변수/보안설정으로 관리)
 
     private static final SecretKeySpec KEY = new SecretKeySpec(KEY_BYTES, "AES");

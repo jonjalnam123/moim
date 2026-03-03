@@ -80,8 +80,8 @@ $(function () {
        비밀번호 검증 영역
     ============================== */
 
-    $('#pwMismatch').hide();
-    $('#adminPwMsg').hide();
+    $('#pwMismatch').removeClass('is-show');
+    $('#adminPwMsg').removeClass('is-show');
 
     function validatePwAll() {
 		
@@ -99,19 +99,19 @@ $(function () {
 		}
 
         if ( pw.length < 14 || !validatePassword(pw)) {
-            $pwError.text('특수문자 1개 이상 영어, 숫자만 14자리 입력').show();
+            $pwError.text('특수문자 1개 이상 영어, 숫자만 14자리 입력').addClass('is-show');
 			$('#adminPwChk').prop('readonly', true);
 			$('#adminPwChk').val('');
-			$('#pwMismatch').hide();
+			$('#pwMismatch').removeClass('is-show');
             return false;
         }
 		
 		$('#adminPwChk').prop('readonly', false);
-        $pwError.hide();
+        $pwError.removeClass('is-show');
 
         if (pwChk) {
             if (pw !== pwChk) {
-                $('#pwMismatch').show();
+                $('#pwMismatch').addClass('is-show');
                 return false;
             } else {
                 $('#pwMismatch').removeClass('error');
@@ -315,7 +315,7 @@ $(function () {
        가입 버튼 최종 검증
     ============================== */
     $('#joinBtn').on('click', function (e) {
-
+		
         var isValid = true;
 		
 		// 약관동의 파라미터
@@ -461,10 +461,13 @@ $(function () {
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = data.result
-			console.log('result====', result);
 			if ( result > 0 ) {
+				alert(joinProcSucc);
 				goToUri('/admin/login.do');
-			} 
+			} else { 
+				alert(joinProcFail);
+				goToUri('/admin/login.do');
+			}
 		});
 		
     });
