@@ -1,6 +1,8 @@
 package com.inst.project.utill;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -46,21 +48,27 @@ public class CryptoUtill {
         try {
             if (cipherText == null || cipherText.isEmpty()) return cipherText;
 
+            // Base64 형태인지 1차 검사
+            if (!cipherText.matches("^[A-Za-z0-9+/=]+$")) {
+                return cipherText; // 평문으로 간주
+            }
+
             byte[] combined = Base64.getDecoder().decode(cipherText);
 
-            byte[] iv = new byte[16];
-            byte[] encrypted = new byte[combined.length - 16];
+            if (combined.length <= 16) {
+                return cipherText; // 암호문 아님
+            }
 
-            System.arraycopy(combined, 0, iv, 0, 16);
-            System.arraycopy(combined, 16, encrypted, 0, encrypted.length);
+            byte[] iv = Arrays.copyOfRange(combined, 0, 16);
+            byte[] encrypted = Arrays.copyOfRange(combined, 16, combined.length);
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, KEY, new IvParameterSpec(iv));
 
-            return new String(cipher.doFinal(encrypted), "UTF-8");
+            return new String(cipher.doFinal(encrypted), StandardCharsets.UTF_8);
 
         } catch (Exception e) {
-            throw new RuntimeException("복호화 실패", e);
+            return cipherText; // 실패 시 평문으로 처리
         }
     }
 }

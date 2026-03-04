@@ -135,6 +135,7 @@ $(function () {
 				var adminCn = adminInfo.adminCn
 				var adminGender = adminInfo.adminGender
 				var adminGradeCd = adminInfo.adminGradeCd
+				var adminEmail = adminInfo.adminEmail
 
 				$('#adminNo').val(adminNo);
 				
@@ -142,6 +143,8 @@ $(function () {
 				$('#adminIdOrg').val(adminId);
 				
 				$('#adminNm').val(adminNm);
+				$('#adminEmail').val(adminEmail);
+
 				$('#adminPh').val(adminPh);
 				$('#adminPostCd').val(adminPostCd);
 				$('#adminAddress').val(adminAddress);

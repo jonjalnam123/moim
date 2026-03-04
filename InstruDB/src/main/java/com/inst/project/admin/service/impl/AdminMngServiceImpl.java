@@ -775,6 +775,18 @@ public class AdminMngServiceImpl implements AdminMngService {
 		        return null;
 		    }
 		    
+		    for (AdminDTO adminDTO : adminList) {
+		    	String adminEamil = adminDTO.getAdminEmail();
+		    	String adminPh = adminDTO.getAdminPh();
+		    	String adminAddress = adminDTO.getAdminAddress();
+		    	String adminDaddress = adminDTO.getAdminDAddress();
+		    	
+		        adminDTO.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
+		        adminDTO.setAdminPh(CommonUtil.toCrypDec(adminPh));
+		        adminDTO.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
+		        adminDTO.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
+			}
+		    
 	        return adminList;
 
 	    } catch (Exception e) {
@@ -837,7 +849,19 @@ public class AdminMngServiceImpl implements AdminMngService {
 	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 	            return null;
 	    	}  
-	    	 
+	    	
+	    	// 관리자 정보 복호화 [S]
+	    	String adminEamil = adminInfo.getAdminEmail();
+	    	String adminPh = adminInfo.getAdminPh();
+	    	String adminAddress = adminInfo.getAdminAddress();
+	    	String adminDaddress = adminInfo.getAdminDAddress();
+
+	    	adminInfo.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
+	    	adminInfo.setAdminPh(CommonUtil.toCrypDec(adminPh));
+	    	adminInfo.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
+	    	adminInfo.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
+	    	// 관리자 정보 복호화 [E]
+	    	
 	        return adminInfo;
 
 	    } catch (Exception e) {

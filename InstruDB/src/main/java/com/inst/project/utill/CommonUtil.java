@@ -93,6 +93,11 @@ public class CommonUtil {
 	    String adminRegGb = adminInfo.getAdminRegGb();
 	    String adminGradeCd = adminInfo.getAdminGradeCd();
 	    String adminRegAccept = adminInfo.getAdminRegAccept();
+	    String adminEmailChkYn = adminInfo.getAdminEmailChkYn();
+	    String adminEmailAlertYn = adminInfo.getAdminEmailAlertYn();
+	    String adminSmsAlertYn = adminInfo.getAdminSmsAlertYn();
+	    String adminSmsChkYn = adminInfo.getAdminSmsChkYn();
+	    String adminCarYn = adminInfo.getAdminCarYn();
 	    
 	    session.setAttribute("adminId", adminId);
 	    session.setAttribute("adminNm", adminNm);
@@ -104,6 +109,11 @@ public class CommonUtil {
 	    session.setAttribute("adminRegGb", adminRegGb);
 	    session.setAttribute("adminGradeCd", adminGradeCd);
 	    session.setAttribute("adminRegAccept", adminRegAccept);
+	    session.setAttribute("adminEmailAlertYn", adminEmailAlertYn);
+	    session.setAttribute("adminEmailChkYn", adminEmailChkYn);
+	    session.setAttribute("adminSmsAlertYn", adminSmsAlertYn);
+	    session.setAttribute("adminSmsChkYn", adminSmsChkYn);
+	    session.setAttribute("adminCarYn", adminCarYn);
 	    
 		return true;
 	}

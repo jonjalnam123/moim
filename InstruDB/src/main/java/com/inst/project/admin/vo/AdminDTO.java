@@ -1,7 +1,5 @@
 package com.inst.project.admin.vo;
 
-import java.util.Map;
-
 import lombok.Data;
 
 @Data

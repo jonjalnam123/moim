@@ -563,6 +563,12 @@
 				           AND COMM_USE_YN = 'Y'
 		    			   AND COMM_DEL_YN = 'N' ) AS ADMIN_GRADE__NM
 				  , ADMIN_REG_ACCEPT
+				  , ADMIN_EMAIL
+				  , ADMIN_EMAIL_CHK_YN
+				  , ADMIN_EMAIL_ALERT_YN
+				  , ADMIN_SMS_ALERT_YN
+				  , ADMIN_CAR_YN
+				  , ADMIN_SMS_CHK_YN
 				  , REG_ID
 				  , REG_DT
 				  , UPD_ID
@@ -737,6 +743,12 @@
 				 , ADMIN_REG_GB
 				 , ADMIN_GRADE_CD
 				 , ADMIN_REG_ACCEPT
+				 , ADMIN_EMAIL
+				 , ADMIN_EMAIL_CHK_YN
+				 , ADMIN_EMAIL_ALERT_YN
+				 , ADMIN_SMS_ALERT_YN
+				 , ADMIN_CAR_YN
+				 , ADMIN_SMS_CHK_YN
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
