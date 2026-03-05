@@ -332,6 +332,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    	String adminPw 			= adminDTO.getAdminPw();
 	    	String adminEmail 		= adminDTO.getAdminEmail();
 	    	String adminPh 			= adminDTO.getAdminPh();
+	    	String adminPostCd 		= adminDTO.getAdminPostCd();
 	    	String adminAddress		= adminDTO.getAdminAddress();
 	    	String adminDAddress 	= adminDTO.getAdminDAddress();
 	    	
@@ -339,12 +340,14 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	    	String adminPwCrypt 			= PasswordHashUtil.hashWithBcrypt(adminPw);
 	    	String adminEmailCrypt 			= CommonUtil.toCrypEnc(adminEmail);
 	    	String adminPhCrypt 				= CommonUtil.toCrypEnc(adminPh);
+	    	String adminPostCdCrypt		= CommonUtil.toCrypEnc(adminPostCd);
 	    	String adminAddressCrypt 		= CommonUtil.toCrypEnc(adminAddress);
 	    	String adminDAddressCrypt 	= CommonUtil.toCrypEnc(adminDAddress);
 	    	
 	    	adminDTO.setAdminPw(adminPwCrypt);
 	    	adminDTO.setAdminEmail(adminEmailCrypt);
 	    	adminDTO.setAdminPh(adminPhCrypt);
+	    	adminDTO.setAdminPositionCd(adminPostCdCrypt);
 	    	adminDTO.setAdminAddress(adminAddressCrypt);
 	    	adminDTO.setAdminDAddress(adminDAddressCrypt);
 	    	// 가입자 정보 암호화 [E]

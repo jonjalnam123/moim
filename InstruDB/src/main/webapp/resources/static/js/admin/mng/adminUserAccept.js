@@ -55,6 +55,7 @@ $(function () {
 				var adminNo = adminAcceptInfo.adminNo
 				var adminId = adminAcceptInfo.adminId
 				var adminNm = adminAcceptInfo.adminNm
+				var adminEmail = adminAcceptInfo.adminEmail
 				var adminPh = adminAcceptInfo.adminPh
 				var adminPostCd = adminAcceptInfo.adminPostCd
 				var adminAddress = adminAcceptInfo.adminAddress
@@ -66,6 +67,7 @@ $(function () {
 				$('#adminNo').val(adminNo);
 				$('#adminId').val(adminId);
 				$('#adminNm').val(adminNm);
+				$('#adminEmail').val(adminEmail);
 				$('#adminPh').val(adminPh);
 				$('#adminPostCd').val(adminPostCd);
 				$('#adminAddress').val(adminAddress);

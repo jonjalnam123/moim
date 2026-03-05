@@ -35,6 +35,7 @@
 				        <tr>
 				          <th>아이디</th>
 				          <th>이름</th>
+				          <th>이메일</th>
 				          <th>휴대폰</th>
 				          <th>우편번호</th>
 				          <th>주소</th>
@@ -49,6 +50,7 @@
 					        <tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${adminAccept.adminNo}" data-id="${adminAccept.adminId}">
 					        	<td>${adminAccept.adminId}</td>
 					        	<td>${adminAccept.adminNm}</td>
+					        	<td>${adminAccept.adminEmail}</td>
 					        	<td>${adminAccept.adminPh}</td>
 					        	<td>${adminAccept.adminPostCd}</td>
 					        	<td>${adminAccept.adminAddress}</td>
@@ -98,6 +100,11 @@
 	          		<div class="field">
 	            		<label class="" for="adminNm">이름</label>
 	            		<input id="adminNm" name="adminNm" class="form-control" type="text" readonly/>
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="" for="adminPh">이메일</label>
+	            		<input id="adminEmail" name="adminEmail" class="form-control" type="text" readonly/>
 	          		</div>
 	          		
 	          		<div class="field">

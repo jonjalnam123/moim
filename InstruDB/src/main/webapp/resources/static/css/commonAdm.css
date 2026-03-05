@@ -1067,3 +1067,45 @@ body.is-resizing { user-select: none; cursor: col-resize; }
   .field.zip-field > input.form-control{ grid-column: 1; }
   .field.zip-field > .btn-zip{ grid-column: 1; width: 100%; }
 }
+
+/* =========================================================
+   readonly / disabled input 보정
+========================================================= */
+
+/* 로그인 화면 readonly */
+.login-box .login-input[readonly]{
+  background: #f4fbf4;
+  border-color: #d6ead7;
+  color: #2b3a30;
+  cursor: not-allowed;
+}
+
+/* 폼 화면 readonly (회원가입 포함) */
+.form-card :is(input, textarea).form-control[readonly],
+.form-card :is(input, textarea).form-control[readonly]:invalid,
+.signup-card :is(input, textarea).form-control[readonly],
+.signup-card :is(input, textarea).form-control[readonly]:invalid{
+  background: #f4fbf4;
+  border-color: #d6ead7;
+  color: #2b3a30;
+  cursor: not-allowed;
+}
+
+/* readonly는 포커스 강조 제거 */
+.form-card :is(input, textarea).form-control[readonly]:focus,
+.signup-card :is(input, textarea).form-control[readonly]:focus{
+  box-shadow: none;
+  border-color: #d6ead7;
+}
+
+/* disabled도 readonly와 비슷하게 */
+.form-card :is(input, textarea, select).form-control:disabled,
+.form-card .form-select:disabled,
+.signup-card :is(input, textarea, select).form-control:disabled, 
+.signup-card .form-select:disabled{
+  background: #f4fbf4;
+  border-color: #d6ead7;
+  color: #2b3a30;
+  cursor: not-allowed;
+  opacity: 1;
+}

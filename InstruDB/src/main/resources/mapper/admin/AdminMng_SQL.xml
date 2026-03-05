@@ -783,6 +783,7 @@
 		SELECT ADMIN_NO
 				  , ADMIN_ID
 				  , ADMIN_NM
+				  , ADMIN_EMAIL
 				  , ADMIN_PH
 				  , ADMIN_POST_CD
 				  , ADMIN_ADDRESS
@@ -821,6 +822,7 @@
 		SELECT A.ADMIN_NO
 				 , A.ADMIN_ID
 				 , A.ADMIN_NM
+				 , A.ADMIN_EMAIL
 				 , A.ADMIN_PH
 				 , A.ADMIN_POST_CD
 				 , A.ADMIN_ADDRESS

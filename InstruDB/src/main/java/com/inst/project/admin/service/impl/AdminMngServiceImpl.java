@@ -769,23 +769,28 @@ public class AdminMngServiceImpl implements AdminMngService {
 			Long totalCount = adminMngMapper.selectAdminUserTotalCount( pager );
 			pager.makeNum(totalCount);
 	    	
+			// 관리자 조회
 	    	List<AdminDTO> adminList = adminMngMapper.selectAdminUser( pager );
 		    if ( adminList == null ) {
 		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 		        return null;
 		    }
 		    
+		    // 관리자 정보 복호화 [S]
 		    for (AdminDTO adminDTO : adminList) {
 		    	String adminEamil = adminDTO.getAdminEmail();
 		    	String adminPh = adminDTO.getAdminPh();
+		    	String adminPostCd = adminDTO.getAdminPostCd();
 		    	String adminAddress = adminDTO.getAdminAddress();
 		    	String adminDaddress = adminDTO.getAdminDAddress();
-		    	
-		        adminDTO.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
-		        adminDTO.setAdminPh(CommonUtil.toCrypDec(adminPh));
-		        adminDTO.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
-		        adminDTO.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
+
+		    	adminDTO.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
+		    	adminDTO.setAdminPh(CommonUtil.toCrypDec(adminPh));
+		    	adminDTO.setAdminPostCd(CommonUtil.toCrypDec(adminPostCd));
+		    	adminDTO.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
+		    	adminDTO.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
 			}
+		    // 관리자 정보 복호화 [E]
 		    
 	        return adminList;
 
@@ -832,7 +837,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	* @methodName	 	: getAdminUserInfo
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 관리자 정보 조회
+	* @description			: 관리자 관리자 정보 상세 조회
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
@@ -853,11 +858,13 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    	// 관리자 정보 복호화 [S]
 	    	String adminEamil = adminInfo.getAdminEmail();
 	    	String adminPh = adminInfo.getAdminPh();
+	    	String adminPostCd = adminInfo.getAdminPostCd();
 	    	String adminAddress = adminInfo.getAdminAddress();
 	    	String adminDaddress = adminInfo.getAdminDAddress();
 
 	    	adminInfo.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
 	    	adminInfo.setAdminPh(CommonUtil.toCrypDec(adminPh));
+	    	adminInfo.setAdminPostCd(CommonUtil.toCrypDec(adminPostCd));
 	    	adminInfo.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
 	    	adminInfo.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
 	    	// 관리자 정보 복호화 [E]
@@ -959,6 +966,20 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 			adminDTO.setRegId(adminId); 
 			adminDTO.setUpdId(adminId);
+			
+			// 관리자 정보 암호화 [S]
+	    	String adminEamil = adminDTO.getAdminEmail();
+	    	String adminPh = adminDTO.getAdminPh();
+	    	String adminPostCd = adminDTO.getAdminPostCd();
+	    	String adminAddress = adminDTO.getAdminAddress();
+	    	String adminDaddress = adminDTO.getAdminDAddress();
+
+	    	adminDTO.setAdminEmail(CommonUtil.toCrypEnc(adminEamil));
+	    	adminDTO.setAdminPh(CommonUtil.toCrypEnc(adminPh));
+	    	adminDTO.setAdminPostCd(CommonUtil.toCrypEnc(adminPostCd));
+	    	adminDTO.setAdminAddress(CommonUtil.toCrypEnc(adminAddress));
+	    	adminDTO.setAdminDAddress(CommonUtil.toCrypEnc(adminDaddress));
+	    	// 관리자 정보 암호화 [E]
 	        
 	        return adminMngMapper.adminUserReg(adminDTO);
 
@@ -993,6 +1014,20 @@ public class AdminMngServiceImpl implements AdminMngService {
 			}
 			
 			adminDTO.setUpdId(adminId);
+			
+			// 관리자 정보 암호화 [S]
+	    	String adminEamil = adminDTO.getAdminEmail();
+	    	String adminPh = adminDTO.getAdminPh();
+	    	String adminPostCd = adminDTO.getAdminPostCd();
+	    	String adminAddress = adminDTO.getAdminAddress();
+	    	String adminDaddress = adminDTO.getAdminDAddress();
+
+	    	adminDTO.setAdminEmail(CommonUtil.toCrypEnc(adminEamil));
+	    	adminDTO.setAdminPh(CommonUtil.toCrypEnc(adminPh));
+	    	adminDTO.setAdminPostCd(CommonUtil.toCrypEnc(adminPostCd));
+	    	adminDTO.setAdminAddress(CommonUtil.toCrypEnc(adminAddress));
+	    	adminDTO.setAdminDAddress(CommonUtil.toCrypEnc(adminDaddress));
+	    	// 관리자 정보 암호화 [E]
 	        
 	        return adminMngMapper.adminUserUpd(adminDTO);
 
@@ -1065,6 +1100,22 @@ public class AdminMngServiceImpl implements AdminMngService {
 		        return null;
 		    }
 		    
+		    // 관리자 정보 복호화 [S]
+		    for (AdminDTO adminDTO : adminAcceptList) {
+		    	String adminEamil = adminDTO.getAdminEmail();
+		    	String adminPh = adminDTO.getAdminPh();
+		    	String adminPostCd = adminDTO.getAdminPostCd();
+		    	String adminAddress = adminDTO.getAdminAddress();
+		    	String adminDaddress = adminDTO.getAdminDAddress();
+
+		    	adminDTO.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
+		    	adminDTO.setAdminPh(CommonUtil.toCrypDec(adminPh));
+		    	adminDTO.setAdminPostCd(CommonUtil.toCrypDec(adminPostCd));
+		    	adminDTO.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
+		    	adminDTO.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress)); 
+			}
+		    // 관리자 정보 복호화 [E]
+		    
 	        return adminAcceptList;
 
 	    } catch (Exception e) {
@@ -1096,6 +1147,20 @@ public class AdminMngServiceImpl implements AdminMngService {
 	            log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 	            return null;
 	    	}  
+	    	
+	    	// 관리자 정보 복호화 [S]
+	    	String adminEamil = adminAcceptInfo.getAdminEmail();
+	    	String adminPh = adminAcceptInfo.getAdminPh();
+	    	String adminPostCd = adminAcceptInfo.getAdminPostCd();
+	    	String adminAddress = adminAcceptInfo.getAdminAddress();
+	    	String adminDaddress = adminAcceptInfo.getAdminDAddress();
+
+	    	adminAcceptInfo.setAdminEmail(CommonUtil.toCrypDec(adminEamil));
+	    	adminAcceptInfo.setAdminPh(CommonUtil.toCrypDec(adminPh));
+	    	adminAcceptInfo.setAdminPostCd(CommonUtil.toCrypDec(adminPostCd));
+	    	adminAcceptInfo.setAdminAddress(CommonUtil.toCrypDec(adminAddress));
+	    	adminAcceptInfo.setAdminDAddress(CommonUtil.toCrypDec(adminDaddress));
+	    	// 관리자 정보 복호화 [E]
 	    	 
 	        return adminAcceptInfo;
 
