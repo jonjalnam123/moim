@@ -36,50 +36,56 @@
 			    <table class="table-grid">
 		      		<thead>
 				        <tr>
-				          <th>아이디</th>
-				          <th>이름</th>
-				          <th>이메일</th>
-				          <th>휴대폰</th>
-				          <th>우편번호</th>
-				          <th>주소</th>
-				          <th>상세주소</th>
-				          <th>부서코드</th>
-				          <th>팀코드</th>
-				          <th>직책코드</th>
-				          <th>성별</th>
-				          <th>권한등급</th>
-				          <th>삭제여부</th>
+			          		<th>작성자</th>
+			          		<th>작성날짜</th>
+			          		<th>내용</th>
+			          		<th>팝업여부</th>
+			          		<th>기한여부</th>
 				        </tr>
 			      	</thead>
-			      	<tbody>
-				      	<c:forEach var="admin" items="${adminList}" varStatus="cnt">
-					        <tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
-					        	<td>${admin.adminId}</td>
-					        	<td>${admin.adminNm}</td>
-					        	<td>${admin.adminEmail}</td>
-					        	<td>${admin.adminPh}</td>
-					        	<td>${admin.adminPostCd}</td>
-					        	<td>${admin.adminAddress}</td>
-					        	<td>${admin.adminDAddress}</td>
-					        	<td>${admin.adminDeptNm}</td>
-					        	<td>${admin.adminTeamNm}</td>
-					        	<td>${admin.adminPositionNm}</td>
-					        	<td>${admin.adminGenderNm}</td>
-					        	<td>${admin.adminGradeNm}</td>
-					        	<td>${admin.adminDelYnNm}</td>
-					        </tr>
-				        </c:forEach>
-		      		</tbody>
+					<tbody>
+				  		<c:choose>
+					    	<c:when test="${empty adminList}">
+					      		<tr class="table-empty-row">
+					        		<td colspan="5">
+					          			<div class="table-empty">
+					          
+								  		<div class="table-empty-illu" aria-hidden="true">
+											<img src="${pageContext.request.contextPath}/resources/static/img/empty-state.svg" alt="" class="empty-illu-img"/>
+										</div>
+								
+					            		<div class="table-empty-title">데이터가 없습니다</div>
+					            		<div class="table-empty-desc">검색 조건을 변경하거나 초기화 후 다시 조회해보세요.</div>
+					          			</div>
+					        		</td>
+					      		</tr>
+					    	</c:when>
+					
+					    	<c:otherwise>
+					      		<c:forEach var="admin" items="${adminList}" varStatus="cnt">
+					        	<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
+					          		<td>${admin.adminId}</td>
+					          		<td>${admin.regDt}</td>
+						          	<td>${admin.fDesc}</td>
+						          	<td>${admin.noticePopYn}</td>
+						          	<td>${admin.noticeLimitYn}</td>
+					        	</tr>
+					      		</c:forEach>
+					    	</c:otherwise>
+					  	</c:choose>
+					</tbody>
 		    	</table>
 		    	
 		    	<!-- 페이징 [S] -->
-			    <div class="pagination" id="paging">
-				    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
-	    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-						<button class="p" data-list-pn="${i}">${i}</button>
-					</c:forEach>
-				    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
-			  	</div>
+		    	<c:if test="${not empty adminList}">
+				    <div class="pagination" id="paging">
+					    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+		    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+							<button class="p" data-list-pn="${i}">${i}</button>
+						</c:forEach>
+					    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+				  	</div>
+			  	</c:if>
 			  	<!-- 페이징 [E] -->
 			  	
 			</div>
@@ -101,7 +107,7 @@
 	     	<div class="form-card">
 	       		<div class="form-grid">
 		          		
-	          		<div class="field zip-field">
+	          		<div class="field zip-field zip-no-msg">
 	            		<label class="required" for="adminPostCd">번호</label>
 	            		<input id="noticeId" name="noticeId" class="form-control" type="text" readonly/>
 	            		<input type="button" class="btn btn-zip" id="getNoticeId" value="생성" style="color : white;">
@@ -126,7 +132,7 @@
 					<div class="field full">
 					  <label class="required">옵션</label>
 					
-					  <div class="toggle-pair" role="group" aria-label="공지 옵션">
+					  <div class="toggle-pair notice-options" role="group" aria-label="공지 옵션">
 						<label class="ez-toggle">
 						  <input type="checkbox" id="noticeFixYn" name="noticeFixYn" value="Y" role="switch" />
 						  <span class="ez-sw" aria-hidden="true">
@@ -134,6 +140,15 @@
 						    <span class="thumb"></span>
 						  </span>
 						  <span class="txt">상단고정</span>
+						</label>
+						
+						<label class="ez-toggle">
+						  <input type="checkbox" id="noticePopYn" name="noticePopYn" value="Y" role="switch" />
+						  <span class="ez-sw" aria-hidden="true">
+						    <span class="track"></span>
+						    <span class="thumb"></span>
+						  </span>
+						  <span class="txt">팝업설정</span>
 						</label>
 						
 						<label class="ez-toggle">
@@ -146,7 +161,7 @@
 						</label>
 					  </div>
 					
-					  <small class="hint" style="display:block;">기한설정을 켜면 시작/종료 날짜를 입력합니다.</small>
+					  <!-- <small class="hint" style="display:block;">기한설정을 켜면 시작/종료 날짜를 입력합니다.</small> -->
 					</div>
 	          		
 					<div class="field">
@@ -199,10 +214,10 @@
 	        	</div>
 	
 		        <div class="form-actions">
-       				<button type="button" class="btn-insert" 		id="btnNew"		value="N" 		style="display: none;">신규</button>
+       				<button type="button" class="btn-insert" 	id="btnNew"	value="N" 	style="display: none;">신규</button>
        				<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
-        			<button type="button" class="btn-update"		id="btnUpd" 		value="U" 		style="display: none;">수정</button>
-         			<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 		style="display: none;">삭제</button>
+        			<button type="button" class="btn-update"	id="btnUpd" 	value="U" 	style="display: none;">수정</button>
+         			<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 	style="display: none;">삭제</button>
 		        </div>
 	      	</div>
 	    </div>

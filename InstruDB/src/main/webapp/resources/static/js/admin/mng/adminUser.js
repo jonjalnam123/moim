@@ -5,8 +5,13 @@
  */
 
 $(function () {
+	
 	// 리사이즈 함수
 	initSplitResizeJQ(); 
+	
+	// 그리드 열 사이즈 조절 함수
+	makeTableResizable('.table-grid', 'adminUser.tableGrid.widths');
+	
 
 	// 페이징 이벤트 [S]
 	var searchGb = 	$('#searchGbParam').val();
@@ -100,6 +105,10 @@ $(function () {
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
 	$('.adminInfoTr').on('dblclick', function() {
+		
+		// ✅ 선택 행 배경 고정
+		$('.adminInfoTr').removeClass('is-selected');
+		$(this).addClass('is-selected');
 		
 		$('#btnUpd').show();
 		$('#btnDel').show();

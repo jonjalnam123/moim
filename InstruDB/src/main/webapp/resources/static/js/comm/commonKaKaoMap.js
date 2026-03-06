@@ -1,5 +1,7 @@
 /**
- * 
+ * Name : commonKaKaoMap.js
+ * Description	: 카카오 맵 기능
+ * Modification Information
  */
 
 /*******************************

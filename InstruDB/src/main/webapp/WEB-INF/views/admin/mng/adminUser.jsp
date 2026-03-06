@@ -31,6 +31,21 @@
     	<div class="list-body">
 			<div class="grid-wrap" style="padding:10px; overflow:auto;">
 			    <table class="table-grid">
+		      		<colgroup>
+				    	<col style="width: 120px;">
+				    	<col style="width: 110px;">
+				    	<col style="width: 220px;">
+				    	<col style="width: 140px;">
+			   	 		<col style="width: 90px;">
+				    	<col style="width: 260px;">
+				    	<col style="width: 220px;">
+				    	<col style="width: 120px;">
+				    	<col style="width: 120px;">
+				    	<col style="width: 120px;">
+				    	<col style="width: 80px;">
+				    	<col style="width: 120px;">
+				    	<col style="width: 90px;">
+				  	</colgroup>
 		      		<thead>
 				        <tr>
 				          <th>아이디</th>
@@ -49,34 +64,56 @@
 				        </tr>
 			      	</thead>
 			      	<tbody>
-				      	<c:forEach var="admin" items="${adminList}" varStatus="cnt">
-					        <tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
-					        	<td>${admin.adminId}</td>
-					        	<td>${admin.adminNm}</td>
-					        	<td>${admin.adminEmail}</td>
-					        	<td>${admin.adminPh}</td>
-					        	<td>${admin.adminPostCd}</td>
-					        	<td>${admin.adminAddress}</td>
-					        	<td>${admin.adminDAddress}</td>
-					        	<td>${admin.adminDeptNm}</td>
-					        	<td>${admin.adminTeamNm}</td>
-					        	<td>${admin.adminPositionNm}</td>
-					        	<td>${admin.adminGenderNm}</td>
-					        	<td>${admin.adminGradeNm}</td>
-					        	<td>${admin.adminDelYnNm}</td>
-					        </tr>
-				        </c:forEach>
+			      		<c:choose>
+					    	<c:when test="${empty adminList}">
+					      		<tr class="table-empty-row">
+					        		<td colspan="13">
+					          			<div class="table-empty">
+					          
+								  		<div class="table-empty-illu" aria-hidden="true">
+											<img src="${pageContext.request.contextPath}/resources/static/img/empty-state.svg" alt="" class="empty-illu-img"/>
+										</div>
+								
+					            		<div class="table-empty-title">데이터가 없습니다</div>
+					            		<div class="table-empty-desc">검색 조건을 변경하거나 초기화 후 다시 조회해보세요.</div>
+					          			</div>
+					        		</td>
+					      		</tr>
+					    	</c:when>
+					
+					    	<c:otherwise>
+						      	<c:forEach var="admin" items="${adminList}" varStatus="cnt">
+							        <tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
+							        	<td>${admin.adminId}</td>
+							        	<td>${admin.adminNm}</td>
+							        	<td>${admin.adminEmail}</td>
+							        	<td>${admin.adminPh}</td>
+							        	<td>${admin.adminPostCd}</td>
+							        	<td>${admin.adminAddress}</td>
+							        	<td>${admin.adminDAddress}</td>
+							        	<td>${admin.adminDeptNm}</td>
+							        	<td>${admin.adminTeamNm}</td>
+							        	<td>${admin.adminPositionNm}</td>
+							        	<td>${admin.adminGenderNm}</td>
+							        	<td>${admin.adminGradeNm}</td>
+							        	<td>${admin.adminDelYnNm}</td>
+							        </tr>
+						        </c:forEach>
+					    	</c:otherwise>
+					  	</c:choose>
 		      		</tbody>
 		    	</table>
 		    	
 		    	<!-- 페이징 [S] -->
-			    <div class="pagination" id="paging">
-				    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
-	    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-						<button class="p" data-list-pn="${i}">${i}</button>
-					</c:forEach>
-				    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
-			  	</div>
+		    	<c:if test="${not empty adminList}">
+				    <div class="pagination" id="paging">
+					    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+		    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+							<button class="p" data-list-pn="${i}">${i}</button>
+						</c:forEach>
+					    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+				  	</div>
+			  	</c:if>
 			  	<!-- 페이징 [E] -->
 			  	
 			</div>
@@ -123,7 +160,7 @@
 	            		<input id="adminPh" name="adminPh" class="form-control" type="text" onkeyup="checkNumPhone(this);" placeholder="숫자만 입력해주세요."/>
 	          		</div>
 	          		
-	          		<div class="field zip-field">
+	          		<div class="field zip-field zip-no-msg">
 	            		<label class="required" for="adminPostCd">우편번호</label>
 	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
 	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">

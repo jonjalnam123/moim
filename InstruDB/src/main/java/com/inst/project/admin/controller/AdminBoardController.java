@@ -26,7 +26,9 @@ public class AdminBoardController {
 	public String getAdminNotice(Model model, HttpServletRequest req) {
 		
 		String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-		
+		if (adminId == null) {
+		    
+		}
 		
 		model.addAttribute("adminId", adminId);
 		model.addAttribute("nowDate", DateUtil.now());

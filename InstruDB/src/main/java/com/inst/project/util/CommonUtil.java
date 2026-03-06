@@ -128,17 +128,29 @@ public class CommonUtil {
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
-	public static String getAdminInfoSession(String value, HttpServletRequest req) {
-		log.info(" [ ComminUtil ] : getAdminInfoSession ");
-		
-		HttpSession session = req.getSession(false);
+	public static String getAdminInfoSession(String key, HttpServletRequest req) {
+	    log.info(" [ CommonUtil ] : getAdminInfoSession key={}", key);
+
+	    if (req == null || key == null || key.isEmpty()) {
+	        return null;
+	    }
+
+	    HttpSession session = req.getSession(false);
 	    if (session == null) {
 	        return null;
 	    }
 
-	    Object result = session.getAttribute(value);
-	    
-	    return result.toString();
+	    Object obj = session.getAttribute(key);
+	    if (obj == null) {
+	        return null;
+	    }
+
+	    if (obj instanceof String) {
+	        String s = (String) obj;
+	        return s.isEmpty() ? null : s;
+	    }
+
+	    return String.valueOf(obj);
 	}
 	
 	

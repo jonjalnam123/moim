@@ -35,6 +35,10 @@ $(function () {
 	// 그리드 더블클릭 이벤트
 	$('.adminInfoTr').on('dblclick', function() {
 		
+		// ✅ 선택 행 배경 고정
+		$('.adminInfoTr').removeClass('is-selected');
+		$(this).addClass('is-selected');
+		
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');
 		var adminId = $(this).data('id');

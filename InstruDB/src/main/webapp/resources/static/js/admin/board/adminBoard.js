@@ -5,6 +5,7 @@
  */
 
 $(function () {
+	
 	// 리사이즈 함수
 	initSplitResizeJQ(); 
 
@@ -60,7 +61,11 @@ $(function () {
 	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
-	$('.adminInfoTr').on('dblclick', function() {
+	$('.adminNoticeInfoTr').on('dblclick', function() {
+		
+		// ✅ 선택 행 배경 고정
+		$('.adminNoticeInfoTr').removeClass('is-selected');
+		$(this).addClass('is-selected');
 		
 		$('#btnUpd').show();
 		$('#btnDel').show();

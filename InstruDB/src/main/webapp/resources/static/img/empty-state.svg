@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef9ef"/>
+      <stop offset="1" stop-color="#e7f6ea"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft background -->
+  <circle cx="45" cy="45" r="38" fill="rgba(168,230,207,0.35)"/>
+
+  <!-- document -->
+  <rect x="58" y="18" width="40" height="54" rx="8"
+        fill="#ffffff" stroke="rgba(165,214,167,0.9)" stroke-width="2"/>
+  <rect x="62" y="22" width="32" height="12" rx="6" fill="url(#g)"/>
+  <line x1="66" y1="40" x2="92" y2="40" stroke="rgba(86,119,102,0.55)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="66" y1="48" x2="90" y2="48" stroke="rgba(86,119,102,0.35)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="66" y1="56" x2="88" y2="56" stroke="rgba(86,119,102,0.25)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- check -->
+  <path d="M30 54 l10 10 l20 -24"
+        fill="none" stroke="rgba(102,187,106,0.95)" stroke-width="6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- dots -->
+  <circle cx="22" cy="28" r="4" fill="rgba(129,199,132,0.55)"/>
+  <circle cx="100" cy="70" r="3" fill="rgba(168,230,207,0.65)"/>
+</svg>
