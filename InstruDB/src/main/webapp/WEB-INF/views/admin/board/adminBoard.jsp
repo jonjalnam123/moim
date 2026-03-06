@@ -3,10 +3,12 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminBoard.js"></script>
 
-<!-- Model 파라미터 -->
+<!-- Model 파라미터 [S]-->
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
 <input type="hidden"  id="adminId" name="adminId" value="${adminId}">
+<input type="hidden"  id="nowDate" name="nowDate" value="${nowDate}">
+<!-- Model 파라미터 [E] -->
 
 <div class="split-layout grid-split">
 	<aside class="split-left list-panel">
@@ -114,31 +116,48 @@
 	            		<label class="required" for="adminPh">작성날짜</label>
 	            		<input id="regDt" name="regDt" class="form-control" type="text" readonly/>
 	          		</div>
-	          		
-	          		<div class="field">
-				  		<label class="required">상단고정</label>
-					
-					  	<label class="ez-check">
-					    	<input type="checkbox" id="noticeFixYn" name="noticeFixYn" value="Y">
-					    	<span class="box" aria-hidden="true"></span>
-					    	<span class="text">고정</span>
-					  	</label>
-					</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="notcieStrDt">시작날짜</label>
-	            		<input id="notcieStrDt" name="notcieStrDt" class="form-control" type="datetime-local" />
-	          		</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="notcieEndDt">종료날짜</label>
-	            		<input id="notcieEndDt" name="notcieEndDt" class="form-control" type="datetime-local" />
-	          		</div>
 
 	          		<div class="field full">
 	            		<label for="fDesc">내용</label>
 	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
 	          		</div>
+	          		
+	          		<!-- ✅ 옵션 토글(가로 배치): 상단고정 + 기한설정 -->
+					<div class="field full">
+					  <label class="required">옵션</label>
+					
+					  <div class="toggle-pair" role="group" aria-label="공지 옵션">
+						<label class="ez-toggle">
+						  <input type="checkbox" id="noticeFixYn" name="noticeFixYn" value="Y" role="switch" />
+						  <span class="ez-sw" aria-hidden="true">
+						    <span class="track"></span>
+						    <span class="thumb"></span>
+						  </span>
+						  <span class="txt">상단고정</span>
+						</label>
+						
+						<label class="ez-toggle">
+						  <input type="checkbox" id="noticeLimitYn" name="noticeLimitYn" value="Y" role="switch" />
+						  <span class="ez-sw" aria-hidden="true">
+						    <span class="track"></span>
+						    <span class="thumb"></span>
+						  </span>
+						  <span class="txt">기한설정</span>
+						</label>
+					  </div>
+					
+					  <small class="hint" style="display:block;">기한설정을 켜면 시작/종료 날짜를 입력합니다.</small>
+					</div>
+	          		
+					<div class="field">
+					  <label id="lblNotcieStrDt" for="notcieStrDt">시작날짜</label>
+					  <input id="notcieStrDt" name="notcieStrDt" class="form-control" type="datetime-local" />
+					</div>
+					
+					<div class="field">
+					  <label id="lblNotcieEndDt" for="notcieEndDt">종료날짜</label>
+					  <input id="notcieEndDt" name="notcieEndDt" class="form-control" type="datetime-local" />
+					</div>
 
 					<!-- ✅ 첨부파일(업로드/다운로드 분리) -->
 					<div class="field full attach-field">

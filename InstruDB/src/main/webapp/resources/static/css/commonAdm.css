@@ -431,7 +431,7 @@ button:disabled,
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px 16px;
+  gap: 10px 16px;
 }
 
 .field {
@@ -1836,4 +1836,81 @@ body.is-resizing {
 .ez-check input:focus-visible + .box{
   box-shadow: 0 0 0 4px rgba(165,214,167,.35);
   border-color: #66bb6a;
+}
+
+/* =========================================================
+   Toggle (inline pair) - FIX
+========================================================= */
+.toggle-pair{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ez-toggle{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e0eee0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* input은 접근성 유지 + 화면에서 숨김 */
+.ez-toggle input{
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* 스위치 컨테이너(기준점) */
+.ez-toggle .ez-sw{
+  position: relative;
+  width: 46px;
+  height: 26px;
+  flex: 0 0 auto;
+}
+
+/* 트랙 */
+.ez-toggle .ez-sw .track{
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #c8e6c9;
+  transition: .2s;
+}
+
+/* 썸 */
+.ez-toggle .ez-sw .thumb{
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: .2s;
+}
+
+/* 텍스트 */
+.ez-toggle .txt{
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #2b3a30;
+  white-space: nowrap;
+}
+
+/* ON 상태 */
+.ez-toggle input:checked + .ez-sw .track{ background: #81c784; }
+.ez-toggle input:checked + .ez-sw .thumb{ left: 23px; }
+
+/* 포커스 */
+.ez-toggle input:focus-visible + .ez-sw .track{
+  box-shadow: 0 0 0 4px rgba(165,214,167,.35);
 }

@@ -9,7 +9,6 @@ public final class DateUtil {
 
     private DateUtil() {}
 
-    // pattern별 formatter를 ThreadLocal로 보관 (SimpleDateFormat thread-safe 문제 회피)
     private static final ConcurrentHashMap<String, ThreadLocal<SimpleDateFormat>> FORMATTERS =
             new ConcurrentHashMap<>();
 

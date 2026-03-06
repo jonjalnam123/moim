@@ -23,7 +23,6 @@ import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
-import com.inst.project.util.CommonUtil;
 import com.inst.project.util.PagerUtil;
 
 import lombok.extern.slf4j.Slf4j;

@@ -43,12 +43,19 @@ $(function () {
 			if ( !isEmpty(result) ) {
 				$('#noticeId').val(result);
 				$('#regId').val($('#adminId').val());
+				$('#regDt').val($('#nowDate').val());
 			} else {
 				$('#noticeId').val('');
 			}
 		});
 	});
 	// 공지사항ID 생성 [E]
+	
+	// 최초 1회 동기화
+	syncNoticeLimitUI();
+
+	// 토글 변경
+	$('#noticeLimitYn').on('change', syncNoticeLimitUI);
 
 	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';
@@ -350,6 +357,27 @@ function refreshNewFilesUI() {
 	      </li>
     	`);
   	});
+}
+
+/*******************************
+* FuntionNm : syncNoticeLimitUI
+* Date : 2026.02.15
+* Author : CJS
+* Description : 기한설정 토글 기능
+* PARAM : 
+********************************/
+function syncNoticeLimitUI() {
+	var on = $('#noticeLimitYn').is(':checked');
+
+  	$('#notcieStrDt, #notcieEndDt').prop('disabled', !on);
+
+ 	// 필수표시(별표) 토글
+  	$('#lblNotcieStrDt, #lblNotcieEndDt').toggleClass('required', on);
+
+  	// OFF면 값 비움(원치 않으면 제거)
+  	if (!on) {
+    	$('#notcieStrDt, #notcieEndDt').val('');
+  	}
 }
 
 /*******************************
