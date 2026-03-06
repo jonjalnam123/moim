@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.common.GlobalConfig;
-import com.inst.project.utill.CommonUtil;
+import com.inst.project.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +72,36 @@ public class AdminCommServiceImpl implements AdminCommService {
 			return null;
 		}
 
+	}
+	
+	/**
+	* @methodName	 	: selectUniqueId
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유니크 값 생성
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public String selectUniqueId() {
+		log.info(" [ AdminCommServiceImpl ] : selectUniqueDupliChk ");
+		try {
+			
+			String result = adminCommMapper.selectUniqueId();
+			if (CommonUtil.isBlank(result)) {
+				return null;
+			}
+
+			return result;
+
+		} catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectUniqueDupliChk failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			return null;
+		}
 	}
 	
 	

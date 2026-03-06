@@ -33,69 +33,23 @@ $(function () {
 	});
 	// 페이징 이벤트 [E]
 	
-	// 아이디 입력 이벤트 [S]
-	$('#adminId').on('keyup', function() {
-		$('.hint').hide();
-		$('.error').hide();
-		
-		var adminIdVal = $(this).val();
-		var adminId = onlyEngNum(adminIdVal);
-		$('#adminId').val(adminId);
-	});
-	// 아이디 입력 이벤트 [E]
-	
-	// 이름 입력 이벤트 [S]
-	$('#adminNm').on('keyup', function() {
-		var adminNmVal = $(this).val();
-		var adminNm = onlyKorEng(adminNmVal);
-		$('#adminNm').val(adminNm);
-	});
-	// 이름 입력 이벤트 [E]
-	
-	// 아이디 중복체크 [S]
-	$('#adminIdChkBtn').on('click', function() {
-
-		var adminId = $('#adminId').val();
-		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
-			return;
-		}
-
-		var tableNm = 'tb_admin_info';
-		var url = '/admin/uniqueDupliChk.do';
-		var params = {
-			uniqueKey : adminId
-		  , tableNm : tableNm
-		}
+	// 공지사항ID 생성 [S]
+	$('#getNoticeId').on('click', function() {
+		var url = '/admin/uniqueId.do';
+		var params = {}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = data.result;
-			$('#adminIdChk').val(result);
-			if ( result === 'Y' ) {
-				$('.hint').show();
-				$('.error').hide();
+			if ( !isEmpty(result) ) {
+				$('#noticeId').val(result);
+				$('#regId').val($('#adminId').val());
 			} else {
-				$('.hint').hide();
-				$('.error').show();
+				$('#noticeId').val('');
 			}
 		});
 	});
-	// 아이디 중복체크 [E]
-	
-	// 우편번호 찾기 이벤트
-	$('#getPostCode').on('click', function(){
-		var postId =  $('#adminPostCd').attr('id');
-		var adId = $('#adminAddress').attr('id');
-		execDaumPostcode( postId, adId )
-	})
-	
-	// 성별 선택 이벤트
-	$('.gender-check').on('change', function () {
-	    if ($(this).is(':checked')) {
-	        $('.gender-check').not(this).prop('checked', false);
-	    }
-	});
-	
+	// 공지사항ID 생성 [E]
+
 	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
@@ -170,97 +124,6 @@ $(function () {
 				goToUri('/admin/error.do');
 			}
 		});
-	});
-	
-	// 부서 입력 이벤트
-	$('#adminDeptCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/teamSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitTeamData = data || [];
-	    	var team = $('#adminTeamCd');
-
-	    	team.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitTeamData)) {
-				
-				$('#adminTeamDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitTeamData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				team.append(html);
-				
-				if (pendingTeamCd != null) {
-				  team.val(pendingTeamCd).trigger('change');
-				} else {
-				  team.trigger('change');
-				}
-				
-	    	} else {
-				
-				$('#adminTeamDiv').hide();
-				$('#adminPositionDiv').hide();
-				
-				pendingTeamCd = null;
-				pendingPositionCd = null;
-				
-			}
-			
-  		});
-	});
-	
-	// 팀 입력 이벤트
-	$('#adminTeamCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/posotionSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitPositionData = data || [];
-	    	var position = $('#adminPositionCd');
-
-	    	position.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitPositionData)) {
-				
-				$('#adminPositionDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitPositionData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				position.append(html);
-				
-				if (pendingPositionCd != null) {
-				  position.val(pendingPositionCd).trigger('change');
-				} else {
-				  position.trigger('change');
-				}
-				
-	    	} else {
-				$('#adminPositionDiv').hide();
-			}
-		
-			pendingTeamCd = null;
-			pendingPositionCd = null;
-			
-  		});
 	});
 	
 	// 신규 버튼 이벤트
@@ -418,7 +281,109 @@ $(function () {
 			}
 		});
 	});
+
+	// 파일 선택 버튼
+	$(document).on('click', '#btnPickFiles', function () {
+	  $('#adminFiles').trigger('click');
+	});
+
+	// 파일 선택 변경
+	$(document).on('change', '#adminFiles', function () {
+	  refreshNewFilesUI();
+	});
+
+	// 선택 파일 제거
+	$(document).on('click', '.btnNewFileRemove', function () {
+	  const idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
+	  if (!isNaN(idx)) removeNewFileByIndex(idx);
+	});
+
 });
+
+
+/*******************************
+* FuntionNm : formatBytes
+* Date : 2026.02.15
+* Author : CJS
+* Description : 첨부파일 파일 크기 계산
+* PARAM : bytes
+********************************/
+function formatBytes(bytes) {
+	if (!bytes && bytes !== 0) return '';
+	const units = ['B','KB','MB','GB','TB'];
+	let i = 0, n = bytes;
+	while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+	return (i === 0 ? n : n.toFixed(1)) + ' ' + units[i];
+}
+
+/*******************************
+* FuntionNm : refreshNewFilesUI
+* Date : 2026.02.15
+* Author : CJS
+* Description : 첨부파일 첨부시 추가
+* PARAM :
+********************************/
+function refreshNewFilesUI() {
+	const input = document.getElementById('adminFiles');
+  	const files = input.files ? Array.from(input.files) : [];
+
+  	const $list = $('#newFileList');
+  	$list.empty();
+
+  	if (files.length === 0) {
+    	$('#adminFilesSummary').text('선택된 파일 없음');
+    	return;
+  	}
+
+  	$('#adminFilesSummary').text('선택됨: ' + files.length + '개');
+
+	files.forEach((f, idx) => {
+    	$list.append(`
+	      <li class="attach-item" data-new-idx="${idx}">
+	        <div class="attach-left">
+	          <div class="attach-name" title="${f.name}">${f.name}</div>
+	          <div class="attach-meta">${formatBytes(f.size)}</div>
+	        </div>
+	        <div class="attach-actions">
+	          <button type="button" class="btn-mini remove btnNewFileRemove">제거</button>
+	        </div>
+	      </li>
+    	`);
+  	});
+}
+
+/*******************************
+* FuntionNm : removeNewFileByIndex
+* Date : 2026.02.15
+* Author : CJS
+* Description : 첨부파일 제거
+* PARAM : removeIdx
+********************************/
+function removeNewFileByIndex(removeIdx) {
+	const input = document.getElementById('adminFiles');
+  	const files = input.files ? Array.from(input.files) : [];
+  	const dt = new DataTransfer();
+
+	files.forEach((f, idx) => {
+  		if (idx !== removeIdx) dt.items.add(f);
+	});
+
+  	input.files = dt.files;
+ 	refreshNewFilesUI();
+}
+
+/*******************************
+* FuntionNm : clearNewFiles
+* Date : 2026.02.15
+* Author : CJS
+* Description : 첨부파일 비우시
+* PARAM : 
+********************************/
+function clearNewFiles() {
+	$('#adminFiles').val('');
+  	$('#newFileList').empty();
+  	$('#adminFilesSummary').text('선택된 파일 없음');
+}
 
 /*******************************
 * FuntionNm : setGender

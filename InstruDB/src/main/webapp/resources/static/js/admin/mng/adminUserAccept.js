@@ -73,7 +73,7 @@ $(function () {
 				$('#adminAddress').val(adminAddress);
 				$('#adminDAddress').val(adminDAddress);
 				$('#adminRegAccept').val(adminRegAccept).trigger('change');
-				$('input[name="adminGender"][value="' + adminGender + '"]').prop('checked', true);
+				setGender(adminGender);
 				$('#adminRejectCn').val(adminRejectCn);
 				
 			} else {
@@ -143,6 +143,27 @@ $(function () {
 		});
 	});
 });
+
+/*******************************
+* FuntionNm : setGender
+* Date : 2026.02.15
+* Author : CJS
+* Description : 성별 셋팅 함수 (checkbox 단일 선택용)
+* PARAM : adminGender : 성별 값
+********************************/
+function setGender(adminGender) {
+
+  // 일단 전체 해제
+  $('.gender-check').prop('checked', false);
+
+  // 값이 없으면 끝
+  if (!adminGender) return;
+
+  // 해당 값만 체크 (M / F)
+  var target = $('.gender-check[value="' + adminGender + '"]');
+  target.prop('checked', true).trigger('change');
+  
+}
 
 /*******************************
 * FuntionNm : setPagingParam

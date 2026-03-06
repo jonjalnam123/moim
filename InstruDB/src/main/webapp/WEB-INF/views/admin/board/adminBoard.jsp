@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUser.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminBoard.js"></script>
 
 <!-- Model 파라미터 -->
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
+<input type="hidden"  id="adminId" name="adminId" value="${adminId}">
 
 <div class="split-layout grid-split">
 	<aside class="split-left list-panel">
@@ -90,102 +91,92 @@
 	<section class="split-right">
 		<div class="content-scroll" style="padding:12px 14px;">
 	   		<div class="page-header">
-	        	<h2>사원관리</h2>
+	        	<h2>공지사항</h2>
 		        <div class="breadcrumb">
-		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>사원관리</span>
+		        	<a href="#">알림판</a>&nbsp;&gt;&nbsp;<span>공지사항</span>
 		        </div>
 	      	</div>
 	     	<div class="form-card">
 	       		<div class="form-grid">
-	          		
+		          		
 	          		<div class="field zip-field">
-	            		<label class="required" for="adminId">아이디</label>
-	            		<input id="adminId" name="adminId" class="form-control" type="text"/>
-	            		<input type="hidden" id="adminNo" name="adminNo" />
-	            		<input type="button" class="btn btn-zip" id="adminIdChkBtn" value="중복확인"  style="color : white;">
-	            		<input type="hidden" id="adminIdChk" name="adminIdChk" />
-	            		<div class="error" style="display: none;">중복된 아이디 입니다.</div>
-            			<small class="hint" style="display: none;">사용가능한 아이디 입니다.</small>
-	          		</div>
-	
-	          		<div class="field">
-	            		<label class="required" for="adminNm">이름</label>
-	            		<input id="adminNm" name="adminNm" class="form-control" type="text" />
+	            		<label class="required" for="adminPostCd">번호</label>
+	            		<input id="noticeId" name="noticeId" class="form-control" type="text" readonly/>
+	            		<input type="button" class="btn btn-zip" id="getNoticeId" value="생성" style="color : white;">
 	          		</div>
 	          		
      			    <div class="field">
-	            		<label class="required" for="adminDAddress">이메일</label>
-	            		<input id="adminEmail" name="adminEmail" class="form-control" type="text" />
+	            		<label class="required" for="adminDAddress">작성자</label>
+	            		<input id="regId" name="regId" class="form-control" type="text" readonly/>
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminPh">휴대폰</label>
-	            		<input id="adminPh" name="adminPh" class="form-control" type="text" onkeyup="checkNumPhone(this);" placeholder="숫자만 입력해주세요."/>
-	          		</div>
-	          		
-	          		<div class="field zip-field">
-	            		<label class="required" for="adminPostCd">우편번호</label>
-	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
-	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">
+	            		<label class="required" for="adminPh">작성날짜</label>
+	            		<input id="regDt" name="regDt" class="form-control" type="text" readonly/>
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminAddress">주소</label>
-	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
-	          		</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="adminDAddress">상세주소</label>
-	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
-	          		</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="adminDeptCd">부서</label>
-	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
-	            			<option value="">선택</option>
-	            			<c:forEach var="adminUnit" items="${adminUnitList}">
-	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
-	            			</c:forEach>
-	            		</select>
-	          		</div>
-	          		
-	          		<div id="adminTeamDiv" class="field" style="display: none;">
-	            		<label class="required" for="adminTeamCd">팀</label>
-	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >
-	            		</select>
-	          		</div>
-	
-	          		<div id="adminPositionDiv" class="field" style="display: none;">
-	            		<label class="required" for="adminPositionCd">직책</label>
-	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select" >
-	            		</select>
-	          		</div>
-	          		
-        			<div class="field">
-	            		<label class="required" for="adminGradeCd">권한등급</label>
-	            		<select id="adminGradeCd" name="adminGradeCd" class="form-select" style="width:100%;">
-	            			<option value="">선택</option>
-	            			<c:forEach var="adminGrade" items="${adminGradeList}">
-	            				<option value="${adminGrade.commCd}">${adminGrade.commNm}</option>
-	            			</c:forEach>
-	            		</select>	
-	          		</div>
-	          		
-        			<!-- ✅ 성별(체크박스 UI, 단일 선택) -->
-					<div class="field">
-				  		<label class="required">성별</label>
-					  	<div class="check-chips" role="group" aria-label="성별 선택">
-					    	<input type="checkbox" id="genderM" name="adminGender" value="M" class="gender-check" />
-					    	<label for="genderM">남</label>
-					    	<input type="checkbox" id="genderF" name="adminGender" value="F" class="gender-check" />
-					    	<label for="genderF">여</label>
-					  	</div>
+				  		<label class="required">상단고정</label>
+					
+					  	<label class="ez-check">
+					    	<input type="checkbox" id="noticeFixYn" name="noticeFixYn" value="Y">
+					    	<span class="box" aria-hidden="true"></span>
+					    	<span class="text">고정</span>
+					  	</label>
 					</div>
-	
+	          		
+	          		<div class="field">
+	            		<label class="required" for="notcieStrDt">시작날짜</label>
+	            		<input id="notcieStrDt" name="notcieStrDt" class="form-control" type="datetime-local" />
+	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="required" for="notcieEndDt">종료날짜</label>
+	            		<input id="notcieEndDt" name="notcieEndDt" class="form-control" type="datetime-local" />
+	          		</div>
+
 	          		<div class="field full">
-	            		<label for="fDesc">설명</label>
+	            		<label for="fDesc">내용</label>
 	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
 	          		</div>
+
+					<!-- ✅ 첨부파일(업로드/다운로드 분리) -->
+					<div class="field full attach-field">
+				  		<label>첨부파일</label>
+					
+					  	<!-- 저장된 파일 삭제목록(선택) -->
+					  	<input type="hidden" id="delFileNos" name="delFileNos" value="" />
+					
+					  	<div class="attach-card">
+					    	<!-- 업로드 -->
+					    	<div class="attach-col">
+					      		<div class="attach-head">업로드</div>
+					      		<div class="attach-body">
+						        	<div class="filebox">
+						          		<input type="file" id="adminFiles" name="adminFiles" multiple />
+						          		<button type="button" class="btn btn-file" id="btnPickFiles">첨부</button>
+						          		<div class="filename" id="adminFilesSummary">선택된 파일 없음</div>
+						        	</div>
+						
+						       	 	<ul class="attach-list" id="newFileList"></ul>
+						
+						        	<small class="hint" style="display:block;">
+						          		여러 파일 선택 가능 (저장/수정 버튼 누를 때 함께 업로드)
+						        	</small>
+					      		</div>
+					    	</div>
+					
+					    	<!-- 다운로드 -->
+					    	<div class="attach-col">
+					      		<div class="attach-head">다운로드</div>
+					      		<div class="attach-body">
+					        		<ul class="attach-list" id="savedFileList"></ul>
+					        		<small class="hint" id="savedFileHint" style="display:block;">등록된 파일이 없습니다.</small>
+					      		</div>
+					    	</div>
+					  	</div>
+					</div>
+
 	        	</div>
 	
 		        <div class="form-actions">

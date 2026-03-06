@@ -1,4 +1,4 @@
-package com.inst.project.utill;
+package com.inst.project.util;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -298,7 +298,7 @@ public class CommonUtil {
         }
 
         try {
-            return CryptoUtill.encrypt(s.trim());
+            return CryptoUtil.encrypt(s.trim());
         } catch (Exception e) {
             // 로그 남기기 (운영 환경에서는 Logger 사용 권장)
             e.printStackTrace();
@@ -323,7 +323,7 @@ public class CommonUtil {
         }
 
         try {
-            return CryptoUtill.decrypt(s.trim());
+            return CryptoUtil.decrypt(s.trim());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("복호화 처리 중 오류 발생", e);

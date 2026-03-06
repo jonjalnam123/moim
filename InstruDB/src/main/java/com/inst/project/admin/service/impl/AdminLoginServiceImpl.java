@@ -17,8 +17,8 @@ import com.inst.project.admin.vo.AdminAgreeDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
-import com.inst.project.utill.CommonUtil;
-import com.inst.project.utill.PasswordHashUtil;
+import com.inst.project.util.CommonUtil;
+import com.inst.project.util.PasswordHashUtil;
 
 import lombok.extern.slf4j.Slf4j;
 

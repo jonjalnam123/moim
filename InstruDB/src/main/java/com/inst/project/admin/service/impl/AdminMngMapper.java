@@ -9,7 +9,7 @@ import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminUnitDTO;
-import com.inst.project.utill.PagerUtil;
+import com.inst.project.util.PagerUtil;
 
 @Mapper
 public interface AdminMngMapper {

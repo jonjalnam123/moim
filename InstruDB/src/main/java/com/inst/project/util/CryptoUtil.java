@@ -1,4 +1,4 @@
-package com.inst.project.utill;
+package com.inst.project.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class CryptoUtill {
+public class CryptoUtil {
 
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final int KEY_SIZE = 256;

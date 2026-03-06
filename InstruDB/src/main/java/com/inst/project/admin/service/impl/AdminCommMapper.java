@@ -18,6 +18,9 @@ public interface AdminCommMapper {
 	
 	// 관리자 ID 중복 체크 
 	int selectAdminIdDupliChk(Map<String, Object> bodyMap);
+	
+	// 관리자 유니크 값 생성
+	String selectUniqueId();
 
 	
 	

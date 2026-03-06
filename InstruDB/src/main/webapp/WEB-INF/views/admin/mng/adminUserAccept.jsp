@@ -134,18 +134,17 @@
 		            		<option value="R">반려</option>
 		            	</select>
 		         	</div>
-	          		
-	          		<div class="field">
-			            <label class="required">성별</label>
-			            <div>
-		              		<label style="margin-right:10px;">
-			                	<input type="radio" name="adminGender" value="M" checked disabled /> 남자
-			              	</label>
-			              	<label>
-			                	<input type="radio" name="adminGender" value="W" disabled /> 여자
-			              	</label>
-			            </div>
-		          	</div>
+		          	
+		          	<!-- ✅ 성별(체크박스 UI, 단일 선택) -->
+					<div class="field">
+				  		<label class="required">성별</label>
+					  	<div class="check-chips" role="group" aria-label="성별 선택">
+					    	<input type="checkbox" id="genderM" name="adminGender" value="M" class="gender-check" disabled="disabled"/>
+					    	<label for="genderM">남</label>
+					    	<input type="checkbox" id="genderF" name="adminGender" value="F" class="gender-check" disabled="disabled"/>
+					    	<label for="genderF">여</label>
+					  	</div>
+					</div>
 		          	
 		          	<div class="field full">
 		            	<label for="adminRejectCn">반려사유</label>

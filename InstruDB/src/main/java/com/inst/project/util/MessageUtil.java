@@ -1,4 +1,4 @@
-package com.inst.project.utill;
+package com.inst.project.util;
 
 import java.util.Locale;
 

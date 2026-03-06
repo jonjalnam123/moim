@@ -17,7 +17,7 @@
 //
 // Project home page: www.source-code.biz/base64coder/java
 
-package com.inst.project.utill;
+package com.inst.project.util;
 
 /**
 * A Base64 encoder/decoder.

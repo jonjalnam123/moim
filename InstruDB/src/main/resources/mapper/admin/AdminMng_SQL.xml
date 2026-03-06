@@ -551,7 +551,7 @@
 				  , ADMIN_CN
 				  , ADMIN_GENDER
 				  , CASE WHEN ADMIN_GENDER = 'M' THEN '남자'
-				 		     WHEN ADMIN_GENDER = 'W' THEN '여자'
+				 		     WHEN ADMIN_GENDER = 'F' THEN '여자'
 				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
 				  , ADMIN_REG_GB
 				  , ADMIN_GRADE_CD
@@ -790,7 +790,7 @@
 				  , ADMIN_D_ADDRESS
 				  , ADMIN_GENDER
 				  , CASE WHEN ADMIN_GENDER = 'M' THEN '남자'
-				 		     WHEN ADMIN_GENDER = 'W' THEN '여자'
+				 		     WHEN ADMIN_GENDER = 'F' THEN '여자'
 				 		   	   ELSE NULL END AS ADMIN_GENDER_NM
 				  , ADMIN_REG_GB
 				  , ADMIN_REG_ACCEPT

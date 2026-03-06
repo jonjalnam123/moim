@@ -1,4 +1,4 @@
-package com.inst.project.utill;
+package com.inst.project.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

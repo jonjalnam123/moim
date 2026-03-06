@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminDTO;
 import com.inst.project.common.GlobalConfig;
-import com.inst.project.utill.CommonUtil;
+import com.inst.project.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 

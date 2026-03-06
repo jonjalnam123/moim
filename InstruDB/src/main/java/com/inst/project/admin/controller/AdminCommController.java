@@ -137,4 +137,27 @@ public class AdminCommController {
 		return result;
 	}
 	
+	/**
+	* @methodName	 	: selectUniqueId
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 유니크 값 생성
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/uniqueId.do")
+	@ResponseBody
+	public Map<String,Object> selectUniqueId() {
+		log.info(" [ AdminMngController ] : selectUniqueId ");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		String uniqueId = adminCommService.selectUniqueId();	
+		
+		result.put("result", uniqueId);
+
+		return result;
+	}
+	
 }

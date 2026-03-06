@@ -126,7 +126,7 @@ public class GlobalConfig {
      *  시스템/업무 구분 코드 (예시)
      * ============================ */
 
-    public static final String SYS_GB_INSTRUDB     = "InstruDB";
+    public static final String SYS_GB     = "MOIM";
     
     /* ============================
      *  로그인 관련

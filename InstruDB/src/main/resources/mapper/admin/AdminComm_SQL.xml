@@ -48,4 +48,11 @@
 	</select>
 	<!-- 관리자 부서코드 중복 체크 [E]  -->
 	
+	<!-- 관리자 유니크 값 생성 [S]  -->
+	<select id="selectUniqueId" resultType="String">
+		/*AdminMng_SQL.selectUniqueId*/
+		SELECT FN_GET_UNIQUE_KEY()
+	</select>
+	<!-- 관리자 유니크 값 생성 [E]  -->
+	
 </mapper>
