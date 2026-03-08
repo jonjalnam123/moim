@@ -33,7 +33,7 @@ public class AdminBoardController {
 		model.addAttribute("adminId", adminId);
 		model.addAttribute("nowDate", DateUtil.now());
 		
-		return "admin/board/adminBoard.adm";
+		return "admin/board/adminNotice.adm";
 	}
 
 }

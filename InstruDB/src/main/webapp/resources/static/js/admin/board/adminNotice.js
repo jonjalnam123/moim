@@ -1,13 +1,16 @@
 /**
  * 작성자 : 최정석
  * 작성날짜 : 2025.08.07
- * 내용 : adminUser 스크립트
+ * 내용 : adminNotice 스크립트
  */
 
 $(function () {
 	
 	// 리사이즈 함수
 	initSplitResizeJQ(); 
+	
+	// 그리드 열 사이즈 조절 함수
+	makeTableResizable('.table-grid', 'adminNotice.tableGrid.widths');
 
 	// 페이징 이벤트 [S]
 	var searchGb = 	$('#searchGbParam').val();
@@ -52,11 +55,11 @@ $(function () {
 	});
 	// 공지사항ID 생성 [E]
 	
-	// 최초 1회 동기화
+	// 토글 변경 [S]
 	syncNoticeLimitUI();
 
-	// 토글 변경
 	$('#noticeLimitYn').on('change', syncNoticeLimitUI);
+	// 토글 변경 [E]
 
 	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';

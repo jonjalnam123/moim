@@ -11,7 +11,6 @@ $(function () {
 	
 	// 그리드 열 사이즈 조절 함수
 	makeTableResizable('.table-grid', 'adminUser.tableGrid.widths');
-	
 
 	// 페이징 이벤트 [S]
 	var searchGb = 	$('#searchGbParam').val();

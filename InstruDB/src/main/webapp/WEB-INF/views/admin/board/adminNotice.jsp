@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminBoard.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminNotice.js"></script>
 
 <!-- Model 파라미터 [S]-->
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
@@ -31,65 +31,61 @@
 		<!--  조회 조건 [E] -->
 		
 		<!--  그리드 [S] -->
-    	<div class="list-body">
-			<div class="grid-wrap" style="padding:10px; overflow:auto;">
-			    <table class="table-grid">
-		      		<thead>
-				        <tr>
-			          		<th>작성자</th>
-			          		<th>작성날짜</th>
-			          		<th>내용</th>
-			          		<th>팝업여부</th>
-			          		<th>기한여부</th>
-				        </tr>
-			      	</thead>
-					<tbody>
-				  		<c:choose>
-					    	<c:when test="${empty adminList}">
-					      		<tr class="table-empty-row">
-					        		<td colspan="5">
-					          			<div class="table-empty">
-					          
-								  		<div class="table-empty-illu" aria-hidden="true">
-											<img src="${pageContext.request.contextPath}/resources/static/img/empty-state.svg" alt="" class="empty-illu-img"/>
-										</div>
-								
-					            		<div class="table-empty-title">데이터가 없습니다</div>
-					            		<div class="table-empty-desc">검색 조건을 변경하거나 초기화 후 다시 조회해보세요.</div>
-					          			</div>
-					        		</td>
-					      		</tr>
-					    	</c:when>
-					
-					    	<c:otherwise>
-					      		<c:forEach var="admin" items="${adminList}" varStatus="cnt">
-					        	<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
-					          		<td>${admin.adminId}</td>
-					          		<td>${admin.regDt}</td>
-						          	<td>${admin.fDesc}</td>
-						          	<td>${admin.noticePopYn}</td>
-						          	<td>${admin.noticeLimitYn}</td>
-					        	</tr>
-					      		</c:forEach>
-					    	</c:otherwise>
-					  	</c:choose>
-					</tbody>
-		    	</table>
-		    	
-		    	<!-- 페이징 [S] -->
-		    	<c:if test="${not empty adminList}">
-				    <div class="pagination" id="paging">
-					    <button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
-		    			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-							<button class="p" data-list-pn="${i}">${i}</button>
-						</c:forEach>
-					    <button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
-				  	</div>
-			  	</c:if>
-			  	<!-- 페이징 [E] -->
-			  	
-			</div>
-    	</div>
+		<div class="list-body">
+	  		<div class="grid-wrap">
+				<c:choose>
+		      		<c:when test="${empty adminList}">
+			        	<div class="grid-empty-wrap">
+		          			<div class="table-empty">
+			            		<div class="table-empty-illu" aria-hidden="true">
+			              			<img src="${pageContext.request.contextPath}/resources/static/img/empty-state.svg" alt="" class="empty-illu-img"/>
+			            		</div>
+			            		<div class="table-empty-title">데이터가 없습니다</div>
+			            		<div class="table-empty-desc">검색 조건을 변경하거나 초기화 후 다시 조회해보세요.</div>
+		         	 		</div>
+		        		</div>
+			      </c:when>
+				
+					<c:otherwise>
+						<div class="grid-scroller">
+			          		<table class="table-grid col-resize">
+				            	<thead>
+				              		<tr>
+				                		<th>작성자</th>
+				                		<th>작성날짜</th>
+				                		<th>내용</th>
+				                		<th>팝업여부</th>
+				                		<th>기한여부</th>
+				              		</tr>
+			            		</thead>
+				            	<tbody>
+				              		<c:forEach var="admin" items="${adminList}" varStatus="cnt">
+				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
+				                  			<td><span>${admin.adminId}</span></td>
+				                  			<td><span>${admin.regDt}</span></td>
+				                  			<td><span>${admin.fDesc}</span></td>
+				                  			<td><span>${admin.noticePopYn}</span></td>
+				                  			<td><span>${admin.noticeLimitYn}</span></td>
+				                		</tr>
+				              		</c:forEach>
+				            	</tbody>
+				          	</table>
+				        </div>
+				
+				        <div class="pagination-wrap">
+			          		<div class="pagination" id="paging">
+				            	<button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+				            	<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
+				              		<button class="p" data-list-pn="${i}">${i}</button>
+				            	</c:forEach>
+				            	<button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+				          	</div>
+			        	</div>
+					</c:otherwise>
+		    	</c:choose>
+		
+	  		</div>
+		</div>
     	<!--  그리드 [E] -->
     	
 	</aside>
