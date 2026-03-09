@@ -4,6 +4,130 @@
 
 <mapper namespace="com.inst.project.admin.service.impl.AdminBoardMapper">
 	
-
+	<!-- 관리자 공지사항 총 건수 조회 [S] -->
+	<select id="selectAdmionNoticeTotalCount" parameterType="PagerUtil" resultType="Long">
+		/*AdminMng_SQL.selectAdmionNoticeTotalCount*/
+    	SELECT COUNT(*)
+	      FROM TB_NOTICE_INFO
+	    WHERE 1=1
+	        AND NOTICE_DEL_YN = 'N'
+	    <if test="searchGb == 'noticeTitle'">
+		    AND NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+			AND REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	</select>
+	<!-- 관리자 공지사항 건수 조회 [E] -->
+	
+	<!-- 관리자 공지사항 조회 [S] -->
+	<select id="selectAdmionNotice" parameterType="PagerUtil"  resultType="AdminNoticeDTO">
+		/*AdminMng_SQL.selectAdmionNotice*/
+		SELECT A.NOTICE_ID
+				 , A.NOTICE_TITLE
+				 , A.NOTICE_CN
+				 , A.NOTICE_FIX_YN
+				 , A.NOTICE_LIMIT_YN
+				 , A.NOTICE_STR_DT
+				 , A.NOTICE_END_DT 
+				 , A.NOTICE_FINISH_YN
+				 , A.NOTICE_DEL_YN
+				 , A.NOTICE_POP_YN
+				 , A.REG_ID
+				 , A.REG_DT
+				 , A.UPD_ID
+				 , A.UPD_DT
+				 , B.FILE_ID
+				 , B.FILE_ORG_NM
+				 , B.FILE_NM
+				 , B.FILE_PATH
+				 , B.FILE_SIZE
+				 , B.FILE_EXT
+		   FROM TB_NOTICE_INFO A
+    INNER JOIN TB_FILE_INFO B
+    		   ON A.NOTICE_ID = B.REF_ID
+		 WHERE 1=1 
+		     AND A.NOTICE_DEL_YN = 'N'
+	    <if test="searchGb == 'noticeTitle'">
+		     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+	    <if test="searchGb == 'adminId'">
+		     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	    </if>
+         ORDER BY UPD_DT DESC 
+           LIMIT #{perPage} OFFSET #{startRow}
+	</select>
+	<!-- 관리자 공지사항 조회 [E] -->
+	
+	<!-- 관리자 첨부파일 저장 [S] -->
+	<insert id="insertAdminFile" parameterType="AdminFileDTO">
+		/*AdminMng_SQL.insertAdminFile*/
+    	INSERT INTO TB_FILE_INFO (
+    		FILE_ID
+      	  , FILE_ORG_NM
+          , FILE_NM
+          , FILE_PATH
+       	  , FILE_SIZE
+          , FILE_EXT
+          , REF_TYPE
+          , REF_ID
+          , REG_ID
+          , REG_DT
+          , UPD_ID
+          , UPD_DT
+	    ) VALUES (
+            #{fileId}
+          , #{fileOrgNm}
+	      , #{fileNm}
+	      , #{filePath}
+	      , #{fileSize}
+	      , #{fileExt}
+	      , #{refType}
+	      , #{refId}
+	      , #{regId}
+	      , NOW()
+	      , #{updId}
+	      , NOW()
+	    )
+	</insert>
+	<!-- 관리자 첨부파일 저장 [E] -->
+	
+	<!-- 관리자 공지사항 저장 [S] -->
+	<insert id="insertAdminNotice" parameterType="AdminNoticeDTO">
+		/*AdminMng_SQL.insertAdminNotice*/
+	    INSERT INTO TB_NOTICE_INFO (
+	        NOTICE_ID
+	      , NOTICE_TITLE
+	      , NOTICE_CN
+	      , NOTICE_FIX_YN
+	      , NOTICE_LIMIT_YN
+	      , NOTICE_STR_DT
+	      , NOTICE_END_DT
+	      , NOTICE_FINISH_YN
+	      , NOTICE_DEL_YN
+	      , NOTICE_POP_YN
+	      , REG_ID
+	      , REG_DT
+	      , UPD_ID
+	      , UPD_DT
+	    ) VALUES (
+            #{noticeId} 
+          , #{noticeTitle}
+          , #{noticeCn}
+          , #{noticeFixYn}
+          , #{noticeLimitYn}
+          , #{noticeStrDt}
+          , #{noticeEndDt}
+       	  , 'N'
+       	  , 'N'
+       	  , #{noticePopYn}
+          , #{regId}
+          , NOW()
+          , #{updId}
+          , NOW()
+	    )
+	</insert>
+	<!-- 관리자 공지사항 저장 [E] -->
+	
 	
 </mapper>

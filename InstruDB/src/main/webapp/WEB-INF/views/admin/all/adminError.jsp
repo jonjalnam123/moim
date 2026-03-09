@@ -7,9 +7,7 @@
         <div class="error-card-header">
           <div class="error-icon" aria-hidden="true">
             <!-- 경고 아이콘 (inline svg) -->
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2a1 1 0 0 1 .9.55l10 19A1 1 0 0 1 22 23H2a1 1 0 0 1-.9-1.45l10-19A1 1 0 0 1 12 2zm0 6a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1zm0 12a1.25 1.25 0 1 0 0-2.5A1.25 1.25 0 0 0 12 20z"/>
-            </svg>
+			<img src="${pageContext.request.contextPath}/resources/static/img/error-warning.svg" alt="error">
           </div>
 
           <div class="error-title-wrap">
@@ -42,10 +40,11 @@
             </div>
           </div>
 
-          <div class="error-actions">
-            <a class="btn btn-cancel" href="/admin/main.do">홈으로</a>
-            <a class="btn btn-delete" href="/admin/contact.do">문의하기</a>
-          </div>
+		<div class="error-actions">
+		  <button class="btn err-back" onclick="history.back()">이전 페이지</button>
+		  <a class="btn err-home" href="/admin/main.do">홈으로</a>
+		  <a class="btn err-contact" href="/admin/contact.do">문의하기</a>
+		</div>
 
           <details class="error-details">
             <summary>기술 정보 보기</summary>

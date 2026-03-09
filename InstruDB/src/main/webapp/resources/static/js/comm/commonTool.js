@@ -41,6 +41,33 @@ function ajaxStart(url, params, dataType, callback) {
 	});
 }
 
+function ajaxWithFileStart(url, params, callback) {
+	$.ajax({
+		url: url,
+		method: 'post',
+		data: params,
+		processData: false,
+		contentType: false,
+		beforeSend: function () {
+			showGlobalLoading();
+		},
+		success: function (data) {
+		    if (typeof callback === 'function' && callback !== null ) {
+				console.log('조회한 결과 데이터 : ', data);
+		        callback(data);
+		    } else {
+		        console.warn("callback이 function이 아닙니다:", callback);
+		    }
+		},
+		complete: function () {
+			hideGlobalLoading();
+		},
+		error: function (err) {
+			console.error("AJAX 에러", err);
+		}
+	});
+}
+
 /*******************************
 * FuntionNm : ajaxNoLoadingxStart
 * Date : 2025.10.02

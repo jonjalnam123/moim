@@ -13,13 +13,13 @@
 <div class="split-layout grid-split">
 	<aside class="split-left list-panel">
 		<!--  조회 조건 [S] -->
-		<form action="/admin/user.do" id="adminUserSearchForm">
+		<form action="/admin/notice.do" id="adminNoticeSearchForm">
 			<input type="hidden"  id="pageNum" name="pageNum" value="1">
 			<div class="list-header">
 	      		<div class="list-title"></div>
 	      		<div class="list-search">
 	        		<select id="searchGb" name=searchGb class="form-select">
-			          	<option class="s" value="adminNm">이름</option>
+			          	<option class="s" value="noticeTitle">이름</option>
 			          	<option class="s" value="adminId">아이디</option>
 	        		</select>
 	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
@@ -34,7 +34,7 @@
 		<div class="list-body">
 	  		<div class="grid-wrap">
 				<c:choose>
-		      		<c:when test="${empty adminList}">
+		      		<c:when test="${empty adminNoticeList}">
 			        	<div class="grid-empty-wrap">
 		          			<div class="table-empty">
 			            		<div class="table-empty-illu" aria-hidden="true">
@@ -59,13 +59,13 @@
 				              		</tr>
 			            		</thead>
 				            	<tbody>
-				              		<c:forEach var="admin" items="${adminList}" varStatus="cnt">
+				              		<c:forEach var="adminNotice" items="${adminNoticeList}" varStatus="cnt">
 				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
-				                  			<td><span>${admin.adminId}</span></td>
-				                  			<td><span>${admin.regDt}</span></td>
-				                  			<td><span>${admin.fDesc}</span></td>
-				                  			<td><span>${admin.noticePopYn}</span></td>
-				                  			<td><span>${admin.noticeLimitYn}</span></td>
+				                  			<td><span>${adminNotice.regId}</span></td>
+				                  			<td><span>${adminNotice.regDt}</span></td>
+				                  			<td><span>${adminNotice.noticeCn}</span></td>
+				                  			<td><span>${adminNotice.noticePopYn}</span></td>
+				                  			<td><span>${adminNotice.noticeLimitYn}</span></td>
 				                		</tr>
 				              		</c:forEach>
 				            	</tbody>

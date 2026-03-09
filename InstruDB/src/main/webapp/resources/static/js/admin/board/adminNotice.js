@@ -21,12 +21,12 @@ $(function () {
 	$(".p").click(function() {
 		var n= $(this).attr("data-list-pn");
 		$("#pageNum").val(n);
-		$('#adminUserSearchForm').submit(); 
+		$('#adminNoticeSearchForm').submit(); 
 	});
 	
 	// 조회 버튼 이벤트
 	$('#btnSearch').on('click', function() {
-		$('#adminUserSearchForm').submit(); 
+		$('#adminNoticeSearchForm').submit(); 
 	});
 	
 	// 엔터키 이벤트
@@ -170,145 +170,139 @@ $(function () {
 	});
 	
 	// 관리자 등록, 수정 이벤트
-	$('#btnReg, #btnUpd').on('click', function() {
-		var btnVal = $(this).val();
-		var url = '';
-		
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
-		var adminPh = $('#adminPh').val();
-		var adminPostCd = $('#adminPostCd').val();
-		var adminAddress = $('#adminAddress').val();
-		var adminDAddress = $('#adminDAddress').val();
-		var adminDeptCd = $('#adminDeptCd').val();
-		var adminTeamCd = $('#adminTeamCd').val();
-		var adminPositionCd = $('#adminPositionCd').val();
-		var adminGradeCd = $('#adminGradeCd').val();
-		var adminGender =  $('input[name="adminGender"]:checked').val();
-		var adminCn =  $('#adminCn').val();
-		var adminIdChk = $('#adminIdChk').val();
-		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
-			return;
-		}
-		
-		if ( btnVal === 'I' ) {
-			if ( adminIdChk === '' ) {
-				alert('아이디' + dataDupliChk);
-				return;
-			}
-			
-			if ( adminIdChk === 'N') {
-				alert('아이디' + dataChk);
-				return;
-			}
-		}
+	$('#btnReg, #btnUpd').on('click', function () {
 
-		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
-			return;
-		}
+		let mode = $(this).val(); // I / U
+		let url = '';
 
-		if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
-			return;
-		}
-		
-		if ( btnVal === 'I' ) {
-			if ( !confirm('관리자' + regProcConfirm) ) {
-				return;
-			}
-			url = '/admin/userReg.do';
+		if (mode === 'I') {
+			if (!confirm('공지사항을 등록하시겠습니까?')) return;
+			url = '/admin/noticeReg.do';
 		} else {
-			if ( !confirm('관리자' + updProcConfirm) ) {
-				return;
-			}
-			url = '/admin/userUpd.do';
+			if (!confirm('공지사항을 수정하시겠습니까?')) return;
+			url = '/admin/noticeUpd.do';
 		}
 
-		var params = {
-			    adminNo : adminNo
-			  , adminId : adminId
-			  , adminNm : adminNm
-			  , adminPh : adminPh
-			  , adminPostCd : adminPostCd
-			  , adminAddress : adminAddress
-			  , adminDAddress : adminDAddress
-			  , adminDeptCd : adminDeptCd
-			  , adminTeamCd : adminTeamCd
-			  , adminPositionCd : adminPositionCd
-			  , adminGradeCd : adminGradeCd
-			  , adminGender : adminGender
-			  , adminCn : adminCn
+		const formData = new FormData();
+
+		formData.append("noticeId", $('#noticeId').val());
+		formData.append("noticeCn", $('#fDesc').val());
+
+		formData.append("noticeFixYn", $('#noticeFixYn').is(':checked') ? 'Y' : 'N');
+		formData.append("noticePopYn", $('#noticePopYn').is(':checked') ? 'Y' : 'N');
+		formData.append("noticeLimitYn", $('#noticeLimitYn').is(':checked') ? 'Y' : 'N');
+
+		formData.append("notcieStrDt", $('#notcieStrDt').val());
+		formData.append("notcieEndDt", $('#notcieEndDt').val());
+
+		formData.append("delFileNos", $('#delFileNos').val());
+
+		const files = $('#adminFiles')[0].files;
+
+		if (files.length > 5) {
+			alert('첨부파일은 최대 5개까지 가능합니다.');
+			return;
 		}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
+
+		for (let i = 0; i < files.length; i++) {
+			formData.append("adminFiles", files[i]);
+		}
+		
+		var params = formData
+		ajaxWithFileStart(url, params, function(data) {
 			var result = Number(data.result);
-			if (result > 0) {
-				window.location.reload();
-			} else {
-				goToUri('/admin/error.do');
-			}
+			console.log("result===", result);
 		});
 	});
 	
-	// 메뉴 삭제 이벤트
-	$('#btnDel').on('click', function() {
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
-		
-		if ( isEmptyMsg(adminId, delDataChk) ) {
-			return;
-		}
-		
-		if ( !confirm(adminNm + ' 관리자' + delProcConfirm) ) {
-			return;
+	// 파일 삭제 이벤트
+	$('.btnFileDel').on('click', function () {
+
+		const fileNo = $(this).closest('.attach-item').data('file-no');
+
+		const isUpdateMode = $('#btnUpd').is(':visible');
+
+		if (!confirm('파일을 삭제하시겠습니까?')) return;
+
+		// 수정 상태 → 서버 즉시 삭제
+		if (isUpdateMode) {
+
+			ajaxStart(
+				'/admin/noticeFileDel.do',
+				{ fileNo: fileNo },
+				'json',
+				function (data) {
+
+					if (data.result > 0) {
+						alert('삭제되었습니다.');
+						$('[data-file-no="'+fileNo+'"]').remove();
+					}
+				}
+			);
+
+		} 
+		// 신규 상태 → 화면만 삭제
+		else {
+
+			let delList = $('#delFileNos').val();
+
+			if (delList) {
+				delList += ',' + fileNo;
+			} else {
+				delList = fileNo;
+			}
+
+			$('#delFileNos').val(delList);
+
+			$('[data-file-no="'+fileNo+'"]').remove();
 		}
 
-		var url = '/admin/userDel.do';
-		var params = {
-				adminNo : adminNo
-			  , adminId : adminId
-		}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
-			var result = Number(data.result);
-			if (result > 0) {
-				window.location.reload();
-			} else {
-				goToUri('/admin/error.do');
-			}
-		});
+	});
+	
+	// 파일 다운로드 이벤트
+	$('.btnFileDown').on('click',function () {
+		const fileNo = $(this).closest('.attach-item').data('file-no');
+		window.location.href = '/admin/fileDownload.do?fileNo=' + fileNo;
 	});
 
 	// 파일 선택 버튼
-	$(document).on('click', '#btnPickFiles', function () {
+	$( '#btnPickFiles').on('click', function () {
 	  $('#adminFiles').trigger('click');
 	});
 
 	// 파일 선택 변경
-	$(document).on('change', '#adminFiles', function () {
-	  refreshNewFilesUI();
+	$('#adminFiles').on('change', function () {
+		const input = this;
+		const files = Array.from(input.files);
+
+		const allowExt = ['jpg','jpeg','png','gif','webp','bmp'];
+		const maxFileCnt = 5;
+
+		let validFiles = [];
+
+		for (let f of files) {
+			let ext = f.name.split('.').pop().toLowerCase();
+
+			if (!allowExt.includes(ext)) {
+				alert('이미지 파일만 업로드 가능합니다.');
+				input.value = '';
+				return;
+			}
+
+			validFiles.push(f);
+		}
+
+		if (validFiles.length > maxFileCnt) {
+			alert('첨부파일은 최대 5개까지 가능합니다.');
+			input.value = '';
+			return;
+		}
+		
+  		refreshNewFilesUI();
 	});
 
 	// 선택 파일 제거
-	$(document).on('click', '.btnNewFileRemove', function () {
+	$('.btnNewFileRemove').on('click', function () {
 	  const idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
 	  if (!isNaN(idx)) removeNewFileByIndex(idx);
 	});
@@ -365,6 +359,42 @@ function refreshNewFilesUI() {
 	      </li>
     	`);
   	});
+}
+
+/*******************************
+* FuntionNm : refreshNewFilesUI
+* Date : 2026.02.15
+* Author : CJS
+* Description : 첨부파일 다운로드 추가
+* PARAM :
+********************************/
+function renderSavedFiles(fileList) {
+
+	const $list = $('#savedFileList');
+	$list.empty();
+
+	if (!fileList || fileList.length === 0) {
+		$('#savedFileHint').show();
+		return;
+	}
+
+	$('#savedFileHint').hide();
+
+	fileList.forEach(function (file) {
+
+		$list.append(`
+			<li class="attach-item" data-file-no="${file.fileNo}">
+				<div class="attach-left">
+					<div class="attach-name">${file.fileOrgNm}</div>
+				</div>
+				<div class="attach-actions">
+					<button class="btn-mini download btnFileDown">다운</button>
+					<button class="btn-mini remove btnFileDel">삭제</button>
+				</div>
+			</li>
+		`);
+
+	});
 }
 
 /*******************************

@@ -6,46 +6,46 @@ import lombok.Data;
 public class AdminNoticeDTO {
 	
 	// 공지사항 ID 
-	private String notice_id;
+	private String noticeId;
 	
 	// 공지사항 제목
-	private String notice_title;
+	private String noticeTitle;
 	
 	// 공지사항 내용
-	private String notice_cn;
+	private String noticeCn;
 	
 	// 공지사항 상단 고정 여부
-	private String notice_fix_yn;
+	private String noticeFixYn;
 	
 	// 공지사항 팝업 설정 여부
-	private String notice_pop_yn;
+	private String noticePopYn;
 	
 	// 공지사항 기간 설정 여부
-	private String notice_limit_yn;
+	private String noticeLimitYn;
 	
 	// 공지사항 시작일시
-	private String notcie_str_dt;
+	private String noticeStrDt;
 	
 	// 공지사항 종료일시
-	private String notcie_end_dt;
+	private String noticeEndDt;
 	
 	// 공지사항 기간 종료 여부
-	private String notice_finish_yn;
+	private String noticeFinishYn;
 	
 	// 공지사항 삭제 여부
-	private String notice_del_yn;
+	private String noticeDelYn; 
 	
 	// 작성자
-	private String reg_id;
+	private String regId;
 	
 	// 작성날짜
-	private String reg_dt;
+	private String regDt;
 	
 	// 수정자
-	private String upd_id;
+	private String updId;
 	
 	// 수정날짜
-	private String upd_dt;
+	private String updDt;
 
 
 }

@@ -12,7 +12,7 @@ function initSplitResizeJQ(options) {
 
     /* ✅ 현재 레이아웃에 맞게 현실적인 값으로 조정 */
     minLeft: 520,
-    minRight: 380,
+    minRight: 500,
     dragThreshold: 3,
     baseLeftWidth: 860
   }, options || {});

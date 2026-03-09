@@ -724,7 +724,7 @@ textarea.form-control{ min-height:110px; resize:vertical; }
 .split-layout.grid-split{
   --left-w: 860px;
   --gap: 14px;
-  grid-template-columns: minmax(360px, var(--left-w)) var(--gap) minmax(380px, 1fr);
+  grid-template-columns: minmax(360px, var(--left-w)) var(--gap) minmax(500px, 1fr);
   gap: 0;
 }
 
@@ -1322,4 +1322,267 @@ body.is-col-resizing{
 .table-grid.no-resize th .col-handle{
   display: none !important;
   pointer-events: none !important;
+}
+
+/* =========================================================
+   Error Screen
+========================================================= */
+
+.error-screen{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+.error-card{
+  width:100%;
+  max-width:620px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 10px 28px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+.error-card-header{
+  display:flex;
+  gap:18px;
+  padding:24px;
+  background:linear-gradient(180deg,#eef9ef,#e6f6ea);
+  border-bottom:1px solid var(--border-soft);
+  align-items:flex-start;
+}
+
+.error-icon{
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  background:#ffecec;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.error-icon img{
+  width:28px;
+  height:28px;
+}
+
+.error-title-wrap{
+  flex:1;
+}
+
+.error-badge{
+  display:inline-block;
+  background:#ef5350;
+  color:#fff;
+  font-size:.75rem;
+  padding:4px 8px;
+  border-radius:999px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.error-title{
+  font-size:1.15rem;
+  margin:0;
+  font-weight:800;
+  color:#2b3a30;
+}
+
+.error-subtitle{
+  margin:6px 0 0 0;
+  font-size:.9rem;
+  color:#567;
+}
+
+.error-card-body{
+  padding:22px 24px;
+}
+
+/* =========================================================
+   Error Meta
+========================================================= */
+
+.error-meta{
+  display:grid;
+  gap:12px;
+}
+
+.error-meta-row{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:10px;
+  align-items:center;
+}
+
+.error-meta-row .k{
+  font-weight:700;
+  color:#425a4f;
+  font-size:.9rem;
+}
+
+.error-meta-row .v{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.error-meta-row code{
+  background:#f4fbf4;
+  border:1px solid #d6ead7;
+  border-radius:6px;
+  padding:5px 8px;
+  font-size:.85rem;
+  color:#2b3a30;
+}
+
+/* =========================================================
+   Copy Button
+========================================================= */
+
+.btn-copy{
+  height:26px;
+  padding:0 10px;
+  border-radius:6px;
+  border:none;
+  font-size:.8rem;
+  background:#90a4ae;
+  color:#fff;
+  cursor:pointer;
+}
+
+.btn-copy:hover{
+  background:#78909c;
+}
+
+/* =========================================================
+   Error Actions
+========================================================= */
+
+.error-actions{
+  display:flex;
+  gap:14px;
+  margin-top:24px;
+  width:100%;
+}
+
+.error-actions .btn{
+  flex:1;                 /* 버튼을 균등하게 꽉 채움 */
+  height:44px;
+  padding:0 18px;
+  border-radius:10px;
+  font-size:.92rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  border:none;
+  cursor:pointer;
+  transition:all .18s ease;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+/* 이전 페이지 */
+.error-actions .err-back{
+  background:linear-gradient(135deg,#78909c,#546e7a);
+  color:#fff;
+}
+
+.error-actions .err-back:hover{
+  background:linear-gradient(135deg,#607d8b,#455a64);
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(0,0,0,.18);
+}
+
+/* 홈으로 */
+.error-actions .err-home{
+  background:linear-gradient(135deg,#81c784,#66bb6a);
+  color:#fff;
+}
+
+.error-actions .err-home:hover{
+  background:linear-gradient(135deg,#66bb6a,#4caf50);
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(76,175,80,.35);
+}
+
+/* 문의하기 */
+.error-actions .err-contact{
+  background:linear-gradient(135deg,#ef5350,#e53935);
+  color:#fff;
+}
+
+.error-actions .err-contact:hover{
+  background:linear-gradient(135deg,#e53935,#c62828);
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(239,83,80,.35);
+}
+
+/* =========================================================
+   Error Detail
+========================================================= */
+
+.error-details{
+  margin-top:16px;
+  border-top:1px solid #e3e7e3;
+  padding-top:10px;
+}
+
+.error-details summary{
+  cursor:pointer;
+  font-weight:700;
+  font-size:.9rem;
+  color:#2b3a30;
+}
+
+.error-details pre{
+  margin-top:8px;
+  background:#0f2f35;
+  color:#d9f2f2;
+  padding:10px;
+  border-radius:8px;
+  font-size:.82rem;
+  overflow:auto;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width:600px){
+
+  .error-screen{
+    padding:12px;
+  }
+
+  .error-card{
+    max-width:100%;
+  }
+
+  .error-card-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .error-meta-row{
+    grid-template-columns:1fr;
+    gap:4px;
+  }
+
+  .error-actions{
+    flex-direction:column;
+  }
+
+  .error-actions .btn{
+    width:100%;
+  }
+
 }
