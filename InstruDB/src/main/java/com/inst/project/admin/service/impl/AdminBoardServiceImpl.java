@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,12 +79,12 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	*/
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int adminNoticeReg(AdminNoticeDTO adminNoticeDTO, MultipartFile[] files) {
+	public int adminNoticeReg(AdminNoticeDTO adminNoticeDTO, MultipartFile[] files, HttpServletRequest req) {
 
 	    int result = 0;
 
 	    // 업로드 경로
-	    String basePath = "D:/upload/notice";
+	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
 
 	    // 저장된 파일 목록 (롤백용)
 	    List<AdminFileDTO> savedFiles = new ArrayList<>();

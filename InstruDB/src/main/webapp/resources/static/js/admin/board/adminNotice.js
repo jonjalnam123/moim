@@ -169,10 +169,10 @@ $(function () {
 		
 	});
 	
-	// 관리자 등록, 수정 이벤트
+	// 관리자 공지사항 등록, 수정 이벤트
 	$('#btnReg, #btnUpd').on('click', function () {
 
-		let mode = $(this).val(); // I / U
+		let mode = $(this).val();
 		let url = '';
 
 		if (mode === 'I') {
@@ -186,6 +186,8 @@ $(function () {
 		const formData = new FormData();
 
 		formData.append("noticeId", $('#noticeId').val());
+		formData.append("regId", $('#regId').val());
+		formData.append("regDt", $('#regDt').val());
 		formData.append("noticeCn", $('#fDesc').val());
 
 		formData.append("noticeFixYn", $('#noticeFixYn').is(':checked') ? 'Y' : 'N');

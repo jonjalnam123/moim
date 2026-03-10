@@ -72,11 +72,11 @@ public class AdminBoardController {
 	*/
 	@PostMapping("/noticeReg.do")
 	@ResponseBody
-	public Map<String,Object> adminNoticeReg(AdminNoticeDTO adminNoticeDTO, @RequestParam(value="adminFiles", required=false) MultipartFile[] files){
+	public Map<String,Object> adminNoticeReg(AdminNoticeDTO adminNoticeDTO, @RequestParam(value="adminFiles", required=false) MultipartFile[] files, HttpServletRequest req){
 
 	    Map<String,Object> resultMap = new HashMap<>();
 
-	    int result = adminBoardService.adminNoticeReg(adminNoticeDTO, files);
+	    int result = adminBoardService.adminNoticeReg(adminNoticeDTO, files, req);
 
 	    resultMap.put("result", result);
 
