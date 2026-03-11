@@ -4,176 +4,112 @@
  * 내용 : adminNotice 스크립트
  */
 
+// 신규 선택 파일 누적 보관용
+var selectedAdminFiles = [];
+
 $(function () {
-	
-	// 리사이즈 함수
-	initSplitResizeJQ(); 
-	
-	// 그리드 열 사이즈 조절 함수
+
+	// 리사이즈
+	initSplitResizeJQ();
 	makeTableResizable('.table-grid', 'adminNotice.tableGrid.widths');
 
-	// 페이징 이벤트 [S]
-	var searchGb = 	$('#searchGbParam').val();
-	var pageNum = 	$('#pageNumParam').val();
-	setPagingParam(searchGb, pageNum);
-	
-	// 페이징 버튼 이벤트
-	$(".p").click(function() {
-		var n= $(this).attr("data-list-pn");
-		$("#pageNum").val(n);
-		$('#adminNoticeSearchForm').submit(); 
+	// 페이징 세팅
+	setPagingParam($('#searchGbParam').val(), $('#pageNumParam').val());
+
+	// 초기 화면
+	syncNoticeLimitUI();
+	switchToInsertMode();
+
+	// 페이징 버튼
+	$(document).on('click', '.p', function () {
+		var n = $(this).attr('data-list-pn');
+		$('#pageNum').val(n);
+		$('#adminNoticeSearchForm').submit();
 	});
-	
-	// 조회 버튼 이벤트
-	$('#btnSearch').on('click', function() {
-		$('#adminNoticeSearchForm').submit(); 
+
+	// 조회
+	$('#btnSearch').on('click', function () {
+		$('#pageNum').val(1);
+		$('#adminNoticeSearchForm').submit();
 	});
-	
-	// 엔터키 이벤트
-	$('#searchTxt').on('keydown', function(e) {
-	    if (e.key === 'Enter') {
-	        $('#btnSearch').trriger('click');
-	    }
+
+	// 초기화
+	$('#btnReset').on('click', function () {
+		$('#searchGb').val('noticeTitle');
+		$('#searchTxt').val('');
+		$('#pageNum').val(1);
+		$('#adminNoticeSearchForm').submit();
 	});
-	// 페이징 이벤트 [E]
-	
-	// 공지사항ID 생성 [S]
-	$('#getNoticeId').on('click', function() {
-		var url = '/admin/uniqueId.do';
-		var params = {}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
+
+	// 엔터 조회
+	$('#searchTxt').on('keydown', function (e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			$('#btnSearch').trigger('click');
+		}
+	});
+
+	// 공지사항 번호 생성
+	$('#getNoticeId').on('click', function () {
+		ajaxStart('/admin/uniqueId.do', {}, 'json', function (data) {
 			var result = data.result;
-			if ( !isEmpty(result) ) {
+
+			if (!isEmpty(result)) {
 				$('#noticeId').val(result);
 				$('#regId').val($('#adminId').val());
-				$('#regDt').val($('#nowDate').val());
+				$('#regDt').val(toDisplayDatetime($('#nowDate').val()));
 			} else {
 				$('#noticeId').val('');
+				alert('공지사항 번호 생성에 실패했습니다.');
 			}
 		});
 	});
-	// 공지사항ID 생성 [E]
-	
-	// 토글 변경 [S]
-	syncNoticeLimitUI();
 
+	// 기한설정 토글
 	$('#noticeLimitYn').on('change', syncNoticeLimitUI);
-	// 토글 변경 [E]
 
-	// 그리드 더블클릭 이벤트
-	var pendingTeamCd =  '';
-	var pendingPositionCd = '';
-	$('.adminNoticeInfoTr').on('dblclick', function() {
-		
-		// ✅ 선택 행 배경 고정
+	// 공지사항 상세 더블클릭
+	$('.adminNoticeInfoTr').on('dblclick', function () {
+
+		var noticeId = $(this).data('id');
+
+		if (isEmpty(noticeId)) {
+			alert('공지사항 번호가 없습니다.');
+			return;
+		}
+
 		$('.adminNoticeInfoTr').removeClass('is-selected');
 		$(this).addClass('is-selected');
-		
-		$('#btnUpd').show();
-		$('#btnDel').show();
-		$('#btnReg').hide();
-		$('#btnNew').show();
-		
-		$('#adminIdChkBtn').hide();
-		$('#adminId').attr('readonly', true);
-		
-		$('.hint').hide();
-		$('.error').hide();
-		
-		var rowKey = $(this).data('rowkey');
-		var adminNo = $(this).data('no');
-		var adminId = $(this).data('id');
-		
-	  	var url = '/admin/userInfo.do';
-	  	var params = { 
-			adminNo: adminNo
-		  , adminId : adminId
-		 };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-			
-			var adminInfo = data.adminInfo;
-			
-			if ( !isEmpty(adminInfo) ) {
-				
-				var adminNo = adminInfo.adminNo
-				var adminId = adminInfo.adminId
-				var adminNm = adminInfo.adminNm
-				var adminPh = adminInfo.adminPh
-				var adminPostCd = adminInfo.adminPostCd
-				var adminAddress = adminInfo.adminAddress
-				var adminDAddress = adminInfo.adminDAddress
-				var adminDeptCd = adminInfo.adminDeptCd
-				var adminTeamCd = adminInfo.adminTeamCd
-				var adminPositionCd = adminInfo.adminPositionCd
-				var adminCn = adminInfo.adminCn
-				var adminGender = adminInfo.adminGender
-				var adminGradeCd = adminInfo.adminGradeCd
-				var adminEmail = adminInfo.adminEmail
-
-				$('#adminNo').val(adminNo);
-				
-				$('#adminId').val(adminId);
-				$('#adminIdOrg').val(adminId);
-				
-				$('#adminNm').val(adminNm);
-				$('#adminEmail').val(adminEmail);
-
-				$('#adminPh').val(adminPh);
-				$('#adminPostCd').val(adminPostCd);
-				$('#adminAddress').val(adminAddress);
-				$('#adminDAddress').val(adminDAddress);
-				
-				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				pendingTeamCd = adminTeamCd || '';
-				pendingPositionCd = adminPositionCd || '';
-
-				$('#adminGradeCd').val(adminGradeCd).trigger('change');
-
-				setGender(adminGender);
-				$('#adminCn').val(adminCn);
-				
-			} else {
+	
+		var url ='/admin/noticeInfo.do';
+		var param = { noticeId: noticeId }
+		var dataType = 'json'
+		ajaxStart(url, param, dataType, function (data) {
+			if ( Number(data.result) <= 0 ) {
 				goToUri('/admin/error.do');
+				return;
 			}
+
+			fillNoticeForm(data.adminNoticeInfo);
+			renderSavedFiles(data.adminNoticeFileList || []);
+			clearNewFiles();
+			$('#delFileNos').val('');
+
+			switchToUpdateMode();
 		});
 	});
-	
-	// 신규 버튼 이벤트
-	$('#btnNew').on('click', function() {
-		
-		$('#btnUpd').hide();
-		$('#btnDel').hide();
-		$('#btnReg').show();
-		$('#btnNew').hide();
-		$('#adminIdChkBtn').show();
-		
-		$('#adminId').attr('readonly', false);
-		
-		$('#adminNo').val('');
-		$('#adminId').val('');
-		$('#adminNm').val('');
-		$('#adminPh').val('');
-		$('#adminPostCd').val('');
-		$('#adminAddress').val('');
-		$('#adminDAddress').val('');
-		$('#adminDeptCd').val('').trigger('change');
-		$('#adminTeamCd').val('');
-		$('#adminPositionCd').val('');
-		$('#adminGradeCd').val('');
-		$('input[name="adminGender"][value="M"]').prop('checked', true);
-		$('#adminCn').val('');
-		$('#adminIdChk').val('');
-		
+
+	// 신규
+	$('#btnNew').on('click', function () {
+		resetNoticeForm();
+		switchToInsertMode();
 	});
-	
-	// 관리자 공지사항 등록, 수정 이벤트
+
+	// 저장 / 수정
 	$('#btnReg, #btnUpd').on('click', function () {
 
-		let mode = $(this).val();
-		let url = '';
+		var mode = $(this).val();
+		var url = '';
 
 		if (mode === 'I') {
 			if (!confirm('공지사항을 등록하시겠습니까?')) return;
@@ -183,196 +119,376 @@ $(function () {
 			url = '/admin/noticeUpd.do';
 		}
 
-		const formData = new FormData();
+		var formData = buildNoticeFormData();
+		if (!formData) return;
 
-		formData.append("noticeId", $('#noticeId').val());
-		formData.append("regId", $('#regId').val());
-		formData.append("regDt", $('#regDt').val());
-		formData.append("noticeCn", $('#fDesc').val());
+		ajaxWithFileStart(url, formData, function (data) {
+			var result = Number(data.result);
 
-		formData.append("noticeFixYn", $('#noticeFixYn').is(':checked') ? 'Y' : 'N');
-		formData.append("noticePopYn", $('#noticePopYn').is(':checked') ? 'Y' : 'N');
-		formData.append("noticeLimitYn", $('#noticeLimitYn').is(':checked') ? 'Y' : 'N');
+			if (result > 0) {
+				alert(mode === 'I' ? '등록되었습니다.' : '수정되었습니다.');
+				window.location.reload();
+			} else {
+				alert(data.resultMsg || '처리에 실패했습니다.');
+			}
+		});
+	});
 
-		formData.append("notcieStrDt", $('#notcieStrDt').val());
-		formData.append("notcieEndDt", $('#notcieEndDt').val());
+	// 공지사항 삭제
+	$('#btnDel').on('click', function () {
 
-		formData.append("delFileNos", $('#delFileNos').val());
+		var noticeId = $('#noticeId').val();
 
-		const files = $('#adminFiles')[0].files;
-
-		if (files.length > 5) {
-			alert('첨부파일은 최대 5개까지 가능합니다.');
+		if (isEmpty(noticeId)) {
+			alert('삭제할 공지사항을 선택하세요.');
 			return;
 		}
 
-		for (let i = 0; i < files.length; i++) {
-			formData.append("adminFiles", files[i]);
-		}
-		
-		var params = formData
-		ajaxWithFileStart(url, params, function(data) {
+		if (!confirm('공지사항을 삭제하시겠습니까?')) return;
+
+		ajaxStart('/admin/noticeDel.do', { noticeId: noticeId }, 'json', function (data) {
 			var result = Number(data.result);
-			console.log("result===", result);
+
+			if (result > 0) {
+				alert('삭제되었습니다.');
+				window.location.reload();
+			} else {
+				alert(data.resultMsg || '삭제에 실패했습니다.');
+			}
 		});
 	});
-	
-	// 파일 삭제 이벤트
-	$('.btnFileDel').on('click', function () {
 
-		const fileNo = $(this).closest('.attach-item').data('file-no');
-
-		const isUpdateMode = $('#btnUpd').is(':visible');
-
-		if (!confirm('파일을 삭제하시겠습니까?')) return;
-
-		// 수정 상태 → 서버 즉시 삭제
-		if (isUpdateMode) {
-
-			ajaxStart(
-				'/admin/noticeFileDel.do',
-				{ fileNo: fileNo },
-				'json',
-				function (data) {
-
-					if (data.result > 0) {
-						alert('삭제되었습니다.');
-						$('[data-file-no="'+fileNo+'"]').remove();
-					}
-				}
-			);
-
-		} 
-		// 신규 상태 → 화면만 삭제
-		else {
-
-			let delList = $('#delFileNos').val();
-
-			if (delList) {
-				delList += ',' + fileNo;
-			} else {
-				delList = fileNo;
-			}
-
-			$('#delFileNos').val(delList);
-
-			$('[data-file-no="'+fileNo+'"]').remove();
-		}
-
+	// 저장된 파일 다운로드
+	$(document).on('click', '.btnFileDown', function () {
+		var fileNo = $(this).closest('.attach-item').data('file-no');
+		if (isEmpty(fileNo)) return;
+		window.location.href = '/admin/fileDownload.do?fileNo=' + encodeURIComponent(fileNo);
 	});
-	
-	// 파일 다운로드 이벤트
-	$('.btnFileDown').on('click',function () {
-		const fileNo = $(this).closest('.attach-item').data('file-no');
-		window.location.href = '/admin/fileDownload.do?fileNo=' + fileNo;
+
+	// 저장된 파일 삭제목록 추가
+	$(document).on('click', '.btnFileDel', function () {
+		var $item = $(this).closest('.attach-item');
+		var fileNo = String($item.data('file-no') || '');
+
+		if (!fileNo) return;
+
+		if (!confirm('이 파일을 삭제 목록에 추가하시겠습니까?\n수정 버튼을 눌러야 실제 반영됩니다.')) return;
+
+		appendDelFileNo(fileNo);
+		$item.remove();
+		toggleSavedFileHint();
 	});
 
 	// 파일 선택 버튼
-	$( '#btnPickFiles').on('click', function () {
-	  $('#adminFiles').trigger('click');
+	$('#btnPickFiles').on('click', function () {
+		$('#adminFiles').trigger('click');
 	});
 
-	// 파일 선택 변경
+	// 파일 선택 - 기존 선택 유지 + 누적 추가
 	$('#adminFiles').on('change', function () {
-		const input = this;
-		const files = Array.from(input.files);
+		var input = this;
+		var newFiles = Array.from(input.files || []);
 
-		const allowExt = ['jpg','jpeg','png','gif','webp','bmp'];
-		const maxFileCnt = 5;
+		if (newFiles.length === 0) {
+			return;
+		}
 
-		let validFiles = [];
+		var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
+		var remainSavedCount = $('#savedFileList .attach-item').length;
 
-		for (let f of files) {
-			let ext = f.name.split('.').pop().toLowerCase();
+		// 확장자 체크
+		for (var i = 0; i < newFiles.length; i++) {
+			var ext = newFiles[i].name.indexOf('.') > -1 ? newFiles[i].name.split('.').pop().toLowerCase() : '';
 
-			if (!allowExt.includes(ext)) {
-				alert('이미지 파일만 업로드 가능합니다.');
+			if ($.inArray(ext, allowExt) === -1) {
+				alert(typeof fileExtImgChk !== 'undefined' ? fileExtImgChk : '이미지 파일만 업로드 가능합니다.');
 				input.value = '';
 				return;
 			}
-
-			validFiles.push(f);
 		}
 
-		if (validFiles.length > maxFileCnt) {
-			alert('첨부파일은 최대 5개까지 가능합니다.');
+		// 기존 선택 파일 + 새 선택 파일 합치기
+		var mergedFiles = selectedAdminFiles.slice();
+
+		$.each(newFiles, function (_, file) {
+			var exists = mergedFiles.some(function (f) {
+				return f.name === file.name
+					&& f.size === file.size
+					&& f.lastModified === file.lastModified;
+			});
+
+			if (!exists) {
+				mergedFiles.push(file);
+			}
+		});
+
+		// 저장된 파일 + 신규 선택 파일 최대 5개 제한
+		if (remainSavedCount + mergedFiles.length > 5) {
+			alert(typeof fileLengthFiveChk !== 'undefined' ? fileLengthFiveChk : '첨부파일은 최대 5개까지 가능합니다.');
 			input.value = '';
 			return;
 		}
-		
-  		refreshNewFilesUI();
-	});
 
-	// 선택 파일 제거
-	$('.btnNewFileRemove').on('click', function () {
-	  const idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
-	  if (!isNaN(idx)) removeNewFileByIndex(idx);
-	});
+		selectedAdminFiles = mergedFiles;
 
+		syncAdminFilesInput();
+		refreshNewFilesUI();
+	});
+	
+	// 새 파일 제거
+	$(document).on('click', '.btnNewFileRemove', function () {
+		var idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
+		if (!isNaN(idx)) {
+			removeNewFileByIndex(idx);
+		}
+	});
 });
 
+/*******************************
+* 공지사항 FormData 생성
+********************************/
+function buildNoticeFormData() {
+
+	var noticeId = $.trim($('#noticeId').val());
+	var regId = $.trim($('#regId').val());
+	var noticeCn = $.trim($('#fDesc').val());
+
+	var noticeLimitYn = $('#noticeLimitYn').is(':checked') ? 'Y' : 'N';
+	var notcieStrDt = $('#notcieStrDt').val();
+	var notcieEndDt = $('#notcieEndDt').val();
+
+	var files = selectedAdminFiles;
+	var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+
+	var remainSavedCount = $('#savedFileList .attach-item').length;
+	var totalCount = remainSavedCount + files.length;
+
+	if (isEmpty(noticeId)) {
+		alert('공지사항 번호를 먼저 생성하세요.');
+		return null;
+	}
+
+	if (isEmpty(regId)) {
+		alert('작성자 정보가 없습니다.');
+		return null;
+	}
+
+	if (isEmpty(noticeCn)) {
+		alert('공지사항 내용을 입력하세요.');
+		$('#fDesc').focus();
+		return null;
+	}
+
+	if (noticeLimitYn === 'Y') {
+		if (isEmpty(notcieStrDt) || isEmpty(notcieEndDt)) {
+			alert('기한설정 사용 시 시작날짜와 종료날짜를 모두 입력하세요.');
+			return null;
+		}
+
+		if (notcieStrDt > notcieEndDt) {
+			alert('종료날짜는 시작날짜보다 빠를 수 없습니다.');
+			return null;
+		}
+	}
+
+	if (totalCount > 5) {
+		alert(typeof fileLengthFiveChk !== 'undefined' ? fileLengthFiveChk : '첨부파일은 최대 5개까지 가능합니다.');
+		return null;
+	}
+
+	var formData = new FormData();
+
+	formData.append('noticeId', noticeId);
+	formData.append('regId', regId);
+	formData.append('regDt', $('#regDt').val());
+	formData.append('noticeCn', noticeCn);
+
+	formData.append('noticeFixYn', $('#noticeFixYn').is(':checked') ? 'Y' : 'N');
+	formData.append('noticePopYn', $('#noticePopYn').is(':checked') ? 'Y' : 'N');
+	formData.append('noticeLimitYn', noticeLimitYn);
+
+	formData.append('notcieStrDt', notcieStrDt);
+	formData.append('notcieEndDt', notcieEndDt);
+
+	formData.append('delFileNos', $('#delFileNos').val());
+
+	for (var i = 0; i < files.length; i++) {
+		var file = files[i];
+		var fileName = file.name || '';
+		var ext = fileName.indexOf('.') > -1 ? fileName.split('.').pop().toLowerCase() : '';
+
+		if ($.inArray(ext, allowExt) === -1) {
+			alert(typeof fileExtImgChk !== 'undefined' ? fileExtImgChk : '이미지 파일만 업로드 가능합니다.');
+			return null;
+		}
+
+		formData.append('adminFiles', file);
+	}
+
+	return formData;
+}
 
 /*******************************
-* FuntionNm : formatBytes
-* Date : 2026.02.15
-* Author : CJS
-* Description : 첨부파일 파일 크기 계산
-* PARAM : bytes
+* 상세 폼 채우기
+********************************/
+function fillNoticeForm(noticeInfo) {
+	$('#noticeId').val(noticeInfo.noticeId || '');
+	$('#regId').val(noticeInfo.regId || '');
+	$('#regDt').val(toDisplayDatetime(noticeInfo.regDt));
+	$('#fDesc').val(noticeInfo.noticeCn || '');
+
+	$('#noticeFixYn').prop('checked', noticeInfo.noticeFixYn === 'Y');
+	$('#noticePopYn').prop('checked', noticeInfo.noticePopYn === 'Y');
+	$('#noticeLimitYn').prop('checked', noticeInfo.noticeLimitYn === 'Y');
+
+	$('#notcieStrDt').val(toDatetimeLocalValue(noticeInfo.notcieStrDt));
+	$('#notcieEndDt').val(toDatetimeLocalValue(noticeInfo.notcieEndDt));
+
+	syncNoticeLimitUI();
+}
+
+/*******************************
+* 화면 초기화
+********************************/
+function resetNoticeForm() {
+
+	$('.adminNoticeInfoTr').removeClass('is-selected');
+
+	$('#noticeId').val('');
+	$('#regId').val('');
+	$('#regDt').val('');
+	$('#fDesc').val('');
+
+	$('#noticeFixYn').prop('checked', false);
+	$('#noticePopYn').prop('checked', false);
+	$('#noticeLimitYn').prop('checked', false);
+
+	$('#notcieStrDt').val('');
+	$('#notcieEndDt').val('');
+
+	$('#delFileNos').val('');
+
+	renderSavedFiles([]);
+	clearNewFiles();
+	syncNoticeLimitUI();
+}
+
+/*******************************
+* 입력 모드 전환
+********************************/
+function switchToInsertMode() {
+	$('#btnReg').show();
+	$('#btnUpd').hide();
+	$('#btnDel').hide();
+	$('#btnNew').hide();
+	$('#getNoticeId').prop('disabled', false);
+}
+
+/*******************************
+* 수정 모드 전환
+********************************/
+function switchToUpdateMode() {
+	$('#btnReg').hide();
+	$('#btnUpd').show();
+	$('#btnDel').show();
+	$('#btnNew').show();
+	$('#getNoticeId').prop('disabled', true);
+}
+
+/*******************************
+* 삭제 파일 번호 누적
+********************************/
+function appendDelFileNo(fileNo) {
+	var raw = $('#delFileNos').val();
+	var arr = raw ? raw.split(',') : [];
+
+	if ($.inArray(String(fileNo), arr) === -1) {
+		arr.push(String(fileNo));
+	}
+
+	$('#delFileNos').val(arr.join(','));
+}
+
+/*******************************
+* 저장 파일 없을 때 힌트
+********************************/
+function toggleSavedFileHint() {
+	if ($('#savedFileList .attach-item').length === 0) {
+		$('#savedFileHint').show();
+	} else {
+		$('#savedFileHint').hide();
+	}
+}
+
+/*******************************
+* 바이트 포맷
 ********************************/
 function formatBytes(bytes) {
 	if (!bytes && bytes !== 0) return '';
-	const units = ['B','KB','MB','GB','TB'];
-	let i = 0, n = bytes;
-	while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+	var units = ['B', 'KB', 'MB', 'GB', 'TB'];
+	var i = 0;
+	var n = bytes;
+
+	while (n >= 1024 && i < units.length - 1) {
+		n /= 1024;
+		i++;
+	}
+
 	return (i === 0 ? n : n.toFixed(1)) + ' ' + units[i];
 }
 
 /*******************************
-* FuntionNm : refreshNewFilesUI
-* Date : 2026.02.15
-* Author : CJS
-* Description : 첨부파일 첨부시 추가
-* PARAM :
+* 선택 파일 input 동기화
 ********************************/
-function refreshNewFilesUI() {
-	const input = document.getElementById('adminFiles');
-  	const files = input.files ? Array.from(input.files) : [];
+function syncAdminFilesInput() {
+	var input = document.getElementById('adminFiles');
+	var dt = new DataTransfer();
 
-  	const $list = $('#newFileList');
-  	$list.empty();
+	$.each(selectedAdminFiles, function (_, file) {
+		dt.items.add(file);
+	});
 
-  	if (files.length === 0) {
-    	$('#adminFilesSummary').text('선택된 파일 없음');
-    	return;
-  	}
-
-  	$('#adminFilesSummary').text('선택됨: ' + files.length + '개');
-
-	files.forEach((f, idx) => {
-    	$list.append(`
-	      <li class="attach-item" data-new-idx="${idx}">
-	        <div class="attach-left">
-	          <div class="attach-name" title="${f.name}">${f.name}</div>
-	          <div class="attach-meta">${formatBytes(f.size)}</div>
-	        </div>
-	        <div class="attach-actions">
-	          <button type="button" class="btn-mini remove btnNewFileRemove">제거</button>
-	        </div>
-	      </li>
-    	`);
-  	});
+	input.files = dt.files;
 }
 
 /*******************************
-* FuntionNm : refreshNewFilesUI
-* Date : 2026.02.15
-* Author : CJS
-* Description : 첨부파일 다운로드 추가
-* PARAM :
+* 새 파일 목록 렌더
+********************************/
+function refreshNewFilesUI() {
+
+	var files = selectedAdminFiles || [];
+	var $list = $('#newFileList');
+
+	$list.empty();
+
+	if (files.length === 0) {
+		$('#adminFilesSummary').text('선택된 파일 없음');
+		return;
+	}
+
+	$('#adminFilesSummary').text('선택됨: ' + files.length + '개');
+
+	$.each(files, function (idx, f) {
+		$list.append(
+			'<li class="attach-item" data-new-idx="' + idx + '">' +
+				'<div class="attach-left">' +
+					'<div class="attach-name" title="' + escapeHtml(f.name) + '">' + escapeHtml(f.name) + '</div>' +
+					'<div class="attach-meta">' + formatBytes(f.size) + '</div>' +
+				'</div>' +
+				'<div class="attach-actions">' +
+					'<button type="button" class="btn-mini remove btnNewFileRemove">제거</button>' +
+				'</div>' +
+			'</li>'
+		);
+	});
+}
+
+/*******************************
+* 저장 파일 목록 렌더
 ********************************/
 function renderSavedFiles(fileList) {
 
-	const $list = $('#savedFileList');
+	var $list = $('#savedFileList');
 	$list.empty();
 
 	if (!fileList || fileList.length === 0) {
@@ -382,115 +498,101 @@ function renderSavedFiles(fileList) {
 
 	$('#savedFileHint').hide();
 
-	fileList.forEach(function (file) {
-
-		$list.append(`
-			<li class="attach-item" data-file-no="${file.fileNo}">
-				<div class="attach-left">
-					<div class="attach-name">${file.fileOrgNm}</div>
-				</div>
-				<div class="attach-actions">
-					<button class="btn-mini download btnFileDown">다운</button>
-					<button class="btn-mini remove btnFileDel">삭제</button>
-				</div>
-			</li>
-		`);
-
+	$.each(fileList, function (_, file) {
+		$list.append(
+			'<li class="attach-item" data-file-no="' + file.fileNo + '">' +
+				'<div class="attach-left">' +
+					'<div class="attach-name" title="' + escapeHtml(file.fileOrgNm) + '">' + escapeHtml(file.fileOrgNm) + '</div>' +
+					'<div class="attach-meta">' + formatBytes(file.fileSize) + '</div>' +
+				'</div>' +
+				'<div class="attach-actions">' +
+					'<button type="button" class="btn-mini download btnFileDown">다운</button>' +
+					'<button type="button" class="btn-mini remove btnFileDel">삭제</button>' +
+				'</div>' +
+			'</li>'
+		);
 	});
 }
 
 /*******************************
-* FuntionNm : syncNoticeLimitUI
-* Date : 2026.02.15
-* Author : CJS
-* Description : 기한설정 토글 기능
-* PARAM : 
+* 기한설정 토글
 ********************************/
 function syncNoticeLimitUI() {
 	var on = $('#noticeLimitYn').is(':checked');
 
-  	$('#notcieStrDt, #notcieEndDt').prop('disabled', !on);
+	$('#notcieStrDt, #notcieEndDt').prop('disabled', !on);
+	$('#lblNotcieStrDt, #lblNotcieEndDt').toggleClass('required', on);
 
- 	// 필수표시(별표) 토글
-  	$('#lblNotcieStrDt, #lblNotcieEndDt').toggleClass('required', on);
-
-  	// OFF면 값 비움(원치 않으면 제거)
-  	if (!on) {
-    	$('#notcieStrDt, #notcieEndDt').val('');
-  	}
+	if (!on) {
+		$('#notcieStrDt, #notcieEndDt').val('');
+	}
 }
 
 /*******************************
-* FuntionNm : removeNewFileByIndex
-* Date : 2026.02.15
-* Author : CJS
-* Description : 첨부파일 제거
-* PARAM : removeIdx
+* 새 파일 제거
 ********************************/
 function removeNewFileByIndex(removeIdx) {
-	const input = document.getElementById('adminFiles');
-  	const files = input.files ? Array.from(input.files) : [];
-  	const dt = new DataTransfer();
-
-	files.forEach((f, idx) => {
-  		if (idx !== removeIdx) dt.items.add(f);
+	selectedAdminFiles = selectedAdminFiles.filter(function (_, idx) {
+		return idx !== removeIdx;
 	});
 
-  	input.files = dt.files;
- 	refreshNewFilesUI();
+	syncAdminFilesInput();
+	refreshNewFilesUI();
 }
 
 /*******************************
-* FuntionNm : clearNewFiles
-* Date : 2026.02.15
-* Author : CJS
-* Description : 첨부파일 비우시
-* PARAM : 
+* 새 파일 초기화
 ********************************/
 function clearNewFiles() {
-	$('#adminFiles').val('');
-  	$('#newFileList').empty();
-  	$('#adminFilesSummary').text('선택된 파일 없음');
+	selectedAdminFiles = [];
+	syncAdminFilesInput();
+	$('#newFileList').empty();
+	$('#adminFilesSummary').text('선택된 파일 없음');
 }
 
 /*******************************
-* FuntionNm : setGender
-* Date : 2026.02.15
-* Author : CJS
-* Description : 성별 셋팅 함수 (checkbox 단일 선택용)
-* PARAM : adminGender : 성별 값
-********************************/
-function setGender(adminGender) {
-
-  // 일단 전체 해제
-  $('.gender-check').prop('checked', false);
-
-  // 값이 없으면 끝
-  if (!adminGender) return;
-
-  // 해당 값만 체크 (M / F)
-  var target = $('.gender-check[value="' + adminGender + '"]');
-  target.prop('checked', true).trigger('change');
-  
-}
-
-/*******************************
-* FuntionNm : setPagingParam
-* Date : 2026.02.15
-* Author : CJS
-* Description : 페이징 진행 후 페이징 데이터 세팅 함수
-* PARAM : kind : 조회 조건, pageNum : 조회 페이지 번호
+* 페이징 표시
 ********************************/
 function setPagingParam(searchGb, pageNum) {
-	$(".s").each(function() {
-		if( $(this).val() === searchGb ){
-			$(this).prop("selected", true);
+	$('.s').each(function () {
+		if ($(this).val() === searchGb) {
+			$(this).prop('selected', true);
 		}
-	})
-	
-	$(".p").each(function() {
-		if( $(this).attr("data-list-pn") === pageNum ){
+	});
+
+	$('.p').each(function () {
+		if ($(this).attr('data-list-pn') === pageNum) {
 			$(this).addClass('active');
 		}
-	})
-};
+	});
+}
+
+/*******************************
+* datetime-local 변환
+********************************/
+function toDatetimeLocalValue(value) {
+	if (!value) return '';
+	var s = String(value).trim().replace(' ', 'T');
+	return s.length >= 16 ? s.substring(0, 16) : s;
+}
+
+/*******************************
+* 일반 텍스트 날짜 변환
+********************************/
+function toDisplayDatetime(value) {
+	if (!value) return '';
+	return String(value).replace('T', ' ').substring(0, 19);
+}
+
+/*******************************
+* escape
+********************************/
+function escapeHtml(str) {
+	if (str == null) return '';
+	return String(str)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;');
+}

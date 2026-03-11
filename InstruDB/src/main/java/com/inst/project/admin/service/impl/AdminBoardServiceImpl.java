@@ -1,7 +1,9 @@
 package com.inst.project.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,11 +48,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			pager.makeRow();
 			
 			// 관리자 공지사항 총 건수 조회
-			Long totalCount = adminBoardMapper.selectAdmionNoticeTotalCount( pager );
+			Long totalCount = adminBoardMapper.selectAdminNoticeTotalCount( pager );
 			pager.makeNum(totalCount);
 	    	
 			// 관리자 공지사항 조회
-	    	List<AdminNoticeDTO> adminNoticeList = adminBoardMapper.selectAdmionNotice( pager );
+	    	List<AdminNoticeDTO> adminNoticeList = adminBoardMapper.selectAdminNotice( pager );
 		    if ( adminNoticeList == null ) {
 		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 		        return null;
@@ -60,7 +62,49 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	        return adminNoticeList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminBoardServiceImpl ] : selectAdmionNotice failed.");
+	        log.error("[ AdminBoardServiceImpl ] selectAdmionNotice failed : {}", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminNoticeInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공지사항 상세 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public Map<String, Object> selectAdminNoticeInfo(AdminNoticeDTO adminNoticeDTO) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminNoticeInfo ");
+
+	    try {
+	    	
+	    	Map<String, Object> result = new HashMap<>();
+	    	
+	    	// 관리자 공지사항 상세 조회
+	    	AdminNoticeDTO adminNoticeInfo = adminBoardMapper.selectAdminNoticeInfo(adminNoticeDTO);
+	    	
+	    	// 관리자 공지사항 첨부파일 리스트 조회
+			List<AdminFileDTO> adminNoticeFileList = adminBoardMapper.selectAdminNoticeFiles(adminNoticeDTO);
+
+		    if ( adminNoticeInfo == null && adminNoticeFileList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+		    
+		    result.put("adminNoticeInfo", adminNoticeInfo);
+		    result.put("adminNoticeFileList", adminNoticeFileList);
+		    
+	        return result;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminBoardServiceImpl ] selectAdminNoticeInfo failed : {}", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -83,27 +127,22 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	    int result = 0;
 
-	    // 업로드 경로
 	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
 
-	    // 저장된 파일 목록 (롤백용)
 	    List<AdminFileDTO> savedFiles = new ArrayList<>();
 
 	    try {
 
-	        // 1. 공지사항 저장
 	        result = adminBoardMapper.insertAdminNotice(adminNoticeDTO);
 
 	        if (result <= 0) {
 	            throw new RuntimeException("공지사항 등록 실패");
 	        }
 
-	        // 2. 파일 없는 경우 종료
 	        if (files == null || files.length == 0) {
 	            return result;
 	        }
 
-	        // 3. 파일 개수 제한
 	        if (files.length > 5) {
 	            throw new RuntimeException("첨부파일은 최대 5개까지 가능합니다.");
 	        }
@@ -114,7 +153,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	                continue;
 	            }
 
-	            // 4. 파일 저장
 	            AdminFileDTO adminFileDTO = FileUtil.saveImageFile(file, basePath);
 
 	            if (adminFileDTO == null) {
@@ -126,10 +164,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	            adminFileDTO.setRefId(adminNoticeDTO.getNoticeId());
 	            adminFileDTO.setRegId(adminNoticeDTO.getRegId());
 
-	            // 롤백용 저장
 	            savedFiles.add(adminFileDTO);
 
-	            // 5. DB 저장
 	            int fileResult = adminBoardMapper.insertAdminFile(adminFileDTO);
 
 	            if (fileResult <= 0) {
@@ -141,27 +177,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	        return result;
 
 	    } catch (Exception e) {
-
-	        log.error("[AdminBoardServiceImpl] adminNoticeReg error", e);
-
-	        // 6. 저장된 파일 삭제 (롤백)
+	    	
+	        log.error("[ AdminBoardServiceImpl ] adminNoticeReg failed : {}", e);
+	        
 	        for (AdminFileDTO fileDTO : savedFiles) {
-
 	            try {
-
 	                FileUtil.deleteFile( fileDTO.getFilePath(), fileDTO.getFileNm() );
-
 	            } catch (Exception ex) {
-
-	                log.error("[FileRollback] 파일 삭제 실패 : {}", fileDTO.getFileNm());
-
+	                log.error("[ FileRollback ] 파일 삭제 실패 : {}", fileDTO.getFileNm());
 	            }
-
 	        }
-
-	        throw new RuntimeException("공지사항 등록 중 오류 발생", e);
+	        
+	        return 0;
 	    }
+
 	}
 
-	
 }

@@ -5,24 +5,26 @@
 <mapper namespace="com.inst.project.admin.service.impl.AdminBoardMapper">
 	
 	<!-- 관리자 공지사항 총 건수 조회 [S] -->
-	<select id="selectAdmionNoticeTotalCount" parameterType="PagerUtil" resultType="Long">
-		/*AdminMng_SQL.selectAdmionNoticeTotalCount*/
+	<select id="selectAdminNoticeTotalCount" parameterType="PagerUtil" resultType="Long">
+		/*AdminMng_SQL.selectAdminNoticeTotalCount*/
     	SELECT COUNT(*)
 	      FROM TB_NOTICE_INFO
 	    WHERE 1=1
 	        AND NOTICE_DEL_YN = 'N'
-	    <if test="searchGb == 'noticeTitle'">
-		    AND NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-	    <if test="searchGb == 'adminId'">
-			AND REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		<if test="searchTxt != null and searchTxt != ''">
+		    <if test="searchGb == 'noticeTitle'">
+			     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+			     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
 	</select>
 	<!-- 관리자 공지사항 건수 조회 [E] -->
 	
 	<!-- 관리자 공지사항 조회 [S] -->
-	<select id="selectAdmionNotice" parameterType="PagerUtil"  resultType="AdminNoticeDTO">
-		/*AdminMng_SQL.selectAdmionNotice*/
+	<select id="selectAdminNotice" parameterType="PagerUtil"  resultType="AdminNoticeDTO">
+		/*AdminMng_SQL.selectAdminNotice*/
 		SELECT A.NOTICE_ID
 				 , A.NOTICE_TITLE
 				 , A.NOTICE_CN
@@ -37,60 +39,21 @@
 				 , A.REG_DT
 				 , A.UPD_ID
 				 , A.UPD_DT
-				 , B.FILE_ID
-				 , B.FILE_ORG_NM
-				 , B.FILE_NM
-				 , B.FILE_PATH
-				 , B.FILE_SIZE
-				 , B.FILE_EXT
 		   FROM TB_NOTICE_INFO A
-     LEFT JOIN TB_FILE_INFO B
-    		   ON A.NOTICE_ID = B.REF_ID
 		 WHERE 1=1 
 		     AND A.NOTICE_DEL_YN = 'N'
-	    <if test="searchGb == 'noticeTitle'">
-		     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+		<if test="searchTxt != null and searchTxt != ''">
+		    <if test="searchGb == 'noticeTitle'">
+			     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+			     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
-	    <if test="searchGb == 'adminId'">
-		     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-         ORDER BY UPD_DT DESC 
-           LIMIT #{perPage} OFFSET #{startRow}
+          ORDER BY A.UPD_DT DESC 
+            LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 공지사항 조회 [E] -->
-	
-	<!-- 관리자 첨부파일 저장 [S] -->
-	<insert id="insertAdminFile" parameterType="AdminFileDTO">
-		/*AdminMng_SQL.insertAdminFile*/
-    	INSERT INTO TB_FILE_INFO (
-    		FILE_ID
-      	  , FILE_ORG_NM
-          , FILE_NM
-          , FILE_PATH
-       	  , FILE_SIZE
-          , FILE_EXT
-          , REF_TYPE
-          , REF_ID
-          , REG_ID
-          , REG_DT
-          , UPD_ID
-          , UPD_DT
-	    ) VALUES (
-            #{fileId}
-          , #{fileOrgNm}
-	      , #{fileNm}
-	      , #{filePath}
-	      , #{fileSize}
-	      , #{fileExt}
-	      , #{refType}
-	      , #{refId}
-	      , #{regId}
-	      , NOW()
-	      , #{updId}
-	      , NOW()
-	    )
-	</insert>
-	<!-- 관리자 첨부파일 저장 [E] -->
 	
 	<!-- 관리자 공지사항 저장 [S] -->
 	<insert id="insertAdminNotice" parameterType="AdminNoticeDTO">
@@ -129,5 +92,89 @@
 	</insert>
 	<!-- 관리자 공지사항 저장 [E] -->
 	
+	<!-- 관리자 첨부파일 저장 [S] -->
+	<insert id="insertAdminFile" parameterType="AdminFileDTO">
+		/*AdminMng_SQL.insertAdminFile*/
+    	INSERT INTO TB_FILE_INFO (
+    		FILE_ID
+      	  , FILE_ORG_NM
+          , FILE_NM
+          , FILE_PATH
+       	  , FILE_SIZE
+          , FILE_EXT
+          , REF_TYPE
+          , REF_ID
+          , FILE_THUMB_NM
+          , FILE_THUMB_PATH
+          , REG_ID
+          , REG_DT
+          , UPD_ID
+          , UPD_DT
+	    ) VALUES (
+            #{fileId}
+          , #{fileOrgNm}
+	      , #{fileNm}
+	      , #{filePath}
+	      , #{fileSize}
+	      , #{fileExt}
+	      , #{refType}
+	      , #{refId}
+	      , #{fileThumbNm}	      
+	      , #{fileThumbPath}	      
+	      , #{regId}
+	      , NOW()
+	      , #{updId}
+	      , NOW()
+	    )
+	</insert>
+	<!-- 관리자 첨부파일 저장 [E] -->
 	
+	<!-- 관리자 공지사항 상세 조회 [S] -->
+	<select id="selectAdminNoticeInfo" parameterType="AdminNoticeDTO"  resultType="AdminNoticeDTO">
+		/*AdminMng_SQL.selectAdminNoticeInfo*/
+		SELECT NOTICE_ID
+				 , NOTICE_TITLE
+				 , NOTICE_CN
+				 , NOTICE_FIX_YN
+				 , NOTICE_LIMIT_YN
+				 , NOTICE_STR_DT
+				 , NOTICE_END_DT 
+				 , NOTICE_FINISH_YN
+				 , NOTICE_DEL_YN
+				 , NOTICE_POP_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_NOTICE_INFO
+		WHERE 1=1 
+		    AND NOTICE_ID = #{noticeId}
+		    AND NOTICE_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 공지사항 상세 조회 [E] -->
+	
+	<!-- 관리자 공지사항 파일 조회 [S] -->
+	<select id="selectAdminNoticeFiles" parameterType="AdminNoticeDTO"  resultType="AdminFileDTO">
+		/*AdminMng_SQL.selectAdminNoticeFiles*/
+		SELECT FILE_ID
+	      	     , FILE_ORG_NM
+	             , FILE_NM
+	             , FILE_PATH
+	       	     , FILE_SIZE
+	             , FILE_EXT
+	             , REF_TYPE
+	             , REF_ID
+	             , FILE_THUMB_NM
+	             , FILE_THUMB_PATH
+	             , REG_ID
+	             , REG_DT
+	             , UPD_ID
+	             , UPD_DT
+		  FROM TB_FILE_INFO
+		WHERE 1=1
+		    AND REF_TYPE = 'NOTICE'
+		    AND REF_ID = #{noticeId}
+	</select>
+	<!-- 관리자 공지사항 파일 조회 [E] -->
+
 </mapper>

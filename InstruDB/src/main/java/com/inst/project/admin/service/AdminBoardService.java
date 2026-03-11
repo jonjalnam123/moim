@@ -1,6 +1,7 @@
 package com.inst.project.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,8 +15,13 @@ public interface AdminBoardService {
 	// 관리자 공지사항 조회
 	List<AdminNoticeDTO> selectAdmionNotice(PagerUtil pager);
 	
+	// 관리자 공지사항 상세조회
+	Map<String, Object> selectAdminNoticeInfo(AdminNoticeDTO adminNoticeDTO);
+	
 	// 관리자 공지사항 저장
 	int adminNoticeReg(AdminNoticeDTO adminNoticeDTO, MultipartFile[] files, HttpServletRequest req);
+
+
 
 
 }

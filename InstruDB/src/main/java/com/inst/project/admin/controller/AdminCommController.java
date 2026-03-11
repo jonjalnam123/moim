@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminErrorDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,10 +57,10 @@ public class AdminCommController {
 		LocalDateTime now = now();
 		adminErrorDTO.setAdminErrorDate(now);
 		
-		String adminErrorCd = "";
-		String adminErrorMsg = "";
+		String adminErrorCd = adminErrorDTO.getAdminErrorCd();
+		String adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
 		
-		if ( adminErrorCd.isEmpty() && adminErrorMsg.isEmpty() ) {
+		if ( CommonUtil.isBlank(adminErrorCd) && CommonUtil.isBlank(adminErrorMsg) ) {
 			adminErrorCd = GlobalConfig.RESULT_SYS_ERR_CD;
 			adminErrorMsg = GlobalConfig.RESULT_SYS_ERR_MSG;
 		} else {

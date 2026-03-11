@@ -59,8 +59,7 @@ public class FileUtil {
         }
 
         // 날짜 폴더 생성
-        String datePath = LocalDate.now()
-                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
         String uploadPath = basePath + "/" + datePath;
 
@@ -88,6 +87,8 @@ public class FileUtil {
         dto.setFilePath(uploadPath);
         dto.setFileSize(file.getSize());
         dto.setFileExt(ext);
+        dto.setFileThumbNm(thumbName);
+        dto.setFileThumbPath(uploadPath);
 
         return dto;
     }

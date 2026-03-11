@@ -60,7 +60,7 @@
 			            		</thead>
 				            	<tbody>
 				              		<c:forEach var="adminNotice" items="${adminNoticeList}" varStatus="cnt">
-				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
+				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-id="${adminNotice.noticeId}">
 				                  			<td><span>${adminNotice.regId}</span></td>
 				                  			<td><span>${adminNotice.regDt}</span></td>
 				                  			<td><span>${adminNotice.noticeCn}</span></td>
@@ -183,7 +183,7 @@
 					      		<div class="attach-head">업로드</div>
 					      		<div class="attach-body">
 						        	<div class="filebox">
-						          		<input type="file" id="adminFiles" name="adminFiles" multiple />
+						        		<input type="file" id="adminFiles" name="adminFiles" multiple accept="image/*" />
 						          		<button type="button" class="btn btn-file" id="btnPickFiles">첨부</button>
 						          		<div class="filename" id="adminFilesSummary">선택된 파일 없음</div>
 						        	</div>
@@ -191,7 +191,7 @@
 						       	 	<ul class="attach-list" id="newFileList"></ul>
 						
 						        	<small class="hint" style="display:block;">
-						          		여러 파일 선택 가능 (저장/수정 버튼 누를 때 함께 업로드)
+						          		이미지 파일만 첨부 가능 ( jpg, jpeg, png, gif, bmp, webp )
 						        	</small>
 					      		</div>
 					    	</div>

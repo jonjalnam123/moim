@@ -12,15 +12,27 @@ import com.inst.project.util.PagerUtil;
 public interface AdminBoardMapper {
 	
 	// 관리자 공지사항 총 건수 조회
-	Long selectAdmionNoticeTotalCount(PagerUtil pager);
+	Long selectAdminNoticeTotalCount(PagerUtil pager);
 
 	// 관리자 공지사항 조회
-	List<AdminNoticeDTO> selectAdmionNotice(PagerUtil pager);
+	List<AdminNoticeDTO> selectAdminNotice(PagerUtil pager);
+	
+	// 관리자 공지사항 상세 조회
+	AdminNoticeDTO selectAdminNoticeInfo(AdminNoticeDTO adminNoticeDTO);
+	
+	// 관리자 공지사항 첨부파일 리스트 조회
+	List<AdminFileDTO> selectAdminNoticeFiles(AdminNoticeDTO adminNoticeDTO);
 	
 	// 관리자 첨부파일 저장
 	int insertAdminFile(AdminFileDTO adminFileDTO);
 
 	// 관리자 공지사항 저장
 	int insertAdminNotice(AdminNoticeDTO adminNoticeDTO);
+
+
+
+
+
+
 
 }
