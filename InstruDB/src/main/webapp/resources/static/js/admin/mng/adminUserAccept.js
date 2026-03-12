@@ -109,6 +109,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert(acceptSuccess);
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');
@@ -143,6 +144,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert(rejectSuccess);
 				window.location.reload();
 			} else {			
 				goToUri('/admin/error.do');

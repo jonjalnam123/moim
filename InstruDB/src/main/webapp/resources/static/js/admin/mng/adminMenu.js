@@ -293,6 +293,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0 ) {
+				alert(btnVal === 'I' ? '메뉴' + regSuccess : '메뉴' + updSuccess);
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
@@ -323,6 +324,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert('메뉴' + delSuccess);
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';

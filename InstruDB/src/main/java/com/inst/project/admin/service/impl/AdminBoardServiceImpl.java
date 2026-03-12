@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.inst.project.admin.service.AdminBoardService;
@@ -124,73 +125,68 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int adminNoticeReg(AdminNoticeDTO adminNoticeDTO, MultipartFile[] files, HttpServletRequest req) {
-
+		log.info(" [ AdminMngServiceImpl ] : adminNoticeReg ");
+		
 	    int result = 0;
-
 	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
-
 	    List<AdminFileDTO> savedFiles = new ArrayList<>();
-
+	    
 	    try {
-
-	        result = adminBoardMapper.insertAdminNotice(adminNoticeDTO);
-
+	    	
+	    	result = adminBoardMapper.insertAdminNotice(adminNoticeDTO);
+	    	
 	        if (result <= 0) {
 	            throw new RuntimeException("공지사항 등록 실패");
 	        }
-
+	        
 	        if (files == null || files.length == 0) {
 	            return result;
 	        }
-
+	        
 	        if (files.length > 5) {
 	            throw new RuntimeException("첨부파일은 최대 5개까지 가능합니다.");
 	        }
-
+	        
 	        for (MultipartFile file : files) {
-
 	            if (file == null || file.isEmpty()) {
 	                continue;
 	            }
-
+	            
 	            AdminFileDTO adminFileDTO = FileUtil.saveImageFile(file, basePath);
-
 	            if (adminFileDTO == null) {
 	                throw new RuntimeException("파일 저장 실패");
 	            }
-
+	            
 	            adminFileDTO.setFileId(UUID.randomUUID().toString());
 	            adminFileDTO.setRefType("NOTICE");
 	            adminFileDTO.setRefId(adminNoticeDTO.getNoticeId());
 	            adminFileDTO.setRegId(adminNoticeDTO.getRegId());
-
+	            
 	            savedFiles.add(adminFileDTO);
-
+	            
 	            int fileResult = adminBoardMapper.insertAdminFile(adminFileDTO);
-
 	            if (fileResult <= 0) {
 	                throw new RuntimeException("파일 DB 저장 실패");
-	            }
-
+	            } 
 	        }
-
-	        return result;
-
-	    } catch (Exception e) {
-	    	
-	        log.error("[ AdminBoardServiceImpl ] adminNoticeReg failed : {}", e);
 	        
+	        return result;
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminBoardServiceImpl ] adminNoticeReg failed", e);
+
+	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
 	        for (AdminFileDTO fileDTO : savedFiles) {
 	            try {
-	                FileUtil.deleteFile( fileDTO.getFilePath(), fileDTO.getFileNm() );
+	                FileUtil.deleteFile(fileDTO.getFilePath(), fileDTO.getFileNm());
 	            } catch (Exception ex) {
-	                log.error("[ FileRollback ] 파일 삭제 실패 : {}", fileDTO.getFileNm());
+	                log.error("[ FileRollback ] 파일 삭제 실패 : {}", fileDTO.getFileNm(), ex);
 	            }
 	        }
-	        
+
 	        return 0;
 	    }
-
 	}
-
+	
 }

@@ -45,6 +45,7 @@ var joinProcConfirm 				= '가입요청을 진행하시겠습니까?'
 
 var joinProcSucc 					= '가입요청이 완료되었습니다. 관리자 승인을 기다려주세요.'
 var joinProcFail 					= '가입요청에 실패하였습니다. 관리자에게 문의해주세요.'
+var joinEmailChkTimeFail 		= '인증가능시간 3분이 초과되었습니다. 다시 이메일 인증을 진행해주세요.'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -63,6 +64,10 @@ var regProcConfirm	= '를(을) 저장하시겠습니까?';
 var updProcConfirm 	= '를(을) 수정하시겠습니까?';
 var delProcConfirm 	= '를(을) 삭제하시겠습니까?';
 
+var regSuccess 		= '가(이) 저장되었습니다.'
+var updSuccess 		= '가(이) 수정되었습니다.'
+var delSuccess 		= '가(이) 삭제되었습니다.'
+
 /*************************************************************
 * 작성자 : 최정석
 * 작성날짜 : 2025.08.08
@@ -71,6 +76,9 @@ var delProcConfirm 	= '를(을) 삭제하시겠습니까?';
 
 var acceptConfirm 	= '를(을) 승인하시겠습니까?'
 var rejectConfirm 		= '를(을) 반려하시겠습니까?'
+
+var acceptSuccess 	= '승인되었습니다.'
+var rejectSuccess  	= '반려되었습니다.'
 
 /*************************************************************
 * 작성자 : 최정석

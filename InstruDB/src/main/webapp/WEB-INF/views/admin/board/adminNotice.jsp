@@ -19,7 +19,7 @@
 	      		<div class="list-title"></div>
 	      		<div class="list-search">
 	        		<select id="searchGb" name=searchGb class="form-select">
-			          	<option class="s" value="noticeTitle">이름</option>
+			          	<option class="s" value="noticeTitle">제목</option>
 			          	<option class="s" value="adminId">아이디</option>
 	        		</select>
 	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
@@ -51,21 +51,19 @@
 			          		<table class="table-grid col-resize">
 				            	<thead>
 				              		<tr>
-				                		<th>작성자</th>
-				                		<th>작성날짜</th>
+				              			<th>작성자</th>
+				                		<th>제목</th>
 				                		<th>내용</th>
-				                		<th>팝업여부</th>
-				                		<th>기한여부</th>
+				                		<th>작성일시</th>
 				              		</tr>
 			            		</thead>
 				            	<tbody>
 				              		<c:forEach var="adminNotice" items="${adminNoticeList}" varStatus="cnt">
 				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-id="${adminNotice.noticeId}">
-				                  			<td><span>${adminNotice.regId}</span></td>
-				                  			<td><span>${adminNotice.regDt}</span></td>
+				                			<td><span>${adminNotice.regId}</span></td>
+				                  			<td><span>${adminNotice.noticeTitle}</span></td>
 				                  			<td><span>${adminNotice.noticeCn}</span></td>
-				                  			<td><span>${adminNotice.noticePopYn}</span></td>
-				                  			<td><span>${adminNotice.noticeLimitYn}</span></td>
+				                  			<td><span>${adminNotice.regDt}</span></td>
 				                		</tr>
 				              		</c:forEach>
 				            	</tbody>
@@ -108,20 +106,25 @@
 	            		<input id="noticeId" name="noticeId" class="form-control" type="text" readonly/>
 	            		<input type="button" class="btn btn-zip" id="getNoticeId" value="생성" style="color : white;">
 	          		</div>
-	          		
+    		
      			    <div class="field">
-	            		<label class="required" for="adminDAddress">작성자</label>
+	            		<label class="required" for="regId">작성자</label>
 	            		<input id="regId" name="regId" class="form-control" type="text" readonly/>
+	          		</div>
+
+	          		<div class="field">
+	            		<label class="required" for="regDt">작성일시</label>
+	            		<input id="regDt" name="regDt" class="form-control" type="text" readonly/>
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminPh">작성날짜</label>
-	            		<input id="regDt" name="regDt" class="form-control" type="text" readonly/>
+	            		<label class="required" for="noticeTitle">제목</label>
+	            		<input id="noticeTitle" name="noticeTitle" class="form-control" type="text"/>
 	          		</div>
 
 	          		<div class="field full">
-	            		<label for="fDesc">내용</label>
-	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
+	            		<label for="noticeCn">내용</label>
+	            		<textarea id="noticeCn" name="noticeCn" class="form-control" maxlength="300"></textarea>
 	          		</div>
 	          		
 	          		<!-- ✅ 옵션 토글(가로 배치): 상단고정 + 기한설정 -->
@@ -173,9 +176,6 @@
 					<!-- ✅ 첨부파일(업로드/다운로드 분리) -->
 					<div class="field full attach-field">
 				  		<label>첨부파일</label>
-					
-					  	<!-- 저장된 파일 삭제목록(선택) -->
-					  	<input type="hidden" id="delFileNos" name="delFileNos" value="" />
 					
 					  	<div class="attach-card">
 					    	<!-- 업로드 -->

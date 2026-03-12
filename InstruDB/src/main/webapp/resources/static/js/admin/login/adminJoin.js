@@ -39,7 +39,7 @@ $(function () {
 
         stopTimer();
 
-        alert("3분이 종료되었습니다.");
+        alert(joinEmailChkTimeFail);
 
         $('#adminEmail').val('').prop('readonly', false);
 

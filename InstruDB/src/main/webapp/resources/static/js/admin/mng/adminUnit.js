@@ -253,6 +253,7 @@ $(document).ready(function() {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert(btnVal === 'I' ? '부서' + regSuccess : '부서' + updSuccess);
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';
@@ -283,6 +284,7 @@ $(document).ready(function() {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert('부서' + delSuccess);
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';

@@ -196,7 +196,7 @@ $(function () {
 		
 	});
 	
-	// 메뉴 등록 이벤트
+	// 코드 등록 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
@@ -268,6 +268,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert(btnVal === 'I' ? '코드' + regSuccess : '코드' + updSuccess);
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');
@@ -297,6 +298,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert('코드' + delSuccess);
 				window.location.reload();
 			} else {
 				var url = '/admin/error.do';

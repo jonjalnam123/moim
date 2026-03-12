@@ -274,6 +274,8 @@ $(function () {
 	// 신규 버튼 이벤트
 	$('#btnNew').on('click', function() {
 		
+		$('.adminInfoTr').removeClass('is-selected');
+		
 		$('#btnUpd').hide();
 		$('#btnDel').hide();
 		$('#btnReg').show();
@@ -390,6 +392,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert(btnVal === 'I' ? '사원' + regSuccess : '사원' + updSuccess);
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');
@@ -420,6 +423,7 @@ $(function () {
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
+				alert('사원' + delSuccess);
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');

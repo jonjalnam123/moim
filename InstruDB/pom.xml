@@ -176,12 +176,14 @@
 		</dependency>
 		<!-- FOR FILE [E] -->
 		
+		<!-- FOR SETTING SECRET KEY [S] -->
 		<dependency>
 		    <groupId>com.github.ulisesbocchio</groupId>
 		    <artifactId>jasypt-spring-boot-starter</artifactId>
 		    <version>3.0.5</version>
 		</dependency>
-
+		<!-- FOR SETTING SECRET KEY [E] -->
+		
 	</dependencies>
 
 	<build>
@@ -206,11 +208,14 @@
 	                </excludes>
 	            </configuration>
 	        </plugin>
+	        
+	        <!-- FOR SETTING SECRET KEY [S] -->
 	        <plugin>
 	            <groupId>com.github.ulisesbocchio</groupId>
 	            <artifactId>jasypt-maven-plugin</artifactId>
 	            <version>3.0.5</version>
         	</plugin>
+        	<!-- FOR SETTING SECRET KEY [E] -->
 		</plugins>
 	</build>
 
