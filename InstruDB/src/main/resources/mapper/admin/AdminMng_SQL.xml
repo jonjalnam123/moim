@@ -512,11 +512,13 @@
 	      FROM TB_ADMIN_INFO
 	    WHERE 1=1
 		 	AND ADMIN_REG_ACCEPT = 'Y'
-	    <if test="searchGb == 'adminNm'">
-		    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-	    <if test="searchGb == 'adminId'">
-			AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+	 	<if test="searchTxt != null and searchTxt != ''">
+		    <if test="searchGb == 'adminNm'">
+			    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+				AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
 	</select>
 	<!-- 관리자 총 건수 조회 [E] -->
@@ -576,11 +578,13 @@
 		   FROM TB_ADMIN_INFO
 		 WHERE 1=1 
 		 	 AND ADMIN_REG_ACCEPT = 'Y'
-	    <if test="searchGb == 'adminNm'">
-		     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-	    <if test="searchGb == 'adminId'">
-		     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		<if test="searchTxt != null and searchTxt != ''">
+		    <if test="searchGb == 'adminNm'">
+			     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+			     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
          ORDER BY UPD_DT DESC 
            LIMIT #{perPage} OFFSET #{startRow}
@@ -768,11 +772,13 @@
 	    WHERE 1=1
 		     AND ADMIN_REG_ACCEPT != 'Y'
 		     AND ADMIN_REG_GB = '00'
-	    <if test="searchGb == 'adminNm'">
-		    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-	    <if test="searchGb == 'adminId'">
-			AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		<if test="searchTxt != null and searchTxt != ''">
+		    <if test="searchGb == 'adminNm'">
+			    AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+				AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
 	</select>
 	<!-- 관리자 가입승인관리 총 건수 조회 [E] -->
@@ -805,11 +811,13 @@
 		 WHERE 1=1 
 		     AND ADMIN_REG_ACCEPT != 'Y'
 		     AND ADMIN_REG_GB = '00'
-		<if test="searchGb == 'adminNm'">
-		     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
-	    </if>
-	    <if test="searchGb == 'adminId'">
-		     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		<if test="searchTxt != null and searchTxt != ''">
+			<if test="searchGb == 'adminNm'">
+			     AND ADMIN_NM LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+		    <if test="searchGb == 'adminId'">
+			     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
 	    </if>
          ORDER BY REG_DT DESC 
            LIMIT #{perPage} OFFSET #{startRow}
