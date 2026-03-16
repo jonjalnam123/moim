@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminCommService;
+import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
 
@@ -98,6 +99,36 @@ public class AdminCommServiceImpl implements AdminCommService {
 
 		} catch (Exception e) {
 	        log.error("[ AdminMngServiceImpl ] : selectUniqueDupliChk failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			return null;
+		}
+	}
+	
+	/**
+	* @methodName	 	: selectFileInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 파일 다운로드용 파일 정보 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminFileDTO selectFileInfo(String fileId, String refType) {
+		log.info(" [ AdminCommServiceImpl ] : selectFileInfo ");
+		try {
+			
+			AdminFileDTO fileInfo = adminCommMapper.selectFileInfo(fileId, refType);
+			if( fileInfo == null ) {
+				return null;
+			}
+			
+			return fileInfo;
+
+		} catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectFileInfo failed. {}", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;

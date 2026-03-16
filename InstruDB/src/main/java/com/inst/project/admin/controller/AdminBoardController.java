@@ -130,7 +130,7 @@ public class AdminBoardController {
 	@ResponseBody
 	public Map<String, Object> adminNoticeUpd ( AdminNoticeDTO adminNoticeDTO
 													  			, @RequestParam(value = "adminFiles", required = false) List<MultipartFile> adminFiles
-													  			, @RequestParam(value = "deleteFileId", required = false) List<Long> deleteFileId
+													  			, @RequestParam(value = "deleteFileId", required = false) List<String> deleteFileId
 													  			, HttpServletRequest req) {
 
 	    Map<String, Object> resultMap = new HashMap<>();

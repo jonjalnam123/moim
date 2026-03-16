@@ -22,7 +22,7 @@ public interface AdminBoardService {
 	int adminNoticeReg(AdminNoticeDTO adminNoticeDTO, MultipartFile[] files, HttpServletRequest req);
 
 	// 관리자 공지사항 수정
-	int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<Long> deleteFileId, HttpServletRequest req);
+	int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<String> deleteFileId, HttpServletRequest req);
 
 
 

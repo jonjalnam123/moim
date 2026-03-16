@@ -55,4 +55,23 @@
 	</select>
 	<!-- 관리자 유니크 값 생성 [E]  -->
 	
+	<!-- 파일 다운로드용 파일 정보 조회 [S]  -->
+    <select id="selectFileInfo" resultType="AdminFileDTO">
+        SELECT FILE_ID
+		      	  , FILE_ORG_NM
+		          , FILE_NM
+		          , FILE_PATH
+		       	  , FILE_SIZE
+		          , FILE_EXT
+		          , REF_TYPE
+		          , REF_ID
+		          , FILE_THUMB_NM
+		          , FILE_THUMB_PATH
+           FROM TB_FILE_INFO
+         WHERE 1=1
+         	 AND FILE_ID = #{fileId}
+         	 AND REF_TYPE = #{refType}
+    </select>
+    <!-- 파일 다운로드용 파일 정보 조회 [E]  -->
+	
 </mapper>

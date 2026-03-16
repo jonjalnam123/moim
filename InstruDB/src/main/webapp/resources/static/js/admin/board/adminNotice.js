@@ -233,7 +233,7 @@ $(function () {
 			return;
 		}
 
-		window.location.href = '/admin/fileDownload.do?fileId=' + encodeURIComponent(fileId);
+		window.location.href = '/admin/fileDown.do?fileId=' + encodeURIComponent(fileId) + '&refType=' + encodeURIComponent('NOTICE');
 	});
 
 	// 저장된 파일 삭제예정 토글

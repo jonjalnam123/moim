@@ -13,6 +13,6 @@ public interface AdminCommService {
 	String selectUniqueId();
 	
 	// 관리자 파일 다운로드
-	AdminFileDTO selectFile(Long fileId);
+	AdminFileDTO selectFileInfo(String fileId, String refType);
 
 }

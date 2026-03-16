@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -165,6 +166,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	            adminFileDTO.setRefType("NOTICE");
 	            adminFileDTO.setRefId(adminNoticeDTO.getNoticeId());
 	            adminFileDTO.setRegId(adminNoticeDTO.getRegId());
+	            adminFileDTO.setUpdId(adminNoticeDTO.getRegId());
 	            
 	            savedFiles.add(adminFileDTO);
 	            
@@ -205,14 +207,14 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	*/
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<Long> deleteFileId, HttpServletRequest req) {
+	public int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<String> deleteFileId, HttpServletRequest req) {
 		log.info(" [ AdminMngServiceImpl ] : adminNoticeUpd ");
 		 
 	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
 	    
 	    try {
 	        List<MultipartFile> uploadFiles = normalizeFiles(adminFiles);
-	        List<Long> deleteIds = normalizeDeleteNos(deleteFileId);
+	        List<String> deleteIds = normalizeDeleteNos(deleteFileId);
 
 	        // 삭제 대상 파일 조회
 	        List<AdminFileDTO> deleteTargets = Collections.emptyList();
@@ -251,8 +253,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	        // 신규 파일 저장 + DB 등록
 	        for (MultipartFile file : uploadFiles) {
 	            AdminFileDTO fileDto = FileUtil.saveImageFile(file, basePath);
+	            fileDto.setFileId(UUID.randomUUID().toString());
 	            fileDto.setRefId(adminNoticeDTO.getNoticeId());
+	            fileDto.setRefType("NOTICE");
 	            fileDto.setRegId(adminNoticeDTO.getRegId());
+	            fileDto.setUpdId(adminNoticeDTO.getRegId());
 
 	            adminBoardMapper.insertAdminNoticeFile(fileDto);
 	        }
@@ -286,13 +291,17 @@ public class AdminBoardServiceImpl implements AdminBoardService {
                 .collect(Collectors.toList());
     }
 
-    private List<Long> normalizeDeleteNos(List<Long> deleteFileId) {
-        if (deleteFileId == null || deleteFileId.isEmpty()) {
+    private List<String> normalizeDeleteNos(List<String> deleteFileNos) {
+        if (deleteFileNos == null || deleteFileNos.isEmpty()) {
             return new ArrayList<>();
         }
 
-        Set<Long> set = new LinkedHashSet<>(deleteFileId);
-        return new ArrayList<>(set);
-    }
+        return deleteFileNos.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+    } 
 	
 }
