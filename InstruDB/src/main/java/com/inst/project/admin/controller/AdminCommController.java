@@ -1,11 +1,13 @@
 package com.inst.project.admin.controller;
 
-import java.time.Clock; 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminErrorDTO;
+import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
+import com.inst.project.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -159,6 +163,27 @@ public class AdminCommController {
 		result.put("result", uniqueId);
 
 		return result;
+	}
+	
+	/**
+	* @methodName	 	: fileDownload
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 파일 다운로드
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@GetMapping("/fileDown.do")
+	public ResponseEntity<FileSystemResource> fileDownload(@RequestParam("fileId") Long fileId) throws Exception {
+	    AdminFileDTO fileInfo = adminCommService.selectFile(fileId);
+
+	    if (fileInfo == null) {
+	        throw new RuntimeException("파일 정보를 찾을 수 없습니다.");
+	    }
+
+	    return FileUtil.downloadFile( fileInfo.getFilePath(), fileInfo.getFileNm(), fileInfo.getFileOrgNm() );
 	}
 	
 }

@@ -7,6 +7,9 @@
 // 신규 선택 파일 누적 보관용
 var selectedAdminFiles = [];
 
+// 기존 저장 파일 중 "삭제 예정" 파일번호 목록
+var deletedSavedFileId = [];
+
 $(function () {
 
 	// 리사이즈
@@ -29,7 +32,6 @@ $(function () {
 
 	// 조회
 	$('#btnSearch').on('click', function () {
-		//$('#pageNum').val(1);
 		$('#adminNoticeSearchForm').submit();
 	});
 
@@ -83,14 +85,14 @@ $(function () {
 
 		var url = '/admin/noticeInfo.do';
 		var param = { noticeId: noticeId };
-		var dataType = 'json';
 
-		ajaxStart(url, param, dataType, function (data) {
+		ajaxStart(url, param, 'json', function (data) {
 			if (Number(data.result) <= 0) {
 				goToUri('/admin/error.do');
 				return;
 			}
 
+			deletedSavedFileId = [];
 			fillNoticeForm(data.adminNoticeInfo);
 			renderSavedFiles(data.adminNoticeFileList || []);
 			clearNewFiles();
@@ -129,7 +131,7 @@ $(function () {
 				alert(mode === 'I' ? '공지사항' + regSuccess : '공지사항' + updSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				alert(data.resultMsg || '처리에 실패했습니다.');
 			}
 		});
 	});
@@ -173,7 +175,7 @@ $(function () {
 		}
 
 		var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
-		var remainSavedCount = $('#savedFileList .attach-item').length;
+		var remainSavedCount = getActiveSavedFileCount();
 
 		// 확장자 체크
 		for (var i = 0; i < newFiles.length; i++) {
@@ -201,10 +203,11 @@ $(function () {
 			}
 		});
 
-		// 저장된 파일 + 신규 선택 파일 최대 5개 제한
+		// 저장 유지 파일 + 신규 선택 파일 최대 5개 제한
 		if (remainSavedCount + mergedFiles.length > 5) {
-			alert(typeof fileLengthFiveChk !== 'undefined' ? fileLengthFiveChk : '첨부파일은 최대 5개까지 가능합니다.');
+			alert('첨부파일은 최대 5개까지 가능합니다. 현재 유지 파일 ' + remainSavedCount + '개, 신규 선택 가능 파일은 최대 ' + (5 - remainSavedCount) + '개입니다.');
 			input.value = '';
+			syncAdminFilesInput();
 			return;
 		}
 
@@ -214,44 +217,39 @@ $(function () {
 		refreshNewFilesUI();
 	});
 
-	// 저장된 파일 다운로드 - 동적 요소 대응
+	// 저장된 파일 다운로드
 	$('#savedFileList').on('click', '.btnFileDown', function () {
-		var fileNo = $(this).closest('.attach-item').data('file-no');
+		var $item = $(this).closest('.attach-item');
 
-		if (isEmpty(fileNo)) {
+		if ($item.hasClass('is-delete-pending')) {
+			alert('삭제 예정 파일은 다운로드할 수 없습니다.');
+			return;
+		}
+
+		var fileId = $item.data('file-id');
+
+		if (isEmpty(fileId)) {
 			alert('파일 번호가 없습니다.');
 			return;
 		}
 
-		window.location.href = '/admin/fileDownload.do?fileNo=' + encodeURIComponent(fileNo);
+		window.location.href = '/admin/fileDownload.do?fileId=' + encodeURIComponent(fileId);
 	});
 
-	// 저장된 파일 즉시 삭제 - 동적 요소 대응
+	// 저장된 파일 삭제예정 토글
 	$('#savedFileList').on('click', '.btnFileDel', function () {
 		var $item = $(this).closest('.attach-item');
-		var fileNo = String($item.data('file-no') || '');
+		var fileId = String($item.data('file-id') || '');
 
-		if (!fileNo) {
+		if (!fileId) {
 			alert('파일 번호가 없습니다.');
 			return;
 		}
 
-		if (!confirm('이 파일을 바로 삭제하시겠습니까?')) return;
-
-		ajaxStart('/admin/fileDel.do', { fileNo: fileNo }, 'json', function (data) {
-			var result = Number(data.result);
-
-			if (result > 0) {
-				$item.remove();
-				toggleSavedFileHint();
-				alert('파일이 삭제되었습니다.');
-			} else {
-				alert(data.resultMsg || '파일 삭제에 실패했습니다.');
-			}
-		});
+		toggleSavedFileDelete(fileId, $item);
 	});
 
-	// 새 파일 제거 - 동적 요소 대응
+	// 새 파일 제거
 	$('#newFileList').on('click', '.btnNewFileRemove', function () {
 		var idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
 
@@ -278,7 +276,7 @@ function buildNoticeFormData() {
 	var files = selectedAdminFiles;
 	var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
 
-	var remainSavedCount = $('#savedFileList .attach-item').length;
+	var remainSavedCount = getActiveSavedFileCount();
 	var totalCount = remainSavedCount + files.length;
 
 	if (isEmpty(noticeId)) {
@@ -291,9 +289,15 @@ function buildNoticeFormData() {
 		return null;
 	}
 
+	if (isEmpty(noticeTitle)) {
+		alert('공지사항 제목을 입력하세요.');
+		$('#noticeTitle').focus();
+		return null;
+	}
+
 	if (isEmpty(noticeCn)) {
 		alert('공지사항 내용을 입력하세요.');
-		$('#fDesc').focus();
+		$('#noticeCn').focus();
 		return null;
 	}
 
@@ -310,7 +314,7 @@ function buildNoticeFormData() {
 	}
 
 	if (totalCount > 5) {
-		alert(fileLengthFiveChk);
+		alert('첨부파일은 최대 5개까지 가능합니다.');
 		return null;
 	}
 
@@ -328,6 +332,10 @@ function buildNoticeFormData() {
 
 	formData.append('notcieStrDt', notcieStrDt);
 	formData.append('notcieEndDt', notcieEndDt);
+
+	for (var d = 0; d < deletedSavedFileId.length; d++) {
+		formData.append('deleteFileId', deletedSavedFileId[d]);
+	}
 
 	for (var i = 0; i < files.length; i++) {
 		var file = files[i];
@@ -352,7 +360,8 @@ function fillNoticeForm(noticeInfo) {
 	$('#noticeId').val(noticeInfo.noticeId || '');
 	$('#regId').val(noticeInfo.regId || '');
 	$('#regDt').val(toDisplayDatetime(noticeInfo.regDt));
-	$('#fDesc').val(noticeInfo.noticeCn || '');
+	$('#noticeTitle').val(noticeInfo.noticeTitle || '');
+	$('#noticeCn').val(noticeInfo.noticeCn || '');
 
 	$('#noticeFixYn').prop('checked', noticeInfo.noticeFixYn === 'Y');
 	$('#noticePopYn').prop('checked', noticeInfo.noticePopYn === 'Y');
@@ -374,7 +383,8 @@ function resetNoticeForm() {
 	$('#noticeId').val('');
 	$('#regId').val('');
 	$('#regDt').val('');
-	$('#fDesc').val('');
+	$('#noticeTitle').val('');
+	$('#noticeCn').val('');
 
 	$('#noticeFixYn').prop('checked', false);
 	$('#noticePopYn').prop('checked', false);
@@ -383,6 +393,7 @@ function resetNoticeForm() {
 	$('#notcieStrDt').val('');
 	$('#notcieEndDt').val('');
 
+	deletedSavedFileId = [];
 	renderSavedFiles([]);
 	clearNewFiles();
 	syncNoticeLimitUI();
@@ -418,6 +429,33 @@ function toggleSavedFileHint() {
 		$('#savedFileHint').show();
 	} else {
 		$('#savedFileHint').hide();
+	}
+}
+
+/*******************************
+* 활성 상태 저장 파일 개수
+********************************/
+function getActiveSavedFileCount() {
+	return $('#savedFileList .attach-item').not('.is-delete-pending').length;
+}
+
+/*******************************
+* 저장 파일 삭제예정 토글
+********************************/
+function toggleSavedFileDelete(fileId, $item) {
+
+	var idx = deletedSavedFileId.indexOf(fileId);
+
+	if (idx > -1) {
+		deletedSavedFileId.splice(idx, 1);
+		$item.removeClass('is-delete-pending');
+		$item.find('.btnFileDel').text('삭제');
+		$item.find('.btnFileDown').prop('disabled', false).removeClass('disabled');
+	} else {
+		deletedSavedFileId.push(fileId);
+		$item.addClass('is-delete-pending');
+		$item.find('.btnFileDel').text('취소');
+		$item.find('.btnFileDown').prop('disabled', true).addClass('disabled');
 	}
 }
 
@@ -501,7 +539,7 @@ function renderSavedFiles(fileList) {
 
 	$.each(fileList, function (_, file) {
 		$list.append(
-			'<li class="attach-item" data-file-no="' + file.fileNo + '">' +
+			'<li class="attach-item" data-file-id="' + file.fileId + '">' +
 				'<div class="attach-left">' +
 					'<div class="attach-name" title="' + escapeHtml(file.fileOrgNm) + '">' + escapeHtml(file.fileOrgNm) + '</div>' +
 					'<div class="attach-meta">' + formatBytes(file.fileSize) + '</div>' +

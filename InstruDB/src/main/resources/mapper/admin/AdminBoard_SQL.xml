@@ -6,7 +6,7 @@
 	
 	<!-- 관리자 공지사항 총 건수 조회 [S] -->
 	<select id="selectAdminNoticeTotalCount" parameterType="PagerUtil" resultType="Long">
-		/*AdminMng_SQL.selectAdminNoticeTotalCount*/
+		/*AdminBoard_SQL.selectAdminNoticeTotalCount*/
     	SELECT COUNT(*)
 	      FROM TB_NOTICE_INFO
 	    WHERE 1=1
@@ -24,7 +24,7 @@
 	
 	<!-- 관리자 공지사항 조회 [S] -->
 	<select id="selectAdminNotice" parameterType="PagerUtil"  resultType="AdminNoticeDTO">
-		/*AdminMng_SQL.selectAdminNotice*/
+		/*AdminBoard_SQL.selectAdminNotice*/
 		SELECT A.NOTICE_ID
 				 , A.NOTICE_TITLE
 				 , A.NOTICE_CN
@@ -55,9 +55,57 @@
 	</select>
 	<!-- 관리자 공지사항 조회 [E] -->
 	
+	<!-- 관리자 공지사항 상세 조회 [S] -->
+	<select id="selectAdminNoticeInfo" parameterType="AdminNoticeDTO"  resultType="AdminNoticeDTO">
+		/*AdminBoard_SQL.selectAdminNoticeInfo*/
+		SELECT NOTICE_ID
+				 , NOTICE_TITLE
+				 , NOTICE_CN
+				 , NOTICE_FIX_YN
+				 , NOTICE_LIMIT_YN
+				 , NOTICE_STR_DT
+				 , NOTICE_END_DT 
+				 , NOTICE_FINISH_YN
+				 , NOTICE_DEL_YN
+				 , NOTICE_POP_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_NOTICE_INFO
+		WHERE 1=1 
+		    AND NOTICE_ID = #{noticeId}
+		    AND NOTICE_DEL_YN = 'N'
+	</select>
+	<!-- 관리자 공지사항 상세 조회 [E] -->
+	
+	<!-- 관리자 공지사항 파일 조회 [S] -->
+	<select id="selectAdminNoticeFiles" parameterType="AdminNoticeDTO"  resultType="AdminFileDTO">
+		/*AdminBoard_SQL.selectAdminNoticeFiles*/
+		SELECT FILE_ID
+	      	     , FILE_ORG_NM
+	             , FILE_NM
+	             , FILE_PATH
+	       	     , FILE_SIZE
+	             , FILE_EXT
+	             , REF_TYPE
+	             , REF_ID
+	             , FILE_THUMB_NM
+	             , FILE_THUMB_PATH
+	             , REG_ID
+	             , REG_DT
+	             , UPD_ID
+	             , UPD_DT
+		  FROM TB_FILE_INFO
+		WHERE 1=1
+		    AND REF_TYPE = 'NOTICE'
+		    AND REF_ID = #{noticeId}
+	</select>
+	<!-- 관리자 공지사항 파일 조회 [E] -->
+	
 	<!-- 관리자 공지사항 저장 [S] -->
 	<insert id="insertAdminNotice" parameterType="AdminNoticeDTO">
-		/*AdminMng_SQL.insertAdminNotice*/
+		/*AdminBoard_SQL.insertAdminNotice*/
 	    INSERT INTO TB_NOTICE_INFO (
 	        NOTICE_ID
 	      , NOTICE_TITLE
@@ -94,7 +142,7 @@
 	
 	<!-- 관리자 첨부파일 저장 [S] -->
 	<insert id="insertAdminFile" parameterType="AdminFileDTO">
-		/*AdminMng_SQL.insertAdminFile*/
+		/*AdminBoard_SQL.insertAdminFile*/
     	INSERT INTO TB_FILE_INFO (
     		FILE_ID
       	  , FILE_ORG_NM
@@ -128,53 +176,66 @@
 	    )
 	</insert>
 	<!-- 관리자 첨부파일 저장 [E] -->
-	
-	<!-- 관리자 공지사항 상세 조회 [S] -->
-	<select id="selectAdminNoticeInfo" parameterType="AdminNoticeDTO"  resultType="AdminNoticeDTO">
-		/*AdminMng_SQL.selectAdminNoticeInfo*/
-		SELECT NOTICE_ID
-				 , NOTICE_TITLE
-				 , NOTICE_CN
-				 , NOTICE_FIX_YN
-				 , NOTICE_LIMIT_YN
-				 , NOTICE_STR_DT
-				 , NOTICE_END_DT 
-				 , NOTICE_FINISH_YN
-				 , NOTICE_DEL_YN
-				 , NOTICE_POP_YN
-				 , REG_ID
-				 , REG_DT
-				 , UPD_ID
-				 , UPD_DT
-		  FROM TB_NOTICE_INFO
-		WHERE 1=1 
-		    AND NOTICE_ID = #{noticeId}
-		    AND NOTICE_DEL_YN = 'N'
-	</select>
-	<!-- 관리자 공지사항 상세 조회 [E] -->
-	
-	<!-- 관리자 공지사항 파일 조회 [S] -->
-	<select id="selectAdminNoticeFiles" parameterType="AdminNoticeDTO"  resultType="AdminFileDTO">
-		/*AdminMng_SQL.selectAdminNoticeFiles*/
-		SELECT FILE_ID
-	      	     , FILE_ORG_NM
-	             , FILE_NM
-	             , FILE_PATH
-	       	     , FILE_SIZE
-	             , FILE_EXT
-	             , REF_TYPE
-	             , REF_ID
-	             , FILE_THUMB_NM
-	             , FILE_THUMB_PATH
-	             , REG_ID
-	             , REG_DT
-	             , UPD_ID
-	             , UPD_DT
-		  FROM TB_FILE_INFO
-		WHERE 1=1
-		    AND REF_TYPE = 'NOTICE'
-		    AND REF_ID = #{noticeId}
-	</select>
-	<!-- 관리자 공지사항 파일 조회 [E] -->
 
+	<!-- 관리자 공지사항 삭제 대상 파일 조회 [S] -->
+    <select id="selectNoticeFilesForDelete" resultType="AdminFileDTO">
+    	/*AdminBoard_SQL.selectNoticeFilesForDelete*/
+        SELECT FILE_ID
+		      	 , FILE_ORG_NM
+		         , FILE_NM
+		         , FILE_PATH
+		       	 , FILE_SIZE
+		         , FILE_EXT
+		         , REF_TYPE
+		         , REF_ID
+		         , FILE_THUMB_NM
+		         , FILE_THUMB_PATH
+          FROM TB_FILE_INFO
+         WHERE REF_ID = #{noticeId}
+         	 AND REF_TYPE = 'NOTICE'
+             AND FILE_ID IN
+		<foreach collection="deleteIds" item="deleteId" open="(" separator="," close=")">
+        			#{deleteId}
+        </foreach>
+    </select>
+    <!-- 관리자 공지사항 삭제 대상 파일 조회 [E] -->
+    
+    <!-- 관리자 공지사항 현재 파일 수 조회 [S] -->
+    <select id="countNoticeFiles" resultType="int">
+        SELECT COUNT(*)
+          FROM TB_FILE_INFO
+         WHERE 1=1
+         	 AND REF_TYPE = 'NOTICE'
+             AND REF_ID = #{noticeId}
+    </select>
+ 	<!-- 관리자 공지사항 현재 파일 수 조회 [S] -->
+ 	
+ 	 <!-- 관리자 공지사항 수정 [S] -->
+    <update id="updateAdminNotice" parameterType="AdminNoticeDTO">
+        UPDATE TB_NOTICE_INFO
+             SET NOTICE_TITLE    	= #{noticeTitle}
+	             , NOTICE_CN       	= #{noticeCn}
+	             , NOTICE_FIX_YN   	= #{noticeFixYn}
+	             , NOTICE_POP_YN   = #{noticePopYn}
+	             , NOTICE_LIMIT_YN = #{noticeLimitYn}
+	             , NOTCIE_STR_DT   = NULLIF(#{notcieStrDt}, '')
+	             , NOTCIE_END_DT   = NULLIF(#{notcieEndDt}, '')
+	             , UDT_ID          		= #{regId}
+	             , UDT_DT          		= NOW()
+         WHERE 1=1
+         	 AND NOTICE_ID       	= #{noticeId}
+    </update>
+    <!-- 관리자 공지사항 수정 [E] -->
+    
+    <!-- 관리자 공지사항 파일 삭제 [S] -->
+    <delete id="deleteNoticeFiles">
+        DELETE FROM TB_FILE_INFO
+         WHERE NOTICE_ID = #{noticeId}
+           AND FILE_ID IN
+    	<foreach collection="deleteIds" item="deleteId" open="(" separator="," close=")">
+        		#{deleteId}
+        </foreach>
+    </delete>
+     <!-- 관리자 공지사항 파일 삭제 [E] -->
+ 	
 </mapper>

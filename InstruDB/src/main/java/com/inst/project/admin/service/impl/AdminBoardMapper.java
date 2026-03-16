@@ -28,6 +28,21 @@ public interface AdminBoardMapper {
 
 	// 관리자 공지사항 저장
 	int insertAdminNotice(AdminNoticeDTO adminNoticeDTO);
+	
+	// 관리자 공지사항 삭제 대상 파일 조회
+	List<AdminFileDTO> selectNoticeFilesForDelete(String noticeId, List<Long> deleteIds);
+	
+	// 관리자 공지사항 현재 파일 수 조회
+	int countNoticeFiles(String noticeId);
+
+	// 관리자 공지사항 수정
+	int updateAdminNotice(AdminNoticeDTO adminNoticeDTO);
+	
+	// 관리자 공지사항 파일 삭제
+	void deleteAdminNoticeFile(String noticeId, List<Long> deleteIds);
+	
+	// 관리자 공지사항 신규 파일 저장
+	void insertAdminNoticeFile(AdminFileDTO fileDto);
 
 
 

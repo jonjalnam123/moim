@@ -1,10 +1,14 @@
 package com.inst.project.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -188,5 +192,107 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	        return 0;
 	    }
 	}
+	
+	/**
+	* @methodName	 	: adminNoticeUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공지사항 저장
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<Long> deleteFileId, HttpServletRequest req) {
+		log.info(" [ AdminMngServiceImpl ] : adminNoticeUpd ");
+		 
+	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
+	    
+	    try {
+	        List<MultipartFile> uploadFiles = normalizeFiles(adminFiles);
+	        List<Long> deleteIds = normalizeDeleteNos(deleteFileId);
+
+	        // 삭제 대상 파일 조회
+	        List<AdminFileDTO> deleteTargets = Collections.emptyList();
+	        if (!deleteIds.isEmpty()) {
+	            deleteTargets = adminBoardMapper.selectNoticeFilesForDelete(adminNoticeDTO.getNoticeId(), deleteIds);
+
+	            if (deleteTargets.size() != deleteIds.size()) {
+	                throw new IllegalArgumentException("삭제 대상 파일 정보가 올바르지 않습니다.");
+	            }
+	        }
+
+	        // 현재 파일 수 조회
+	        int existingCount = adminBoardMapper.countNoticeFiles(adminNoticeDTO.getNoticeId());
+	        int remainCount = existingCount - deleteTargets.size();
+
+	        if (remainCount < 0) {
+	            remainCount = 0;
+	        }
+
+	        if (remainCount + uploadFiles.size() > 5) {
+	            throw new IllegalArgumentException("첨부파일은 최대 5개까지 가능합니다.");
+	        }
+
+	        // 공지사항 수정
+	        int updResult = adminBoardMapper.updateAdminNotice(adminNoticeDTO);
+
+	        if (updResult <= 0) {
+	            return 0;
+	        }
+
+	        // 삭제 예정 파일 DB 삭제
+	        if (!deleteIds.isEmpty()) {
+	        	adminBoardMapper.deleteAdminNoticeFile(adminNoticeDTO.getNoticeId(), deleteIds);
+	        }
+
+	        // 신규 파일 저장 + DB 등록
+	        for (MultipartFile file : uploadFiles) {
+	            AdminFileDTO fileDto = FileUtil.saveImageFile(file, basePath);
+	            fileDto.setRefId(adminNoticeDTO.getNoticeId());
+	            fileDto.setRegId(adminNoticeDTO.getRegId());
+
+	            adminBoardMapper.insertAdminNoticeFile(fileDto);
+	        }
+
+	        // 실제 파일 삭제
+	        for (AdminFileDTO deleteFile : deleteTargets) {
+	            FileUtil.deleteFile(deleteFile.getFilePath(), deleteFile.getFileNm());
+	        }
+
+	        return updResult;
+
+	    } catch (IllegalArgumentException e) {
+	        log.error("adminNoticeUpd validation error. noticeId={}, message={}",
+	                adminNoticeDTO != null ? adminNoticeDTO.getNoticeId() : null,
+	                e.getMessage(), e);
+	        throw e;
+	    } catch (Exception e) {
+	        log.error("adminNoticeUpd error. noticeId={}",
+	                adminNoticeDTO != null ? adminNoticeDTO.getNoticeId() : null, e);
+	        throw new RuntimeException("공지사항 수정 중 오류가 발생했습니다.", e);
+	    }
+	}
+	
+    private List<MultipartFile> normalizeFiles(List<MultipartFile> adminFiles) {
+        if (adminFiles == null) {
+            return new ArrayList<>();
+        }
+
+        return adminFiles.stream()
+                .filter(file -> file != null && !file.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    private List<Long> normalizeDeleteNos(List<Long> deleteFileId) {
+        if (deleteFileId == null || deleteFileId.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Set<Long> set = new LinkedHashSet<>(deleteFileId);
+        return new ArrayList<>(set);
+    }
 	
 }

@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminBoardService;
+import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
 import com.inst.project.util.DateUtil;
+import com.inst.project.util.FileUtil;
 import com.inst.project.util.PagerUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -105,9 +109,35 @@ public class AdminBoardController {
 		log.info(" [ AdminBoardController ] : adminNoticeReg ");
 	    Map<String,Object> resultMap = new HashMap<>();
 
-	    int result = adminBoardService.adminNoticeReg(adminNoticeDTO, files, req);
+	    int regResult = adminBoardService.adminNoticeReg(adminNoticeDTO, files, req);
 
-	    resultMap.put("result", result);
+	    resultMap.put("result", regResult);
+
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: adminNoticeUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공지사항 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/noticeUpd.do")
+	@ResponseBody
+	public Map<String, Object> adminNoticeUpd ( AdminNoticeDTO adminNoticeDTO
+													  			, @RequestParam(value = "adminFiles", required = false) List<MultipartFile> adminFiles
+													  			, @RequestParam(value = "deleteFileId", required = false) List<Long> deleteFileId
+													  			, HttpServletRequest req) {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+        int updResult = adminBoardService.adminNoticeUpd(adminNoticeDTO, adminFiles, deleteFileId, req);
+        
+	    resultMap.put("result", updResult);
 
 	    return resultMap;
 	}

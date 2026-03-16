@@ -1124,6 +1124,20 @@ body.is-resizing{ user-select:none; cursor: col-resize; }
 }
 .attach-actions{ display:flex; gap:6px; flex:0 0 auto; }
 
+.attach-item.is-delete-pending {
+	opacity: 0.5;
+	background: #f8f8f8;
+}
+
+.attach-item.is-delete-pending .attach-name {
+	text-decoration: line-through;
+}
+
+.attach-item .btn-mini.disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
 .btn-mini{
   height:28px;
   padding:0 10px;
