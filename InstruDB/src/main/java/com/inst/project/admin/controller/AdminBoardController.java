@@ -50,7 +50,7 @@ public class AdminBoardController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/notice.do")
-	public String getAdminNotice(Model model, HttpServletRequest req, PagerUtil pager, RedirectAttributes redirect) {
+	public String getAdminNotice (Model model, HttpServletRequest req, PagerUtil pager, RedirectAttributes redirect) {
 		log.info(" [ AdminBoardController ] : getAdminNotice ");
 		String adminId = CommonUtil.getAdminInfoSession("adminId", req);
 		if (adminId == null) {
@@ -85,7 +85,7 @@ public class AdminBoardController {
 	*/
 	@PostMapping(value = "/noticeInfo.do")
 	@ResponseBody
-	public Map<String, Object> getAdminNoticeInfo( @ModelAttribute AdminNoticeDTO adminNoticeDTO) {
+	public Map<String, Object> getAdminNoticeInfo ( @ModelAttribute AdminNoticeDTO adminNoticeDTO) {
 		log.info(" [ AdminBoardController ] : getAdminNoticeInfo ");
 		
 		Map<String, Object> result = adminBoardService.selectAdminNoticeInfo(adminNoticeDTO);
@@ -105,7 +105,7 @@ public class AdminBoardController {
 	*/
 	@PostMapping("/noticeReg.do")
 	@ResponseBody
-	public Map<String,Object> adminNoticeReg(AdminNoticeDTO adminNoticeDTO, @RequestParam(value="adminFiles", required=false) MultipartFile[] files, HttpServletRequest req){
+	public Map<String,Object> adminNoticeReg( @ModelAttribute AdminNoticeDTO adminNoticeDTO, @RequestParam(value="adminFiles", required=false) MultipartFile[] files, HttpServletRequest req){
 		log.info(" [ AdminBoardController ] : adminNoticeReg ");
 	    Map<String,Object> resultMap = new HashMap<>();
 
@@ -128,7 +128,7 @@ public class AdminBoardController {
 	*/
 	@PostMapping(value = "/noticeUpd.do")
 	@ResponseBody
-	public Map<String, Object> adminNoticeUpd ( AdminNoticeDTO adminNoticeDTO
+	public Map<String, Object> adminNoticeUpd ( @ModelAttribute AdminNoticeDTO adminNoticeDTO
 													  			, @RequestParam(value = "adminFiles", required = false) List<MultipartFile> adminFiles
 													  			, @RequestParam(value = "deleteFileId", required = false) List<String> deleteFileId
 													  			, HttpServletRequest req) {
@@ -138,6 +138,29 @@ public class AdminBoardController {
         int updResult = adminBoardService.adminNoticeUpd(adminNoticeDTO, adminFiles, deleteFileId, req);
         
 	    resultMap.put("result", updResult);
+
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: adminNoticeDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공지사항 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/noticeDel.do")
+	@ResponseBody
+	public Map<String, Object> adminNoticeDel ( @ModelAttribute AdminNoticeDTO adminNoticeDTO, HttpServletRequest req) {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+        int delResult = adminBoardService.adminNoticeDel(adminNoticeDTO, req);
+        
+	    resultMap.put("result", delResult);
 
 	    return resultMap;
 	}

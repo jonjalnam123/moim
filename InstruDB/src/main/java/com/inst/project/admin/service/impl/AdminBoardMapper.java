@@ -43,6 +43,15 @@ public interface AdminBoardMapper {
 	
 	// 관리자 공지사항 신규 파일 저장
 	void insertAdminNoticeFile(AdminFileDTO fileDto);
+	
+	// 관리자 공지사항 삭제용 파일 조회
+	List<AdminFileDTO> selectNoticeFileInfo(String noticeId);
+	
+	// 관리자 공지사항 삭제
+	int deleteAdminNotice(AdminNoticeDTO adminNoticeDTO);
+
+	// 관리자 공지사항 삭제시 파일 삭제
+	void adminNoticeFileDel(String noticeId);
 
 
 

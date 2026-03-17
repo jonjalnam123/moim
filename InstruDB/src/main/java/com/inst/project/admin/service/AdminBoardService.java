@@ -23,6 +23,9 @@ public interface AdminBoardService {
 
 	// 관리자 공지사항 수정
 	int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<String> deleteFileId, HttpServletRequest req);
+	
+	// 관리자 공지사항 삭제
+	int adminNoticeDel(AdminNoticeDTO adminNoticeDTO, HttpServletRequest req);
 
 
 

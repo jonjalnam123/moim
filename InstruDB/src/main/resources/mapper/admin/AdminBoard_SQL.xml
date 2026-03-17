@@ -13,10 +13,10 @@
 	        AND NOTICE_DEL_YN = 'N'
 		<if test="searchTxt != null and searchTxt != ''">
 		    <if test="searchGb == 'noticeTitle'">
-			     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+			     AND NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
 		    </if>
 		    <if test="searchGb == 'adminId'">
-			     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+			     AND REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
 		    </if>
 	    </if>
 	</select>
@@ -30,13 +30,13 @@
 				 , A.NOTICE_CN
 				 , A.NOTICE_FIX_YN
 				 , A.NOTICE_LIMIT_YN
-				 , A.NOTICE_STR_DT
-				 , A.NOTICE_END_DT 
+				 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_STR_DT
+				 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_END_DT
 				 , A.NOTICE_FINISH_YN
 				 , A.NOTICE_DEL_YN
 				 , A.NOTICE_POP_YN
 				 , A.REG_ID
-				 , A.REG_DT
+				 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD HH24:MM:SS') AS REG_DT
 				 , A.UPD_ID
 				 , A.UPD_DT
 		   FROM TB_NOTICE_INFO A
@@ -54,7 +54,7 @@
             LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 공지사항 조회 [E] -->
-	
+	 
 	<!-- 관리자 공지사항 상세 조회 [S] -->
 	<select id="selectAdminNoticeInfo" parameterType="AdminNoticeDTO"  resultType="AdminNoticeDTO">
 		/*AdminBoard_SQL.selectAdminNoticeInfo*/
@@ -127,8 +127,8 @@
           , #{noticeCn}
           , #{noticeFixYn}
           , #{noticeLimitYn}
-          , #{noticeStrDt}
-          , #{noticeEndDt}
+		  , NULLIF(#{noticeStrDt}, '')::timestamp
+		  , NULLIF(#{noticeEndDt}, '')::timestamp
        	  , 'N'
        	  , 'N'
        	  , #{noticePopYn}
@@ -220,9 +220,9 @@
 	             , NOTICE_FIX_YN   	= #{noticeFixYn}
 	             , NOTICE_POP_YN   	= #{noticePopYn}
 	             , NOTICE_LIMIT_YN 	= #{noticeLimitYn}
-	             , NOTICE_STR_DT   	= #{noticeStrDt}
-	             , NOTICE_END_DT   	= #{noticeEndDt}
-	             , UPD_ID          		= #{regId}
+	             , NOTICE_STR_DT   	= NULLIF(#{noticeStrDt}, '')::timestamp
+	             , NOTICE_END_DT   	= NULLIF(#{noticeEndDt}, '')::timestamp
+	             , UPD_ID          		= #{updId}
 	             , UPD_DT          		= NOW()
          WHERE 1=1
          	 AND NOTICE_ID       	= #{noticeId}
@@ -279,5 +279,46 @@
 	    )
     </insert>
  	<!-- 관리자 공지사항 신규 파일 저장 [E] -->
+ 	
+	<!-- 관리자 공지사항 삭제 파일 조회 [S] -->
+    <select id="selectNoticeFileInfo" resultType="AdminFileDTO">
+    	/*AdminBoard_SQL.selectNoticeFileInfo*/
+        SELECT FILE_ID
+		      	 , FILE_ORG_NM
+		         , FILE_NM
+		         , FILE_PATH
+		       	 , FILE_SIZE
+		         , FILE_EXT
+		         , REF_TYPE
+		         , REF_ID
+		         , FILE_THUMB_NM
+		         , FILE_THUMB_PATH
+          FROM TB_FILE_INFO
+         WHERE REF_ID = #{noticeId}
+         	 AND REF_TYPE = 'NOTICE'
+    </select>
+    <!-- 관리자 공지사항 삭제 파일 조회 [E] -->
+    
+  	<!-- 관리자 공지사항 삭제 [S] -->
+    <update id="deleteAdminNotice" parameterType="AdminNoticeDTO">
+    	/*AdminBoard_SQL.deleteAdminNotice*/
+        UPDATE TB_NOTICE_INFO
+             SET NOTICE_DEL_YN 	= 'Y'
+	             , UPD_ID          		= #{updId}
+	             , UPD_DT          		= NOW()
+         WHERE 1=1
+         	 AND NOTICE_ID       	= #{noticeId}
+    </update>
+    <!-- 관리자 공지사항 삭제 [E] -->
+    
+    <!-- 관리자 공지사항 파일 삭제 [S] -->
+    <delete id="adminNoticeFileDel"> 
+    	/*AdminBoard_SQL.adminNoticeFileDel*/
+        DELETE FROM TB_FILE_INFO
+        WHERE 1=1
+        	AND REF_TYPE = 'NOTICE'
+            AND REF_ID = #{noticeId}
+    </delete>
+    <!-- 관리자 공지사항 파일 삭제 [E] -->
  	
 </mapper>

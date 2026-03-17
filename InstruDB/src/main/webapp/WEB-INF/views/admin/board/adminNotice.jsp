@@ -164,13 +164,13 @@
 					</div>
 	          		
 					<div class="field">
-					  <label id="lblNotcieStrDt" for="notcieStrDt">시작날짜</label>
-					  <input id="notcieStrDt" name="notcieStrDt" class="form-control" type="datetime-local" />
+					  <label id="lblNoticeStrDt" for="noticeStrDt">시작날짜</label>
+					  <input id="noticeStrDt" name="noticeStrDt" class="form-control" type="datetime-local" />
 					</div>
 					
 					<div class="field">
-					  <label id="lblNotcieEndDt" for="notcieEndDt">종료날짜</label>
-					  <input id="notcieEndDt" name="notcieEndDt" class="form-control" type="datetime-local" />
+					  <label id="lblNoticeEndDt" for="noticeEndDt">종료날짜</label>
+					  <input id="noticeEndDt" name="noticeEndDt" class="form-control" type="datetime-local" />
 					</div>
 
 					<!-- ✅ 첨부파일(업로드/다운로드 분리) -->

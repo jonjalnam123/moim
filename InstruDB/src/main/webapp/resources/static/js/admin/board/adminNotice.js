@@ -131,7 +131,8 @@ $(function () {
 				alert(mode === 'I' ? '공지사항' + regSuccess : '공지사항' + updSuccess);
 				window.location.reload();
 			} else {
-				alert(data.resultMsg || '처리에 실패했습니다.');
+				goToUri('/admin/error.do');
+				return;
 			}
 		});
 	});
@@ -152,10 +153,11 @@ $(function () {
 			var result = Number(data.result);
 
 			if (result > 0) {
-				alert('삭제되었습니다.');
+				alert('공지사항' + delSuccess);
 				window.location.reload();
 			} else {
-				alert(data.resultMsg || '삭제에 실패했습니다.');
+				goToUri('/admin/error.do');
+				return;
 			}
 		});
 	});
@@ -270,8 +272,8 @@ function buildNoticeFormData() {
 	var noticeCn = $.trim($('#noticeCn').val());
 
 	var noticeLimitYn = $('#noticeLimitYn').is(':checked') ? 'Y' : 'N';
-	var notcieStrDt = $('#notcieStrDt').val();
-	var notcieEndDt = $('#notcieEndDt').val();
+	var noticeStrDt = $('#noticeStrDt').val();
+	var noticeEndDt = $('#noticeEndDt').val();
 
 	var files = selectedAdminFiles;
 	var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
@@ -302,12 +304,12 @@ function buildNoticeFormData() {
 	}
 
 	if (noticeLimitYn === 'Y') {
-		if (isEmpty(notcieStrDt) || isEmpty(notcieEndDt)) {
+		if (isEmpty(noticeStrDt) || isEmpty(noticeEndDt)) {
 			alert('기한설정 사용 시 시작날짜와 종료날짜를 모두 입력하세요.');
 			return null;
 		}
 
-		if (notcieStrDt > notcieEndDt) {
+		if (noticeStrDt > noticeEndDt) {
 			alert('종료날짜는 시작날짜보다 빠를 수 없습니다.');
 			return null;
 		}
@@ -330,8 +332,8 @@ function buildNoticeFormData() {
 	formData.append('noticePopYn', $('#noticePopYn').is(':checked') ? 'Y' : 'N');
 	formData.append('noticeLimitYn', noticeLimitYn);
 
-	formData.append('notcieStrDt', notcieStrDt);
-	formData.append('notcieEndDt', notcieEndDt);
+	formData.append('noticeStrDt', noticeStrDt);
+	formData.append('noticeEndDt', noticeEndDt);
 
 	for (var d = 0; d < deletedSavedFileId.length; d++) {
 		formData.append('deleteFileId', deletedSavedFileId[d]);
@@ -367,8 +369,8 @@ function fillNoticeForm(noticeInfo) {
 	$('#noticePopYn').prop('checked', noticeInfo.noticePopYn === 'Y');
 	$('#noticeLimitYn').prop('checked', noticeInfo.noticeLimitYn === 'Y');
 
-	$('#notcieStrDt').val(toDatetimeLocalValue(noticeInfo.notcieStrDt));
-	$('#notcieEndDt').val(toDatetimeLocalValue(noticeInfo.notcieEndDt));
+	$('#noticeStrDt').val(toDatetimeLocalValue(noticeInfo.noticeStrDt));
+	$('#noticeEndDt').val(toDatetimeLocalValue(noticeInfo.noticeEndDt));
 
 	syncNoticeLimitUI();
 }
@@ -390,8 +392,8 @@ function resetNoticeForm() {
 	$('#noticePopYn').prop('checked', false);
 	$('#noticeLimitYn').prop('checked', false);
 
-	$('#notcieStrDt').val('');
-	$('#notcieEndDt').val('');
+	$('#noticeStrDt').val('');
+	$('#noticeEndDt').val('');
 
 	deletedSavedFileId = [];
 	renderSavedFiles([]);
@@ -559,11 +561,11 @@ function renderSavedFiles(fileList) {
 function syncNoticeLimitUI() {
 	var on = $('#noticeLimitYn').is(':checked');
 
-	$('#notcieStrDt, #notcieEndDt').prop('disabled', !on);
-	$('#lblNotcieStrDt, #lblNotcieEndDt').toggleClass('required', on);
+	$('#noticeStrDt, #noticeEndDt').prop('disabled', !on);
+	$('#lblNoticeStrDt, #lblNoticeEndDt').toggleClass('required', on);
 
 	if (!on) {
-		$('#notcieStrDt, #notcieEndDt').val('');
+		$('#noticeStrDt, #noticeEndDt').val('');
 	}
 }
 

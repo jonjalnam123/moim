@@ -3,11 +3,9 @@ package com.inst.project.admin.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,12 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.inst.project.admin.service.AdminBoardService;
 import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.util.CommonUtil;
 import com.inst.project.util.FileUtil;
 import com.inst.project.util.PagerUtil;
 
@@ -157,7 +158,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	                continue;
 	            }
 	            
-	            AdminFileDTO adminFileDTO = FileUtil.saveImageFile(file, basePath);
+	            AdminFileDTO adminFileDTO = FileUtil.saveFile(file, basePath);
 	            if (adminFileDTO == null) {
 	                throw new RuntimeException("파일 저장 실패");
 	            }
@@ -167,6 +168,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	            adminFileDTO.setRefId(adminNoticeDTO.getNoticeId());
 	            adminFileDTO.setRegId(adminNoticeDTO.getRegId());
 	            adminFileDTO.setUpdId(adminNoticeDTO.getRegId());
+	            FileUtil.createImageThumbnail(adminFileDTO);
 	            
 	            savedFiles.add(adminFileDTO);
 	            
@@ -209,78 +211,86 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Transactional(rollbackFor = Exception.class)
 	public int adminNoticeUpd(AdminNoticeDTO adminNoticeDTO, List<MultipartFile> adminFiles, List<String> deleteFileId, HttpServletRequest req) {
 		log.info(" [ AdminMngServiceImpl ] : adminNoticeUpd ");
-		 
-	    String basePath = req.getServletContext().getRealPath("/resources/static/file");
-	    
-	    try {
-	        List<MultipartFile> uploadFiles = normalizeFiles(adminFiles);
-	        List<String> deleteIds = normalizeDeleteNos(deleteFileId);
 
-	        // 삭제 대상 파일 조회
-	        List<AdminFileDTO> deleteTargets = Collections.emptyList();
-	        if (!deleteIds.isEmpty()) {
-	            deleteTargets = adminBoardMapper.selectNoticeFilesForDelete(adminNoticeDTO.getNoticeId(), deleteIds);
+		String basePath = req.getServletContext().getRealPath("/resources/static/file");
 
-	            if (deleteTargets.size() != deleteIds.size()) {
-	                throw new IllegalArgumentException("삭제 대상 파일 정보가 올바르지 않습니다.");
-	            }
-	        }
+		try {
+			List<MultipartFile> uploadFiles = normalizeFiles(adminFiles);
+			List<String> deleteIds = normalizeDeleteNos(deleteFileId);
+			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				throw new IllegalArgumentException("세션 정보가 없습니다.");
+			}
+			
+			adminNoticeDTO.setUpdId(adminId); // 수정자 정보 셋팅
 
-	        // 현재 파일 수 조회
-	        int existingCount = adminBoardMapper.countNoticeFiles(adminNoticeDTO.getNoticeId());
-	        int remainCount = existingCount - deleteTargets.size();
+			List<AdminFileDTO> deleteTargets = Collections.emptyList();
+			if (!deleteIds.isEmpty()) {
+				deleteTargets = adminBoardMapper.selectNoticeFilesForDelete(adminNoticeDTO.getNoticeId(), deleteIds);
 
-	        if (remainCount < 0) {
-	            remainCount = 0;
-	        }
+				if (deleteTargets.size() != deleteIds.size()) {
+					throw new IllegalArgumentException("삭제 대상 파일 정보가 올바르지 않습니다.");
+				}
+			}
 
-	        if (remainCount + uploadFiles.size() > 5) {
-	            throw new IllegalArgumentException("첨부파일은 최대 5개까지 가능합니다.");
-	        }
+			int existingCount = adminBoardMapper.countNoticeFiles(adminNoticeDTO.getNoticeId());
+			int remainCount = existingCount - deleteTargets.size();
 
-	        // 공지사항 수정
-	        int updResult = adminBoardMapper.updateAdminNotice(adminNoticeDTO);
+			if (remainCount < 0) {
+				remainCount = 0;
+			}
 
-	        if (updResult <= 0) {
-	            return 0;
-	        }
+			if (remainCount + uploadFiles.size() > 5) {
+				throw new IllegalArgumentException("첨부파일은 최대 5개까지 가능합니다.");
+			}
 
-	        // 삭제 예정 파일 DB 삭제
-	        if (!deleteIds.isEmpty()) {
-	        	adminBoardMapper.deleteAdminNoticeFile(adminNoticeDTO.getNoticeId(), deleteIds);
-	        }
+			int updResult = adminBoardMapper.updateAdminNotice(adminNoticeDTO);
 
-	        // 신규 파일 저장 + DB 등록
-	        for (MultipartFile file : uploadFiles) {
-	            AdminFileDTO fileDto = FileUtil.saveImageFile(file, basePath);
-	            fileDto.setFileId(UUID.randomUUID().toString());
-	            fileDto.setRefId(adminNoticeDTO.getNoticeId());
-	            fileDto.setRefType("NOTICE");
-	            fileDto.setRegId(adminNoticeDTO.getRegId());
-	            fileDto.setUpdId(adminNoticeDTO.getRegId());
+			if (updResult <= 0) {
+				return 0;
+			}
 
-	            adminBoardMapper.insertAdminNoticeFile(fileDto);
-	        }
+			if (!deleteIds.isEmpty()) {
+				adminBoardMapper.deleteAdminNoticeFile(adminNoticeDTO.getNoticeId(), deleteIds);
+			}
 
-	        // 실제 파일 삭제
-	        for (AdminFileDTO deleteFile : deleteTargets) {
-	            FileUtil.deleteFile(deleteFile.getFilePath(), deleteFile.getFileNm());
-	        }
+			for (MultipartFile file : uploadFiles) {
+				AdminFileDTO fileDto = FileUtil.saveFile(file, basePath);
+				fileDto.setFileId(UUID.randomUUID().toString());
+				fileDto.setRefId(adminNoticeDTO.getNoticeId());
+				fileDto.setRefType("NOTICE");
+				fileDto.setRegId(adminNoticeDTO.getRegId());
+				fileDto.setUpdId(adminNoticeDTO.getRegId());
+				FileUtil.createImageThumbnail(fileDto);
 
-	        return updResult;
+				adminBoardMapper.insertAdminNoticeFile(fileDto);
+			}
 
-	    } catch (IllegalArgumentException e) {
-	        log.error("adminNoticeUpd validation error. noticeId={}, message={}",
-	                adminNoticeDTO != null ? adminNoticeDTO.getNoticeId() : null,
-	                e.getMessage(), e);
-	        throw e;
-	    } catch (Exception e) {
-	        log.error("adminNoticeUpd error. noticeId={}",
-	                adminNoticeDTO != null ? adminNoticeDTO.getNoticeId() : null, e);
-	        throw new RuntimeException("공지사항 수정 중 오류가 발생했습니다.", e);
-	    }
+			for (AdminFileDTO deleteFile : deleteTargets) {
+				FileUtil.deleteFile(deleteFile.getFilePath(), deleteFile.getFileNm());
+			}
+
+			return updResult;
+
+		} catch (Exception e) {
+			log.error("[ AdminMngServiceImpl ] : adminNoticeUpd failed", e);
+
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			
+			return 0;
+		}
 	}
 	
+	/**
+	* @methodName	 	: normalizeFiles
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 업로드할 정상 파일만 추려내는 메서드
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
     private List<MultipartFile> normalizeFiles(List<MultipartFile> adminFiles) {
         if (adminFiles == null) {
             return new ArrayList<>();
@@ -291,6 +301,16 @@ public class AdminBoardServiceImpl implements AdminBoardService {
                 .collect(Collectors.toList());
     }
 
+	/**
+	* @methodName	 	: normalizeDeleteNos
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 삭제할 정상 파일번호만 정리하는 메서드
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
     private List<String> normalizeDeleteNos(List<String> deleteFileNos) {
         if (deleteFileNos == null || deleteFileNos.isEmpty()) {
             return new ArrayList<>();
@@ -303,5 +323,77 @@ public class AdminBoardServiceImpl implements AdminBoardService {
                 .distinct()
                 .collect(Collectors.toList());
     } 
+    
+	/**
+	* @methodName	 	: adminNoticeDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 공지사항 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int adminNoticeDel(AdminNoticeDTO adminNoticeDTO, HttpServletRequest req) {
+    	log.info("[ AdminMngServiceImpl ] : adminNoticeDel");
+
+    	try {
+    		String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+    		if (CommonUtil.isBlank(adminId)) {
+    			throw new IllegalArgumentException("세션 정보가 없습니다.");
+    		}
+
+    		if (adminNoticeDTO == null || CommonUtil.isBlank(adminNoticeDTO.getNoticeId())) {
+    			throw new IllegalArgumentException("공지사항 번호가 없습니다.");
+    		}
+
+    		adminNoticeDTO.setUpdId(adminId);
+
+    		List<AdminFileDTO> deleteTargets = adminBoardMapper.selectNoticeFileInfo(adminNoticeDTO.getNoticeId());
+    		if (deleteTargets == null) {
+    			deleteTargets = Collections.emptyList();
+    		}
+
+    		int delResult = adminBoardMapper.deleteAdminNotice(adminNoticeDTO);
+    		if (delResult <= 0) {
+    			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+    			return 0;
+    		}
+
+    		adminBoardMapper.adminNoticeFileDel(adminNoticeDTO.getNoticeId());
+
+    		final List<AdminFileDTO> finalDeleteTargets = new ArrayList<>(deleteTargets);
+
+    		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+    			@Override
+    			public void afterCommit() {
+    				for (AdminFileDTO deleteFile : finalDeleteTargets) {
+    					try {
+    						boolean deleted = FileUtil.deleteFile(deleteFile.getFilePath(), deleteFile.getFileNm());
+
+    						if (!deleted) {
+    							log.warn("[ AdminMngServiceImpl ] : physical file delete failed. fileId={}, fileNm={}, filePath={}",
+    									deleteFile.getFileId(), deleteFile.getFileNm(), deleteFile.getFilePath());
+    						}
+    					} catch (Exception ex) {
+    						log.error("[ AdminMngServiceImpl ] : physical file delete error. fileId={}, fileNm={}, filePath={}",
+    								deleteFile.getFileId(), deleteFile.getFileNm(), deleteFile.getFilePath(), ex);
+    					}
+    				}
+    			}
+    		});
+
+    		return delResult;
+
+    	} catch (Exception e) {
+    		log.error("[ AdminMngServiceImpl ] : adminNoticeDel failed. noticeId={}",
+    				adminNoticeDTO != null ? adminNoticeDTO.getNoticeId() : null, e);
+
+    		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+    		return 0;
+    	}
+    }
 	
 }
