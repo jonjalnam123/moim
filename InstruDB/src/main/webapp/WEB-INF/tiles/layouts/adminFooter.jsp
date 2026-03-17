@@ -4,7 +4,7 @@
   <div class="container-fluid px-4">
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between small">
       <!-- 좌측 -->
-      <div class="footer-left">&copy; URDOGZONE 2025</div>
+      <div class="footer-left">&copy; MOIM 2025</div>
 
       <!-- 중앙 SNS -->
       <div class="footer-sns">
