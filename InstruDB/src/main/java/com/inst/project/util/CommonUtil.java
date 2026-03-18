@@ -83,6 +83,7 @@ public class CommonUtil {
 
 		HttpSession session = req.getSession();
 	    
+		String adminNo = adminInfo.getAdminNo();
 	    String adminId = adminInfo.getAdminId();
 	    String adminNm = adminInfo.getAdminNm();
 	    String adminIp = adminInfo.getAdminIp();
@@ -99,6 +100,7 @@ public class CommonUtil {
 	    String adminSmsChkYn = adminInfo.getAdminSmsChkYn();
 	    String adminCarYn = adminInfo.getAdminCarYn();
 	    
+	    session.setAttribute("adminNo", adminNo);
 	    session.setAttribute("adminId", adminId);
 	    session.setAttribute("adminNm", adminNm);
 	    session.setAttribute("adminIp", adminIp);
