@@ -25,11 +25,13 @@ import com.inst.project.admin.vo.AdminUnitDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.PagerUtil;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping(value="/admin")
+@RequiredArgsConstructor
 public class AdminMngController {
 	
 	@Autowired
@@ -210,10 +212,16 @@ public class AdminMngController {
 		log.info(" [ AdminMngController ] : adminMenuSelect ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// 관리자 메뉴 상세 조회
 		AdminMenuDTO selectResult = adminMngService.adminMenuSelect(adminMenuDTO);	
+		
+		// 관리자 메뉴 상세조회 결과로 부서코드 조회
 		List<Map<String, Object>> menuDeptList = adminMngService.adminMenuDeptCdSelect(selectResult);
 
 		if ( menuDeptList == null ) {
+			
+			// 관리자 유닛 조회
 			List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitAllList();
 			result.put("adminUnitList", adminUnitList);
 		}
@@ -260,7 +268,7 @@ public class AdminMngController {
 	@PostMapping(value = "/menuUpd.do")
 	@ResponseBody
 	public Map<String,Object> adminMenuUpd( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
-		log.info(" [ AdminMngController ] : adminMenuReg ");
+		log.info(" [ AdminMngController ] : adminMenuUpd ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int regResult = adminMngService.adminMenuUpd(adminMenuDTO, req);
@@ -316,7 +324,7 @@ public class AdminMngController {
 		// 유닛 레벨 3 조회
 		List<AdminUnitDTO> adminUnitList3 = adminMngService.selectUnitList3();
 		
-		if( adminUnitList == null || adminUnitList2 == null || adminUnitList2 == null) {
+		if( adminUnitList == null || adminUnitList2 == null || adminUnitList3 == null) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
@@ -512,7 +520,7 @@ public class AdminMngController {
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
-	@PostMapping(value = "/posotionSelect.do")
+	@PostMapping(value = "/positionSelect.do") 
 	@ResponseBody
 	public List<Map<String, Object>> getAdminUnitPosition( @RequestParam(defaultValue = "") String adminUnitId ) {
 		log.info(" [ AdminMngController ] : getAdminUnitPosition ");

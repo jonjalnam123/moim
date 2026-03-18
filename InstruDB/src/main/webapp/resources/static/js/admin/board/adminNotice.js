@@ -1,6 +1,6 @@
 /**
  * 작성자 : 최정석
- * 작성날짜 : 2025.08.07
+ * 작성날짜 : 2026.03.18
  * 내용 : adminNotice 스크립트
  */
 
@@ -12,30 +12,34 @@ var deletedSavedFileId = [];
 
 $(function () {
 
-	// 리사이즈
+	// 리사이즈 함수
 	initSplitResizeJQ();
+
+	// 그리드 열 사이즈 조절 함수
 	makeTableResizable('.table-grid', 'adminNotice.tableGrid.widths');
 
-	// 페이징 세팅
-	setPagingParam($('#searchGbParam').val(), $('#pageNumParam').val());
+	// 페이징 이벤트 [S]
+	var searchGb = $('#searchGbParam').val();
+	var pageNum = $('#pageNumParam').val();
+	setPagingParam(searchGb, pageNum);
 
 	// 초기 화면
 	syncNoticeLimitUI();
 	switchToInsertMode();
 
-	// 페이징 버튼
+	// 페이징 버튼 이벤트
 	$('.p').on('click', function () {
 		var n = $(this).attr('data-list-pn');
 		$('#pageNum').val(n);
 		$('#adminNoticeSearchForm').submit();
 	});
 
-	// 조회
+	// 조회 버튼 이벤트
 	$('#btnSearch').on('click', function () {
 		$('#adminNoticeSearchForm').submit();
 	});
 
-	// 초기화
+	// 초기화 버튼 이벤트
 	$('#btnReset').on('click', function () {
 		$('#searchGb').val('noticeTitle');
 		$('#searchTxt').val('');
@@ -43,17 +47,22 @@ $(function () {
 		$('#adminNoticeSearchForm').submit();
 	});
 
-	// 엔터 조회
+	// 엔터키 이벤트
 	$('#searchTxt').on('keydown', function (e) {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			$('#btnSearch').trigger('click');
 		}
 	});
+	// 페이징 이벤트 [E]
 
-	// 공지사항 번호 생성
+	// 공지사항 번호 생성 이벤트 [S]
 	$('#getNoticeId').on('click', function () {
-		ajaxStart('/admin/uniqueId.do', {}, 'json', function (data) {
+		var url = '/admin/uniqueId.do';
+		var params = {};
+		var dataType = 'json';
+
+		ajaxStart(url, params, dataType, function (data) {
 			var result = data.result;
 
 			if (!isEmpty(result)) {
@@ -66,11 +75,15 @@ $(function () {
 			}
 		});
 	});
+	// 공지사항 번호 생성 이벤트 [E]
 
-	// 기한설정 토글
-	$('#noticeLimitYn').on('change', syncNoticeLimitUI);
+	// 기한설정 체크 이벤트 [S]
+	$('#noticeLimitYn').on('change', function () {
+		syncNoticeLimitUI();
+	});
+	// 기한설정 체크 이벤트 [E]
 
-	// 공지사항 상세 더블클릭
+	// 공지사항 상세 더블클릭 이벤트 [S]
 	$('.adminNoticeInfoTr').on('dblclick', function () {
 
 		var noticeId = $(this).data('id');
@@ -84,43 +97,153 @@ $(function () {
 		$(this).addClass('is-selected');
 
 		var url = '/admin/noticeInfo.do';
-		var param = { noticeId: noticeId };
+		var params = {
+			noticeId : noticeId
+		};
+		var dataType = 'json';
 
-		ajaxStart(url, param, 'json', function (data) {
-			if (Number(data.result) <= 0) {
+		ajaxStart(url, params, dataType, function (data) {
+			var result = Number(data.result);
+			var adminNoticeInfo = data.adminNoticeInfo;
+			var adminNoticeFileList = data.adminNoticeFileList || [];
+
+			if (result <= 0) {
 				goToUri('/admin/error.do');
 				return;
 			}
 
 			deletedSavedFileId = [];
-			fillNoticeForm(data.adminNoticeInfo);
-			renderSavedFiles(data.adminNoticeFileList || []);
-			clearNewFiles();
 
+			$('#noticeId').val(adminNoticeInfo.noticeId || '');
+			$('#regId').val(adminNoticeInfo.regId || '');
+			$('#regDt').val(toDisplayDatetime(adminNoticeInfo.regDt));
+			$('#noticeTitle').val(adminNoticeInfo.noticeTitle || '');
+			$('#noticeCn').val(adminNoticeInfo.noticeCn || '');
+
+			$('#noticeFixYn').prop('checked', adminNoticeInfo.noticeFixYn === 'Y');
+			$('#noticePopYn').prop('checked', adminNoticeInfo.noticePopYn === 'Y');
+			$('#noticeLimitYn').prop('checked', adminNoticeInfo.noticeLimitYn === 'Y');
+
+			$('#noticeStrDt').val(toDatetimeLocalValue(adminNoticeInfo.noticeStrDt));
+			$('#noticeEndDt').val(toDatetimeLocalValue(adminNoticeInfo.noticeEndDt));
+
+			renderSavedFiles(adminNoticeFileList);
+			clearNewFiles();
+			syncNoticeLimitUI();
 			switchToUpdateMode();
 		});
 	});
+	// 공지사항 상세 더블클릭 이벤트 [E]
 
-	// 신규
+	// 신규 버튼 이벤트 [S]
 	$('#btnNew').on('click', function () {
 		resetNoticeForm();
 		switchToInsertMode();
 	});
+	// 신규 버튼 이벤트 [E]
 
-	// 저장 / 수정
+	// 공지사항 등록, 수정 이벤트 [S]
 	$('#btnReg, #btnUpd').on('click', function () {
 
-		var mode = $(this).val();
+		var btnVal = $(this).val();
 		var url = '';
 
-		var formData = buildNoticeFormData();
-		if (!formData) return;
+		var noticeId = $.trim($('#noticeId').val());
+		var regId = $.trim($('#regId').val());
+		var regDt = $.trim($('#regDt').val());
+		var noticeTitle = $.trim($('#noticeTitle').val());
+		var noticeCn = $.trim($('#noticeCn').val());
 
-		if (mode === 'I') {
-			if (!confirm('공지사항' + regProcConfirm)) return;
+		var noticeFixYn = $('#noticeFixYn').is(':checked') ? 'Y' : 'N';
+		var noticePopYn = $('#noticePopYn').is(':checked') ? 'Y' : 'N';
+		var noticeLimitYn = $('#noticeLimitYn').is(':checked') ? 'Y' : 'N';
+		var noticeStrDt = $('#noticeStrDt').val();
+		var noticeEndDt = $('#noticeEndDt').val();
+
+		var files = selectedAdminFiles;
+		var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+		var remainSavedCount = getActiveSavedFileCount();
+		var totalCount = remainSavedCount + files.length;
+
+		if (isEmpty(noticeId)) {
+			alert('공지사항 번호를 먼저 생성하세요.');
+			return;
+		}
+
+		if (isEmpty(regId)) {
+			alert('작성자 정보가 없습니다.');
+			return;
+		}
+
+		if (isEmpty(noticeTitle)) {
+			alert('공지사항 제목을 입력하세요.');
+			$('#noticeTitle').focus();
+			return;
+		}
+
+		if (isEmpty(noticeCn)) {
+			alert('공지사항 내용을 입력하세요.');
+			$('#noticeCn').focus();
+			return;
+		}
+
+		if (noticeLimitYn === 'Y') {
+			if (isEmpty(noticeStrDt) || isEmpty(noticeEndDt)) {
+				alert('기한설정 사용 시 시작날짜와 종료날짜를 모두 입력하세요.');
+				return;
+			}
+
+			if (noticeStrDt > noticeEndDt) {
+				alert('종료날짜는 시작날짜보다 빠를 수 없습니다.');
+				return;
+			}
+		}
+
+		if (totalCount > 5) {
+			alert('첨부파일은 최대 5개까지 가능합니다.');
+			return;
+		}
+
+		var formData = new FormData();
+
+		formData.append('noticeId', noticeId);
+		formData.append('regId', regId);
+		formData.append('regDt', regDt);
+		formData.append('noticeTitle', noticeTitle);
+		formData.append('noticeCn', noticeCn);
+
+		formData.append('noticeFixYn', noticeFixYn);
+		formData.append('noticePopYn', noticePopYn);
+		formData.append('noticeLimitYn', noticeLimitYn);
+		formData.append('noticeStrDt', noticeStrDt);
+		formData.append('noticeEndDt', noticeEndDt);
+
+		for (var d = 0; d < deletedSavedFileId.length; d++) {
+			formData.append('deleteFileId', deletedSavedFileId[d]);
+		}
+
+		for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			var fileName = file.name || '';
+			var ext = fileName.indexOf('.') > -1 ? fileName.split('.').pop().toLowerCase() : '';
+
+			if ($.inArray(ext, allowExt) === -1) {
+				alert('이미지 파일만 업로드 가능합니다.');
+				return;
+			}
+
+			formData.append('adminFiles', file);
+		}
+
+		if (btnVal === 'I') {
+			if (!confirm('공지사항' + regProcConfirm)) {
+				return;
+			}
 			url = '/admin/noticeReg.do';
 		} else {
-			if (!confirm('공지사항을' + updProcConfirm)) return;
+			if (!confirm('공지사항을' + updProcConfirm)) {
+				return;
+			}
 			url = '/admin/noticeUpd.do';
 		}
 
@@ -128,16 +251,16 @@ $(function () {
 			var result = Number(data.result);
 
 			if (result > 0) {
-				alert(mode === 'I' ? '공지사항' + regSuccess : '공지사항' + updSuccess);
+				alert(btnVal === 'I' ? '공지사항' + regSuccess : '공지사항' + updSuccess);
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');
-				return;
 			}
 		});
 	});
+	// 공지사항 등록, 수정 이벤트 [E]
 
-	// 공지사항 삭제
+	// 공지사항 삭제 이벤트 [S]
 	$('#btnDel').on('click', function () {
 
 		var noticeId = $('#noticeId').val();
@@ -147,9 +270,17 @@ $(function () {
 			return;
 		}
 
-		if (!confirm('공지사항을 삭제하시겠습니까?')) return;
+		if (!confirm('공지사항을 삭제하시겠습니까?')) {
+			return;
+		}
 
-		ajaxStart('/admin/noticeDel.do', { noticeId: noticeId }, 'json', function (data) {
+		var url = '/admin/noticeDel.do';
+		var params = {
+			noticeId : noticeId
+		};
+		var dataType = 'json';
+
+		ajaxStart(url, params, dataType, function (data) {
 			var result = Number(data.result);
 
 			if (result > 0) {
@@ -157,18 +288,20 @@ $(function () {
 				window.location.reload();
 			} else {
 				goToUri('/admin/error.do');
-				return;
 			}
 		});
 	});
+	// 공지사항 삭제 이벤트 [E]
 
-	// 파일 선택 버튼
+	// 파일 선택 버튼 이벤트 [S]
 	$('#btnPickFiles').on('click', function () {
 		$('#adminFiles').trigger('click');
 	});
+	// 파일 선택 버튼 이벤트 [E]
 
-	// 파일 선택 - 기존 선택 유지 + 누적 추가
+	// 파일 선택 이벤트 [S]
 	$('#adminFiles').on('change', function () {
+
 		var input = this;
 		var newFiles = Array.from(input.files || []);
 
@@ -179,7 +312,6 @@ $(function () {
 		var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
 		var remainSavedCount = getActiveSavedFileCount();
 
-		// 확장자 체크
 		for (var i = 0; i < newFiles.length; i++) {
 			var ext = newFiles[i].name.indexOf('.') > -1 ? newFiles[i].name.split('.').pop().toLowerCase() : '';
 
@@ -190,7 +322,6 @@ $(function () {
 			}
 		}
 
-		// 기존 선택 파일 + 새 선택 파일 합치기
 		var mergedFiles = selectedAdminFiles.slice();
 
 		$.each(newFiles, function (_, file) {
@@ -205,7 +336,6 @@ $(function () {
 			}
 		});
 
-		// 저장 유지 파일 + 신규 선택 파일 최대 5개 제한
 		if (remainSavedCount + mergedFiles.length > 5) {
 			alert('첨부파일은 최대 5개까지 가능합니다. 현재 유지 파일 ' + remainSavedCount + '개, 신규 선택 가능 파일은 최대 ' + (5 - remainSavedCount) + '개입니다.');
 			input.value = '';
@@ -218,9 +348,11 @@ $(function () {
 		syncAdminFilesInput();
 		refreshNewFilesUI();
 	});
+	// 파일 선택 이벤트 [E]
 
-	// 저장된 파일 다운로드
+	// 저장된 파일 다운로드 이벤트 [S]
 	$('#savedFileList').on('click', '.btnFileDown', function () {
+
 		var $item = $(this).closest('.attach-item');
 
 		if ($item.hasClass('is-delete-pending')) {
@@ -237,21 +369,24 @@ $(function () {
 
 		window.location.href = '/admin/fileDown.do?fileId=' + encodeURIComponent(fileId) + '&refType=' + encodeURIComponent('NOTICE');
 	});
+	// 저장된 파일 다운로드 이벤트 [E]
 
-	// 저장된 파일 삭제예정 토글
+	// 저장된 파일 삭제예정 이벤트 [S]
 	$('#savedFileList').on('click', '.btnFileDel', function () {
+
 		var $item = $(this).closest('.attach-item');
 		var fileId = String($item.data('file-id') || '');
 
-		if (!fileId) {
+		if (isEmpty(fileId)) {
 			alert('파일 번호가 없습니다.');
 			return;
 		}
 
 		toggleSavedFileDelete(fileId, $item);
 	});
+	// 저장된 파일 삭제예정 이벤트 [E]
 
-	// 새 파일 제거
+	// 새 파일 제거 이벤트 [S]
 	$('#newFileList').on('click', '.btnNewFileRemove', function () {
 		var idx = parseInt($(this).closest('.attach-item').attr('data-new-idx'), 10);
 
@@ -259,124 +394,14 @@ $(function () {
 			removeNewFileByIndex(idx);
 		}
 	});
+	// 새 파일 제거 이벤트 [E]
 });
 
 /*******************************
-* 공지사항 FormData 생성
-********************************/
-function buildNoticeFormData() {
-
-	var noticeId = $.trim($('#noticeId').val());
-	var regId = $.trim($('#regId').val());
-	var noticeTitle = $.trim($('#noticeTitle').val());
-	var noticeCn = $.trim($('#noticeCn').val());
-
-	var noticeLimitYn = $('#noticeLimitYn').is(':checked') ? 'Y' : 'N';
-	var noticeStrDt = $('#noticeStrDt').val();
-	var noticeEndDt = $('#noticeEndDt').val();
-
-	var files = selectedAdminFiles;
-	var allowExt = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
-
-	var remainSavedCount = getActiveSavedFileCount();
-	var totalCount = remainSavedCount + files.length;
-
-	if (isEmpty(noticeId)) {
-		alert('공지사항 번호를 먼저 생성하세요.');
-		return null;
-	}
-
-	if (isEmpty(regId)) {
-		alert('작성자 정보가 없습니다.');
-		return null;
-	}
-
-	if (isEmpty(noticeTitle)) {
-		alert('공지사항 제목을 입력하세요.');
-		$('#noticeTitle').focus();
-		return null;
-	}
-
-	if (isEmpty(noticeCn)) {
-		alert('공지사항 내용을 입력하세요.');
-		$('#noticeCn').focus();
-		return null;
-	}
-
-	if (noticeLimitYn === 'Y') {
-		if (isEmpty(noticeStrDt) || isEmpty(noticeEndDt)) {
-			alert('기한설정 사용 시 시작날짜와 종료날짜를 모두 입력하세요.');
-			return null;
-		}
-
-		if (noticeStrDt > noticeEndDt) {
-			alert('종료날짜는 시작날짜보다 빠를 수 없습니다.');
-			return null;
-		}
-	}
-
-	if (totalCount > 5) {
-		alert('첨부파일은 최대 5개까지 가능합니다.');
-		return null;
-	}
-
-	var formData = new FormData();
-
-	formData.append('noticeId', noticeId);
-	formData.append('regId', regId);
-	formData.append('regDt', $('#regDt').val());
-	formData.append('noticeTitle', noticeTitle);
-	formData.append('noticeCn', noticeCn);
-
-	formData.append('noticeFixYn', $('#noticeFixYn').is(':checked') ? 'Y' : 'N');
-	formData.append('noticePopYn', $('#noticePopYn').is(':checked') ? 'Y' : 'N');
-	formData.append('noticeLimitYn', noticeLimitYn);
-
-	formData.append('noticeStrDt', noticeStrDt);
-	formData.append('noticeEndDt', noticeEndDt);
-
-	for (var d = 0; d < deletedSavedFileId.length; d++) {
-		formData.append('deleteFileId', deletedSavedFileId[d]);
-	}
-
-	for (var i = 0; i < files.length; i++) {
-		var file = files[i];
-		var fileName = file.name || '';
-		var ext = fileName.indexOf('.') > -1 ? fileName.split('.').pop().toLowerCase() : '';
-
-		if ($.inArray(ext, allowExt) === -1) {
-			alert('이미지 파일만 업로드 가능합니다.');
-			return null;
-		}
-
-		formData.append('adminFiles', file);
-	}
-
-	return formData;
-}
-
-/*******************************
-* 상세 폼 채우기
-********************************/
-function fillNoticeForm(noticeInfo) {
-	$('#noticeId').val(noticeInfo.noticeId || '');
-	$('#regId').val(noticeInfo.regId || '');
-	$('#regDt').val(toDisplayDatetime(noticeInfo.regDt));
-	$('#noticeTitle').val(noticeInfo.noticeTitle || '');
-	$('#noticeCn').val(noticeInfo.noticeCn || '');
-
-	$('#noticeFixYn').prop('checked', noticeInfo.noticeFixYn === 'Y');
-	$('#noticePopYn').prop('checked', noticeInfo.noticePopYn === 'Y');
-	$('#noticeLimitYn').prop('checked', noticeInfo.noticeLimitYn === 'Y');
-
-	$('#noticeStrDt').val(toDatetimeLocalValue(noticeInfo.noticeStrDt));
-	$('#noticeEndDt').val(toDatetimeLocalValue(noticeInfo.noticeEndDt));
-
-	syncNoticeLimitUI();
-}
-
-/*******************************
-* 화면 초기화
+* FuntionNm : resetNoticeForm
+* Date : 2026.03.18
+* Author : CJS
+* Description : 공지사항 입력 폼 초기화
 ********************************/
 function resetNoticeForm() {
 
@@ -402,7 +427,10 @@ function resetNoticeForm() {
 }
 
 /*******************************
-* 입력 모드 전환
+* FuntionNm : switchToInsertMode
+* Date : 2026.03.18
+* Author : CJS
+* Description : 등록 모드 화면 전환
 ********************************/
 function switchToInsertMode() {
 	$('#btnReg').show();
@@ -413,7 +441,10 @@ function switchToInsertMode() {
 }
 
 /*******************************
-* 수정 모드 전환
+* FuntionNm : switchToUpdateMode
+* Date : 2026.03.18
+* Author : CJS
+* Description : 수정 모드 화면 전환
 ********************************/
 function switchToUpdateMode() {
 	$('#btnReg').hide();
@@ -424,25 +455,42 @@ function switchToUpdateMode() {
 }
 
 /*******************************
-* 저장 파일 없을 때 힌트
+* FuntionNm : syncNoticeLimitUI
+* Date : 2026.03.18
+* Author : CJS
+* Description : 기한설정 체크 상태에 따라 날짜 입력 제어
 ********************************/
-function toggleSavedFileHint() {
-	if ($('#savedFileList .attach-item').length === 0) {
-		$('#savedFileHint').show();
-	} else {
-		$('#savedFileHint').hide();
+function syncNoticeLimitUI() {
+
+	var isChecked = $('#noticeLimitYn').is(':checked');
+
+	$('#noticeStrDt').prop('disabled', !isChecked);
+	$('#noticeEndDt').prop('disabled', !isChecked);
+
+	$('#lblNoticeStrDt').toggleClass('required', isChecked);
+	$('#lblNoticeEndDt').toggleClass('required', isChecked);
+
+	if (!isChecked) {
+		$('#noticeStrDt').val('');
+		$('#noticeEndDt').val('');
 	}
 }
 
 /*******************************
-* 활성 상태 저장 파일 개수
+* FuntionNm : getActiveSavedFileCount
+* Date : 2026.03.18
+* Author : CJS
+* Description : 삭제 예정이 아닌 저장 파일 개수 반환
 ********************************/
 function getActiveSavedFileCount() {
 	return $('#savedFileList .attach-item').not('.is-delete-pending').length;
 }
 
 /*******************************
-* 저장 파일 삭제예정 토글
+* FuntionNm : toggleSavedFileDelete
+* Date : 2026.03.18
+* Author : CJS
+* Description : 저장 파일 삭제 예정 상태 토글
 ********************************/
 function toggleSavedFileDelete(fileId, $item) {
 
@@ -462,26 +510,13 @@ function toggleSavedFileDelete(fileId, $item) {
 }
 
 /*******************************
-* 바이트 포맷
-********************************/
-function formatBytes(bytes) {
-	if (!bytes && bytes !== 0) return '';
-	var units = ['B', 'KB', 'MB', 'GB', 'TB'];
-	var i = 0;
-	var n = bytes;
-
-	while (n >= 1024 && i < units.length - 1) {
-		n /= 1024;
-		i++;
-	}
-
-	return (i === 0 ? n : n.toFixed(1)) + ' ' + units[i];
-}
-
-/*******************************
-* 선택 파일 input 동기화
+* FuntionNm : syncAdminFilesInput
+* Date : 2026.03.18
+* Author : CJS
+* Description : 선택된 파일 배열을 input file 에 동기화
 ********************************/
 function syncAdminFilesInput() {
+
 	var input = document.getElementById('adminFiles');
 	var dt = new DataTransfer();
 
@@ -493,7 +528,10 @@ function syncAdminFilesInput() {
 }
 
 /*******************************
-* 새 파일 목록 렌더
+* FuntionNm : refreshNewFilesUI
+* Date : 2026.03.18
+* Author : CJS
+* Description : 신규 선택 파일 목록 화면 갱신
 ********************************/
 function refreshNewFilesUI() {
 
@@ -509,12 +547,12 @@ function refreshNewFilesUI() {
 
 	$('#adminFilesSummary').text('선택됨: ' + files.length + '개');
 
-	$.each(files, function (idx, f) {
+	$.each(files, function (idx, file) {
 		$list.append(
 			'<li class="attach-item" data-new-idx="' + idx + '">' +
 				'<div class="attach-left">' +
-					'<div class="attach-name" title="' + escapeHtml(f.name) + '">' + escapeHtml(f.name) + '</div>' +
-					'<div class="attach-meta">' + formatBytes(f.size) + '</div>' +
+					'<div class="attach-name" title="' + escapeHtml(file.name) + '">' + escapeHtml(file.name) + '</div>' +
+					'<div class="attach-meta">' + formatBytes(file.size) + '</div>' +
 				'</div>' +
 				'<div class="attach-actions">' +
 					'<button type="button" class="btn-mini remove btnNewFileRemove">제거</button>' +
@@ -525,7 +563,10 @@ function refreshNewFilesUI() {
 }
 
 /*******************************
-* 저장 파일 목록 렌더
+* FuntionNm : renderSavedFiles
+* Date : 2026.03.18
+* Author : CJS
+* Description : 저장된 파일 목록 화면 출력
 ********************************/
 function renderSavedFiles(fileList) {
 
@@ -556,23 +597,13 @@ function renderSavedFiles(fileList) {
 }
 
 /*******************************
-* 기한설정 토글
-********************************/
-function syncNoticeLimitUI() {
-	var on = $('#noticeLimitYn').is(':checked');
-
-	$('#noticeStrDt, #noticeEndDt').prop('disabled', !on);
-	$('#lblNoticeStrDt, #lblNoticeEndDt').toggleClass('required', on);
-
-	if (!on) {
-		$('#noticeStrDt, #noticeEndDt').val('');
-	}
-}
-
-/*******************************
-* 새 파일 제거
+* FuntionNm : removeNewFileByIndex
+* Date : 2026.03.18
+* Author : CJS
+* Description : 신규 선택 파일 1건 제거
 ********************************/
 function removeNewFileByIndex(removeIdx) {
+
 	selectedAdminFiles = selectedAdminFiles.filter(function (_, idx) {
 		return idx !== removeIdx;
 	});
@@ -582,7 +613,10 @@ function removeNewFileByIndex(removeIdx) {
 }
 
 /*******************************
-* 새 파일 초기화
+* FuntionNm : clearNewFiles
+* Date : 2026.03.18
+* Author : CJS
+* Description : 신규 선택 파일 전체 초기화
 ********************************/
 function clearNewFiles() {
 	selectedAdminFiles = [];
@@ -592,7 +626,11 @@ function clearNewFiles() {
 }
 
 /*******************************
-* 페이징 표시
+* FuntionNm : setPagingParam
+* Date : 2026.03.18
+* Author : CJS
+* Description : 페이징 진행 후 페이징 데이터 세팅 함수
+* PARAM : searchGb : 조회 조건, pageNum : 조회 페이지 번호
 ********************************/
 function setPagingParam(searchGb, pageNum) {
 	$('.s').each(function () {
@@ -609,16 +647,22 @@ function setPagingParam(searchGb, pageNum) {
 }
 
 /*******************************
-* datetime-local 변환
+* FuntionNm : toDatetimeLocalValue
+* Date : 2026.03.18
+* Author : CJS
+* Description : datetime-local 형식으로 변환
 ********************************/
 function toDatetimeLocalValue(value) {
 	if (!value) return '';
-	var s = String(value).trim().replace(' ', 'T');
-	return s.length >= 16 ? s.substring(0, 16) : s;
+	var str = String(value).trim().replace(' ', 'T');
+	return str.length >= 16 ? str.substring(0, 16) : str;
 }
 
 /*******************************
-* 일반 텍스트 날짜 변환
+* FuntionNm : toDisplayDatetime
+* Date : 2026.03.18
+* Author : CJS
+* Description : 화면 표시용 날짜 변환
 ********************************/
 function toDisplayDatetime(value) {
 	if (!value) return '';
@@ -626,7 +670,34 @@ function toDisplayDatetime(value) {
 }
 
 /*******************************
-* escape
+* FuntionNm : formatBytes
+* Date : 2026.03.18
+* Author : CJS
+* Description : 파일 사이즈 포맷 변환
+********************************/
+function formatBytes(bytes) {
+
+	if (!bytes && bytes !== 0) {
+		return '';
+	}
+
+	var units = ['B', 'KB', 'MB', 'GB', 'TB'];
+	var i = 0;
+	var size = bytes;
+
+	while (size >= 1024 && i < units.length - 1) {
+		size = size / 1024;
+		i++;
+	}
+
+	return (i === 0 ? size : size.toFixed(1)) + ' ' + units[i];
+}
+
+/*******************************
+* FuntionNm : escapeHtml
+* Date : 2026.03.18
+* Author : CJS
+* Description : HTML 특수문자 치환
 ********************************/
 function escapeHtml(str) {
 	if (str == null) return '';

@@ -230,7 +230,7 @@ $(function () {
 	// 팀 입력 이벤트
 	$('#adminTeamCd').on('change', function() {
   		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/posotionSelect.do';
+	  	var url = '/admin/positionSelect.do';
 	  	var params = { adminUnitId: adminUnitId };
 	  	var dataType = 'json';
 

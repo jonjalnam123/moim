@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.inst.project.admin.service.AdminMngService;
 import com.inst.project.admin.vo.AdminCommDTO;
@@ -49,7 +51,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			return adminCommList;
 
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectCommList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectCommList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
@@ -81,7 +83,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			return adminCommList2;
 			
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectCommList2 failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectCommList2 failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
@@ -114,7 +116,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return selectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminCommSelect failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminCommSelect failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -150,7 +152,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminCommReg(adminCommDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminCommReg failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminCommReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -184,7 +186,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminCommUpd(adminCommDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminCommUpd failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminCommUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -218,7 +220,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminCommDel(adminCommDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminCommDel failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminCommDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -251,7 +253,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectMenuList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectMenuList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -285,7 +287,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectMenuList2 failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectMenuList2 failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -320,7 +322,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return selectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuSelect failed : {}", e );
+	        log.error("[ AdminMngServiceImpl ] adminMenuSelect failed", e );
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -354,7 +356,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 		    return result;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuDeptCdSelect failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminMenuDeptCdSelect failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -394,7 +396,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminMenuReg(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuReg failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminMenuReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -432,7 +434,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminMenuUpd(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuUpd failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminMenuUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -466,7 +468,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminMenuDel(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuDel failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminMenuDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -499,7 +501,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectUnitAllList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectUnitAllList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -534,7 +536,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectUnitList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectUnitList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -569,7 +571,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] adminUnitList2 failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitList2 failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -604,7 +606,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] adminUnitList3 failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitList3 failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -639,7 +641,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return selectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUnitSelect failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitSelect failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -674,7 +676,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUnitReg(adminUnitDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUnitReg failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -707,7 +709,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUnitUpd(adminUnitDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUnitUpd failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -740,7 +742,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUnitDel(adminUnitDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUnitDel failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUnitDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -795,7 +797,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminUser failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminUser failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -826,7 +828,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminGradeList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminGradeList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminGradeList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -872,7 +874,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminInfo;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminUserInfo failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminUserInfo failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -904,7 +906,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminTeamList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminTeamList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminTeamList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -936,7 +938,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminPositionList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminPositionList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminPositionList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -984,7 +986,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUserReg(adminDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUserReg failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUserReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        
@@ -1032,7 +1034,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUserUpd(adminDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUserUpd failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUserUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -1065,7 +1067,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUserDel(adminDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUserDel failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUserDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -1119,7 +1121,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminAcceptList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminAcceptList failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminAcceptList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -1165,7 +1167,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminAcceptInfo;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminUserAcceptDtlInfo failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] selectAdminUserAcceptDtlInfo failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -1198,7 +1200,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	        return adminMngMapper.adminUserAcceptUpd(adminDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUserAcceptUpd failed : {}", e);
+	        log.error("[ AdminMngServiceImpl ] adminUserAcceptUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -1216,6 +1218,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int adminUserAcceptDel(AdminDTO adminDTO, HttpServletRequest req) {
 		log.info(" [ AdminMngServiceImpl ] : adminUserAcceptDel ");
 	    try {
@@ -1229,16 +1232,23 @@ public class AdminMngServiceImpl implements AdminMngService {
 			adminDTO.setRegId(adminId);
 			adminDTO.setUpdId(adminId);
 			
-			int rejectResult = 0;
 			int result = adminMngMapper.adminUserAcceptDel(adminDTO);
-			if ( result > 0) {
-				rejectResult = adminMngMapper.adminUserRejectCnReg(adminDTO);
+			if (result <= 0) {
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return 0;
+			}
+			
+			int rejectResult = adminMngMapper.adminUserRejectCnReg(adminDTO);
+			if (rejectResult <= 0) {
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return 0;
 			}
 	        
 	        return rejectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminUserAcceptDel failed : {}", e);
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	        log.error("[ AdminMngServiceImpl ] adminUserAcceptDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
