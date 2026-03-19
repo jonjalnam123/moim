@@ -155,7 +155,7 @@ function logOut() {
 		if (data.result == 'Y') {
 			goToUri('/admin/login.do');
 		} else {
-			goToUri('/admin/error.do');
+			goToUriAdminError();
 		}
 	});
 }

@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMainService;
+import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.admin.vo.DashboardSummaryDTO;
 import com.inst.project.admin.vo.MeetingScheduleDTO;
-import com.inst.project.admin.vo.NoticeDTO;
 import com.inst.project.admin.vo.RecentActivityDTO;
 import com.inst.project.common.GlobalConfig;
 
@@ -42,15 +43,26 @@ public class AdminMainController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/main.do")
-	public String getAdminMain(Model model) {
+	public String getAdminMain ( Model model, RedirectAttributes redirect ) {
 		log.info(" [ AdminMainController ] : getAdminMain ");
+		
+		// 메일공지사항 당일 등록 건 수 조회
+		int adminMainNoticeRegCnt = adminMainService.selectAdminMainNoticeRegCnt();
+		
+		// 메인 공지사항 조회
+		List<AdminNoticeDTO> adminMainNoticeList = adminMainService.selectAdminMainNoticeList();
+		if( adminMainNoticeList == null) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
+		}
 		
         model.addAttribute("todayYmd", new SimpleDateFormat("yyyy.MM.dd").format(new Date()));
         model.addAttribute("dashboard", buildDashboardSummary());
-        model.addAttribute("noticeList", buildNoticeList());
+        model.addAttribute("adminMainNoticeRegCnt", adminMainNoticeRegCnt);
+        model.addAttribute("adminMainNoticeList", adminMainNoticeList);
         model.addAttribute("meetingScheduleList", buildMeetingScheduleList());
         model.addAttribute("recentActivityList", buildRecentActivityList());
-		
 		
 		return "admin/main/adminMain.adm";
 	}
@@ -75,60 +87,6 @@ public class AdminMainController {
 	        vo.setWeekMeetingCnt(9);
 
 	        return vo;
-	    }
-
-	    private List<NoticeDTO> buildNoticeList() {
-	        List<NoticeDTO> list = new ArrayList<NoticeDTO>();
-
-	        NoticeDTO n1 = new NoticeDTO();
-	        n1.setNoticeId("NT202603170001");
-	        n1.setNoticeType("중요");
-	        n1.setTitle("3월 정기모임 장소 변경 안내");
-	        n1.setSummary("기존 강남 스터디룸에서 역삼 세미나실로 변경되었습니다. 참석 전 반드시 위치를 확인해 주세요.");
-	        n1.setRegDate("2026-03-17");
-	        list.add(n1);
-
-	        NoticeDTO n2 = new NoticeDTO();
-	        n2.setNoticeId("NT202603160002");
-	        n2.setNoticeType("일반");
-	        n2.setTitle("신규 회원 가입 승인 프로세스 안내");
-	        n2.setSummary("관리자 승인 이후 그룹 배정까지의 처리 절차가 일부 변경되었습니다.");
-	        n2.setRegDate("2026-03-16");
-	        list.add(n2);
-
-	        NoticeDTO n3 = new NoticeDTO();
-	        n3.setNoticeId("NT202603150003");
-	        n3.setNoticeType("이벤트");
-	        n3.setTitle("봄 시즌 네트워킹 이벤트 신청 오픈");
-	        n3.setSummary("회원 간 교류 활성화를 위한 네트워킹 이벤트 신청이 시작되었습니다.");
-	        n3.setRegDate("2026-03-15");
-	        list.add(n3);
-
-	        NoticeDTO n4 = new NoticeDTO();
-	        n4.setNoticeId("NT202603140004");
-	        n4.setNoticeType("일반");
-	        n4.setTitle("출석 체크 방식 개선 안내");
-	        n4.setSummary("모바일 출석 인증과 관리자 수동 체크 방식을 병행 운영합니다.");
-	        n4.setRegDate("2026-03-14");
-	        list.add(n4);
-
-	        NoticeDTO n5 = new NoticeDTO();
-	        n5.setNoticeId("NT202603130005");
-	        n5.setNoticeType("중요");
-	        n5.setTitle("개인정보 처리방침 개정 공지");
-	        n5.setSummary("회원정보 보관 및 파기 기준이 최신 운영정책에 맞춰 일부 개정되었습니다.");
-	        n5.setRegDate("2026-03-13");
-	        list.add(n5);
-
-	        NoticeDTO n6 = new NoticeDTO();
-	        n6.setNoticeId("NT202603120006");
-	        n6.setNoticeType("일반");
-	        n6.setTitle("운영진 회의록 공유");
-	        n6.setSummary("지난 운영진 회의에서 결정된 주요 안건을 공지사항에서 확인하실 수 있습니다.");
-	        n6.setRegDate("2026-03-12");
-	        list.add(n6);
-
-	        return list;
 	    }
 
 	    private List<MeetingScheduleDTO> buildMeetingScheduleList() {
@@ -236,7 +194,7 @@ public class AdminMainController {
 		log.info(" [ AdminMainController ] : getAdminMenuInfo ");
 		
 		Map<String,Object> result = adminMainService.selectAdminMenuInfo();
-		if ( result.isEmpty() || result == null ) {
+		if ( result == null ) {
 			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 			result = null;
 		}

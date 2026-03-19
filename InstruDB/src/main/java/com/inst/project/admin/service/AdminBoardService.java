@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.util.PagerUtil;
 
@@ -14,6 +15,9 @@ public interface AdminBoardService {
 	
 	// 관리자 공지사항 조회
 	List<AdminNoticeDTO> selectAdmionNotice(PagerUtil pager);
+	
+	// 관리자 공지사항 중요도 조회
+	List<AdminCommDTO> selectAdminNoticeEffectList();
 	
 	// 관리자 공지사항 상세조회
 	Map<String, Object> selectAdminNoticeInfo(AdminNoticeDTO adminNoticeDTO);
@@ -26,6 +30,8 @@ public interface AdminBoardService {
 	
 	// 관리자 공지사항 삭제
 	int adminNoticeDel(AdminNoticeDTO adminNoticeDTO, HttpServletRequest req);
+
+
 
 
 

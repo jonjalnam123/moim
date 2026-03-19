@@ -11,6 +11,9 @@ public class AdminNoticeDTO {
 	// 공지사항 제목
 	private String noticeTitle;
 	
+	// 중요도구분 ( I : 중요, N :  일반, E : 이벤트 )
+	private String noticeEffectGb;
+	
 	// 공지사항 내용
 	private String noticeCn;
 	

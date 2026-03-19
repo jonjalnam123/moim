@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminMainService;
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class AdminMainServiceImpl implements AdminMainService {
 			// 관리자 메뉴 2레벨 조회
 			List<AdminMenuDTO> menuList2 = adminMainMapper.selectAdminMenuInfo2();
 			
-			if ( menuList.isEmpty() && menuList2.isEmpty() ) {
+			if ( menuList == null && menuList2 == null ) {
 				result = null;
 			}
 			
@@ -54,13 +55,76 @@ public class AdminMainServiceImpl implements AdminMainService {
 			return result;
 			
 		} catch (Exception e) {
-			
-	        log.error("[ AdminMngServiceImpl ] : selectCommList failed. {}", e);
+	        log.error("[ AdminMngServiceImpl ] : selectCommList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
 			return null;
 		}
-
 	}
+	
+	/**
+	* @methodName	 	: selectAdminMainNoticeRegCnt
+	* @author					: 최정석
+	* @date            		: 2026. 03. 19.
+	* @description			: 관리자 메인 공지사항 등록 건 수 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int selectAdminMainNoticeRegCnt() {
+		log.info(" [ AdminMainServiceImpl ] : selectAdminMainNoticeRegCnt ");
+		
+		try {
+			
+			return adminMainMapper.selectAdminMainNoticeRegCnt();
+			
+		} catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectAdminMainNoticeRegCnt failed", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return 0;
+		}
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMainNoticeList
+	* @author					: 최정석
+	* @date            		: 2026. 03. 19.
+	* @description			: 관리자 메인 공지사항 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminNoticeDTO> selectAdminMainNoticeList() {
+		log.info(" [ AdminMainServiceImpl ] : selectAdminMainNoticeList ");
+		
+		try {
+			
+			// 관리자 메뉴 1레벨 조회
+			List<AdminNoticeDTO> adminMainNoticeList = adminMainMapper.selectAdminMainNoticeList(); 
+			if ( adminMainNoticeList == null ) {
+				return null;
+			}
+			
+			return adminMainNoticeList;
+			
+		} catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : selectCommList failed", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return null;
+		}
+	}
+	
+	
+	
+	
+	
 }

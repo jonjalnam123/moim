@@ -127,7 +127,7 @@ $(function () {
 				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
 				
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -296,8 +296,7 @@ $(function () {
 				alert(btnVal === 'I' ? '메뉴' + regSuccess : '메뉴' + updSuccess);
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});
@@ -327,8 +326,7 @@ $(function () {
 				alert('메뉴' + delSuccess);
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});

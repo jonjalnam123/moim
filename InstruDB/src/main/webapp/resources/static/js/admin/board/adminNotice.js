@@ -24,8 +24,10 @@ $(function () {
 	setPagingParam(searchGb, pageNum);
 
 	// 초기 화면
+	setGridUi();
 	syncNoticeLimitUI();
 	switchToInsertMode();
+
 
 	// 페이징 버튼 이벤트
 	$('.p').on('click', function () {
@@ -70,8 +72,7 @@ $(function () {
 				$('#regId').val($('#ss_admin_id').val());
 				$('#regDt').val(toDisplayDatetime($('#nowDate').val()));
 			} else {
-				$('#noticeId').val('');
-				alert('공지사항 번호 생성에 실패했습니다.');
+				goToUri('')
 			}
 		});
 	});
@@ -103,12 +104,11 @@ $(function () {
 		var dataType = 'json';
 
 		ajaxStart(url, params, dataType, function (data) {
-			var result = Number(data.result);
 			var adminNoticeInfo = data.adminNoticeInfo;
 			var adminNoticeFileList = data.adminNoticeFileList || [];
 
-			if (result <= 0) {
-				goToUri('/admin/error.do');
+			if ( isEmpty(adminNoticeInfo) ) {
+				goToUriAdminError();
 				return;
 			}
 
@@ -118,7 +118,9 @@ $(function () {
 			$('#regId').val(adminNoticeInfo.regId || '');
 			$('#regDt').val(toDisplayDatetime(adminNoticeInfo.regDt));
 			$('#noticeTitle').val(adminNoticeInfo.noticeTitle || '');
+			$('#noticeEffectGb').trigger('change').val(adminNoticeInfo.noticeEffectGb || '');
 			$('#noticeCn').val(adminNoticeInfo.noticeCn || '');
+
 
 			$('#noticeFixYn').prop('checked', adminNoticeInfo.noticeFixYn === 'Y');
 			$('#noticePopYn').prop('checked', adminNoticeInfo.noticePopYn === 'Y');
@@ -152,6 +154,7 @@ $(function () {
 		var regId = $.trim($('#regId').val());
 		var regDt = $.trim($('#regDt').val());
 		var noticeTitle = $.trim($('#noticeTitle').val());
+		var noticeEffectGb = $.trim($('#noticeEffectGb').val());
 		var noticeCn = $.trim($('#noticeCn').val());
 
 		var noticeFixYn = $('#noticeFixYn').is(':checked') ? 'Y' : 'N';
@@ -178,6 +181,12 @@ $(function () {
 		if (isEmpty(noticeTitle)) {
 			alert('공지사항 제목을 입력하세요.');
 			$('#noticeTitle').focus();
+			return;
+		}
+		
+		if (isEmpty(noticeEffectGb)) {
+			alert('공지사항 중요도를 선택하세요.');
+			$('#noticeEffectGb').focus();
 			return;
 		}
 
@@ -210,6 +219,7 @@ $(function () {
 		formData.append('regId', regId);
 		formData.append('regDt', regDt);
 		formData.append('noticeTitle', noticeTitle);
+		formData.append('noticeEffectGb', noticeEffectGb);
 		formData.append('noticeCn', noticeCn);
 
 		formData.append('noticeFixYn', noticeFixYn);
@@ -254,7 +264,7 @@ $(function () {
 				alert(btnVal === 'I' ? '공지사항' + regSuccess : '공지사항' + updSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -287,7 +297,7 @@ $(function () {
 				alert('공지사항' + delSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -316,7 +326,7 @@ $(function () {
 			var ext = newFiles[i].name.indexOf('.') > -1 ? newFiles[i].name.split('.').pop().toLowerCase() : '';
 
 			if ($.inArray(ext, allowExt) === -1) {
-				alert(typeof fileExtImgChk !== 'undefined' ? fileExtImgChk : '이미지 파일만 업로드 가능합니다.');
+				alert(fileExtImgChk);
 				input.value = '';
 				return;
 			}
@@ -411,6 +421,7 @@ function resetNoticeForm() {
 	$('#regId').val('');
 	$('#regDt').val('');
 	$('#noticeTitle').val('');
+	$('#noticeEffectGb').trigger('change').val('');
 	$('#noticeCn').val('');
 
 	$('#noticeFixYn').prop('checked', false);
@@ -424,6 +435,23 @@ function resetNoticeForm() {
 	renderSavedFiles([]);
 	clearNewFiles();
 	syncNoticeLimitUI();
+}
+
+/*******************************
+* FuntionNm : setGridUi
+* Date : 2026.03.18
+* Author : CJS
+* Description : 공지사항 그리드 화면 조회
+********************************/
+function setGridUi() {
+	$('.adminNoticeInfoTr').each(function () {
+	    var $tr = $(this);
+	    var fixYn = $tr.data('fix-yn');
+	
+	    if (fixYn === 'Y') {
+	        $tr.addClass('is-fixed-row');
+	    }
+	});
 }
 
 /*******************************

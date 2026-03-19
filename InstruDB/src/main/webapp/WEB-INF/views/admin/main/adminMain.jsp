@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- Script Part -->
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/main/adminMain.js"></script>
@@ -113,27 +114,25 @@
           <div class="dash-panel-header">
             <div class="dash-panel-title-wrap">
               <h3 class="dash-panel-title">공지사항</h3>
-              <p class="dash-panel-sub">최신 공지 5건</p>
+              <p class="dash-panel-sub">오늘 등록된 공지 ${empty adminMainNoticeRegCnt ? '0' : adminMainNoticeRegCnt}건</p>
             </div>
 
-            <button type="button"
-                    class="notice-more-btn"
-                    onclick="goNoticeMore();">
+            <button type="button" class="notice-more-btn" onclick="goNoticeMore();">
               더보기
             </button>
           </div>
 
           <div class="dash-panel-body">
             <c:choose>
-              <c:when test="${not empty noticeList}">
+              <c:when test="${not empty adminMainNoticeList}">
                 <ul class="notice-list">
-                  <c:forEach var="notice" items="${noticeList}" begin="0" end="4">
+                  <c:forEach var="adminMainNotice" items="${adminMainNoticeList}" begin="0" end="9">
                     <li class="notice-item">
                       <c:choose>
-                        <c:when test="${notice.noticeType eq '중요'}">
+                        <c:when test="${adminMainNotice.noticeEffectGb eq 'I'}">
                           <span class="notice-badge is-important">중요</span>
                         </c:when>
-                        <c:when test="${notice.noticeType eq '이벤트'}">
+                        <c:when test="${adminMainNotice.noticeEffectGb eq 'E'}">
                           <span class="notice-badge is-event">이벤트</span>
                         </c:when>
                         <c:otherwise>
@@ -142,17 +141,22 @@
                       </c:choose>
 
                       <div class="notice-content">
-                        <a href="javascript:void(0);"
-                           class="notice-title"
-                           onclick="goNoticeDetail('${notice.noticeId}');">
-                          ${notice.title}
+                        <a href="javascript:void(0);" class="notice-title" onclick="goNoticeDetail('${adminMainNotice.noticeId}');">
+                          ${adminMainNotice.noticeTitle}
                         </a>
-                        <div class="notice-desc">
-                          ${notice.summary}
-                        </div>
+						<div class="notice-desc">
+					  		<c:choose>
+					    		<c:when test="${fn:length(adminMainNotice.noticeCn) > 30}">
+						      		${fn:substring(adminMainNotice.noticeCn, 0, 30)}...
+					    		</c:when>
+						    	<c:otherwise>
+						      		${adminMainNotice.noticeCn}
+						    	</c:otherwise>
+						  	</c:choose>
+						</div>
                       </div>
 
-                      <div class="notice-date">${notice.regDate}</div>
+                      <div class="notice-date">${adminMainNotice.regDt}</div>
                     </li>
                   </c:forEach>
                 </ul>
@@ -300,3 +304,27 @@
     </section>
 </div>
 <!-- Draw view [E] -->
+
+
+<!-- Notice Modal [S] -->
+<div id="noticeDetailModal" class="notice-modal" aria-hidden="true">
+    <div class="notice-modal-dim"></div>
+
+    <div class="notice-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="noticeModalTitle">
+        <div class="notice-modal-head">
+            <div class="notice-modal-head-left">
+                <h2 id="noticeModalTitle" class="notice-modal-title">공지사항 상세</h2>
+                <p class="notice-modal-sub">공지 내용을 확인하고 첨부파일을 다운로드할 수 있습니다.</p>
+            </div>
+
+            <button type="button" class="btn btn-cancel notice-modal-close" onclick="closeNoticeModal();">
+                닫기
+            </button>
+        </div>
+
+        <div id="noticeModalBody" class="notice-modal-body">
+            <div class="notice-modal-loading">공지사항 정보를 불러오는 중입니다.</div>
+        </div>
+    </div>
+</div>
+<!-- Notice Modal [E] -->

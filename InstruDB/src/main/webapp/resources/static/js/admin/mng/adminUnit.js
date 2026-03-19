@@ -117,8 +117,7 @@ $(document).ready(function() {
 				$('input[name="adminUnitUseYn"][value="' + adminUnitUseYn + '"]').prop('checked', true);
 				
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});
@@ -256,8 +255,7 @@ $(document).ready(function() {
 				alert(btnVal === 'I' ? '부서' + regSuccess : '부서' + updSuccess);
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});
@@ -287,8 +285,7 @@ $(document).ready(function() {
 				alert('부서' + delSuccess);
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});

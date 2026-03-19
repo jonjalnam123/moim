@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminNoticeDTO;
 
 @Mapper
 public interface AdminMainMapper {
@@ -14,5 +15,13 @@ public interface AdminMainMapper {
 
 	// 관리자 메뉴 2레벨 조회
 	List<AdminMenuDTO> selectAdminMenuInfo2();
+
+	// 관리자 메인 공지사항 등록 건 수 조회
+	int selectAdminMainNoticeRegCnt();
+	
+	// 관리자 메인 공지사항 조회
+	List<AdminNoticeDTO> selectAdminMainNoticeList();
+
+
 
 }

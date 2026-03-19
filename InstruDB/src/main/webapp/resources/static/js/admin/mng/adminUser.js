@@ -175,7 +175,7 @@ $(function () {
 				$('#adminCn').val(adminCn);
 				
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -395,7 +395,7 @@ $(function () {
 				alert(btnVal === 'I' ? '사원' + regSuccess : '사원' + updSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -426,7 +426,7 @@ $(function () {
 				alert('사원' + delSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});

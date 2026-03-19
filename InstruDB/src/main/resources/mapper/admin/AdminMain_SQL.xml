@@ -59,5 +59,42 @@
 		 ORDER BY MENU_SORT
 	</select>
 	<!-- 관리자 메뉴 2레벨 조회 [E] -->
-
+	
+	<!-- 관리자 메인 공지사항 등록 건 수 조회 [S] -->
+	<select id="selectAdminMainNoticeRegCnt" resultType="int">
+		/*AdminMng_SQL.selectAdminMainNoticeRegCnt*/
+		SELECT COUNT(*) 
+		   FROM TB_NOTICE_INFO
+		 WHERE 1=1
+		     AND NOTICE_DEL_YN = 'N'
+		     AND REG_DT >= CURRENT_DATE
+		     AND REG_DT <![CDATA[<]]> CURRENT_DATE + INTERVAL '1 day'
+	</select>
+	<!-- 관리자 메인 공지사항 등록 건 수 조회 [E] -->
+	
+	<!-- 관리자 메인 공지사항 조회 [S] -->
+	<select id="selectAdminMainNoticeList" resultType="AdminNoticeDTO">
+		/*AdminMng_SQL.selectAdminMainNoticeList*/
+		SELECT A.NOTICE_ID
+				 , A.NOTICE_TITLE
+				 , A.NOTICE_EFFECT_GB
+				 , A.NOTICE_CN
+				 , A.NOTICE_FIX_YN
+				 , A.NOTICE_LIMIT_YN
+				 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_STR_DT
+				 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_END_DT
+				 , A.NOTICE_FINISH_YN
+				 , A.NOTICE_DEL_YN
+				 , A.NOTICE_POP_YN
+				 , A.REG_ID
+				 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD') AS REG_DT
+				 , A.UPD_ID
+				 , A.UPD_DT
+		   FROM TB_NOTICE_INFO A
+		 WHERE 1=1 
+		     AND A.NOTICE_DEL_YN = 'N'
+	  ORDER BY A.REG_DT DESC
+	</select>
+	<!-- 관리자 메인 공지사항 조회 [E] -->
+	
 </mapper>

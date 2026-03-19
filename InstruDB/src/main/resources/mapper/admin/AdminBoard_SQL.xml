@@ -27,6 +27,7 @@
 		/*AdminBoard_SQL.selectAdminNotice*/
 		SELECT A.NOTICE_ID
 				 , A.NOTICE_TITLE
+				 , A.NOTICE_EFFECT_GB
 				 , A.NOTICE_CN
 				 , A.NOTICE_FIX_YN
 				 , A.NOTICE_LIMIT_YN
@@ -50,16 +51,31 @@
 			     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
 		    </if>
 	    </if>
-          ORDER BY A.UPD_DT DESC 
-            LIMIT #{perPage} OFFSET #{startRow}
+	  ORDER BY CASE WHEN A.NOTICE_FIX_YN = 'Y' THEN 0 ELSE 1 END, A.REG_DT DESC
+    		LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 공지사항 조회 [E] -->
+	
+	<!-- 관리자 공지사항 중요도 코드 조회 [S] -->
+	<select id="selectAdminNoticeEffectList" parameterType="PagerUtil"  resultType="AdminCommDTO">
+		/*AdminBoard_SQL.selectAdminNoticeEffectList*/
+		SELECT COMM_CD
+				 , COMM_NM
+		   FROM TB_COMMON_INFO
+		 WHERE 1=1
+		     AND COMM_GROUP_CD = 'NOTICE'
+		  	 AND COMM_USE_YN = 'Y'
+		  	 AND COMM_DEL_YN = 'N'
+		  	 AND COMM_LVL = 1
+	</select>
+	<!-- 관리자 공지사항 중요도 코드 조회 [E] -->
 	 
 	<!-- 관리자 공지사항 상세 조회 [S] -->
 	<select id="selectAdminNoticeInfo" parameterType="AdminNoticeDTO"  resultType="AdminNoticeDTO">
 		/*AdminBoard_SQL.selectAdminNoticeInfo*/
 		SELECT NOTICE_ID
 				 , NOTICE_TITLE
+				 , NOTICE_EFFECT_GB
 				 , NOTICE_CN
 				 , NOTICE_FIX_YN
 				 , NOTICE_LIMIT_YN
@@ -109,6 +125,7 @@
 	    INSERT INTO TB_NOTICE_INFO (
 	        NOTICE_ID
 	      , NOTICE_TITLE
+	      , NOTICE_EFFECT_GB
 	      , NOTICE_CN
 	      , NOTICE_FIX_YN
 	      , NOTICE_LIMIT_YN
@@ -124,6 +141,7 @@
 	    ) VALUES (
             #{noticeId} 
           , #{noticeTitle}
+          , #{noticeEffectGb}
           , #{noticeCn}
           , #{noticeFixYn}
           , #{noticeLimitYn}
@@ -215,9 +233,10 @@
     <update id="updateAdminNotice" parameterType="AdminNoticeDTO">
     	/*AdminBoard_SQL.updateAdminNotice*/
         UPDATE TB_NOTICE_INFO
-             SET NOTICE_TITLE    	= #{noticeTitle}
+             SET NOTICE_TITLE    		= #{noticeTitle}
+	             , NOTICE_EFFECT_GB  	= #{noticeEffectGb}
 	             , NOTICE_CN       		= #{noticeCn}
-	             , NOTICE_FIX_YN   	= #{noticeFixYn}
+	             , NOTICE_FIX_YN   		= #{noticeFixYn}
 	             , NOTICE_POP_YN   	= #{noticePopYn}
 	             , NOTICE_LIMIT_YN 	= #{noticeLimitYn}
 	             , NOTICE_STR_DT   	= NULLIF(#{noticeStrDt}, '')::timestamp

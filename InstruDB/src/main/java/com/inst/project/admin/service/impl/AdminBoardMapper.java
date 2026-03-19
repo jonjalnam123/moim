@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.util.PagerUtil;
@@ -16,6 +17,9 @@ public interface AdminBoardMapper {
 
 	// 관리자 공지사항 조회
 	List<AdminNoticeDTO> selectAdminNotice(PagerUtil pager);
+	
+	// 관리자 공지사항 중요도 코드 조회
+	List<AdminCommDTO> selectAdminNoticeEffectList();
 	
 	// 관리자 공지사항 상세 조회
 	AdminNoticeDTO selectAdminNoticeInfo(AdminNoticeDTO adminNoticeDTO);
@@ -39,10 +43,10 @@ public interface AdminBoardMapper {
 	int updateAdminNotice(AdminNoticeDTO adminNoticeDTO);
 	
 	// 관리자 공지사항 파일 삭제
-	void deleteAdminNoticeFile(String noticeId, List<String> deleteIds);
+	int deleteAdminNoticeFile(String noticeId, List<String> deleteIds);
 	
 	// 관리자 공지사항 신규 파일 저장
-	void insertAdminNoticeFile(AdminFileDTO fileDto);
+	int insertAdminNoticeFile(AdminFileDTO fileDto);
 	
 	// 관리자 공지사항 삭제용 파일 조회
 	List<AdminFileDTO> selectNoticeFileInfo(String noticeId);
@@ -52,6 +56,8 @@ public interface AdminBoardMapper {
 
 	// 관리자 공지사항 삭제시 파일 삭제
 	void adminNoticeFileDel(String noticeId);
+
+
 
 
 

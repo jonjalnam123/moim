@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminBoardService;
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
@@ -55,7 +56,11 @@ public class AdminBoardController {
 		
 		// 공지사항 조회
 		List<AdminNoticeDTO> adminNoticeList = adminBoardService.selectAdmionNotice( pager );
-		if( adminNoticeList == null  ) {
+		
+		// 관리자 공지사항 중요도 조회
+		List<AdminCommDTO> adminNoticeEffectList = adminBoardService.selectAdminNoticeEffectList();
+		
+		if( adminNoticeList == null  || adminNoticeEffectList == null) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do"; 
@@ -63,6 +68,7 @@ public class AdminBoardController {
 		
 		model.addAttribute("nowDate", DateUtil.now());
 		model.addAttribute("adminNoticeList", adminNoticeList);
+		model.addAttribute("adminNoticeEffectList", adminNoticeEffectList);
 		model.addAttribute("pager", pager);
 		
 		return "admin/board/adminNotice.adm";
@@ -100,7 +106,9 @@ public class AdminBoardController {
 	*/
 	@PostMapping("/noticeReg.do")
 	@ResponseBody
-	public Map<String,Object> adminNoticeReg( @ModelAttribute AdminNoticeDTO adminNoticeDTO, @RequestParam(value="adminFiles", required=false) MultipartFile[] files, HttpServletRequest req){
+	public Map<String,Object> adminNoticeReg ( @ModelAttribute AdminNoticeDTO adminNoticeDTO
+															   , @RequestParam(value="adminFiles", required=false) MultipartFile[] files
+															   , HttpServletRequest req ){
 		log.info(" [ AdminBoardController ] : adminNoticeReg ");
 	    Map<String,Object> resultMap = new HashMap<>();
 

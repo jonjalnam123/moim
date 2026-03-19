@@ -123,7 +123,7 @@ $(function () {
 				$('input[name="commUseYn"][value="' + commUseYn + '"]').prop('checked', true);
 				
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -271,7 +271,7 @@ $(function () {
 				alert(btnVal === 'I' ? '코드' + regSuccess : '코드' + updSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do?');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -301,8 +301,7 @@ $(function () {
 				alert('코드' + delSuccess);
 				window.location.reload();
 			} else {
-				var url = '/admin/error.do';
-				goToUri(url);
+				goToUriAdminError();
 			}
 		});
 	});

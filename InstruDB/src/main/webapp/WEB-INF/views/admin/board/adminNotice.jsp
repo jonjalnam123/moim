@@ -59,7 +59,7 @@
 			            		</thead>
 				            	<tbody>
 				              		<c:forEach var="adminNotice" items="${adminNoticeList}" varStatus="cnt">
-				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-id="${adminNotice.noticeId}">
+				                		<tr class="adminNoticeInfoTr" data-rowkey="${cnt.index}" data-id="${adminNotice.noticeId}" data-fix-yn="${adminNotice.noticeFixYn}">
 				                			<td><span>${adminNotice.regId}</span></td>
 				                  			<td><span>${adminNotice.noticeTitle}</span></td>
 				                  			<td><span>${adminNotice.noticeCn}</span></td>
@@ -121,12 +121,22 @@
 	            		<label class="required" for="noticeTitle">제목</label>
 	            		<input id="noticeTitle" name="noticeTitle" class="form-control" type="text"/>
 	          		</div>
+	          		
+	          		<div class="field">
+	            		<label class="required" for="noticeEffectGb">중요도</label>
+	            		<select id="noticeEffectGb" name="noticeEffectGb" class="form-select" style="width:100%;">
+	            			<option value="">선택</option>
+	            			<c:forEach var="adminNoticeEffect" items="${adminNoticeEffectList}">
+	            				<option value="${adminNoticeEffect.commCd}">${adminNoticeEffect.commNm}</option>
+	            			</c:forEach>
+	            		</select>
+	          		</div>
 
 	          		<div class="field full">
 	            		<label for="noticeCn">내용</label>
 	            		<textarea id="noticeCn" name="noticeCn" class="form-control" maxlength="300"></textarea>
 	          		</div>
-	          		
+
 	          		<!-- ✅ 옵션 토글(가로 배치): 상단고정 + 기한설정 -->
 					<div class="field full">
 					  <label class="required">옵션</label>
@@ -159,8 +169,6 @@
 						  <span class="txt">기한설정</span>
 						</label>
 					  </div>
-					
-					  <!-- <small class="hint" style="display:block;">기한설정을 켜면 시작/종료 날짜를 입력합니다.</small> -->
 					</div>
 	          		
 					<div class="field">

@@ -84,7 +84,7 @@ $(function () {
 				$('#adminRejectCn').val(adminRejectCn);
 				
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -112,7 +112,7 @@ $(function () {
 				alert(acceptSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
@@ -147,7 +147,7 @@ $(function () {
 				alert(rejectSuccess);
 				window.location.reload();
 			} else {			
-				goToUri('/admin/error.do');
+				goToUriAdminError();
 			}
 		});
 	});
