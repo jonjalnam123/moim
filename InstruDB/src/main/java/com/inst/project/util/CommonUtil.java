@@ -100,22 +100,22 @@ public class CommonUtil {
 	    String adminSmsChkYn = adminInfo.getAdminSmsChkYn();
 	    String adminCarYn = adminInfo.getAdminCarYn();
 	    
-	    session.setAttribute("adminNo", adminNo);
-	    session.setAttribute("adminId", adminId);
-	    session.setAttribute("adminNm", adminNm);
-	    session.setAttribute("adminIp", adminIp);
-	    session.setAttribute("adminDeptCd", adminDeptCd);
-	    session.setAttribute("adminTeamCd", adminTeamCd);
-	    session.setAttribute("adminPositionCd", adminPositionCd);
-	    session.setAttribute("adminGender", adminGender);
-	    session.setAttribute("adminRegGb", adminRegGb);
-	    session.setAttribute("adminGradeCd", adminGradeCd);
-	    session.setAttribute("adminRegAccept", adminRegAccept);
-	    session.setAttribute("adminEmailAlertYn", adminEmailAlertYn);
-	    session.setAttribute("adminEmailChkYn", adminEmailChkYn);
-	    session.setAttribute("adminSmsAlertYn", adminSmsAlertYn);
-	    session.setAttribute("adminSmsChkYn", adminSmsChkYn);
-	    session.setAttribute("adminCarYn", adminCarYn);
+	    session.setAttribute("SS_ADMIN_NO", adminNo);
+	    session.setAttribute("SS_ADMIN_ID", adminId);
+	    session.setAttribute("SS_ADMIN_NM", adminNm);
+	    session.setAttribute("SS_ADMIN_IP", adminIp);
+	    session.setAttribute("SS_ADMIN_DEPT_CD", adminDeptCd);
+	    session.setAttribute("SS_ADMIN_TEAM_CD", adminTeamCd);
+	    session.setAttribute("SS_ADMIN_POSITION_CD", adminPositionCd);
+	    session.setAttribute("SS_ADMIN_GENDER", adminGender);
+	    session.setAttribute("SS_ADMIN_REG_GB", adminRegGb);
+	    session.setAttribute("SS_ADMIN_GRADE_CD", adminGradeCd);
+	    session.setAttribute("SS_ADMIN_REG_ACCEPT", adminRegAccept);
+	    session.setAttribute("SS_ADMIN_EMAIL_ALERT_YN", adminEmailAlertYn);
+	    session.setAttribute("SS_ADMIN_EMAIL_CHK_YN", adminEmailChkYn);
+	    session.setAttribute("SS_ADMIN_SMS_ALERT_YN", adminSmsAlertYn);
+	    session.setAttribute("SS_ADMIN_SMS_CHK_YN", adminSmsChkYn);
+	    session.setAttribute("SS_ADMIN_CAR_YN", adminCarYn);
 	    
 		return true;
 	}

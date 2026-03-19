@@ -133,8 +133,8 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        }
 
 	        AdminDTO adminInfo = new AdminDTO();
-	        String adminId = CommonUtil.isNull(CommonUtil.getAdminInfoSession("adminId", req));
-	        String adminIp = CommonUtil.isNull(CommonUtil.getAdminInfoSession("adminIp", req));
+	        String adminId = CommonUtil.isNull(CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req));
+	        String adminIp = CommonUtil.isNull(CommonUtil.getAdminInfoSession("SS_ADMIN_IP", req));
 	        
 	        adminInfo.setAdminId(adminId);
 	        adminInfo.setAdminIp(adminIp);

@@ -66,8 +66,7 @@ function bindHeaderEvent() {
 * PARAM :
 ********************************/
 function checkHeaderSession() {
-	var s_adminId = $('#s_adminId').val();
-	console.log('s_adminId====', s_adminId);
+	var s_adminId = $('#ss_admin_id').val();
 	if (isEmpty(s_adminId)) {
 		alert('세션이 만료되었습니다.');
 		logOut();

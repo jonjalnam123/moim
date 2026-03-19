@@ -6,7 +6,7 @@
 <!-- Model 파라미터 [S]-->
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
-<input type="hidden"  id="adminId" name="adminId" value="${adminId}">
+<input type="hidden"  id="ss_admin_id" name="ss_admin_id" value="${SS_ADMIN_ID}">
 <input type="hidden"  id="nowDate" name="nowDate" value="${nowDate}">
 <!-- Model 파라미터 [E] -->
 

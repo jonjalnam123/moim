@@ -217,7 +217,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		try {
 			List<MultipartFile> uploadFiles = normalizeFiles(adminFiles);
 			List<String> deleteIds = normalizeDeleteNos(deleteFileId);
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				throw new IllegalArgumentException("세션 정보가 없습니다.");
 			}
@@ -340,7 +340,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     	log.info("[ AdminMngServiceImpl ] : adminNoticeDel");
 
     	try {
-    		String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+    		String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
     		if (CommonUtil.isBlank(adminId)) {
     			throw new IllegalArgumentException("세션 정보가 없습니다.");
     		}

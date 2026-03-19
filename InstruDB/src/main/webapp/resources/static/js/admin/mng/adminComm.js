@@ -271,7 +271,7 @@ $(function () {
 				alert(btnVal === 'I' ? '코드' + regSuccess : '코드' + updSuccess);
 				window.location.reload();
 			} else {
-				goToUri('/admin/error.do');
+				goToUri('/admin/error.do?');
 			}
 		});
 	});

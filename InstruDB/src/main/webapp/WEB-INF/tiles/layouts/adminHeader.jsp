@@ -6,7 +6,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/adminHeader.js"></script>
 
 <!-- Param From SessionData [S] -->
-<input type="hidden" id="s_adminId" value="${adminId}">
+<input type="hidden" id="ss_admin_id" value="${SS_ADMIN_ID}">
 <!-- Param From SessionData [E] -->
 
 <!-- Draw view [S] -->

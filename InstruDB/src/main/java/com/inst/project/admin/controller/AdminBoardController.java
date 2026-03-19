@@ -52,10 +52,6 @@ public class AdminBoardController {
 	@GetMapping(value = "/notice.do")
 	public String getAdminNotice (Model model, HttpServletRequest req, PagerUtil pager, RedirectAttributes redirect) {
 		log.info(" [ AdminBoardController ] : getAdminNotice ");
-		String adminId = CommonUtil.getAdminInfoSession("adminId", req);
-		if (adminId == null) {
-			return "redirect:/admin/login.do";
-		}
 		
 		// 공지사항 조회
 		List<AdminNoticeDTO> adminNoticeList = adminBoardService.selectAdmionNotice( pager );
@@ -65,7 +61,6 @@ public class AdminBoardController {
 			return "redirect:/admin/error.do"; 
 		}
 		
-		model.addAttribute("adminId", adminId);
 		model.addAttribute("nowDate", DateUtil.now());
 		model.addAttribute("adminNoticeList", adminNoticeList);
 		model.addAttribute("pager", pager);

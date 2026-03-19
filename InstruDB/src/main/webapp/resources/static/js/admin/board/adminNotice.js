@@ -67,7 +67,7 @@ $(function () {
 
 			if (!isEmpty(result)) {
 				$('#noticeId').val(result);
-				$('#regId').val($('#adminId').val());
+				$('#regId').val($('#ss_admin_id').val());
 				$('#regDt').val(toDisplayDatetime($('#nowDate').val()));
 			} else {
 				$('#noticeId').val('');

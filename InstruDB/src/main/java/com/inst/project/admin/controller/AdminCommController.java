@@ -65,8 +65,8 @@ public class AdminCommController {
 		String adminErrorMsg = adminErrorDTO.getAdminErrorMsg();
 		
 		if ( CommonUtil.isBlank(adminErrorCd) && CommonUtil.isBlank(adminErrorMsg) ) {
-			adminErrorCd = GlobalConfig.RESULT_SYS_ERR_CD;
-			adminErrorMsg = GlobalConfig.RESULT_SYS_ERR_MSG;
+			adminErrorCd = GlobalConfig.RESULT_NULL_DATA_CD;
+			adminErrorMsg = GlobalConfig.RESULT_NULL_DATA_MSG;
 		} else {
 			adminErrorCd = adminErrorDTO.getAdminErrorCd();
 			adminErrorMsg = adminErrorDTO.getAdminErrorMsg();

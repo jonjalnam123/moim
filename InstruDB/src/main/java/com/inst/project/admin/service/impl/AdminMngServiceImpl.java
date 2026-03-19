@@ -140,7 +140,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -175,7 +175,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
@@ -209,7 +209,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 	    	
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -384,7 +384,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -423,7 +423,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
@@ -457,7 +457,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 
 	    try {
 	    	
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -664,7 +664,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitReg ");
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -698,7 +698,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitUpd ");
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
@@ -731,7 +731,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUnitDel ");
 	    try {
 	    	
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -960,7 +960,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUserReg ");
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -1009,7 +1009,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUserUpd ");
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
@@ -1056,7 +1056,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 		log.info(" [ AdminMngServiceImpl ] : adminUserDel ");
 	    try {
 	    	
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
@@ -1189,7 +1189,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    log.info(" [ AdminMngServiceImpl ] : adminUserAcceptUpd ");
 	    try {
 			
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
@@ -1223,7 +1223,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 		log.info(" [ AdminMngServiceImpl ] : adminUserAcceptDel ");
 	    try {
 	    	
-			String adminId = CommonUtil.getAdminInfoSession("adminId", req);
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 				return 0;
