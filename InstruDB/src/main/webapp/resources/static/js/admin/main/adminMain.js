@@ -49,7 +49,7 @@ function downloadNoticeFile(fileId) {
         return;
     }
 
-    location.href = '/admin/fileDownload.do?fileId=' + encodeURIComponent(fileId) + '?refType=' + + encodeURIComponent('NOTICE');
+    window.location.href = '/admin/fileDown.do?fileId=' + encodeURIComponent(fileId) + '&refType=' + encodeURIComponent('NOTICE');
 }
 
 function goMenu(type) {
