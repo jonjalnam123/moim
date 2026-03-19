@@ -176,9 +176,10 @@ public class AdminCommController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping("/fileDown.do")
-	public ResponseEntity<FileSystemResource> fileDownload(@RequestParam("fileId") String fileId, @RequestParam("refType") String refType) throws Exception {
+	public ResponseEntity<FileSystemResource> fileDownload(@RequestParam String fileId, @RequestParam String refType) throws Exception {
+		log.info(" [ AdminMngController ] : selectUniqueId ");
+		
 	    AdminFileDTO fileInfo = adminCommService.selectFileInfo(fileId, refType);
-
 	    if (fileInfo == null) {
 	        throw new RuntimeException("파일 정보를 찾을 수 없습니다.");
 	    }

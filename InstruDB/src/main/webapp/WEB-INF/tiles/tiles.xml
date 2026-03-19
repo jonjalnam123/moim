@@ -22,7 +22,7 @@
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
     </definition>
     
-    <!-- 관리자 메뉴 표시 -->
+    <!-- 관리자 메뉴 표시 [S] -->
     <definition name="baseAdmin" template="/WEB-INF/tiles/templateAdm.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/layouts/adminHeader.jsp" />
         <put-attribute name="left" value="/WEB-INF/tiles/layouts/adminLeft.jsp" />
@@ -39,9 +39,28 @@
     
     <definition name="*/*/*.adm" extends="baseAdmin">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
-    </definition>        
+    </definition>
+    <!-- 관리자 메뉴 표시 [E] -->
     
-    <!-- 빈 페이지 표시 -->
+    <!-- 모달 팝업 페이지 표시 [S] -->
+	<definition name="baseModal" template="/WEB-INF/tiles/templateModal.jsp">
+
+    </definition>
+    
+    <definition name="*.modal" extends="baseModal">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.modal" extends="baseModal">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.modal" extends="baseModal">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>        
+    <!-- 모달 팝업 페이지 표시 [E] -->
+    
+    <!-- 빈 페이지 표시 [S] -->
 	<definition name="baseNone" template="/WEB-INF/tiles/templateDef.jsp">
 
     </definition>
@@ -57,5 +76,6 @@
     <definition name="*/*/*.none" extends="baseNone">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
     </definition>
+    <!-- 빈 페이지 표시 [E] -->
     
 </tiles-definitions>

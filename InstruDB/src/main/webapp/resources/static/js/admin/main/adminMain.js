@@ -35,12 +35,8 @@ function closeNoticeModal() {
 }
 
 function loadNoticeDetailModal(noticeId) {
-    $('#noticeModalBody').load(
-        '/admin/noticePopUp.do?noticeId=' + encodeURIComponent(noticeId),
-        function (response, status, xhr) {
+    $('#noticeModalBody').load( '/admin/noticePopUp.do?noticeId=' + encodeURIComponent(noticeId), function (response, status, xhr) {
             if (status !== 'success') {
-                console.log('status=', status);
-                console.log('xhr=', xhr);
                 $('#noticeModalBody').html('<div class="notice-modal-empty">공지사항 정보를 불러오지 못했습니다.</div>');
             }
         }
@@ -53,7 +49,7 @@ function downloadNoticeFile(fileId) {
         return;
     }
 
-    location.href = '/admin/notice/fileDownload.do?fileId=' + encodeURIComponent(fileId);
+    location.href = '/admin/fileDownload.do?fileId=' + encodeURIComponent(fileId) + '?refType=' + + encodeURIComponent('NOTICE');
 }
 
 function goMenu(type) {

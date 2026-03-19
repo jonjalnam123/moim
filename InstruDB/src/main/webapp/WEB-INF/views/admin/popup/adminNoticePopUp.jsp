@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- Model 파라미터 [S]-->
-<input type="hidden"  id="ss_admin_id" name="ss_admin_id" value="${SS_ADMIN_ID}">
-<input type="hidden"  id="nowDate" name="nowDate" value="${nowDate}">
-<!-- Model 파라미터 [E] -->
-
 <!-- Draw view [S] -->
 <div class="notice-view-grid">
     <div class="notice-view-label">작성자</div>
@@ -48,9 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="attach-actions">
-                                    <button type="button"
-                                            class="btn-mini download"
-                                            onclick="downloadNoticeFile('<c:out value="${file.fileId}" />');">
+                                    <button type="button" class="btn-mini download" onclick="downloadNoticeFile('<c:out value="${file.fileId}" />');">
                                         다운로드
                                     </button>
                                 </div>
@@ -65,8 +58,4 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="notice-modal-actions">
-    <button type="button" class="btn btn-cancel" onclick="closeNoticeModal();">닫기</button>
-</div> -->
 <!-- Draw view [E] -->

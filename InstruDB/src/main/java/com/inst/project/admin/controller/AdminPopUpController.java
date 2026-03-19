@@ -41,7 +41,7 @@ public class AdminPopUpController {
 	    model.addAttribute("adminNotice", result.get("adminNoticeInfo"));
 	    model.addAttribute("noticeFileList", result.get("adminNoticeFileList"));
 
-	    return "admin/popup/adminNoticePopUp.none";
+	    return "admin/popup/adminNoticePopUp.modal";
 	}
 
 }
