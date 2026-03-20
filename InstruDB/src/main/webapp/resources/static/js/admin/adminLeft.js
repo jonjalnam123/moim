@@ -1,14 +1,9 @@
 /**
- * 작성자 : 최정석
- * 작성날짜 : 2025.08.07
- * 내용 : 헤더 스크립트
+ * 작성자 		: CJS
+ * 작성날짜 	: 2025.08.07
+ * 내용 		: adminHeader 스크립트
  */
 
-/*************************************************************
-* 작성자 : 최정석
-* 작성날짜 : 2025.08.08
-* 내용 : 관리자 메뉴 정보
-**************************************************************/
 $(function () {	
 	getAdminMenuInfo();
 });
@@ -18,6 +13,12 @@ function getAdminMenuInfo() {
 	var params = {}
 	var dataType = 'json'
 	ajaxStart(url, params, dataType, function(data) {
+		
+		if ( isEmpty(data) ) {
+			goToUriAdminError();
+			return;
+		} 
+		
 		setMenuInfo(data);
 	});
 }
@@ -77,19 +78,57 @@ function setMenuInfo(menuInfo) {
 	
 	        var $subUl = $li.find('ul');
 	
+			/*href="${second.menuUrl}"*/
 	        // 2차 메뉴 연결
 	        $.each(menuSecInfo, function (j, second) {
 	            if ( second.menuPId === first.menuId && second.menuLvl === 1 ) {
 	                $subUl.append(` <li>
-				                           		<a class="nav-link" href="${second.menuUrl}">
+				                           		<a class="nav-link" id="myPageBtn" href="javascript:void(0);" onclick="setMenuToSession('${second.menuId}', '${first.menuNm}', '${second.menuUrl}', '${second.menuNm}');" > 
 						                            ${second.menuNm}
 						                        </a>
 					                       </li> `);
 	            }
 	        });
-	
+			
 	        $sideMenu.append($li);
 	    });
 			
 	}
 }
+
+function setMenuToSession(menuId, menuPNm, menuUrl, menuNm) {
+	
+	if ( isEmptyMsg(menuId, '메뉴ID' + dataNull) ) {
+		return;
+	}
+	
+	if ( isEmptyMsg(menuPNm, '메뉴부모이름' + dataNull) ) {
+		return;
+	}
+
+	if ( isEmptyMsg(menuUrl, '메뉴경로' + dataNull) ) {
+		return;
+	}
+	
+	if ( isEmptyMsg(menuNm, '메뉴명' + menuNm) ) {
+		return;
+	}
+
+	var url = '/admin/menuToSession.do';
+	var params = {
+		menuId : menuId
+	  , menuPNm : menuPNm
+      , menuUrl : menuUrl
+	  , menuNm : menuNm
+	}
+	var dataType = 'json'
+	ajaxStart(url, params, dataType, function(result) {
+		if ( result ) {
+			goToUri(menuUrl)
+		} else { 
+			goToUri('/admin/login.do')
+		}
+	
+	});
+
+} 

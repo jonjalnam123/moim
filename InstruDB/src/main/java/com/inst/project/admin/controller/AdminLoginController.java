@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,12 +62,16 @@ public class AdminLoginController {
 	@GetMapping(value = "/join.do")
 	public String getAdminJoin( @RequestParam(required = false) Map<String, Object> bodyMap, Model model ) {
 		log.info(" [ AdminLoginController ] : getAdminJoin ");
+		
 		if ( bodyMap != null ) {
 			model.addAttribute( "agreeService", CommonUtil.isNull(bodyMap.get("agreeService")) );
 			model.addAttribute( "agreePrivacy", CommonUtil.isNull(bodyMap.get("agreePrivacy")) );
 			model.addAttribute( "agreeMarketing", CommonUtil.isNull(bodyMap.get("agreeMarketing")) );
 			model.addAttribute( "agreeConsign", CommonUtil.isNull(bodyMap.get("agreeConsign")) );
+		} else {
+			return "redirect:/admin/login.do";
 		}
+		
 		return "admin/login/adminJoin.none";
 	}
 	
@@ -138,11 +143,18 @@ public class AdminLoginController {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/login.do")
-	public String getAdminLogin( @RequestParam(required = false) Map<String, Object> bodyMap, Model model ) {
+	public String getAdminLogin( @RequestParam(required = false) Map<String, Object> bodyMap, Model model, HttpServletRequest req) {
 		log.info(" [ AdminLoginController ] : getAdminLogin ");
+		
+	    HttpSession oldSession = req.getSession(false);
+	    if (oldSession != null) {
+	        oldSession.invalidate();
+	    }
+		
 		if ( bodyMap != null ) {
 			model.addAttribute("result", bodyMap);
 		}
+		
 		return "admin/login/adminLogin.none";
 	}
 	
@@ -183,11 +195,11 @@ public class AdminLoginController {
 	*/
 	@PostMapping(value = "/logOut.do")
 	@ResponseBody
-	public Map<String,Object> adminLogOutProc( HttpServletRequest req ) {
+	public Map<String,Object> adminLogOutProc( @RequestParam(required = false) String flag, HttpServletRequest req ) {
 		log.info(" [ AdminLoginController ] : adminLogOutProc ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-	    String resultData = adminLoginService.adminLogOutProc(req);
+	    String resultData = adminLoginService.adminLogOutProc(flag, req);
 	    
 	    result.put("result", resultData);
 		

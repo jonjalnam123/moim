@@ -2692,7 +2692,7 @@ body.modal-open{
   line-height:1.4;
 }
 
-/* 닫기 버튼: 작은 X */
+/* 닫기 버튼 */
 .notice-modal-close{
   flex:0 0 32px;
   width:32px;
@@ -2728,12 +2728,12 @@ body.modal-open{
 /* 상세 정보 그리드 */
 .notice-view-grid{
   display:grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns:92px minmax(0, 1fr);
   gap:10px 12px;
   align-items:stretch;
 }
 
-/* 라벨: 전부 가운데 */
+/* 라벨: 정중앙 */
 .notice-view-label{
   display:flex;
   align-items:center;
@@ -2746,18 +2746,18 @@ body.modal-open{
   color:#355240;
   font-size:.88rem;
   font-weight:700;
-  box-sizing:border-box;
   text-align:center;
+  box-sizing:border-box;
 }
 
-/* 값: 기본 행은 세로 가운데, 가로는 왼쪽 */
+/* 일반 값: 세로 가운데 / 가로 왼쪽 */
 .notice-view-value{
   display:flex;
   align-items:center;
   justify-content:flex-start;
   min-height:38px;
   width:100%;
-  padding:9px 12px;
+  padding:8px 12px;
   border:1px solid #e3ece4;
   border-radius:10px;
   background:#fff;
@@ -2775,32 +2775,46 @@ body.modal-open{
   background:linear-gradient(180deg, #ffffff 0%, #fbfefb 100%);
 }
 
-/* 내용 행 */
+/* 내용 라벨 */
 .notice-view-label.is-content{
   min-height:180px;
   align-items:center;
   justify-content:center;
   padding:0 12px;
-  text-align:center;
 }
 
+/* 내용 값: 왼쪽 위로 최대한 붙게 */
 .notice-view-value.is-content{
   display:block;
   min-height:180px;
-  padding:12px 14px;
+  padding:4px 8px;
   white-space:pre-wrap;
-  line-height:1.65;
+  line-height:1.45;
   overflow:auto;
   text-align:left;
+  box-sizing:border-box;
+  vertical-align:top;
 }
 
-/* 내용 안에 p 태그나 div 들어와도 위아래 여백 정리 */
+/* 내용 내부 태그 여백 제거 */
+.notice-view-value.is-content > *{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+.notice-view-value.is-content p,
+.notice-view-value.is-content div,
+.notice-view-value.is-content span{
+  margin:0 !important;
+  padding:0 !important;
+}
+
 .notice-view-value.is-content > *:first-child{
-  margin-top:0;
+  margin-top:0 !important;
 }
 
 .notice-view-value.is-content > *:last-child{
-  margin-bottom:0;
+  margin-bottom:0 !important;
 }
 
 /* 첨부 영역 */

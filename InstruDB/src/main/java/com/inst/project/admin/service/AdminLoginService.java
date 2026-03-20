@@ -10,7 +10,7 @@ public interface AdminLoginService {
 	String adminLoginProc(AdminDTO adminDTO, HttpServletRequest req);
 
 	// 관리자 로그아웃 프로세스
-	String adminLogOutProc(HttpServletRequest req);
+	String adminLogOutProc(String flag, HttpServletRequest req );
 	
 	// 관리자 비밀번호 설정 화면 조회 
 	AdminDTO getAdminLoginPw(AdminDTO adminDTO);

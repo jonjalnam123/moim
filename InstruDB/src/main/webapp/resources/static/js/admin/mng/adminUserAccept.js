@@ -70,7 +70,9 @@ $(function () {
 				var adminGender = adminAcceptInfo.adminGender
 				var adminRegAccept = adminAcceptInfo.adminRegAccept
 				var adminRejectCn = adminAcceptInfo.adminRejectCn
+				var regDt = adminAcceptInfo.regDt
 
+				$('#regDt').val(regDt);
 				$('#adminNo').val(adminNo);
 				$('#adminId').val(adminId);
 				$('#adminNm').val(adminNm);

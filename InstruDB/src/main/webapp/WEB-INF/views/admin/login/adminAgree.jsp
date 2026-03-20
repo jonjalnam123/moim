@@ -8,7 +8,6 @@
 <div class="content-wrapper terms-page">
   <section class="terms-screen" aria-label="약관 동의">
     <form class="form-card terms-card" action="/admin/join.do" method="get">
-    
       <h3 class="form-title">약관 동의</h3>
       <p class="form-desc">
         서비스 이용을 위해 아래 약관에 동의해 주세요. 필수 항목 미동의 시 가입이 진행되지 않습니다.

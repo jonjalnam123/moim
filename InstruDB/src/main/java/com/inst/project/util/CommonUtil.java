@@ -53,6 +53,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inst.project.admin.vo.AdminDTO;
+import com.inst.project.admin.vo.AdminMenuDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,22 +84,22 @@ public class CommonUtil {
 
 		HttpSession session = req.getSession();
 	    
-		String adminNo = adminInfo.getAdminNo();
-	    String adminId = adminInfo.getAdminId();
-	    String adminNm = adminInfo.getAdminNm();
-	    String adminIp = adminInfo.getAdminIp();
-	    String adminDeptCd = adminInfo.getAdminDeptCd();
-	    String adminTeamCd = adminInfo.getAdminTeamCd();
-	    String adminPositionCd = adminInfo.getAdminPositionCd();
-	    String adminGender = adminInfo.getAdminGender();
-	    String adminRegGb = adminInfo.getAdminRegGb();
-	    String adminGradeCd = adminInfo.getAdminGradeCd();
-	    String adminRegAccept = adminInfo.getAdminRegAccept();
-	    String adminEmailChkYn = adminInfo.getAdminEmailChkYn();
-	    String adminEmailAlertYn = adminInfo.getAdminEmailAlertYn();
-	    String adminSmsAlertYn = adminInfo.getAdminSmsAlertYn();
-	    String adminSmsChkYn = adminInfo.getAdminSmsChkYn();
-	    String adminCarYn = adminInfo.getAdminCarYn();
+		String adminNo 				= CommonUtil.isNull(adminInfo.getAdminNo());
+	    String adminId 				= CommonUtil.isNull(adminInfo.getAdminId()); 
+	    String adminNm 				= CommonUtil.isNull(adminInfo.getAdminNm());
+	    String adminIp 				= CommonUtil.isNull(adminInfo.getAdminIp());
+	    String adminDeptCd 			= CommonUtil.isNull(adminInfo.getAdminDeptCd());
+	    String adminTeamCd 			= CommonUtil.isNull(adminInfo.getAdminTeamCd());
+	    String adminPositionCd 		= CommonUtil.isNull(adminInfo.getAdminPositionCd());
+	    String adminGender 			= CommonUtil.isNull(adminInfo.getAdminGender());
+	    String adminRegGb 			= CommonUtil.isNull(adminInfo.getAdminRegGb());
+	    String adminGradeCd 		= CommonUtil.isNull(adminInfo.getAdminGradeCd());
+	    String adminRegAccept 		= CommonUtil.isNull(adminInfo.getAdminRegAccept());
+	    String adminEmailChkYn 	= CommonUtil.isNull(adminInfo.getAdminEmailChkYn());
+	    String adminEmailAlertYn 	= CommonUtil.isNull(adminInfo.getAdminEmailAlertYn());
+	    String adminSmsAlertYn 	= CommonUtil.isNull(adminInfo.getAdminSmsAlertYn());
+	    String adminSmsChkYn 		= CommonUtil.isNull(adminInfo.getAdminSmsChkYn());
+	    String adminCarYn 			= CommonUtil.isNull(adminInfo.getAdminCarYn());
 	    
 	    session.setAttribute("SS_ADMIN_NO", adminNo);
 	    session.setAttribute("SS_ADMIN_ID", adminId);
@@ -116,6 +117,45 @@ public class CommonUtil {
 	    session.setAttribute("SS_ADMIN_SMS_ALERT_YN", adminSmsAlertYn);
 	    session.setAttribute("SS_ADMIN_SMS_CHK_YN", adminSmsChkYn);
 	    session.setAttribute("SS_ADMIN_CAR_YN", adminCarYn);
+	    
+		return true;
+	}
+	
+	/**
+	* @methodName	 	: setMenuInfoSession
+	* @author					: 최정석
+	* @date            		: 2026. 03. 20.
+	* @description			: 관리자 메뉴 정보 세션 저장
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 03. 20.        		최정석       			최초 생성
+	*/
+	@SuppressWarnings("null")
+	public static boolean setMenuInfoSession( AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
+		log.info(" [ CommonUtil ] : setMenuInfoSession ");
+		
+		if ( adminMenuDTO == null ) {
+			return false;
+		}
+
+	    HttpSession oldSession = req.getSession(false);
+	    if (oldSession == null) {
+	        oldSession.invalidate();
+	        return false;
+	    }
+
+		HttpSession session = req.getSession();
+	    
+		String menuId 		= CommonUtil.isNull(adminMenuDTO.getMenuId()); 
+	    String menuPNm 	= CommonUtil.isNull(adminMenuDTO.getMenuPNm());
+		String menuUrl 	= CommonUtil.isNull(adminMenuDTO.getMenuUrl());
+		String menuNm 	= CommonUtil.isNull(adminMenuDTO.getMenuNm());
+
+		session.setAttribute("SS_MENU_ID", menuId);
+		session.setAttribute("SS_MENU_PNM", menuPNm);
+	    session.setAttribute("SS_MENU_URL", menuUrl);
+	    session.setAttribute("SS_MENU_NM", menuNm);
 	    
 		return true;
 	}

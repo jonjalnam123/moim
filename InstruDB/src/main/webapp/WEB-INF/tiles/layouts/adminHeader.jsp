@@ -10,8 +10,8 @@
 <!-- Param From SessionData [E] -->
 
 <!-- Draw view [S] -->
-<c:set var="loginAdminId" value="${empty adminId ? 'guest' : adminId}" />
-<c:set var="loginAdminProfileImg" value="${sessionScope.loginAdminProfileImg}" />
+<c:set var="loginAdminId" value="${empty SS_ADMIN_ID ? 'guest' : SS_ADMIN_ID}" />
+<c:set var="loginAdminProfileImg" value="${SS_ADMIN_PROFILE_IMG}" />
 <c:set var="notiCountVal" value="${empty requestScope.notiCount ? 0 : requestScope.notiCount}" />
 
 <header class="moim-header">

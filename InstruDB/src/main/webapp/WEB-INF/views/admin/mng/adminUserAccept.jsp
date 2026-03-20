@@ -104,14 +104,20 @@
 
 	<section class="split-right">
 		<div class="content-scroll" style="padding:12px 14px;">
-	   		<div class="page-header">
-	        	<h2>가입승인관리</h2>
+			<div class="page-header">
+		       	<h2>${SS_MENU_NM}</h2>
 		        <div class="breadcrumb">
-		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>가입승인관리</span>
+		        	<a href="#">${SS_MENU_PNM}</a>&nbsp;&gt;&nbsp;<span>${SS_MENU_NM}</span>
 		        </div>
-	      	</div>
+	     	</div>
 	     	<div class="form-card">
 	       		<div class="form-grid">
+	       		
+	       			<div class="field">
+	            		<label class="" for="adminNm">등록일시</label>
+	            		<input id="regDt" name="regDt" class="form-control" type="text" readonly/>
+	          		</div>
+	       		
 	          		<div class="field">
 	            		<label class="" for="adminId">아이디</label>
 	            		<input id="adminId" name="adminId" class="form-control" type="text" readonly/>
@@ -177,7 +183,7 @@
 		        <div class="form-actions">
 <!--   					<button type="button" class="btn-refresh" 	id="btnRef"		value="R"   	style="display: none;">초기화</button> -->
        				<button type="button" class="btn-insert"   	id="btnReg"   	value="U">승인</button>
-        			<button type="button" class="btn-update"		id="btnDel" 		value="D">반려</button>
+        			<button type="button" class="btn-delete"	id="btnDel" 		value="D">반려</button>
 		        </div>
 	      	</div>
 	    </div>

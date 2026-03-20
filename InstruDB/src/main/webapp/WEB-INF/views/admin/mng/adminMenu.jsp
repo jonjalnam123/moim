@@ -35,10 +35,10 @@
   	<!-- 우측: 폼 [S] -->
 	<section class="split-right">
    		<div class="content-scroll">
-      		<div class="page-header">
-		        <h2>메뉴관리</h2>
+	   		<div class="page-header">
+	        	<h2>${SS_MENU_NM}</h2>
 		        <div class="breadcrumb">
-		        	<a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>메뉴관리</span>
+		        	<a href="#">${SS_MENU_PNM}</a>&nbsp;&gt;&nbsp;<span>${SS_MENU_NM}</span>
 		        </div>
 	      	</div>
 	

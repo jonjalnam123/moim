@@ -31,6 +31,9 @@ public interface AdminLoginMapper {
 
 	// 관리자 로그아웃 이력 저장
 	int insertAdminLogOutLog(AdminDTO adminInfo);
+	
+	// 관리자 세션 로그아웃 이력 저장 
+	int insertAdminSessionLogOutLog(AdminDTO adminInfo);
 
 	// 관리자 비밀번호 설정
 	int updateAdminLoginPwSet(AdminDTO adminDTO);
@@ -40,7 +43,5 @@ public interface AdminLoginMapper {
 	
 	// 관리자 회원가입 요청 진행
 	int insertAdminUserInfo(AdminDTO adminDTO);
-
-
 
 }

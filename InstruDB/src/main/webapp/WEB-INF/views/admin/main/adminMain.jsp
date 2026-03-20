@@ -178,7 +178,7 @@
         <article class="dash-panel">
           <div class="dash-panel-header">
             <div class="dash-panel-title-wrap">
-              <h3 class="dash-panel-title">빠른 실행</h3>
+              <h3 class="dash-panel-title">즐겨찾기</h3>
               <p class="dash-panel-sub">자주 사용하는 메뉴로 바로 이동</p>
             </div>
           </div>
@@ -317,9 +317,7 @@
                 <p class="notice-modal-sub">공지 내용을 확인하고 첨부파일을 다운로드할 수 있습니다.</p>
             </div>
 
-            <button type="button" class="btn btn-cancel notice-modal-close" onclick="closeNoticeModal();">
-                ×
-            </button>
+            <button type="button" class="notice-modal-close" onclick="closeNoticeModal();">×</button>
         </div>
 
         <div id="noticeModalBody" class="notice-modal-body">

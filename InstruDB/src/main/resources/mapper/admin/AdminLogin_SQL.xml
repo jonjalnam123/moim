@@ -201,6 +201,29 @@
 	</insert>
 	<!--  로그인 관리자 로그아웃 저장 [E]-->
 	
+	<!--  로그인 관리자 세션 로그아웃 저장 [S]-->
+	<insert id="insertAdminSessionLogOutLog" parameterType="AdminDTO">
+		/* AdminLogin_SQL.insertAdminSessionLogOutLog */
+		INSERT INTO TB_ADMIN_LOGIN_LOG_INFO (
+				   LOGIN_LOG_ID
+			     , LOGIN_ADMIN_ID
+			     , LOGIN_LOG_ADMIN_IP
+			     , LOGIN_LOG_LOGIN_GB
+			     , LOGIN_LOG_CN
+			     , REG_DT
+			     , UPD_DT 
+		) VALUES (
+				   ( SELECT FN_GET_UNIQUE_KEY() )
+				 , #{adminId}
+				 , #{adminIp}
+				 , 'N'
+				 , 'SESSION LOGOUT'
+				 , NOW()
+				 , NOW()
+		);
+	</insert>
+	<!--  로그인 관리자 세션 로그아웃 저장 [E]-->
+	
 	<!--  로그인 관리자 비밀번호 설정 [S]-->
 	<update id="updateAdminLoginPwSet" parameterType="AdminDTO">
 		/* AdminLogin_SQL.updateAdminLoginPwSet */

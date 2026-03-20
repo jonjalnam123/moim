@@ -96,12 +96,12 @@
   <!-- 우측: 폼 -->
   <section class="split-right">
     <div class="content-scroll">
-      <div class="page-header">
-        <h2>부서관리</h2>
-        <div class="breadcrumb">
-        <a href="#">관리자</a>&nbsp;&gt;&nbsp;<span>부서관리</span>
-        </div>
-      </div>
+		<div class="page-header">
+	       	<h2>${SS_MENU_NM}</h2>
+	        <div class="breadcrumb">
+	        	<a href="#">${SS_MENU_PNM}</a>&nbsp;&gt;&nbsp;<span>${SS_MENU_NM}</span>
+	        </div>
+     	</div>
 
       <form id="menuForm" class="form-card">
         <div class="form-title">부서 정보</div>

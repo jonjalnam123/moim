@@ -9,64 +9,67 @@
 * 작성날짜 : 2025.08.08
 * 내용 : 로그인 관련
 **************************************************************/	
-var loginFailMsg 			= '아이디 또는 비밀번호를 다시 확인해주세요.';
-var loginDistinct 			= '현재 다른곳에서 로그인되어 있습니다. 여기서 로그인 하시겠습니까?';
-var loginEmpty 			= '가입된 정보가 없습니다. 회원가입을 진행해주세요.';
-var loginNotAccept 		= '가입 미승인 상태입니다. 관리자에게 문의해주세요.';
-var loginReject 			= '가입승인이 반려되었습니다. 다시 회원가입 해주세요.';
-var loginPwSet 			= '관리자가 등록한 회원입니다. 초기 비밀번호를 설정해주세요.';
+const loginFailMsg 			= '아이디 또는 비밀번호를 다시 확인해주세요.';
+const loginDistinct 			= '현재 다른곳에서 로그인되어 있습니다. 여기서 로그인 하시겠습니까?';
+const loginEmpty 				= '가입된 정보가 없습니다. 회원가입을 진행해주세요.';
+const loginNotAccept 		= '가입 미승인 상태입니다. 관리자에게 문의해주세요.';
+const loginReject 				= '가입승인이 반려되었습니다. 다시 회원가입 해주세요.';
+const loginPwSet 				= '관리자가 등록한 회원입니다. 초기 비밀번호를 설정해주세요.';
 
-var chkIdPwSet 			= '비밀번호 설정을 위해 아이디를 입력해주세요.';
-var chkIdPwSetEmpty 	= '님의 가입된 정보가 없습니다. 회원가입을 진행해주세요.';
-var chkPw 					= '비밀번호를 다시 확인해주세요.';
-var pwSettingChk 		= '비밀번호 설정을 진행하시겠습니까?';
-var pwSettingOk 			= '비밀번호 설정을 완료하였습니다. 다시 로그인 해주세요.';
+const chkIdPwSet 			= '비밀번호 설정을 위해 아이디를 입력해주세요.';
+const chkIdPwSetEmpty 	= '님의 가입된 정보가 없습니다. 회원가입을 진행해주세요.';
+const chkPw 					= '비밀번호를 다시 확인해주세요.';
+const pwSettingChk 			= '비밀번호 설정을 진행하시겠습니까?';
+const pwSettingOk 			= '비밀번호 설정을 완료하였습니다. 다시 로그인 해주세요.';
 
-var logOutFailMsg 		= '로그아웃을 다시 진행해주세요.';
-var sessionLogOutMsg 	= '세션이 만료되어 로그아웃됩니다.';
+const logOutFailMsg 			= '로그아웃을 다시 진행해주세요.';
+const sessionLogOutMsg 	= '세션이 만료되어 로그아웃됩니다.';
+const emptySessioninfo		= '세션 정보가 만료 또는 없습니다. 로그인 해주세요.'
 
 /*************************************************************
 * 작성자 : 최정석
 * 작성날짜 : 2025.08.08
 * 내용 : 회원가입 관련
 **************************************************************/	
-var joinMailVali 					= '이메일 형식에 맞지 않습니다. 다시 입력해주세요.'
-var joinMailChkResult 			= '인증번호가 전송되었습니다.';
-var joinMailChkResultFail 		= '인증번호 전송에 실패하였습니다.';
-var joinMailChkResultMsg 		= '이메일 인증이 완료되었습니다.';
-var joinMailChkResultFailMsg 	= '인증번호가 일치하지 않습니다. 다시 확인해주세요.';
+const joinMailVali 					= '이메일 형식에 맞지 않습니다. 다시 입력해주세요.'
+const joinMailChkResult 			= '인증번호가 전송되었습니다.';
+const joinMailChkResultFail 		= '인증번호 전송에 실패하였습니다.';
+const joinMailChkResultMsg 		= '이메일 인증이 완료되었습니다.';
+const joinMailChkResultFailMsg 	= '인증번호가 일치하지 않습니다. 다시 확인해주세요.';
 
-var joinIdChk 						= '아이디 중복확인을 진행해주세요.'
-var joinIdChkSucConfirm 		= '사용가능한 아이디 입니다. 사용하시겠습니까?'
-var joinIdChkFail 					= '사용이 불가능한 아이디 입니다. 다시 입력해주세요.'
-var joinChkPw 						= '비밀번호를 다시 확인해주세요.'; 
-var joinChkEmail 					= '이메일 인증을 해주세요.'; 
-var joinProcConfirm 				= '가입요청을 진행하시겠습니까?'
+const joinIdChk 						= '아이디 중복확인을 진행해주세요.'
+const joinIdChkSucConfirm 		= '사용가능한 아이디 입니다. 사용하시겠습니까?'
+const joinIdChkFail 					= '사용이 불가능한 아이디 입니다. 다시 입력해주세요.'
+const joinChkPw 						= '비밀번호를 다시 확인해주세요.'; 
+const joinChkEmail 					= '이메일 인증을 해주세요.'; 
+const joinProcConfirm 				= '가입요청을 진행하시겠습니까?'
 
-var joinProcSucc 					= '가입요청이 완료되었습니다. 관리자 승인을 기다려주세요.'
-var joinProcFail 					= '가입요청에 실패하였습니다. 관리자에게 문의해주세요.'
-var joinEmailChkTimeFail 		= '인증가능시간 3분이 초과되었습니다. 다시 이메일 인증을 진행해주세요.'
+const joinProcSucc 					= '가입요청이 완료되었습니다. 관리자 승인을 기다려주세요.'
+const joinProcFail 					= '가입요청에 실패하였습니다. 관리자에게 문의해주세요.'
+const joinEmailChkTimeFail 		= '인증가능시간 3분이 초과되었습니다. 다시 이메일 인증을 진행해주세요.'
 
 /*************************************************************
 * 작성자 : 최정석
 * 작성날짜 : 2025.08.08
 * 내용 : 등록, 수정, 삭제 관련
 **************************************************************/	
-var dataEmpty 		= '를(을) 입력해주세요.';
-var dataChk 			= '를(을) 확인해주세요.';
-var dataDupliChk 		= '중복확인을 진행해주세요.';
+const dataEmpty 		= '를(을) 입력해주세요.';
+const dataChk 			= '를(을) 확인해주세요.';
+const dataDupliChk 		= '중복확인을 진행해주세요.';
 
-var selectDataChk 	= '조회할 데이터를 선택해주세요.';
-var updDataChk 		= '수정할 데이터를 선택해주세요.';
-var delDataChk 		= '삭제할 데이터를 선택해주세요.';
+const selectDataChk 	= '조회할 데이터를 선택해주세요.';
+const updDataChk 		= '수정할 데이터를 선택해주세요.';
+const delDataChk 		= '삭제할 데이터를 선택해주세요.';
 
-var regProcConfirm	= '를(을) 저장하시겠습니까?';
-var updProcConfirm 	= '를(을) 수정하시겠습니까?';
-var delProcConfirm 	= '를(을) 삭제하시겠습니까?';
+const regProcConfirm	= '를(을) 저장하시겠습니까?';
+const updProcConfirm 	= '를(을) 수정하시겠습니까?';
+const delProcConfirm 	= '를(을) 삭제하시겠습니까?';
 
-var regSuccess 		= '가(이) 저장되었습니다.'
-var updSuccess 		= '가(이) 수정되었습니다.'
-var delSuccess 		= '가(이) 삭제되었습니다.'
+const regSuccess 		= '가(이) 저장되었습니다.'
+const updSuccess 		= '가(이) 수정되었습니다.'
+const delSuccess 		= '가(이) 삭제되었습니다.'
+
+const dataNull				= '가(이) 없습니다.'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -74,19 +77,19 @@ var delSuccess 		= '가(이) 삭제되었습니다.'
 * 내용 : 승인, 반려 관련
 **************************************************************/
 
-var acceptConfirm 	= '를(을) 승인하시겠습니까?'
-var rejectConfirm 		= '를(을) 반려하시겠습니까?'
+const acceptConfirm 	= '를(을) 승인하시겠습니까?'
+const rejectConfirm 		= '를(을) 반려하시겠습니까?'
 
-var acceptSuccess 	= '승인되었습니다.'
-var rejectSuccess  	= '반려되었습니다.'
+const acceptSuccess 	= '승인되었습니다.'
+const rejectSuccess  	= '반려되었습니다.'
 
 /*************************************************************
 * 작성자 : 최정석
 * 작성날짜 : 2025.08.08
 * 내용 : 첨부파일 관련
 **************************************************************/
-var fileExtImgChk = '이미지 파일만 업로드 가능합니다.'
-var fileLengthFiveChk = '첨부파일은 최대 5개까지 가능합니다.';
+const fileExtImgChk = '이미지 파일만 업로드 가능합니다.'
+const fileLengthFiveChk = '첨부파일은 최대 5개까지 가능합니다.';
 
 /*************************************************************
 * 작성자 : 최정석
@@ -94,7 +97,7 @@ var fileLengthFiveChk = '첨부파일은 최대 5개까지 가능합니다.';
 * 내용 : 관리자 > 메뉴관리
 **************************************************************/	
 
-var menuNmChk = '동일한 메뉴명을 사용중입니다.'
+const menuNmChk = '동일한 메뉴명을 사용중입니다.'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -102,7 +105,7 @@ var menuNmChk = '동일한 메뉴명을 사용중입니다.'
 * 내용 : 관리자 > 코드관리
 **************************************************************/	
 
-var commGroupChk = '동일한 코드그룹을 사용중입니다.'
+const commGroupChk = '동일한 코드그룹을 사용중입니다.'
 
 /*************************************************************
 * 작성자 : 최정석
@@ -110,8 +113,8 @@ var commGroupChk = '동일한 코드그룹을 사용중입니다.'
 * 내용 : 관리자 > 부서관리
 **************************************************************/	
 
-var adminUnitNmChk = '동일한 부서명을 사용중입니다.'
-var adminUnitLvChk 	= '초기 화면에서는 1레벨 부서만 추가할 수 있습니다.'
+const adminUnitNmChk = '동일한 부서명을 사용중입니다.'
+const adminUnitLvChk 	= '초기 화면에서는 1레벨 부서만 추가할 수 있습니다.'
 
 
 

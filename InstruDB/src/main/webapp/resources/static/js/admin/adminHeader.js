@@ -66,10 +66,10 @@ function bindHeaderEvent() {
 * PARAM :
 ********************************/
 function checkHeaderSession() {
-	var s_adminId = $('#ss_admin_id').val();
-	if (isEmpty(s_adminId)) {
-		alert('세션이 만료되었습니다.');
-		logOut();
+	var ss_admin_id = $('#ss_admin_id').val();
+	if (isEmpty(ss_admin_id)) {
+		alert(emptySessioninfo);
+		logOut('sessionOut');
 	}
 }
 
@@ -146,9 +146,17 @@ function closeNotiLayer() {
 * Description : 로그아웃
 * PARAM :
 ********************************/
-function logOut() {
+function logOut(flag) {
+	var paramData = '';
+	
+	if ( !isEmpty(flag) ) {
+		paramData = { flag : flag }
+	} else {
+		paramData = {}
+	}
+	
 	var url = '/admin/logOut.do';
-	var params = {};
+	var params = paramData
 	var dataType = 'json';
 
 	ajaxStart(url, params, dataType, function (data) {

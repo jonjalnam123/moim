@@ -123,7 +123,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public String adminLogOutProc(HttpServletRequest req) {
+	public String adminLogOutProc(String flag, HttpServletRequest req) {
 	    log.info(" [ AdminLoginServiceImpl ] : adminLogOutProc ");
 
 	    try {
@@ -138,7 +138,19 @@ public class AdminLoginServiceImpl implements AdminLoginService {
 	        
 	        adminInfo.setAdminId(adminId);
 	        adminInfo.setAdminIp(adminIp);
-
+	        
+	        // 관리자 세션 로그아웃 이력 저장
+	        if ( !CommonUtil.isBlank(flag) ) {
+		        if( flag.equals("sessionOut") ) {
+			        int instSessionCnt = adminLoginMapper.insertAdminSessionLogOutLog(adminInfo);
+			        if (instSessionCnt > 0) {
+			            session.invalidate();
+			            return GlobalConfig.Y;
+			        }
+		        }
+	        }
+	        
+	        // 관리자 로그아웃 이력 저장
 	        int instCnt = adminLoginMapper.insertAdminLogOutLog(adminInfo);
 	        if (instCnt > 0) {
 	            session.invalidate();
