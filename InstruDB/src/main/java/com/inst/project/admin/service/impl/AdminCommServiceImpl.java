@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
 
@@ -102,6 +103,60 @@ public class AdminCommServiceImpl implements AdminCommService {
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
+		}
+	}
+	
+	/**
+	* @methodName	 	: insertFavoriteMenu
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 즐겨찾기
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int insertFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO) {
+		log.info(" [ AdminCommServiceImpl ] : insertFavoriteMenu ");
+		try {
+			int result = 0;
+			
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID");
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+			    return 0;
+			}
+			
+			adminMenuFavoriteDTO.setUpdId(adminId);
+			
+			String flag = CommonUtil.isNull(adminMenuFavoriteDTO.getFlag());
+			if ( CommonUtil.isBlank(flag) ) {
+				log.error(GlobalConfig.RESULT_NULL_DATA_MSG);
+				return 0;
+			}
+			
+			if ( flag.equals("Y") ) { // 즐겨찾기 추가
+				result = adminCommMapper.insertFavoriteMenu(adminMenuFavoriteDTO);
+				if (result <=0 ) {
+					log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
+					return 0;
+				}
+			} else { // 즐겨찾기 삭제
+				result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
+				if (result <=0 ) {
+					log.error(GlobalConfig.RESULT_DEL_FAIL_MSG);
+					return 0;
+				}
+			}
+			
+			return result;
+
+		} catch (Exception e) {
+	        log.error("[ AdminMngServiceImpl ] : insertFavoriteMenu failed. {}", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			return 0;
 		}
 	}
 	

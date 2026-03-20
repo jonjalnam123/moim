@@ -666,15 +666,71 @@ button:disabled, .btn:disabled{ background:#c8e6c9; cursor:not-allowed; }
   background:#fff;
   padding:2px 0 0 0;
 }
+
 .breadcrumb{
   margin-top:6px;
   font-size:.9rem;
   color:#666;
+  display:flex;
+  align-items:center;
+  gap:2px;                 /* 간격 줄임 */
+  flex-wrap:wrap;
 }
-.breadcrumb span{ color:#333; font-weight:500; }
-.breadcrumb a{ color:#666; text-decoration:none; }
-.breadcrumb a:hover{ text-decoration:underline; }
 
+.breadcrumb a{
+  color:#666;
+  text-decoration:none;
+}
+
+.breadcrumb a:hover{
+  text-decoration:underline;
+}
+
+.breadcrumb-sep{
+  color:#999;
+}
+
+.breadcrumb-current{
+  color:#333;
+  font-weight:700;
+}
+
+/* 별 버튼 */
+.breadcrumb-fav-icon{
+  margin-left:0px;         /* 메뉴명 바로 옆으로 */
+  width:30px;              /* 기존보다 조금 크게 */
+  height:30px;
+  padding:0;
+  border:none;
+  background:transparent;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  line-height:1;
+  vertical-align:middle;
+}
+
+/* 둥근 SVG 별 */
+.breadcrumb-fav-icon .fav-star{
+  width:24px;
+  height:24px;
+  display:block;
+}
+
+.breadcrumb-fav-icon .fav-star path{
+  fill:transparent;
+  stroke:#c2c8c4;
+  stroke-width:1.9;
+  stroke-linejoin:round;   /* 모서리 둥글게 */
+  stroke-linecap:round;
+}
+
+/* 클릭 후 채워짐 */
+.breadcrumb-fav-icon[aria-pressed="true"] .fav-star path{
+  fill:#f4b400;
+  stroke:#f4b400;
+}
 /* =========================================================
    Table / Pagination
 ========================================================= */

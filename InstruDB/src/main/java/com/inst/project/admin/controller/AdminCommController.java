@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminErrorDTO;
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
 import com.inst.project.util.FileUtil;
@@ -163,6 +164,29 @@ public class AdminCommController {
 		result.put("result", uniqueId);
 
 		return result;
+	}
+	
+	/**
+	* @methodName	 	: insertFavoriteMenu
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메뉴 즐겨찾기
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/favoriteMenu.do")
+	@ResponseBody
+	public Map<String,Object> insertFavoriteMenu( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO ) {
+		log.info(" [ AdminMngController ] : insertFavoriteMenu ");
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int result  = adminCommService.insertFavoriteMenu(adminMenuFavoriteDTO);	
+		
+		resultMap.put("result", result);
+
+		return resultMap;
 	}
 	
 	/**

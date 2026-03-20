@@ -226,6 +226,34 @@ function callConfirm(conMsg) {
 };
 
 /*******************************
+* FuntionNm : callConfirm
+* Date : 2025.10.02
+* Author : CJS
+* Description : 컨펌 메세지
+********************************/
+function selectFavoriteMenu(obj, adminId, menuNm, menuUrl) {
+	var objId = obj.id;
+    var isPressed = $('#'+objId).attr("aria-pressed") === "true";
+    $('#'+objId).attr("aria-pressed", !isPressed);
+    $('#'+objId).attr("title", !isPressed ? "즐겨찾기 추가" : "즐겨찾기 해제");
+	
+	console.log('!isPressed====', !isPressed);
+	
+	var url = '/admin/favoriteMenu.do';
+	var params = { 
+			  adminId : adminId
+			, menuNm : menuNm
+		   	, menuUrl : menuUrl
+			, flag : !isPressed ? 'Y' : 'N'
+	}
+	var dataType = 'json';
+	ajaxStart(url, params, dataType, function (data) {
+		var result = data.result;
+	});
+	
+};
+
+/*******************************
 * 기능 관련 [E]
 ********************************/
 
