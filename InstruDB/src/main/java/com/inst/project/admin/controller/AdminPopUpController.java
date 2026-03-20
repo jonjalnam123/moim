@@ -27,6 +27,16 @@ public class AdminPopUpController {
 	@Autowired
 	AdminBoardService adminBoardService;
 	
+	/**
+	* @methodName	 	: getNoticePopUp
+	* @author					: 최정석
+	* @date            		: 2026. 03. 20
+	* @description			: 관리자 공지사항 모달 팝업 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
 	@GetMapping("/noticePopUp.do")
 	public String getNoticePopUp(@RequestParam String noticeId, Model model) {
 		log.info(" [ AdminPopUpController ] : getNoticePopUp ");

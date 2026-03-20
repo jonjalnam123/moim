@@ -318,7 +318,7 @@
             </div>
 
             <button type="button" class="btn btn-cancel notice-modal-close" onclick="closeNoticeModal();">
-                닫기
+                ×
             </button>
         </div>
 

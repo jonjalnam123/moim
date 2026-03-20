@@ -15,16 +15,16 @@
 	</select>
 	<!-- 관리자 메뉴명 중복 체크 [E]  -->
 
-	<!-- 관리자 공통코드 중복 체크 [S]  -->
-	<select id="selectCommCdDupliChk" parameterType="map" resultType="int">
-		/*AdminMng_SQL.selectUniqueDupliChk*/
+	<!-- 관리자 코드그룹 중복 체크 [S]  -->
+	<select id="selectCommGroupCdDupliChk" parameterType="map" resultType="int">
+		/*AdminMng_SQL.selectCommGroupCdDupliChk*/
 		SELECT COUNT(*)
 		  FROM TB_COMMON_INFO
 		WHERE 1=1
-		    AND COMM_CD = #{uniqueKey}
+		    AND COMM_GROUP_CD = #{uniqueKey}
 		    AND COMM_DEL_YN = 'N'
 	</select>
-	<!-- 관리자 공통코드 중복 체크 [E]  -->
+	<!-- 관리자 코드그룹 중복 체크 [E]  -->
 	
 	<!-- 관리자 부서코드 중복 체크 [S]  -->
 	<select id="selectUnitCdDupliChk" parameterType="map" resultType="int">

@@ -19,16 +19,15 @@ $(function () {
 	});
 	
 	// 공통코드 중복 체크
-	$('#commCd').on('keyup', function() {
-		var commCdVal = $(this).val();
-		var commCd = getEngUpperCase(commCdVal);
-		$(this).val(commCd);
+	$('#commGroupCd').on('keyup', function() {
+		var commGroupCdVal = $(this).val();
+		var commGroupCd = getEngUpperCase(commGroupCdVal);
+		$(this).val(commGroupCd);
+		var commGroupCdOrg = $('#commGroupCdOrg').val();
 
-		var commCdOrg = $('#commCdOrg').val();
-		
-		if ( isEmpty(commCd) || commCd === commCdOrg ) {
-			$('#commCdChk').val('');
-			$('#commCd').prop('required', false);
+		if ( isEmpty(commGroupCd) || commGroupCd === commGroupCdOrg ) {
+			$('#commGroupCdChk').val('');
+			$('#commGroupCd').prop('required', false);
 			$('.hint').hide();
 			$('.error').hide();
 			return;
@@ -37,19 +36,19 @@ $(function () {
 		var tableNm = 'tb_common_info';
 		var url = '/admin/uniqueDupliChk.do';
 		var params = {
-			uniqueKey : commCd
+			uniqueKey : commGroupCd
 		  , tableNm : tableNm
 		}
 		var dataType = 'json'
 		ajaxNoLoadingxStart(url, params, dataType, function(data) {
 			var result = data.result;
-			$('#commCdChk').val(result);
+			$('#commGroupCdChk').val(result);
 			if ( result === 'Y' ) {
-				$('#commCd').attr('required', false);
+				$('#commGroupCd').attr('required', false);
 				$('.hint').show();
 				$('.error').hide();
 			} else {
-				$('#commCd').attr('required', true);
+				$('#commGroupCd').attr('required', true);
 				$('.hint').hide();
 				$('.error').show();
 			}
@@ -117,8 +116,7 @@ $(function () {
 				$('#commCn').val(commCn);
 				
 				$('#commCd').val(commCd);
-/*				$('#commCd').attr('data-id', commCd);*/
-				$('#commCdOrg').val(commCd);
+				$('#commGroupCdOrg').val(commGroupCd);
 				
 				$('input[name="commUseYn"][value="' + commUseYn + '"]').prop('checked', true);
 				
@@ -148,13 +146,13 @@ $(function () {
 		$('#commPNm').val(commNm);
 		
 		$('#commCd').val('');
-		$('#commCdOrg').val('');
-		$('#commCdChk').val('');
-		$('#commCd').prop('required', false);
+
+		$('#commGroupCd').val(commGroupCd);
+		$('#commGroupCdOrg').val(commGroupCd);
+		$('#commGroupCdChk').val('Y');
 		$('.hint').hide();
 		$('.error').hide();
 		
-		$('#commGroupCd').val(commGroupCd);
 		if ( Number(commLvl) === 0 ) {
 			$('#commLvl').val('1').trigger('change');
 		} else if ( Number(commLvl) === 1 ) {
@@ -183,13 +181,14 @@ $(function () {
 		$('#commPNm').val('');
 		
 		$('#commCd').val('');
-		$('#commCdOrg').val('');
-		$('#commCd').prop('required', false);
-		$('#commCdChk').val('');
+		
+		$('#commGroupCd').val('');
+		$('#commGroupCd').prop('required', false);
+		$('#commGroupCdOrg').val('');
+		$('#commGroupCdChk').val('');
 		$('.hint').hide();
 		$('.error').hide();
 		
-		$('#commGroupCd').val('');
 		$('#commLvl').val('0').trigger('change');
 		$('#commSortNo').val('');
 		$('#commCn').val('');	
@@ -203,39 +202,41 @@ $(function () {
 		
 		var commId = $('#commId').val();
 		var commPId = $('#commPId').val();
-		var commGroupCd = $('#commGroupCd').val();
 		var commNm = $('#commNm').val();
 		var commSortNo = $('#commSortNo').val();
 		var commLvl = $('#commLvl').val();
 		var commCn = $('#commCn').val();
 		var commCd = $('#commCd').val().toUpperCase();
 		var commUseYn = $('input[name="commUseYn"]:checked').val();
-		var commCdChk = $('#commCdChk').val();
+		var commGroupCd = $('#commGroupCd').val();
+		var commGroupCdChk = $('#commGroupCdChk').val();
 		
 		if ( isEmptyMsg(commNm, '코드명' + dataEmpty) ) {
+			$('#commNm').focus();
 			return;
 		}
 
-		if ( isEmptyMsg(commGroupCd, '공통그룹' + dataEmpty) ) {
+		if ( isEmptyMsg(commGroupCd, '코드그룹' + dataEmpty) ) {
+			$('#commGroupCd').focus();
+			return;
+		}
+		
+		if  ( commGroupCdChk === 'N' ) {
+			alert('코드그룹' + dataChk)
+			$('#commGroupCd').focus();
 			return;
 		}
 
 		if ( isEmptyMsg(commLvl, '레벨' + dataEmpty) ) {
+			$('#commLvl').focus();
 			return;
 		}
 
 		if ( isEmptyMsg(commSortNo, '정렬순서' + dataEmpty) ) {
+			$('#commSortNo').focus();
 			return;
 		}
 		
-		if( isEmptyMsg(commCd,  '공통코드' + dataEmpty) ) {
-			return;
-		}
-
-		if  ( commCdChk === 'N' ) {
-			alert('공통코드' + dataChk)
-			return;
-		}
 		
 		if ( btnVal === 'I' ) {
 			

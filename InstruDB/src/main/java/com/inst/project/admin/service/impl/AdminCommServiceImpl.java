@@ -45,7 +45,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 			if ( tableNm.equals("tb_common_info") ) {
 				String uniqueKeyVal = uniqueKey.toUpperCase();
 				bodyMap.put("uniqueKey", uniqueKeyVal);
-				resultChk = adminCommMapper.selectCommCdDupliChk(bodyMap);
+				resultChk = adminCommMapper.selectCommGroupCdDupliChk(bodyMap);
 			} else if ( tableNm.equals("tb_admin_unit_info") ) {
 				String uniqueKeyVal = uniqueKey.toUpperCase();
 				bodyMap.put("uniqueKey", uniqueKeyVal);

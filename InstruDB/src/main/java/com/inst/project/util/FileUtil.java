@@ -21,8 +21,8 @@ import net.coobird.thumbnailator.Thumbnails;
 public class FileUtil {
 
 	/**
-	* @methodName	 	: saveFile
-	* @author			: 최정석
+	* @methodName	: saveFile
+	* @author				: 최정석
 	* @date            	: 2026. 1. 6.
 	* @description		: 범용 파일 저장 로직
 	* ===================================
@@ -69,8 +69,8 @@ public class FileUtil {
     }
 
 	/**
-	* @methodName	 	: createImageThumbnail
-	* @author			: 최정석
+	* @methodName	: createImageThumbnail
+	* @author				: 최정석
 	* @date            	: 2026. 3. 17.
 	* @description		: 이미지 썸네일 생성 로직
 	* ===================================
@@ -108,8 +108,8 @@ public class FileUtil {
     }
 
 	/**
-	* @methodName	 	: deleteFile
-	* @author			: 최정석
+	* @methodName	: deleteFile
+	* @author				: 최정석
 	* @date            	: 2026. 1. 6.
 	* @description		: 파일 삭제 로직
 	* ===================================
@@ -139,8 +139,8 @@ public class FileUtil {
     }
 
 	/**
-	* @methodName	 	: downloadFile
-	* @author			: 최정석
+	* @methodName	: downloadFile
+	* @author				: 최정석
 	* @date            	: 2026. 1. 6.
 	* @description		: 파일 다운로드 로직
 	* ===================================
@@ -170,8 +170,8 @@ public class FileUtil {
     }
 
 	/**
-	* @methodName	 	: getPreviewUrl
-	* @author			: 최정석
+	* @methodName	: getPreviewUrl
+	* @author				: 최정석
 	* @date            	: 2026. 1. 6.
 	* @description		: 파일 썸네일 경로 구하는 로직
 	* ===================================
