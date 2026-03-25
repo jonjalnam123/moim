@@ -161,6 +161,67 @@ public class CommonUtil {
 	}
 	
 	/**
+	* @methodName	 	: setAdminMenuFavInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 즐겨찾기 메뉴 저장
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	public static boolean setAdminMenuFavInfo( AdminDTO adminInfo, HttpServletRequest req ) {
+		log.info(" [ CommonUtil ] : setAdminMenuFavInfo ");
+		
+		if ( adminInfo == null ) {
+			return false;
+		}
+
+	    HttpSession oldSession = req.getSession(false);
+	    if (oldSession != null) {
+	        oldSession.invalidate();
+	    }
+
+		HttpSession session = req.getSession();
+	    
+		String adminNo 				= CommonUtil.isNull(adminInfo.getAdminNo());
+	    String adminId 				= CommonUtil.isNull(adminInfo.getAdminId()); 
+	    String adminNm 				= CommonUtil.isNull(adminInfo.getAdminNm());
+	    String adminIp 				= CommonUtil.isNull(adminInfo.getAdminIp());
+	    String adminDeptCd 			= CommonUtil.isNull(adminInfo.getAdminDeptCd());
+	    String adminTeamCd 			= CommonUtil.isNull(adminInfo.getAdminTeamCd());
+	    String adminPositionCd 		= CommonUtil.isNull(adminInfo.getAdminPositionCd());
+	    String adminGender 			= CommonUtil.isNull(adminInfo.getAdminGender());
+	    String adminRegGb 			= CommonUtil.isNull(adminInfo.getAdminRegGb());
+	    String adminGradeCd 		= CommonUtil.isNull(adminInfo.getAdminGradeCd());
+	    String adminRegAccept 		= CommonUtil.isNull(adminInfo.getAdminRegAccept());
+	    String adminEmailChkYn 	= CommonUtil.isNull(adminInfo.getAdminEmailChkYn());
+	    String adminEmailAlertYn 	= CommonUtil.isNull(adminInfo.getAdminEmailAlertYn());
+	    String adminSmsAlertYn 	= CommonUtil.isNull(adminInfo.getAdminSmsAlertYn());
+	    String adminSmsChkYn 		= CommonUtil.isNull(adminInfo.getAdminSmsChkYn());
+	    String adminCarYn 			= CommonUtil.isNull(adminInfo.getAdminCarYn());
+	    
+	    session.setAttribute("SS_ADMIN_NO", adminNo);
+	    session.setAttribute("SS_ADMIN_ID", adminId);
+	    session.setAttribute("SS_ADMIN_NM", adminNm);
+	    session.setAttribute("SS_ADMIN_IP", adminIp);
+	    session.setAttribute("SS_ADMIN_DEPT_CD", adminDeptCd);
+	    session.setAttribute("SS_ADMIN_TEAM_CD", adminTeamCd);
+	    session.setAttribute("SS_ADMIN_POSITION_CD", adminPositionCd);
+	    session.setAttribute("SS_ADMIN_GENDER", adminGender);
+	    session.setAttribute("SS_ADMIN_REG_GB", adminRegGb);
+	    session.setAttribute("SS_ADMIN_GRADE_CD", adminGradeCd);
+	    session.setAttribute("SS_ADMIN_REG_ACCEPT", adminRegAccept);
+	    session.setAttribute("SS_ADMIN_EMAIL_ALERT_YN", adminEmailAlertYn);
+	    session.setAttribute("SS_ADMIN_EMAIL_CHK_YN", adminEmailChkYn);
+	    session.setAttribute("SS_ADMIN_SMS_ALERT_YN", adminSmsAlertYn);
+	    session.setAttribute("SS_ADMIN_SMS_CHK_YN", adminSmsChkYn);
+	    session.setAttribute("SS_ADMIN_CAR_YN", adminCarYn);
+	    
+		return true;
+	}
+	
+	/**
 	* @methodName	 	: getAdminInfoSession
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.

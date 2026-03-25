@@ -78,7 +78,16 @@
 			, NOW()
 		);
 	</insert>
-	<!-- 관리자 공통코드 저장 [E] -->
+	<!-- 관리자 메뉴 즐겨찾기 등록 [E] -->
+	
+	<!-- 관리자 메뉴 즐겨찾기 삭제 [S] -->
+	<delete id="deleteFavoriteMenu" parameterType="AdminMenuFavoriteDTO">
+		DELECT FROM TB_ADMIN_MENU_FAVORITE
+		WHERE 1=1 
+		    AND MENU_FAVORITE_ID = #{menuFavoriteId}
+		    AND MENU_FAVORITE_ID = #{menuFavoriteAdminId}
+	</delete>
+	<!-- 관리자 메뉴 즐겨찾기 삭제 [E] -->
 	
 	<!-- 파일 다운로드용 파일 정보 조회 [S]  -->
     <select id="selectFileInfo" resultType="AdminFileDTO">

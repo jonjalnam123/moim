@@ -2,6 +2,8 @@ package com.inst.project.admin.service.impl;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -117,17 +119,18 @@ public class AdminCommServiceImpl implements AdminCommService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public int insertFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO) {
+	public int insertFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req) {
 		log.info(" [ AdminCommServiceImpl ] : insertFavoriteMenu ");
 		try {
 			int result = 0;
 			
-			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID");
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
 				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 			    return 0;
 			}
 			
+			adminMenuFavoriteDTO.setRegId(adminId);
 			adminMenuFavoriteDTO.setUpdId(adminId);
 			
 			String flag = CommonUtil.isNull(adminMenuFavoriteDTO.getFlag());

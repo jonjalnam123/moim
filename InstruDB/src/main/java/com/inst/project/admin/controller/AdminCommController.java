@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
@@ -178,11 +180,11 @@ public class AdminCommController {
 	*/
 	@PostMapping(value = "/favoriteMenu.do")
 	@ResponseBody
-	public Map<String,Object> insertFavoriteMenu( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO ) {
+	public Map<String,Object> insertFavoriteMenu( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req ) {
 		log.info(" [ AdminMngController ] : insertFavoriteMenu ");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int result  = adminCommService.insertFavoriteMenu(adminMenuFavoriteDTO);	
+		int result  = adminCommService.insertFavoriteMenu(adminMenuFavoriteDTO, req);	
 		
 		resultMap.put("result", result);
 

@@ -241,11 +241,12 @@ function selectFavoriteMenu(obj, adminId, menuNm, menuUrl) {
 	
 	var url = '/admin/favoriteMenu.do';
 	var params = { 
-			  adminId : adminId
-			, menuNm : menuNm
-		   	, menuUrl : menuUrl
+			  menuFavoriteAdminId : adminId
+			, menuFavoriteUrl : menuUrl
+			, menuFavoriteNm : menuNm
 			, flag : !isPressed ? 'Y' : 'N'
 	}
+	console.log('params-====', params);
 	var dataType = 'json';
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;
