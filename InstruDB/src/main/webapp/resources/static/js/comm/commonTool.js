@@ -250,6 +250,9 @@ function selectFavoriteMenu(obj, adminId, menuNm, menuUrl) {
 	var dataType = 'json';
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;
+		if ( result > 0 ) {
+			
+		} 
 	});
 	
 };
