@@ -207,25 +207,5 @@ public class AdminMainController {
 		
 		return result;
 	}
-	
-	/**
-	* @methodName	 	: setAdminMenuToSession
-	* @author					: 최정석
-	* @date            		: 2026. 03. 20.
-	* @description			: 관리자 메뉴 세션 설정
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 03. 20.        		최정석       			최초 생성
-	*/
-	@PostMapping(value = "/menuToSession.do")
-	@ResponseBody
-	public boolean setAdminMenuToSession(@ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
-		log.info(" [ AdminMainController ] : setAdminMenuToSession ");
-		
-		boolean result = CommonUtil.setMenuInfoSession(adminMenuDTO, req);
-		
-		return result;
-	}
 
 }

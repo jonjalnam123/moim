@@ -100,6 +100,13 @@ function setMenuInfo(menuInfo) {
 	}
 }
 
+/*******************************
+* FuntionNm : setMenuToSession
+* Date : 2025.10.02
+* Author : CJS
+* Description : 메뉴 세션 저장
+* PARAM : menuId : 메뉴ID,  menuPNm : 메뉴부모명, menuUrl : 메뉴 경로, menuNm : 메뉴명
+********************************/
 function setMenuToSession(menuId, menuPNm, menuUrl, menuNm) {
 	
 	if ( isEmptyMsg(menuId, '메뉴ID' + dataNull) ) {
@@ -127,7 +134,7 @@ function setMenuToSession(menuId, menuPNm, menuUrl, menuNm) {
 	}
 	var dataType = 'json'
 	ajaxStart(url, params, dataType, function(result) {
-		if ( result ) {
+		if ( result.menuInfoResult ) {
 			goToUri(menuUrl)
 		} else { 
 			goToUri('/admin/login.do')

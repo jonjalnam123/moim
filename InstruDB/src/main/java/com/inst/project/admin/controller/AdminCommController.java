@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminErrorDTO;
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
@@ -135,7 +136,7 @@ public class AdminCommController {
 	@PostMapping(value = "/uniqueDupliChk.do")
 	@ResponseBody
 	public Map<String,Object> selectUniqueDupliChk( @RequestParam Map<String, Object> bodyMap ) {
-		log.info(" [ AdminMngController ] : selectUniqueDupliChk ");
+		log.info(" [ AdminCommController ] : selectUniqueDupliChk ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		String chkResult = adminCommService.selectUniqueDupliChk(bodyMap);	
@@ -158,7 +159,7 @@ public class AdminCommController {
 	@PostMapping(value = "/uniqueId.do")
 	@ResponseBody
 	public Map<String,Object> selectUniqueId() {
-		log.info(" [ AdminMngController ] : selectUniqueId ");
+		log.info(" [ AdminCommController ] : selectUniqueId ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		String uniqueId = adminCommService.selectUniqueId();	
@@ -169,7 +170,34 @@ public class AdminCommController {
 	}
 	
 	/**
-	* @methodName	 	: insertFavoriteMenu
+	* @methodName	 	: setAdminMenuToSession
+	* @author					: 최정석
+	* @date            		: 2026. 03. 20.
+	* @description			: 관리자 메뉴 세션 설정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 03. 20.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/menuToSession.do")
+	@ResponseBody
+	public Map<String, Object> setAdminMenuToSession(@ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
+		log.info(" [ AdminCommController ] : setAdminMenuToSession ");
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String favMenuResult = adminCommService.selectFavMenuCnt(adminMenuDTO);
+		adminMenuDTO.setFavMenuResult(favMenuResult);
+		
+		boolean menuInfoResult = CommonUtil.setMenuInfoSession(adminMenuDTO, req);
+		
+		result.put("menuInfoResult", menuInfoResult);
+		
+		return result;
+	}
+	
+	/**
+	* @methodName	 	: favoriteMenuDef
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 메뉴 즐겨찾기
@@ -178,13 +206,13 @@ public class AdminCommController {
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
-	@PostMapping(value = "/favoriteMenu.do")
+	@PostMapping(value = "/favoriteMenuDef.do")
 	@ResponseBody
-	public Map<String,Object> insertFavoriteMenu( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req ) {
-		log.info(" [ AdminMngController ] : insertFavoriteMenu ");
+	public Map<String,Object> favoriteMenuDef( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req ) {
+		log.info(" [ AdminCommController ] : insertFavoriteMenu ");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int result  = adminCommService.insertFavoriteMenu(adminMenuFavoriteDTO, req);	
+		int result  = adminCommService.favoriteMenuDef(adminMenuFavoriteDTO, req);	
 		
 		resultMap.put("result", result);
 
@@ -203,7 +231,7 @@ public class AdminCommController {
 	*/
 	@GetMapping("/fileDown.do")
 	public ResponseEntity<FileSystemResource> fileDownload(@RequestParam String fileId, @RequestParam String refType) throws Exception {
-		log.info(" [ AdminMngController ] : selectUniqueId ");
+		log.info(" [ AdminCommController ] : selectUniqueId ");
 		
 	    AdminFileDTO fileInfo = adminCommService.selectFileInfo(fileId, refType);
 	    if (fileInfo == null) {

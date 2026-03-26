@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 
 @Mapper
@@ -31,8 +32,13 @@ public interface AdminCommMapper {
 	// 관리자 메뉴 즐겨찾기 삭제
 	int deleteFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO);
 	
+	// 관리자 즐겨찾기 메뉴 여부 조회
+	int  selectFavMenuCnt(AdminMenuDTO adminMenuDTO);
+	
 	// 파일 다운로드용 파일 정보 조회
 	AdminFileDTO selectFileInfo(String fileId, String refType);
+
+
 	
 
 }

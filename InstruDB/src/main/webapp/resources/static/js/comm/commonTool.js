@@ -238,7 +238,7 @@ function selectFavoriteMenu(obj, adminId, menuId, menuPNm, menuNm, menuUrl) {
     $('#'+objId).attr("aria-pressed", !isPressed);
     $('#'+objId).attr("title", !isPressed ? "즐겨찾기 추가" : "즐겨찾기 해제");
 
-	var url = '/admin/favoriteMenu.do';
+	var url = '/admin/favoriteMenuDef.do';
 	var params = { 
 			  menuFavoriteMenuId : menuId
 			, menuFavoriteAdminId : adminId
@@ -251,8 +251,10 @@ function selectFavoriteMenu(obj, adminId, menuId, menuPNm, menuNm, menuUrl) {
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;
 		if ( result > 0 ) {
-			
-		} 
+			//window.location.reload();
+		} else {
+			//goToUriAdminError();
+		}
 	});
 	
 };

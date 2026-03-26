@@ -6,7 +6,7 @@
 	
 	<!-- 관리자 메뉴명 중복 체크 [S]  -->
 	<select id="selectMenuNmDupliChk" parameterType="map" resultType="int">
-		/*AdminMng_SQL.selectMenuNmDupliChk*/
+		/*AdminComm_SQL.selectMenuNmDupliChk*/
 		SELECT COUNT(*)
 		  FROM TB_ADMIN_MENU_INFO
 		WHERE 1=1
@@ -17,7 +17,7 @@
 
 	<!-- 관리자 코드그룹 중복 체크 [S]  -->
 	<select id="selectCommGroupCdDupliChk" parameterType="map" resultType="int">
-		/*AdminMng_SQL.selectCommGroupCdDupliChk*/
+		/*AdminComm_SQL.selectCommGroupCdDupliChk*/
 		SELECT COUNT(*)
 		  FROM TB_COMMON_INFO
 		WHERE 1=1
@@ -28,7 +28,7 @@
 	
 	<!-- 관리자 부서코드 중복 체크 [S]  -->
 	<select id="selectUnitCdDupliChk" parameterType="map" resultType="int">
-		/*AdminMng_SQL.selectUnitCdDupliChk*/
+		/*AdminComm_SQL.selectUnitCdDupliChk*/
 		SELECT COUNT(*)
 		  FROM TB_ADMIN_UNIT_INFO
 		WHERE 1=1
@@ -39,7 +39,7 @@
 	
 	<!-- 관리자 부서코드 중복 체크 [S]  -->
 	<select id="selectAdminIdDupliChk" parameterType="map" resultType="int">
-		/*AdminMng_SQL.selectAdminIdDupliChk*/
+		/*AdminComm_SQL.selectAdminIdDupliChk*/
 		SELECT COUNT(*)
 		  FROM TB_ADMIN_INFO
 		WHERE 1=1
@@ -50,14 +50,14 @@
 	
 	<!-- 관리자 유니크 값 생성 [S]  -->
 	<select id="selectUniqueId" resultType="String">
-		/*AdminMng_SQL.selectUniqueId*/
+		/*AdminComm_SQL.selectUniqueId*/
 		SELECT FN_GET_UNIQUE_KEY()
 	</select>
 	<!-- 관리자 유니크 값 생성 [E]  -->
 	
 	<!-- 관리자 메뉴 즐겨찾기 등록 [S] -->
 	<insert id="insertFavoriteMenu" parameterType="AdminMenuFavoriteDTO">
-		/*AdminMng_SQL.adminCommReg*/
+		/*AdminComm_SQL.adminCommReg*/
 		INSERT INTO TB_ADMIN_MENU_FAVORITE (
 			  MENU_FAVORITE_ID
 			, MENU_FAVORITE_MENU_ID
@@ -86,15 +86,29 @@
 	
 	<!-- 관리자 메뉴 즐겨찾기 삭제 [S] -->
 	<delete id="deleteFavoriteMenu" parameterType="AdminMenuFavoriteDTO">
-		DELECT FROM TB_ADMIN_MENU_FAVORITE
-		WHERE 1=1 
-		    AND MENU_FAVORITE_ID = #{menuFavoriteId}
-		    AND MENU_FAVORITE_ID = #{menuFavoriteAdminId}
+		/*AdminComm_SQL.deleteFavoriteMenu*/
+		DELETE 
+		   FROM TB_ADMIN_MENU_FAVORITE
+		 WHERE 1=1 
+		     AND MENU_FAVORITE_MENU_ID = #{menuFavoriteMenuId}
+		     AND MENU_FAVORITE_URL = #{menuFavoriteUrl}
 	</delete>
 	<!-- 관리자 메뉴 즐겨찾기 삭제 [E] -->
 	
+	<!-- 관리자 메뉴 즐겨찾기 여부 조회 [S] -->
+	<select id="selectFavMenuCnt" parameterType="AdminMenuDTO" resultType="int">
+		/*AdminComm_SQL.selectFavMenuCnt*/
+		SELECT COUNT(*)
+		  FROM TB_ADMIN_MENU_FAVORITE
+		 WHERE 1=1
+		     AND MENU_FAVORITE_MENU_ID = #{menuId}
+		     AND MENU_FAVORITE_URL = #{menuUrl}
+	</select>
+	<!-- 관리자 메뉴 즐겨찾기 여부 조회 [E] -->
+	
 	<!-- 파일 다운로드용 파일 정보 조회 [S]  -->
     <select id="selectFileInfo" resultType="AdminFileDTO">
+    	/*AdminComm_SQL.selectFileInfo*/
         SELECT FILE_ID
 		      	  , FILE_ORG_NM
 		          , FILE_NM

@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 
 public interface AdminCommService {
@@ -16,11 +17,12 @@ public interface AdminCommService {
 	String selectUniqueId();
 	
 	// 관리자 메뉴 즐겨찾기
-	int insertFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req);
+	int favoriteMenuDef(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req);
+	
+	// 관리자 즐겨찾기 메뉴 여부 조회
+	String selectFavMenuCnt(AdminMenuDTO adminMenuDTO);
 	
 	// 관리자 파일 다운로드
 	AdminFileDTO selectFileInfo(String fileId, String refType);
-	
-
 
 }

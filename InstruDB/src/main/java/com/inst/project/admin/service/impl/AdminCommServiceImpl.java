@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminFileDTO;
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
@@ -70,7 +73,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 			return result;
 
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectCommList failed. {}", e);
+	        log.error("[ AdminCommServiceImpl ] : selectCommList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
@@ -101,7 +104,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 			return result;
 
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectUniqueDupliChk failed. {}", e);
+	        log.error("[ AdminCommServiceImpl ] : selectUniqueDupliChk failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
@@ -109,8 +112,8 @@ public class AdminCommServiceImpl implements AdminCommService {
 	}
 	
 	/**
-	* @methodName	 	: insertFavoriteMenu
-	* @author					: 최정석
+	* @methodName	 	: favoriteMenuDef
+	* @author				: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 메뉴 즐겨찾기
 	* ===================================
@@ -119,47 +122,97 @@ public class AdminCommServiceImpl implements AdminCommService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public int insertFavoriteMenu(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req) {
-		log.info(" [ AdminCommServiceImpl ] : insertFavoriteMenu ");
+	@Transactional(rollbackFor = Exception.class)
+	public int favoriteMenuDef(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req) {
+	    log.info("[AdminCommServiceImpl] : favoriteMenuDef");
+
+	    try {
+	        String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
+	        if (CommonUtil.isBlank(adminId)) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return 0;
+	        }
+
+	        if (adminMenuFavoriteDTO == null) {
+	            log.error(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return 0;
+	        }
+
+	        adminMenuFavoriteDTO.setRegId(adminId);
+	        adminMenuFavoriteDTO.setUpdId(adminId);
+
+	        String flag = CommonUtil.isNull(adminMenuFavoriteDTO.getFlag());
+	        if (CommonUtil.isBlank(flag)) {
+	            log.error(GlobalConfig.RESULT_NULL_DATA_MSG);
+	            return 0;
+	        }
+
+	        int result = 0;
+
+	        if ("Y".equals(flag)) { // 즐겨찾기 추가
+	            result = adminCommMapper.insertFavoriteMenu(adminMenuFavoriteDTO);
+
+	            if (result <= 0) {
+	                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	                log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
+	                return 0;
+	            }
+
+	        } else if ("N".equals(flag)) { // 즐겨찾기 삭제
+	            result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
+
+	            if (result <= 0) {
+	                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	                log.error(GlobalConfig.RESULT_DEL_FAIL_MSG);
+	                return 0;
+	            }
+
+	        } else {
+	            log.error("[AdminCommServiceImpl] : invalid flag value. flag={}", flag);
+	            return 0;
+	        }
+
+	        return result;
+
+	    } catch (Exception e) {
+	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	        log.error("[AdminCommServiceImpl] favoriteMenuDef failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectFavMenu
+	* @author				: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 즐겨찾기 메뉴 여부 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public String selectFavMenuCnt(AdminMenuDTO adminMenuDTO) {
+		log.info(" [ AdminCommServiceImpl ] : selectFavMenu ");
 		try {
-			int result = 0;
 			
-			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
-			if ( CommonUtil.isBlank(adminId) ) {
-				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
-			    return 0;
+			String result = GlobalConfig.N;
+			int  favMenu = adminCommMapper.selectFavMenuCnt(adminMenuDTO);
+			if( favMenu <=0  ) {
+				return result;
 			}
 			
-			adminMenuFavoriteDTO.setRegId(adminId);
-			adminMenuFavoriteDTO.setUpdId(adminId);
-			
-			String flag = CommonUtil.isNull(adminMenuFavoriteDTO.getFlag());
-			if ( CommonUtil.isBlank(flag) ) {
-				log.error(GlobalConfig.RESULT_NULL_DATA_MSG);
-				return 0;
-			}
-			
-			if ( flag.equals("Y") ) { // 즐겨찾기 추가
-				result = adminCommMapper.insertFavoriteMenu(adminMenuFavoriteDTO);
-				if (result <=0 ) {
-					log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
-					return 0;
-				}
-			} else { // 즐겨찾기 삭제
-				result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
-				if (result <=0 ) {
-					log.error(GlobalConfig.RESULT_DEL_FAIL_MSG);
-					return 0;
-				}
-			}
+			result = GlobalConfig.Y;
 			
 			return result;
 
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : insertFavoriteMenu failed. {}", e);
+	        log.error("[ AdminCommServiceImpl ] : selectFavMenuCnt failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
-			return 0;
+			return GlobalConfig.N;
 		}
 	}
 	
@@ -186,7 +239,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 			return fileInfo;
 
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectFileInfo failed. {}", e);
+	        log.error("[ AdminCommServiceImpl ] : selectFileInfo failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			return null;
