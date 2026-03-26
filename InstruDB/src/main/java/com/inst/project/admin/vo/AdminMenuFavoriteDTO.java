@@ -8,11 +8,17 @@ public class AdminMenuFavoriteDTO {
 	// 메뉴 즐겨찾기ID
 	private String menuFavoriteId;
 	
+	// 메뉴 즐쳐찾기 메뉴ID
+	private String menuFavoriteMenuId;
+	
 	// 메뉴 즐겨찾기등록관리자ID
 	private String menuFavoriteAdminId;
 	
 	// 즐겨찾기메뉴URL
 	private String menuFavoriteUrl;
+	
+	// 메뉴 즐겨찾기 부모 메뉴명
+	private String menuFavoritePNm;
 	
 	// 즐겨찾기메뉴명
 	private String menuFavoriteNm;

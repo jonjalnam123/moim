@@ -60,8 +60,10 @@
 		/*AdminMng_SQL.adminCommReg*/
 		INSERT INTO TB_ADMIN_MENU_FAVORITE (
 			  MENU_FAVORITE_ID
+			, MENU_FAVORITE_MENU_ID
 			, MENU_FAVORITE_ADMIN_ID
 			, MENU_FAVORITE_URL
+		    , MENU_FAVORITE_P_NM
 			, MENU_FAVORITE_NM
 			, REG_ID
 			, REG_DT
@@ -69,8 +71,10 @@
 			, UPD_DT
 		) VALUES (
 			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{menuFavoriteMenuId}
 			, #{menuFavoriteAdminId}
 			, #{menuFavoriteUrl}
+			, #{menuFavoritePNm}
 			, #{menuFavoriteNm}
 			, #{regId}
 			, NOW()

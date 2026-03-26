@@ -3,6 +3,7 @@ package com.inst.project.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 
 public interface AdminMainService {
@@ -15,7 +16,5 @@ public interface AdminMainService {
 	
 	// 관리자 메인 공지사항 조회
 	List<AdminNoticeDTO> selectAdminMainNoticeList();
-
-
 
 }

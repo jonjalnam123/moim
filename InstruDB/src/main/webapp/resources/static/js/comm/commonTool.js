@@ -231,22 +231,22 @@ function callConfirm(conMsg) {
 * Author : CJS
 * Description : 컨펌 메세지
 ********************************/
-function selectFavoriteMenu(obj, adminId, menuNm, menuUrl) {
+function selectFavoriteMenu(obj, adminId, menuId, menuPNm, menuNm, menuUrl) {
+
 	var objId = obj.id;
     var isPressed = $('#'+objId).attr("aria-pressed") === "true";
     $('#'+objId).attr("aria-pressed", !isPressed);
     $('#'+objId).attr("title", !isPressed ? "즐겨찾기 추가" : "즐겨찾기 해제");
-	
-	console.log('!isPressed====', !isPressed);
-	
+
 	var url = '/admin/favoriteMenu.do';
 	var params = { 
-			  menuFavoriteAdminId : adminId
+			  menuFavoriteMenuId : menuId
+			, menuFavoriteAdminId : adminId
 			, menuFavoriteUrl : menuUrl
+			, menuFavoritePNm : menuPNm
 			, menuFavoriteNm : menuNm
 			, flag : !isPressed ? 'Y' : 'N'
 	}
-	console.log('params-====', params);
 	var dataType = 'json';
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;

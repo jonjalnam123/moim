@@ -96,5 +96,5 @@
 	  ORDER BY A.REG_DT DESC
 	</select>
 	<!-- 관리자 메인 공지사항 조회 [E] -->
-	
+
 </mapper>

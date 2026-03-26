@@ -123,8 +123,4 @@ public class AdminMainServiceImpl implements AdminMainService {
 		}
 	}
 	
-	
-	
-	
-	
 }

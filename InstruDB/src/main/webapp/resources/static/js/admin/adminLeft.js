@@ -6,6 +6,10 @@
 
 $(function () {	
 	getAdminMenuInfo();
+	
+	var test = $('#btnFavorite').find('svg').attr('class');
+	console.log('btnFavorite===', test);
+	
 });
 
 function getAdminMenuInfo() {

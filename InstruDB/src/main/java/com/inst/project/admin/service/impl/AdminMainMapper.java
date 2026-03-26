@@ -1,6 +1,7 @@
 package com.inst.project.admin.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,7 +22,5 @@ public interface AdminMainMapper {
 	
 	// 관리자 메인 공지사항 조회
 	List<AdminNoticeDTO> selectAdminMainNoticeList();
-
-
 
 }
