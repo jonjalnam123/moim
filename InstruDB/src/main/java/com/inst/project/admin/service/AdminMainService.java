@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 
 public interface AdminMainService {
@@ -16,5 +17,8 @@ public interface AdminMainService {
 	
 	// 관리자 메인 공지사항 조회
 	List<AdminNoticeDTO> selectAdminMainNoticeList();
+	
+	// 관리자 메인 즐겨찾기 조회
+	List<AdminMenuFavoriteDTO> selectAdminMainFavMenuList();
 
 }

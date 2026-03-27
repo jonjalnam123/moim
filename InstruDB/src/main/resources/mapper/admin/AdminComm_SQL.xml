@@ -95,17 +95,6 @@
 	</delete>
 	<!-- 관리자 메뉴 즐겨찾기 삭제 [E] -->
 	
-	<!-- 관리자 메뉴 즐겨찾기 여부 조회 [S] -->
-	<select id="selectFavMenuCnt" parameterType="AdminMenuDTO" resultType="int">
-		/*AdminComm_SQL.selectFavMenuCnt*/
-		SELECT COUNT(*)
-		  FROM TB_ADMIN_MENU_FAVORITE
-		 WHERE 1=1
-		     AND MENU_FAVORITE_MENU_ID = #{menuId}
-		     AND MENU_FAVORITE_URL = #{menuUrl}
-	</select>
-	<!-- 관리자 메뉴 즐겨찾기 여부 조회 [E] -->
-	
 	<!-- 파일 다운로드용 파일 정보 조회 [S]  -->
     <select id="selectFileInfo" resultType="AdminFileDTO">
     	/*AdminComm_SQL.selectFileInfo*/

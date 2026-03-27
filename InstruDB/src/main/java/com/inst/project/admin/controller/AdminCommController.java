@@ -185,10 +185,7 @@ public class AdminCommController {
 		log.info(" [ AdminCommController ] : setAdminMenuToSession ");
 		
 		Map<String, Object> result = new HashMap<>();
-		
-		String favMenuResult = adminCommService.selectFavMenuCnt(adminMenuDTO);
-		adminMenuDTO.setFavMenuResult(favMenuResult);
-		
+
 		boolean menuInfoResult = CommonUtil.setMenuInfoSession(adminMenuDTO, req);
 		
 		result.put("menuInfoResult", menuInfoResult);
@@ -200,7 +197,7 @@ public class AdminCommController {
 	* @methodName	 	: favoriteMenuDef
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 메뉴 즐겨찾기
+	* @description			: 관리자 메뉴 즐겨찾기 동작
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================

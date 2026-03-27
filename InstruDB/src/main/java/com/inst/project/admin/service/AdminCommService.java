@@ -19,9 +19,6 @@ public interface AdminCommService {
 	// 관리자 메뉴 즐겨찾기
 	int favoriteMenuDef(AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req);
 	
-	// 관리자 즐겨찾기 메뉴 여부 조회
-	String selectFavMenuCnt(AdminMenuDTO adminMenuDTO);
-	
 	// 관리자 파일 다운로드
 	AdminFileDTO selectFileInfo(String fileId, String refType);
 

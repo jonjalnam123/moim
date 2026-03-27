@@ -182,40 +182,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 	        return 0;
 	    }
 	}
-	
-	/**
-	* @methodName	 	: selectFavMenu
-	* @author				: 최정석
-	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 즐겨찾기 메뉴 여부 조회
-	* ===================================
-	* DATE              AUTHOR             NOTE
-	* ===================================
-	* 2026. 1. 6.        		최정석       			최초 생성
-	*/
-	@Override
-	public String selectFavMenuCnt(AdminMenuDTO adminMenuDTO) {
-		log.info(" [ AdminCommServiceImpl ] : selectFavMenu ");
-		try {
-			
-			String result = GlobalConfig.N;
-			int  favMenu = adminCommMapper.selectFavMenuCnt(adminMenuDTO);
-			if( favMenu <=0  ) {
-				return result;
-			}
-			
-			result = GlobalConfig.Y;
-			
-			return result;
 
-		} catch (Exception e) {
-	        log.error("[ AdminCommServiceImpl ] : selectFavMenuCnt failed", e);
-			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
-			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
-			return GlobalConfig.N;
-		}
-	}
-	
 	/**
 	* @methodName	 	: selectFileInfo
 	* @author					: 최정석

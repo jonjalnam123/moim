@@ -6,10 +6,6 @@
 
 $(function () {	
 	getAdminMenuInfo();
-	
-	var test = $('#btnFavorite').find('svg').attr('class');
-	console.log('btnFavorite===', test);
-	
 });
 
 function getAdminMenuInfo() {
@@ -17,7 +13,6 @@ function getAdminMenuInfo() {
 	var params = {}
 	var dataType = 'json'
 	ajaxStart(url, params, dataType, function(data) {
-		
 		if ( isEmpty(data) ) {
 			goToUriAdminError();
 			return;

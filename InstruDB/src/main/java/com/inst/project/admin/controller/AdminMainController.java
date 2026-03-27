@@ -3,30 +3,25 @@ package com.inst.project.admin.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMainService;
-import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.admin.vo.DashboardSummaryDTO;
 import com.inst.project.admin.vo.MeetingScheduleDTO;
 import com.inst.project.admin.vo.RecentActivityDTO;
 import com.inst.project.common.GlobalConfig;
-import com.inst.project.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +52,11 @@ public class AdminMainController {
 		
 		// 메인 공지사항 조회
 		List<AdminNoticeDTO> adminMainNoticeList = adminMainService.selectAdminMainNoticeList();
-		if( adminMainNoticeList == null) {
+		
+		// 메인 즐겨찾기 조회
+		List<AdminMenuFavoriteDTO> adminMainFavMenuList = adminMainService.selectAdminMainFavMenuList();
+		
+		if( adminMainNoticeList == null || adminMainFavMenuList == null ) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
@@ -65,8 +64,14 @@ public class AdminMainController {
 		
         model.addAttribute("todayYmd", new SimpleDateFormat("yyyy.MM.dd").format(new Date()));
         model.addAttribute("dashboard", buildDashboardSummary());
+        
+        // 공지사항
         model.addAttribute("adminMainNoticeRegCnt", adminMainNoticeRegCnt);
         model.addAttribute("adminMainNoticeList", adminMainNoticeList);
+        
+        // 즐겨찾기
+        model.addAttribute("adminMainFavMenuList", adminMainFavMenuList);
+
         model.addAttribute("meetingScheduleList", buildMeetingScheduleList());
         model.addAttribute("recentActivityList", buildRecentActivityList());
 		

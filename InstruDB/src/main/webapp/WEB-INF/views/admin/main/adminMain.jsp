@@ -185,37 +185,15 @@
 
           <div class="dash-panel-body">
             <div class="quick-grid">
-              <a href="javascript:void(0);" class="quick-card" onclick="goMenu('member');">
-                <div class="quick-icon">M</div>
-                <div class="quick-text">
-                  <span class="quick-title">회원 관리</span>
-                  <span class="quick-desc">회원 조회, 등록, 상태 변경</span>
-                </div>
-              </a>
-
-              <a href="javascript:void(0);" class="quick-card" onclick="goMenu('meeting');">
-                <div class="quick-icon">G</div>
-                <div class="quick-text">
-                  <span class="quick-title">모임 관리</span>
-                  <span class="quick-desc">모임 생성, 일정 등록, 참여자 확인</span>
-                </div>
-              </a>
-
-              <a href="javascript:void(0);" class="quick-card" onclick="goMenu('attendance');">
-                <div class="quick-icon">A</div>
-                <div class="quick-text">
-                  <span class="quick-title">출석 관리</span>
-                  <span class="quick-desc">출석 체크, 통계, 누락 확인</span>
-                </div>
-              </a>
-
-              <a href="javascript:void(0);" class="quick-card" onclick="goMenu('settings');">
-                <div class="quick-icon">S</div>
-                <div class="quick-text">
-                  <span class="quick-title">운영 설정</span>
-                  <span class="quick-desc">카테고리, 권한, 기본 환경 설정</span>
-                </div>
-              </a>
+             	<c:forEach var="adminMainFavMenu" items="${adminMainFavMenuList}" begin="0" end="9">
+	              <a href="javascript:void(0);" class="quick-card" onclick="goToUri('${adminMainFavMenu.menuFavoriteUrl}')">
+	                <div class="quick-icon"><i class="fas fa-star"></i></div>
+	                <div class="quick-text">
+	                  <span class="quick-title">${adminMainFavMenu.menuFavoriteNm}</span>
+	                  <span class="quick-desc">회원 조회, 등록, 상태 변경</span>
+	                </div>
+	              </a>
+				</c:forEach>
             </div>
           </div>
         </article>

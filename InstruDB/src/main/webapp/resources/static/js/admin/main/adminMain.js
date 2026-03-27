@@ -95,36 +95,3 @@ function downloadNoticeFile(fileId) {
 /*******************************
 * Description : 메인 공지사항 모달 팝업 [E]
 ********************************/
-
-/*******************************
-* Description : 메인 즐겨찾기 [S]
-********************************/
-
-/*******************************
-* FuntionNm : goMenu
-* Date : 2026.03.18
-* Author : CJS
-* Description : 메인 즐겨찾기 경로 이동
-********************************/
-function goMenu(type) {
-  switch (type) {
-    case "member":
-      location.href = "common.do?c=member&a=list";
-      break;
-    case "meeting":
-      location.href = "common.do?c=meeting&a=list";
-      break;
-    case "attendance":
-      location.href = "common.do?c=attendance&a=list";
-      break;
-    case "settings":
-      location.href = "common.do?c=system&a=settings";
-      break;
-    default:
-      break;
-  }
-}
-
-/*******************************
-* Description : 메인 즐겨찾기 [E]
-********************************/

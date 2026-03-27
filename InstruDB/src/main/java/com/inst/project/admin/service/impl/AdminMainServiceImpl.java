@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.inst.project.admin.service.AdminMainService;
 import com.inst.project.admin.vo.AdminMenuDTO;
+import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
 
@@ -55,7 +56,7 @@ public class AdminMainServiceImpl implements AdminMainService {
 			return result;
 			
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectCommList failed", e);
+	        log.error("[ AdminMainServiceImpl ] : selectCommList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -82,7 +83,7 @@ public class AdminMainServiceImpl implements AdminMainService {
 			return adminMainMapper.selectAdminMainNoticeRegCnt();
 			
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectAdminMainNoticeRegCnt failed", e);
+	        log.error("[ AdminMainServiceImpl ] : selectAdminMainNoticeRegCnt failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -115,7 +116,40 @@ public class AdminMainServiceImpl implements AdminMainService {
 			return adminMainNoticeList;
 			
 		} catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] : selectCommList failed", e);
+	        log.error("[ AdminMainServiceImpl ] : selectCommList failed", e);
+			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+			
+			return null;
+		}
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMainFavMenuList
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메인 즐겨찾기 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminMenuFavoriteDTO> selectAdminMainFavMenuList() {
+		log.info(" [ AdminMainServiceImpl ] : selectAdminMainFavMenuList ");
+		
+		try {
+			
+			// 관리자 메뉴 1레벨 조회
+			List<AdminMenuFavoriteDTO> adminMainFavMenuList = adminMainMapper.selectAdminMainFavMenuList(); 
+			if ( adminMainFavMenuList == null ) {
+				return null;
+			}
+			
+			return adminMainFavMenuList;
+			
+		} catch (Exception e) {
+	        log.error("[ AdminMainServiceImpl ] : selectAdminMainFavMenuList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
