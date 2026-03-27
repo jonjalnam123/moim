@@ -17,8 +17,5 @@ public interface AdminMainService {
 	
 	// 관리자 메인 공지사항 조회
 	List<AdminNoticeDTO> selectAdminMainNoticeList();
-	
-	// 관리자 메인 즐겨찾기 조회
-	List<AdminMenuFavoriteDTO> selectAdminMainFavMenuList();
 
 }

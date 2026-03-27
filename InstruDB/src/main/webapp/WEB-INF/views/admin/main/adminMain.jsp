@@ -185,15 +185,13 @@
 
           <div class="dash-panel-body">
             <div class="quick-grid">
-             	<c:forEach var="adminMainFavMenu" items="${adminMainFavMenuList}" begin="0" end="9">
-	              <a href="javascript:void(0);" class="quick-card" onclick="goToUri('${adminMainFavMenu.menuFavoriteUrl}')">
+	              <a href="javascript:void(0);" class="quick-card" onclick="goToUri()">
 	                <div class="quick-icon"><i class="fas fa-star"></i></div>
 	                <div class="quick-text">
-	                  <span class="quick-title">${adminMainFavMenu.menuFavoriteNm}</span>
+	                  <span class="quick-title">공지사항</span>
 	                  <span class="quick-desc">회원 조회, 등록, 상태 변경</span>
 	                </div>
 	              </a>
-				</c:forEach>
             </div>
           </div>
         </article>

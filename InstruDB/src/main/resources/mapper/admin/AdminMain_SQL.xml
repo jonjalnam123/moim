@@ -97,23 +97,4 @@
 	</select>
 	<!-- 관리자 메인 공지사항 조회 [E] -->
 
-	<!-- 관리자 메인 즐겨찾기 조회 [S] -->
-	<select id="selectAdminMainFavMenuList" resultType="AdminMenuFavoriteDTO">
-		/*AdminMain_SQL.selectAdminMainFavMenuList*/
-		SELECT MENU_FAVORITE_ID
-				 , MENU_FAVORITE_MENU_ID
-				 , MENU_FAVORITE_ADMIN_ID
-				 , MENU_FAVORITE_URL
-				 , MENU_FAVORITE_P_NM
-				 , MENU_FAVORITE_NM
-				 , REG_ID
-				 , REG_DT
-				 , UPD_ID
-				 , UPD_DT
-		   FROM TB_ADMIN_MENU_FAVORITE 
-		 WHERE 1=1 
-	  ORDER BY REG_DT DESC
-	</select>
-	<!-- 관리자 메인 즐겨찾기 조회 [E] -->
-
 </mapper>
