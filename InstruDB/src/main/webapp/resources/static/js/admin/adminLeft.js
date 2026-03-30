@@ -82,8 +82,8 @@ function setMenuInfo(menuInfo) {
 	        $.each(menuSecInfo, function (j, second) {
 	            if ( second.menuPId === first.menuId && second.menuLvl === 1 ) {
 	                $subUl.append(` <li>
-				                           		<a class="nav-link" id="myPageBtn" href="javascript:void(0);" onclick="setMenuToSession('${second.menuId}', '${first.menuNm}', '${second.menuUrl}', '${second.menuNm}');" > 
-						                            ${second.menuNm}
+				                           		<a class="nav-link" id="myPageBtn" href="javascript:void(0);" onclick="setMenuToSession('${second.menuId}', '${first.menuNm}', '${second.menuUrl}', '${second.menuNm}', '${second.menuFavoriteYn}');" > 
+													${second.menuNm}
 						                        </a>
 					                       </li> `);
 	            }
@@ -102,7 +102,7 @@ function setMenuInfo(menuInfo) {
 * Description : 메뉴 세션 저장
 * PARAM : menuId : 메뉴ID,  menuPNm : 메뉴부모명, menuUrl : 메뉴 경로, menuNm : 메뉴명
 ********************************/
-function setMenuToSession(menuId, menuPNm, menuUrl, menuNm) {
+function setMenuToSession(menuId, menuPNm, menuUrl, menuNm, menuFavoriteYn) {
 	
 	if ( isEmptyMsg(menuId, '메뉴ID' + dataNull) ) {
 		return;
@@ -126,6 +126,7 @@ function setMenuToSession(menuId, menuPNm, menuUrl, menuNm) {
 	  , menuPNm : menuPNm
       , menuUrl : menuUrl
 	  , menuNm : menuNm
+	  , menuFavoriteYn : menuFavoriteYn
 	}
 	var dataType = 'json'
 	ajaxStart(url, params, dataType, function(result) {

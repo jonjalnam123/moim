@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMainService;
+import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.admin.vo.DashboardSummaryDTO;
@@ -53,7 +54,10 @@ public class AdminMainController {
 		// 메인 공지사항 조회
 		List<AdminNoticeDTO> adminMainNoticeList = adminMainService.selectAdminMainNoticeList();
 		
-		if( adminMainNoticeList == null ) {
+		// 메인 즐겨찾기 조회
+		List<AdminMenuDTO> adminMainFavMenuList = adminMainService.selectAdminMainFavMenuList();
+		
+		if( adminMainNoticeList == null || adminMainFavMenuList == null ) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
@@ -65,6 +69,9 @@ public class AdminMainController {
         // 공지사항
         model.addAttribute("adminMainNoticeRegCnt", adminMainNoticeRegCnt);
         model.addAttribute("adminMainNoticeList", adminMainNoticeList);
+        
+        // 즐겨찾기
+        model.addAttribute("adminMainFavMenuList", adminMainFavMenuList);
 
         model.addAttribute("meetingScheduleList", buildMeetingScheduleList());
         model.addAttribute("recentActivityList", buildRecentActivityList());

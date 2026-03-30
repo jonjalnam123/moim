@@ -19,7 +19,7 @@ public class AdminMenuDTO {
 	private String menuTeamCd;
 	private String menuPositionCd;
 	private String menuIcon;
-	private String favMenuResult;
+	private String menuFavoriteYn;
 	private String regId;
 	private String regDt;
 	private String updId;

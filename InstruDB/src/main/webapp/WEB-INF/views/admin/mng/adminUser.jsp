@@ -110,12 +110,25 @@
 
 	<section class="split-right">
 		<div class="content-scroll" style="padding:12px 14px;">
-			<div class="page-header">
-		       	<h2>${SS_MENU_NM}</h2>
-		        <div class="breadcrumb">
-		        	<a href="#">${SS_MENU_PNM}</a>&nbsp;&gt;&nbsp;<span>${SS_MENU_NM}</span>
-		        </div>
-	     	</div>
+	   		<div class="page-header">
+	        	<h2>${SS_MENU_NM}</h2> 
+				<div class="breadcrumb">
+				    <a href="#">${SS_MENU_PNM}</a>&nbsp;&gt;&nbsp;<span>${SS_MENU_NM}</span>
+				
+				    <button type="button"
+				            id="btnFavorite"
+				            class="breadcrumb-fav-icon"
+				            aria-pressed="${SS_MENU_ID eq SS_FAV_MENU_ID_RESULT and SS_FAV_MENU_RESULT eq 1 ? 'true' : 'false'}"
+				            title="즐겨찾기 해제"
+				            onclick="selectFavoriteMenu(this)">
+				
+				        <svg viewBox="0 0 24 24" class="fav-star" aria-hidden="true">
+				            <path d="M12 3.8l2.45 4.96 5.47.8-3.96 3.86.94 5.45L12 16.3 7.1 18.87l.94-5.45-3.96-3.86 5.47-.8L12 3.8z"/>
+				        </svg>
+				
+				    </button>
+				</div>
+	      	</div>
 	     	<div class="form-card">
 	       		<div class="form-grid">
 	          		

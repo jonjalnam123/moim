@@ -19,6 +19,8 @@
  				 , MENU_DEPT_CD
 				 , MENU_TEAM_CD
 				 , MENU_POSITION_CD
+				 , MENU_ICON
+				 , MENU_FAVORITE_YN
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -47,6 +49,8 @@
 				 , MENU_DEPT_CD
 				 , MENU_TEAM_CD
 				 , MENU_POSITION_CD
+				 , MENU_ICON
+				 , MENU_FAVORITE_YN
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -76,25 +80,42 @@
 	<select id="selectAdminMainNoticeList" resultType="AdminNoticeDTO">
 		/*AdminMain_SQL.selectAdminMainNoticeList*/
 		SELECT A.NOTICE_ID
-				 , A.NOTICE_TITLE
-				 , A.NOTICE_EFFECT_GB
-				 , A.NOTICE_CN
-				 , A.NOTICE_FIX_YN
-				 , A.NOTICE_LIMIT_YN
-				 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_STR_DT
-				 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_END_DT
-				 , A.NOTICE_FINISH_YN
-				 , A.NOTICE_DEL_YN
-				 , A.NOTICE_POP_YN
-				 , A.REG_ID
-				 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD') AS REG_DT
-				 , A.UPD_ID
-				 , A.UPD_DT
+				  , A.NOTICE_TITLE
+				  , A.NOTICE_EFFECT_GB
+				  , A.NOTICE_CN
+				  , A.NOTICE_FIX_YN
+				  , A.NOTICE_LIMIT_YN
+				  , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_STR_DT
+				  , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MM:SS') AS NOTICE_END_DT
+				  , A.NOTICE_FINISH_YN
+				  , A.NOTICE_DEL_YN
+				  , A.NOTICE_POP_YN
+				  , A.REG_ID
+				  , TO_CHAR(A.REG_DT, 'YYYY-MM-DD') AS REG_DT
+				  , A.UPD_ID
+				  , A.UPD_DT
 		   FROM TB_NOTICE_INFO A
 		 WHERE 1=1 
 		     AND A.NOTICE_DEL_YN = 'N'
 	  ORDER BY A.REG_DT DESC
 	</select>
 	<!-- 관리자 메인 공지사항 조회 [E] -->
+	
+	<!-- 관리자 메인 즐겨찾기 조회 [S] -->
+	<select id="selectAdminMainFavMenuList" resultType="AdminMenuDTO">
+		/*AdminMain_SQL.selectAdminMainFavMenuList*/
+		SELECT A.MENU_ID
+				  , A.MENU_NM
+				  , A.MENU_CN
+				  , A.MENU_URL
+				  , A.MENU_ICON
+		  FROM TB_ADMIN_MENU_INFO A
+  INNER JOIN TB_ADMIN_MENU_FAVORITE B
+		       ON A.MENU_ID = B.MENU_FAVORITE_MENU_ID
+		 WHERE 1=1 
+		     AND A.MENU_DEL_YN = 'N'
+		     AND A.MENU_USE_YN = 'Y'
+	</select>
+	<!-- 관리자 메인 즐겨찾기 조회 [E] -->
 
 </mapper>

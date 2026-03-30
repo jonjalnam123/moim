@@ -28,7 +28,6 @@ $(function () {
 	syncNoticeLimitUI();
 	switchToInsertMode();
 
-
 	// 페이징 버튼 이벤트
 	$('.p').on('click', function () {
 		var n = $(this).attr('data-list-pn');

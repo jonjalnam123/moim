@@ -1,5 +1,6 @@
 package com.inst.project.admin.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,5 +22,5 @@ public interface AdminCommService {
 	
 	// 관리자 파일 다운로드
 	AdminFileDTO selectFileInfo(String fileId, String refType);
-
+	
 }

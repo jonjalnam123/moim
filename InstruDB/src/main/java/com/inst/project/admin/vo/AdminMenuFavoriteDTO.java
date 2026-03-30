@@ -23,6 +23,9 @@ public class AdminMenuFavoriteDTO {
 	// 즐겨찾기메뉴명
 	private String menuFavoriteNm;
 	
+	// 메뉴 즐겨찾기 여부
+	private String menuFavoriteYn;
+	
 	// 즐겨찾기 등록 구분
 	private String flag;
 	

@@ -246,7 +246,7 @@ function selectFavoriteMenu(obj) {
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;
 		if ( result > 0 ) {
-			window.location.reload();
+			//window.location.reload();
 		} else {
 			//goToUriAdminError();
 		}

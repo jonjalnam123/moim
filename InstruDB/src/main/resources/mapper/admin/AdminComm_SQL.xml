@@ -95,6 +95,15 @@
 	</delete>
 	<!-- 관리자 메뉴 즐겨찾기 삭제 [E] -->
 	
+	<!-- 관리자 메뉴 즐겨찾기 여부 수정 [S]  -->
+	<update id="updFavoriteMenu" parameterType="AdminMenuFavoriteDTO">
+		UPDATE TB_ADMIN_MENU_INFO
+			 SET MENU_FAVORITE_YN = #{menuFavoriteYn}
+		WHERE 1=1 
+		      AND MENU_ID = #{menuFavoriteMenuId}
+	</update>
+	<!-- 관리자 메뉴 즐겨찾기 여부 수정 [E]  -->
+	
 	<!-- 파일 다운로드용 파일 정보 조회 [S]  -->
     <select id="selectFileInfo" resultType="AdminFileDTO">
     	/*AdminComm_SQL.selectFileInfo*/
@@ -114,5 +123,7 @@
          	 AND REF_TYPE = #{refType}
     </select>
     <!-- 파일 다운로드용 파일 정보 조회 [E]  -->
+    
+    
 	
 </mapper>

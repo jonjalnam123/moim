@@ -1,5 +1,6 @@
 package com.inst.project.admin.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +130,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 
 	    try {
 	    	
-            HttpSession session = req.getSession();
+//            HttpSession session = req.getSession();
 	    	
 	        String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 	        String menuId = CommonUtil.getAdminInfoSession("SS_MENU_ID", req);
@@ -158,6 +159,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 	        }
 
 	        int result = 0;
+	        int updRsult = 0;
 
 	        if ("Y".equals(flag)) { // 즐겨찾기 추가
 	            result = adminCommMapper.insertFavoriteMenu(adminMenuFavoriteDTO);
@@ -167,9 +169,14 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
 	                return 0;
 	            }
+	            
+	            adminMenuFavoriteDTO.setMenuFavoriteYn(flag);
+	            updRsult = adminCommMapper.updFavoriteMenu(adminMenuFavoriteDTO);
 	           
-	            session.removeAttribute("SS_FAV_MENU_RESULT");
-	            session.setAttribute("SS_FAV_MENU_RESULT", result);
+//	            session.removeAttribute("SS_FAV_MENU_RESULT");
+//	            session.removeAttribute("SS_FAV_MENU_ID_RESULT");
+//	            session.setAttribute("SS_FAV_MENU_RESULT", result);
+//	            session.setAttribute("SS_FAV_MENU_ID_RESULT", menuId);
 
 	        } else if ("N".equals(flag)) { // 즐겨찾기 삭제
 	            result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
@@ -180,8 +187,12 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                return 0;
 	            }
 	            
-	            session.removeAttribute("SS_FAV_MENU_RESULT");
-	            session.setAttribute("SS_FAV_MENU_RESULT", result);
+	            adminMenuFavoriteDTO.setMenuFavoriteYn(flag);
+	            updRsult = adminCommMapper.updFavoriteMenu(adminMenuFavoriteDTO);
+	            
+//	            session.removeAttribute("SS_FAV_MENU_RESULT");
+//	            session.removeAttribute("SS_FAV_MENU_ID_RESULT");
+	           // session.setAttribute("SS_FAV_MENU_RESULT", result);
 
 	        } else {
 	            log.error("[AdminCommServiceImpl] : invalid flag value. flag={}", flag);
@@ -228,6 +239,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 			return null;
 		}
 	}
+	
 	
 	
 }
