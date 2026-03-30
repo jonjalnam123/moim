@@ -226,12 +226,12 @@ function callConfirm(conMsg) {
 };
 
 /*******************************
-* FuntionNm : callConfirm
+* FuntionNm : selectFavoriteMenu
 * Date : 2025.10.02
 * Author : CJS
-* Description : 컨펌 메세지
+* Description : 즐겨찾기 추가 삭제
 ********************************/
-function selectFavoriteMenu(obj, adminId, menuId, menuPNm, menuNm, menuUrl) {
+function selectFavoriteMenu(obj) {
 
 	var objId = obj.id;
     var isPressed = $('#'+objId).attr("aria-pressed") === "true";
@@ -240,18 +240,13 @@ function selectFavoriteMenu(obj, adminId, menuId, menuPNm, menuNm, menuUrl) {
 
 	var url = '/admin/favoriteMenuDef.do';
 	var params = { 
-			  menuFavoriteMenuId : menuId
-			, menuFavoriteAdminId : adminId
-			, menuFavoriteUrl : menuUrl
-			, menuFavoritePNm : menuPNm
-			, menuFavoriteNm : menuNm
-			, flag : !isPressed ? 'Y' : 'N'
+			  flag : !isPressed ? 'Y' : 'N'
 	}
 	var dataType = 'json';
 	ajaxStart(url, params, dataType, function (data) {
 		var result = data.result;
 		if ( result > 0 ) {
-			//window.location.reload();
+			window.location.reload();
 		} else {
 			//goToUriAdminError();
 		}

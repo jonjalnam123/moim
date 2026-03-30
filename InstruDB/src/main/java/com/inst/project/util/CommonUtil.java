@@ -151,13 +151,11 @@ public class CommonUtil {
 	    String menuPNm 	= CommonUtil.isNull(adminMenuDTO.getMenuPNm());
 		String menuUrl 	= CommonUtil.isNull(adminMenuDTO.getMenuUrl());
 		String menuNm 	= CommonUtil.isNull(adminMenuDTO.getMenuNm());
-		String favMenuResult 	= CommonUtil.isNull(adminMenuDTO.getFavMenuResult());
 
 		session.setAttribute("SS_MENU_ID", menuId);
 		session.setAttribute("SS_MENU_PNM", menuPNm);
 	    session.setAttribute("SS_MENU_URL", menuUrl);
 	    session.setAttribute("SS_MENU_NM", menuNm);
-	    session.setAttribute("SS_FAV_MENU_RESULT", favMenuResult);
 	    
 		return true;
 	}

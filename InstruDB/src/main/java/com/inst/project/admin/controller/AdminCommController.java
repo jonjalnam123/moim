@@ -206,7 +206,7 @@ public class AdminCommController {
 	@PostMapping(value = "/favoriteMenuDef.do")
 	@ResponseBody
 	public Map<String,Object> favoriteMenuDef( @ModelAttribute AdminMenuFavoriteDTO adminMenuFavoriteDTO, HttpServletRequest req ) {
-		log.info(" [ AdminCommController ] : insertFavoriteMenu ");
+		log.info(" [ AdminCommController ] : favoriteMenuDef ");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		int result  = adminCommService.favoriteMenuDef(adminMenuFavoriteDTO, req);	

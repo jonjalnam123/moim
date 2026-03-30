@@ -3,6 +3,7 @@ package com.inst.project.admin.service.impl;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,17 +128,26 @@ public class AdminCommServiceImpl implements AdminCommService {
 	    log.info("[AdminCommServiceImpl] : favoriteMenuDef");
 
 	    try {
+	    	
+            HttpSession session = req.getSession();
+	    	
 	        String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
-	        if (CommonUtil.isBlank(adminId)) {
+	        String menuId = CommonUtil.getAdminInfoSession("SS_MENU_ID", req);
+	        String menuNm = CommonUtil.getAdminInfoSession("SS_MENU_NM", req);
+	        String menuPNm = CommonUtil.getAdminInfoSession("SS_MENU_PNM", req);
+	        String menuUrl = CommonUtil.getAdminInfoSession("SS_MENU_URL", req);
+
+	        if ( CommonUtil.isBlank(adminId) || CommonUtil.isBlank(menuId) || CommonUtil.isBlank(menuNm) || 
+	        	 CommonUtil.isBlank(menuNm) || CommonUtil.isBlank(menuPNm) || CommonUtil.isBlank(menuUrl) ) {
 	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 	            return 0;
 	        }
-
-	        if (adminMenuFavoriteDTO == null) {
-	            log.error(GlobalConfig.RESULT_NULL_DATA_MSG);
-	            return 0;
-	        }
-
+	        
+	        adminMenuFavoriteDTO.setMenuFavoriteAdminId(adminId);
+	        adminMenuFavoriteDTO.setMenuFavoriteMenuId(menuId);
+	        adminMenuFavoriteDTO.setMenuFavoriteNm(menuNm);
+	        adminMenuFavoriteDTO.setMenuFavoritePNm(menuPNm);
+	        adminMenuFavoriteDTO.setMenuFavoriteUrl(menuUrl);
 	        adminMenuFavoriteDTO.setRegId(adminId);
 	        adminMenuFavoriteDTO.setUpdId(adminId);
 
@@ -157,6 +167,9 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
 	                return 0;
 	            }
+	           
+	            session.removeAttribute("SS_FAV_MENU_RESULT");
+	            session.setAttribute("SS_FAV_MENU_RESULT", result);
 
 	        } else if ("N".equals(flag)) { // 즐겨찾기 삭제
 	            result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
@@ -166,6 +179,9 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                log.error(GlobalConfig.RESULT_DEL_FAIL_MSG);
 	                return 0;
 	            }
+	            
+	            session.removeAttribute("SS_FAV_MENU_RESULT");
+	            session.setAttribute("SS_FAV_MENU_RESULT", result);
 
 	        } else {
 	            log.error("[AdminCommServiceImpl] : invalid flag value. flag={}", flag);
