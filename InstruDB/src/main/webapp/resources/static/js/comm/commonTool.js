@@ -231,16 +231,19 @@ function callConfirm(conMsg) {
 * Author : CJS
 * Description : 즐겨찾기 추가 삭제
 ********************************/
-function selectFavoriteMenu(obj) {
+function selectFavoriteMenu(obj, menuId) {
 
 	var objId = obj.id;
     var isPressed = $('#'+objId).attr("aria-pressed") === "true";
     $('#'+objId).attr("aria-pressed", !isPressed);
     $('#'+objId).attr("title", !isPressed ? "즐겨찾기 추가" : "즐겨찾기 해제");
+	
+	console.log('menuId===', menuId);
 
 	var url = '/admin/favoriteMenuDef.do';
 	var params = { 
-			  flag : !isPressed ? 'Y' : 'N'
+				menuFavoriteMenuId : menuId
+			  , flag : !isPressed ? 'Y' : 'N'
 	}
 	var dataType = 'json';
 	ajaxStart(url, params, dataType, function (data) {

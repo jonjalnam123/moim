@@ -1,6 +1,5 @@
 package com.inst.project.admin.service.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.inst.project.admin.service.AdminCommService;
 import com.inst.project.admin.vo.AdminFileDTO;
-import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
@@ -115,7 +113,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 	
 	/**
 	* @methodName	 	: favoriteMenuDef
-	* @author				: 최정석
+	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
 	* @description			: 관리자 메뉴 즐겨찾기
 	* ===================================
@@ -129,28 +127,26 @@ public class AdminCommServiceImpl implements AdminCommService {
 	    log.info("[AdminCommServiceImpl] : favoriteMenuDef");
 
 	    try {
-	    	
-//            HttpSession session = req.getSession();
-	    	
+	        HttpSession session = req.getSession(false);
+	        if (session == null) {
+	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+	            return 0;
+	        }
+
 	        String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 	        String menuId = CommonUtil.getAdminInfoSession("SS_MENU_ID", req);
 	        String menuNm = CommonUtil.getAdminInfoSession("SS_MENU_NM", req);
 	        String menuPNm = CommonUtil.getAdminInfoSession("SS_MENU_PNM", req);
 	        String menuUrl = CommonUtil.getAdminInfoSession("SS_MENU_URL", req);
 
-	        if ( CommonUtil.isBlank(adminId) || CommonUtil.isBlank(menuId) || CommonUtil.isBlank(menuNm) || 
-	        	 CommonUtil.isBlank(menuNm) || CommonUtil.isBlank(menuPNm) || CommonUtil.isBlank(menuUrl) ) {
+	        if (CommonUtil.isBlank(adminId)
+	                || CommonUtil.isBlank(menuId)
+	                || CommonUtil.isBlank(menuNm)
+	                || CommonUtil.isBlank(menuPNm)
+	                || CommonUtil.isBlank(menuUrl)) {
 	            log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
 	            return 0;
 	        }
-	        
-	        adminMenuFavoriteDTO.setMenuFavoriteAdminId(adminId);
-	        adminMenuFavoriteDTO.setMenuFavoriteMenuId(menuId);
-	        adminMenuFavoriteDTO.setMenuFavoriteNm(menuNm);
-	        adminMenuFavoriteDTO.setMenuFavoritePNm(menuPNm);
-	        adminMenuFavoriteDTO.setMenuFavoriteUrl(menuUrl);
-	        adminMenuFavoriteDTO.setRegId(adminId);
-	        adminMenuFavoriteDTO.setUpdId(adminId);
 
 	        String flag = CommonUtil.isNull(adminMenuFavoriteDTO.getFlag());
 	        if (CommonUtil.isBlank(flag)) {
@@ -158,10 +154,22 @@ public class AdminCommServiceImpl implements AdminCommService {
 	            return 0;
 	        }
 
-	        int result = 0;
-	        int updRsult = 0;
+	        if (!"Y".equals(flag) && !"N".equals(flag)) {
+	            log.error("[AdminCommServiceImpl] : invalid flag value. flag={}", flag);
+	            return 0;
+	        }
 
-	        if ("Y".equals(flag)) { // 즐겨찾기 추가
+	        adminMenuFavoriteDTO.setMenuFavoriteAdminId(adminId);
+	        adminMenuFavoriteDTO.setMenuFavoriteNm(menuNm);
+	        adminMenuFavoriteDTO.setMenuFavoritePNm(menuPNm);
+	        adminMenuFavoriteDTO.setMenuFavoriteUrl(menuUrl);
+	        adminMenuFavoriteDTO.setMenuFavoriteYn(flag);
+	        adminMenuFavoriteDTO.setRegId(adminId);
+	        adminMenuFavoriteDTO.setUpdId(adminId);
+
+	        int result = 0;
+
+	        if ("Y".equals(flag)) {
 	            result = adminCommMapper.insertFavoriteMenu(adminMenuFavoriteDTO);
 
 	            if (result <= 0) {
@@ -169,16 +177,7 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                log.error(GlobalConfig.RESULT_INSERT_FAIL_MSG);
 	                return 0;
 	            }
-	            
-	            adminMenuFavoriteDTO.setMenuFavoriteYn(flag);
-	            updRsult = adminCommMapper.updFavoriteMenu(adminMenuFavoriteDTO);
-	           
-//	            session.removeAttribute("SS_FAV_MENU_RESULT");
-//	            session.removeAttribute("SS_FAV_MENU_ID_RESULT");
-//	            session.setAttribute("SS_FAV_MENU_RESULT", result);
-//	            session.setAttribute("SS_FAV_MENU_ID_RESULT", menuId);
-
-	        } else if ("N".equals(flag)) { // 즐겨찾기 삭제
+	        } else {
 	            result = adminCommMapper.deleteFavoriteMenu(adminMenuFavoriteDTO);
 
 	            if (result <= 0) {
@@ -186,17 +185,17 @@ public class AdminCommServiceImpl implements AdminCommService {
 	                log.error(GlobalConfig.RESULT_DEL_FAIL_MSG);
 	                return 0;
 	            }
-	            
-	            adminMenuFavoriteDTO.setMenuFavoriteYn(flag);
-	            updRsult = adminCommMapper.updFavoriteMenu(adminMenuFavoriteDTO);
-	            
-//	            session.removeAttribute("SS_FAV_MENU_RESULT");
-//	            session.removeAttribute("SS_FAV_MENU_ID_RESULT");
-	           // session.setAttribute("SS_FAV_MENU_RESULT", result);
+	        }
 
-	        } else {
-	            log.error("[AdminCommServiceImpl] : invalid flag value. flag={}", flag);
+	        int updResult = adminCommMapper.updFavoriteMenu(adminMenuFavoriteDTO);
+	        if (updResult <= 0) {
+	            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	            log.error(GlobalConfig.RESULT_UPDATE_FAIL_MSG);
 	            return 0;
+	        }
+
+	        if ( menuId.equals(adminMenuFavoriteDTO.getMenuFavoriteMenuId())) {
+		        session.setAttribute("SS_FAV_MENU_YN", flag);
 	        }
 
 	        return result;

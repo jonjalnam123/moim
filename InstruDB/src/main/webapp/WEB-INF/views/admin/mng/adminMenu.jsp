@@ -42,9 +42,9 @@
 				    <button type="button"
 				            id="btnFavorite"
 				            class="breadcrumb-fav-icon"
-				            aria-pressed="${SS_MENU_ID eq SS_FAV_MENU_ID_RESULT and SS_FAV_MENU_RESULT eq 1 ? 'true' : 'false'}"
+				            aria-pressed="${SS_FAV_MENU_YN eq 'Y' ? 'true' : 'false'}"
 				            title="즐겨찾기 해제"
-				            onclick="selectFavoriteMenu(this)">
+				            onclick="selectFavoriteMenu(this, '${SS_MENU_ID}')">
 				
 				        <svg viewBox="0 0 24 24" class="fav-star" aria-hidden="true">
 				            <path d="M12 3.8l2.45 4.96 5.47.8-3.96 3.86.94 5.45L12 16.3 7.1 18.87l.94-5.45-3.96-3.86 5.47-.8L12 3.8z"/>

@@ -119,7 +119,9 @@ function setMenuToSession(menuId, menuPNm, menuUrl, menuNm, menuFavoriteYn) {
 	if ( isEmptyMsg(menuNm, '메뉴명' + menuNm) ) {
 		return;
 	}
-
+	
+	console.log('menuFavoriteYn===', menuFavoriteYn);
+	
 	var url = '/admin/menuToSession.do';
 	var params = {
 		menuId : menuId
