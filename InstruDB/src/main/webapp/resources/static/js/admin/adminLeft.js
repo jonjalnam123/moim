@@ -120,8 +120,6 @@ function setMenuToSession(menuId, menuPNm, menuUrl, menuNm, menuFavoriteYn) {
 		return;
 	}
 	
-	console.log('menuFavoriteYn===', menuFavoriteYn);
-	
 	var url = '/admin/menuToSession.do';
 	var params = {
 		menuId : menuId

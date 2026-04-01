@@ -238,8 +238,6 @@ function selectFavoriteMenu(obj, menuId) {
     $('#'+objId).attr("aria-pressed", !isPressed);
     $('#'+objId).attr("title", !isPressed ? "즐겨찾기 추가" : "즐겨찾기 해제");
 	
-	console.log('menuId===', menuId);
-
 	var url = '/admin/favoriteMenuDef.do';
 	var params = { 
 				menuFavoriteMenuId : menuId
