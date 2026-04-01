@@ -55,7 +55,7 @@ public class AdminBoardController {
 		log.info(" [ AdminBoardController ] : getAdminNotice ");
 		
 		// 공지사항 조회
-		List<AdminNoticeDTO> adminNoticeList = adminBoardService.selectAdmionNotice( pager );
+		List<AdminNoticeDTO> adminNoticeList = adminBoardService.selectAdminNotice( pager );
 		
 		// 관리자 공지사항 중요도 조회
 		List<AdminCommDTO> adminNoticeEffectList = adminBoardService.selectAdminNoticeEffectList();

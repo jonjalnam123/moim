@@ -1,5 +1,8 @@
 package com.inst.project.admin.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,8 +94,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public List<AdminNoticeDTO> selectAdmionNotice(PagerUtil pager) {
-	    log.info(" [ AdminMngServiceImpl ] : selectAdmionNotice ");
+	public List<AdminNoticeDTO> selectAdminNotice(PagerUtil pager) {
+	    log.info(" [ AdminMngServiceImpl ] : selectAdminNotice ");
 
 	    try {
 	    	
@@ -109,10 +112,28 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		        return null;
 		    }
 		    
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		    LocalDate today = LocalDate.now();
+
+		    for (AdminNoticeDTO adminNotice : adminNoticeList) {
+		        String noticeEndDt = adminNotice.getNoticeEndDt();
+
+		        if (!CommonUtil.isBlank(noticeEndDt)) {
+		            LocalDate endDate = LocalDateTime.parse(noticeEndDt, formatter).toLocalDate();
+
+		            if (endDate.isBefore(today)) {
+		                log.info("노출 기간만료 데이터 : {}", adminNotice);
+
+		                String noticeId = adminNotice.getNoticeId();
+		                // 만료 처리
+		            }
+		        }
+		    }
+
 	        return adminNoticeList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminBoardServiceImpl ] selectAdmionNotice failed", e);
+	        log.error("[ AdminBoardServiceImpl ] selectAdminNotice failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -259,7 +280,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	        
 	    } catch (Exception e) {
 	        log.error("[ AdminBoardServiceImpl ] adminNoticeReg failed", e);
-
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 
 	        for (AdminFileDTO fileDTO : savedFiles) {
@@ -278,7 +300,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	* @methodName	 	: adminNoticeUpd
 	* @author					: 최정석
 	* @date            		: 2026. 1. 6.
-	* @description			: 관리자 공지사항 저장
+	* @description			: 관리자 공지사항 수정
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
@@ -361,6 +383,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	    } catch (Exception e) {
 	        log.error("[ AdminMngServiceImpl ] : adminNoticeUpd failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 
 	        for (AdminFileDTO fileDto : savedUploadFiles) {
@@ -440,9 +464,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
     	} catch (Exception e) {
     		log.error("[ AdminMngServiceImpl ] : adminNoticeDel failed", e);
-
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
     		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-    		
     		return 0;
     	}
     }

@@ -199,7 +199,7 @@ function goToUri(uri) {
 * FuntionNm : goToUriAdminError
 * Date : 2025.10.02
 * Author : CJS
-* Description : 에러 uri ( 호출경로 )
+* Description : 관리자 에러 uri ( 호출경로 )
 ********************************/
 function goToUriAdminError(errorCd) {
 	if ( !isEmpty(errorCd) ) {
