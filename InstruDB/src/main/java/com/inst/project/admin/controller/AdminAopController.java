@@ -1,4 +1,4 @@
-package com.inst.project.aop.controller;
+package com.inst.project.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -7,13 +7,15 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.inst.project.aop.service.AopMapper;
-import com.inst.project.aop.vo.AopDTO;
+import com.inst.project.admin.service.AdminAopService;
+import com.inst.project.admin.vo.AdminAopDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.util.CommonUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +24,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AopController {
+public class AdminAopController {
+	
+	@Autowired
+	AdminAopService adminAopService;
 
-    private final AopMapper aopMapper;
-
-    @Pointcut("execution(* com.inst.project..controller..*(..))")
+    @Pointcut("execution(* com.inst.project.admin..controller..*(..))")
     public void allControllers() {}
 
+    /**
+    * @methodName	 	: adminLognInsert
+    * @author					: 최정석
+    * @date            		: 2026. 4. 6.
+    * @description			: 관리자 로그 이력 저장
+    * ===================================
+    * DATE              AUTHOR             NOTE
+    * ===================================
+    * 2026. 4. 6.        		최정석       			최초 생성
+    */
     @Before("allControllers()")
-    public void logAndInsert(JoinPoint joinPoint) {
-
+    public void adminLognInsert(JoinPoint joinPoint) {
+    	log.info(" [ AdminAopController ] : adminLognInsert ");
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attrs == null) return;
 
@@ -46,22 +59,22 @@ public class AopController {
 
         String userId = null;
         if (session != null) {
-            Object userCd = session.getAttribute("USER_CD");
-            if (userCd != null) userId = userCd.toString();
+            userId = CommonUtil.isNull(session.getAttribute("SS_ADMIN_ID")) ;
         }
 
-        AopDTO aopDTO = new AopDTO();
+        AdminAopDTO aopDTO = new AdminAopDTO();
         aopDTO.setClassNm(classNm);
         aopDTO.setMethodNm(methodNm);
         aopDTO.setReqUri(uri);
         aopDTO.setHttpMethod(httpMethod);
         aopDTO.setClientIp(clientIp);
-        aopDTO.setUserId(userId);
+        aopDTO.setRegId(userId);
         log.info("[AOP] DATA : {}", aopDTO);
 
         try {
-        	//aopMapper.insertAopLog(aopDTO);
+        	adminAopService.adminLognInsert(aopDTO);
         } catch (Exception e) {
+        	log.error("[ AdminAopController ] adminLognInsert failed", e);
         	log.error(GlobalConfig.RESULT_AOP_BEF_ERR_CD);
             log.error(GlobalConfig.RESULT_AOP_BEF_ERR_MSG);
         }

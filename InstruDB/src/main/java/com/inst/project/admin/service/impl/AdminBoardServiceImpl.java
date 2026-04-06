@@ -112,30 +112,13 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		        return null;
 		    }
 		    
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		    LocalDate today = LocalDate.now();
-
-		    for (AdminNoticeDTO adminNotice : adminNoticeList) {
-		        String noticeEndDt = adminNotice.getNoticeEndDt();
-
-		        if (!CommonUtil.isBlank(noticeEndDt)) {
-		            LocalDate endDate = LocalDateTime.parse(noticeEndDt, formatter).toLocalDate();
-
-		            if (endDate.isBefore(today)) {
-		                log.info("노출 기간만료 데이터 : {}", adminNotice);
-
-		                String noticeId = adminNotice.getNoticeId();
-		                // 만료 처리
-		            }
-		        }
-		    }
-
 	        return adminNoticeList;
 
 	    } catch (Exception e) {
 	        log.error("[ AdminBoardServiceImpl ] selectAdminNotice failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+
 	        return null;
 	    }
 	}

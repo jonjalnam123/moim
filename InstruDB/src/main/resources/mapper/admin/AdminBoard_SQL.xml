@@ -23,36 +23,45 @@
 	<!-- 관리자 공지사항 건수 조회 [E] -->
 	
 	<!-- 관리자 공지사항 조회 [S] -->
-	<select id="selectAdminNotice" parameterType="PagerUtil"  resultType="AdminNoticeDTO">
+	<select id="selectAdminNotice" parameterType="PagerUtil" resultType="AdminNoticeDTO">
 		/*AdminBoard_SQL.selectAdminNotice*/
 		SELECT A.NOTICE_ID
-				 , A.NOTICE_TITLE
-				 , A.NOTICE_EFFECT_GB
-				 , A.NOTICE_CN
-				 , A.NOTICE_FIX_YN
-				 , A.NOTICE_LIMIT_YN
-				 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_STR_DT
-				 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_END_DT
-				 , A.NOTICE_FINISH_YN
-				 , A.NOTICE_DEL_YN
-				 , A.NOTICE_POP_YN
-				 , A.REG_ID
-				 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD HH24:MM:SS') AS REG_DT
-				 , A.UPD_ID
-				 , A.UPD_DT
-		   FROM TB_NOTICE_INFO A
-		 WHERE 1=1 
-		     AND A.NOTICE_DEL_YN = 'N'
+			 , A.NOTICE_TITLE
+			 , A.NOTICE_EFFECT_GB
+			 , A.NOTICE_CN
+			 , A.NOTICE_FIX_YN
+			 , A.NOTICE_LIMIT_YN
+			 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_STR_DT
+			 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_END_DT
+			 , A.NOTICE_FINISH_YN
+			 , A.NOTICE_DEL_YN
+			 , A.NOTICE_POP_YN
+			 , A.REG_ID
+			 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD HH24:MI:SS') AS REG_DT
+			 , A.UPD_ID
+			 , A.UPD_DT
+		  FROM TB_NOTICE_INFO A
+		 WHERE 1=1
+		   AND A.NOTICE_DEL_YN = 'N'
+		   AND (
+					A.NOTICE_LIMIT_YN = 'N'
+					OR
+					(
+						A.NOTICE_LIMIT_YN = 'Y'
+						AND CURRENT_TIMESTAMP >= A.NOTICE_STR_DT
+						AND CURRENT_TIMESTAMP <![CDATA[<= ]]> A.NOTICE_END_DT 
+					)
+			   )
 		<if test="searchTxt != null and searchTxt != ''">
-		    <if test="searchGb == 'noticeTitle'">
-			     AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
-		    </if>
-		    <if test="searchGb == 'adminId'">
-			     AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
-		    </if>
-	    </if>
-	  ORDER BY CASE WHEN A.NOTICE_FIX_YN = 'Y' THEN 0 ELSE 1 END, A.REG_DT DESC
-    		LIMIT #{perPage} OFFSET #{startRow}
+			<if test="searchGb == 'noticeTitle'">
+				AND A.NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+			</if>
+			<if test="searchGb == 'adminId'">
+				AND A.REG_ID LIKE CONCAT('%', #{searchTxt}, '%')
+			</if>
+		</if>
+		 ORDER BY CASE WHEN A.NOTICE_FIX_YN = 'Y' THEN 0 ELSE 1 END, A.REG_DT DESC
+		 LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 공지사항 조회 [E] -->
 	

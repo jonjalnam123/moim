@@ -12,10 +12,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.inst.project.admin.controller.AdminAopController;
 import com.inst.project.admin.service.AdminLoginService;
 import com.inst.project.admin.vo.AdminAgreeDTO;
 import com.inst.project.admin.vo.AdminDTO;
-import com.inst.project.aop.controller.AopController;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
 import com.inst.project.util.PasswordHashUtil;

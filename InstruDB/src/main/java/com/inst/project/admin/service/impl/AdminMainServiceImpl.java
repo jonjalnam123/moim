@@ -107,7 +107,6 @@ public class AdminMainServiceImpl implements AdminMainService {
 		
 		try {
 			
-			// 관리자 메뉴 1레벨 조회
 			List<AdminNoticeDTO> adminMainNoticeList = adminMainMapper.selectAdminMainNoticeList(); 
 			if ( adminMainNoticeList == null ) {
 				return null;

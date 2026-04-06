@@ -97,6 +97,15 @@
 		   FROM TB_NOTICE_INFO A
 		 WHERE 1=1 
 		     AND A.NOTICE_DEL_YN = 'N'
+   		   	 AND (
+					A.NOTICE_LIMIT_YN = 'N'
+					OR
+					(
+						A.NOTICE_LIMIT_YN = 'Y'
+						AND CURRENT_TIMESTAMP >= A.NOTICE_STR_DT
+						AND CURRENT_TIMESTAMP <![CDATA[<= ]]> A.NOTICE_END_DT 
+					)
+			   )
 	  ORDER BY A.REG_DT DESC
 	</select>
 	<!-- 관리자 메인 공지사항 조회 [E] -->
