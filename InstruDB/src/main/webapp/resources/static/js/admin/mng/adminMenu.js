@@ -146,7 +146,7 @@ $(function () {
 	  $('#menuDeptCd').val(deptCdList);
 	});
 	
-	// 초기화 버튼 이벤트
+	// 신규 버튼 이벤트
 	$('#btnRef').on('click', function() {
 
 		$('#btnReg').show();

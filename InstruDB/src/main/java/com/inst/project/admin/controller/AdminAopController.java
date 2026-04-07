@@ -69,7 +69,6 @@ public class AdminAopController {
         aopDTO.setHttpMethod(httpMethod);
         aopDTO.setClientIp(clientIp);
         aopDTO.setRegId(userId);
-        log.info("[AOP] DATA : {}", aopDTO);
 
         try {
         	adminAopService.adminLognInsert(aopDTO);

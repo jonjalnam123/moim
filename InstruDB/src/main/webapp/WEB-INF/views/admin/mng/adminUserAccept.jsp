@@ -53,9 +53,6 @@
 							          <th>이름</th>
 							          <th>이메일</th>
 							          <th>휴대폰</th>
-							          <th>우편번호</th>
-							          <th>주소</th>
-							          <th>상세주소</th>
 							          <th>성별</th>
 							          <th>승인여부</th>
 							          <th>등록일시</th>
@@ -68,9 +65,6 @@
 								        	<td>${adminAccept.adminNm}</td>
 								        	<td>${adminAccept.adminEmail}</td>
 								        	<td>${adminAccept.adminPh}</td>
-								        	<td>${adminAccept.adminPostCd}</td>
-								        	<td>${adminAccept.adminAddress}</td>
-								        	<td>${adminAccept.adminDAddress}</td>
 								        	<td>${adminAccept.adminGenderNm}</td>
 								        	<td>${adminAccept.adminRegAcceptNm}</td>
 								        	<td>${adminAccept.regDt}</td>
