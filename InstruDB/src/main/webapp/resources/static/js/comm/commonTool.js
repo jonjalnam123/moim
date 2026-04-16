@@ -603,5 +603,42 @@ function checkNumSixRepl(obj) {
 }
 
 /*******************************
+* FuntionNm : escapeHtml
+* Date : 2025.10.20
+* Author : CJS
+* Description : HTML 깨짐 방지
+********************************/
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+/*******************************
+* FuntionNm : nvl
+* Date : 2025.10.20
+* Author : CJS
+* Description : 값이 null 또는 undefined 이면 빈 값 또는 기본 값으로 
+********************************/
+function nvl(value, defaultValue) {
+    return (value == null || value === undefined) ? (defaultValue || '') : value;
+}
+
+/*******************************
+* FuntionNm : truncateText
+* Date : 2025.10.20
+* Author : CJS
+* Description : 문자열 길이가 지정한 길이보다 길면 잘라서 ... 합치기
+********************************/
+function truncateText(text, maxLength) {
+    text = nvl(text, '');
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+}
+
+/*******************************
 * 유효성 검사 관련 [E]
 ********************************/

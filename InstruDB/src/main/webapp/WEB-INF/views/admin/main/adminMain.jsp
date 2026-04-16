@@ -110,8 +110,8 @@
         </article>
 
         <!-- 2. 공지사항 -->
-        <article class="dash-panel">
-          <div class="dash-panel-header">
+        <article class="dash-panel" id="mainNoticeArticle">
+ <%--          <div class="dash-panel-header">
             <div class="dash-panel-title-wrap">
               <h3 class="dash-panel-title">공지사항</h3>
               <p class="dash-panel-sub">오늘 등록된 공지 ${empty adminMainNoticeRegCnt ? '0' : adminMainNoticeRegCnt}건</p>
@@ -171,7 +171,7 @@
                 </div>
               </c:otherwise>
             </c:choose>
-          </div>
+          </div> --%>
         </article>
 
         <!-- 3. 빠른 실행 -->

@@ -3,6 +3,7 @@ package com.inst.project.admin.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class AdminMainController {
 	public String getAdminMain ( Model model, RedirectAttributes redirect ) {
 		log.info(" [ AdminMainController ] : getAdminMain ");
 		
-		// 메일공지사항 당일 등록 건 수 조회
+		// 메인 공지사항 당일 등록 건 수 조회
 		int adminMainNoticeRegCnt = adminMainService.selectAdminMainNoticeRegCnt();
 		
 		// 메인 공지사항 조회
@@ -77,6 +78,35 @@ public class AdminMainController {
         model.addAttribute("recentActivityList", buildRecentActivityList());
 		
 		return "admin/main/adminMain.adm";
+	}
+	
+	/**
+	* @methodName	 	: getAdminMain
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 메인 화면 호출
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping(value = "/setMainNotice.do")
+	@ResponseBody
+	public Map<String,Object> setMainNotice() {
+		log.info(" [ AdminMainController ] : selectUniqueId ");
+		
+		Map<String,Object> result = new HashMap<>();
+		
+		// 메인 공지사항 당일 등록 건 수 조회
+		int adminMainNoticeRegCnt = adminMainService.selectAdminMainNoticeRegCnt();
+		
+		// 메인 공지사항 조회
+		List<AdminNoticeDTO> adminMainNoticeList = adminMainService.selectAdminMainNoticeList();
+		
+		result.put("adminMainNoticeCnt", adminMainNoticeRegCnt);
+		result.put("adminMainNoticeList", adminMainNoticeList);
+
+		return result;
 	}
 	
 	 private DashboardSummaryDTO buildDashboardSummary() {
