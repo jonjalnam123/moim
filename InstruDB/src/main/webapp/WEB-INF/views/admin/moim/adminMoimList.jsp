@@ -217,7 +217,7 @@
 	
 	          		<div class="field full">
 	            		<label for="fDesc">설명</label>
-	            		<textarea id="adminCn" name="adminCn" class="form-control" maxlength="300"></textarea>
+	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
 	          		</div>
 	        	</div>
 	

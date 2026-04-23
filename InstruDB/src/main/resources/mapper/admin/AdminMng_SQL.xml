@@ -586,7 +586,7 @@
 			     AND ADMIN_ID LIKE CONCAT('%', #{searchTxt}, '%')
 		    </if>
 	    </if>
-         ORDER BY UPD_DT DESC 
+         ORDER BY REG_DT DESC 
            LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 조회 [E] -->
