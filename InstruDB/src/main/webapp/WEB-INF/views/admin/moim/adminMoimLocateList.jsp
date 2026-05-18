@@ -148,8 +148,8 @@
 		          	</div>
 	
 	          		<div class="field full">
-	            		<label for="fDesc">설명</label>
-	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
+	            		<label for="locateCn">설명</label>
+	            		<textarea id="locateCn" class="form-control" maxlength="300"></textarea>
 	          		</div>
 	        	</div>
 	

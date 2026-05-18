@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
 import com.inst.project.util.PagerUtil;
 
@@ -15,5 +16,8 @@ public interface AdminMoimMapper {
 
 	// 관리자 모임 장소 조회
 	List<AdminMoimLocateDTO> selectAdminMoimLocateList(PagerUtil pager);
+	
+	// 관리자 모임장소 등록
+	int adminMoimLocateListReg(AdminMoimDTO adminMoimDTO);
 
 }

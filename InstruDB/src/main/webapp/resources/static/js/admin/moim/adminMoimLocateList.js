@@ -37,55 +37,6 @@ $(function () {
 	});
 	// 페이징 이벤트 [E]
 	
-	// 아이디 입력 이벤트 [S]
-	$('#adminId').on('keyup', function() {
-		$('.hint').hide();
-		$('.error').hide();
-		
-		var adminIdVal = $(this).val();
-		var adminId = onlyEngNum(adminIdVal);
-		$('#adminId').val(adminId);
-	});
-	// 아이디 입력 이벤트 [E]
-	
-	// 이름 입력 이벤트 [S]
-	$('#adminNm').on('keyup', function() {
-		var adminNmVal = $(this).val();
-		var adminNm = onlyKorEng(adminNmVal);
-		$('#adminNm').val(adminNm);
-	});
-	// 이름 입력 이벤트 [E]
-	
-	// 아이디 중복체크 [S]
-	$('#adminIdChkBtn').on('click', function() {
-
-		var adminId = $('#adminId').val();
-		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
-			return;
-		}
-
-		var tableNm = 'tb_admin_info';
-		var url = '/admin/uniqueDupliChk.do';
-		var params = {
-			uniqueKey : adminId
-		  , tableNm : tableNm
-		}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
-			var result = data.result;
-			$('#adminIdChk').val(result);
-			if ( result === 'Y' ) {
-				$('.hint').show();
-				$('.error').hide();
-			} else {
-				$('.hint').hide();
-				$('.error').show();
-			}
-		});
-	});
-	// 아이디 중복체크 [E]
-	
 	// 우편번호 찾기 이벤트
 	$('#getPostCode').on('click', function(){
 		var postId =  $('#locatePostCd').attr('id');
@@ -306,93 +257,58 @@ $(function () {
 		var btnVal = $(this).val();
 		var url = '';
 		
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
-		var adminPh = $('#adminPh').val();
-		var adminPostCd = $('#adminPostCd').val();
-		var adminAddress = $('#adminAddress').val();
-		var adminDAddress = $('#adminDAddress').val();
-		var adminDeptCd = $('#adminDeptCd').val();
-		var adminTeamCd = $('#adminTeamCd').val();
-		var adminPositionCd = $('#adminPositionCd').val();
-		var adminGradeCd = $('#adminGradeCd').val();
-		var adminGender =  $('input[name="adminGender"]:checked').val();
-		var adminCn =  $('#adminCn').val();
-		var adminIdChk = $('#adminIdChk').val();
-		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+		var locateNm = $('#locateNm').val();
+		var locatePostCd = $('#locatePostCd').val();
+		var locateAddress = $('#locateAddress').val();
+		var locateDAddress = $('#locateDAddress').val();
+		var locateUseYn =  $('input[name="locateUseYn"]:checked').val();		var adminAddress = $('#adminAddress').val();
+		var locateCn =  $('#locateCn').val();
+
+		if ( isEmptyMsg(locateNm, '장소명' + dataEmpty) ) {	
 			return;
 		}
 		
+		if ( isEmptyMsg(locatePostCd, '우편번호' + dataEmpty) ) {	
+			return;
+		}
+		
+		if ( isEmptyMsg(locateAddress, '주소' + dataEmpty) ) {	
+			return;
+		}
+		
+		if ( isEmptyMsg(locateDAddress, '상세주소' + dataEmpty) ) {	
+			return;
+		}
+		
+		if ( isEmptyMsg(locateUseYn, '사용여부' + dataEmpty) ) {	
+			return;
+		}
+
 		if ( btnVal === 'I' ) {
-			if ( adminIdChk === '' ) {
-				alert('아이디' + dataDupliChk);
+			if ( !confirm('모임장소' + regProcConfirm) ) {
 				return;
 			}
-			
-			if ( adminIdChk === 'N') {
-				alert('아이디' + dataChk);
-				return;
-			}
-		}
-
-		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
-			return;
-		}
-		
-		if ( btnVal === 'I' ) {
-			if ( !confirm('관리자' + regProcConfirm) ) {
-				return;
-			}
-			url = '/admin/userReg.do';
+			url = '/admin/moim/moimLocateListReg.do';
 		} else {
-			if ( !confirm('관리자' + updProcConfirm) ) {
+			if ( !confirm('모임장소' + updProcConfirm) ) {
 				return;
 			}
-			url = '/admin/userUpd.do';
+			url = '/admin/moim/moimLocateListUpd.do';
 		}
 
 		var params = {
-			    adminNo : adminNo
-			  , adminId : adminId
-			  , adminNm : adminNm
-			  , adminPh : adminPh
-			  , adminPostCd : adminPostCd
-			  , adminAddress : adminAddress
-			  , adminDAddress : adminDAddress
-			  , adminDeptCd : adminDeptCd
-			  , adminTeamCd : adminTeamCd
-			  , adminPositionCd : adminPositionCd
-			  , adminGradeCd : adminGradeCd
-			  , adminGender : adminGender
-			  , adminCn : adminCn
+			    locateNm : locateNm
+			  , locatePostCd : locatePostCd
+			  , locateAddress : locateAddress
+			  , locateDAddress : locateDAddress
+			  , locateUseYn : locateUseYn
+			  , locateCn : locateCn
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
-				alert(btnVal === 'I' ? '사원' + regSuccess : '사원' + updSuccess);
+				alert(btnVal === 'I' ? '모임장소' + regSuccess : '모임장소' + updSuccess);
 				window.location.reload();
 			} else {
 				goToUriAdminError();

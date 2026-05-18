@@ -879,10 +879,10 @@
 	<insert id="adminUserRejectCnReg" parameterType="adminDTO">
 		/*AdminMng_SQL.adminMenuReg*/
 		INSERT INTO TB_ADMIN_REJECT_INFO (
-			  admin_id
-			, admin_nm
-			, reject_no
-			, reject_cn
+			  ADMIN_ID
+			, ADMIN_NM
+			, REJECT_NO
+			, REJECT_CN
 			, REG_ID
 			, REG_DT
 			, UPD_ID

@@ -47,5 +47,37 @@
 	</select>
 	<!-- 관리자 모임 장소 조회[E] -->
 	
+	<!-- 관리자 모임장소 등록 [S] -->
+	<insert id="adminMoimLocateListReg" parameterType="AdminMoimDTO">
+		/* AdminMoim_SQL.adminMoimLocateListReg */
+		INSERT INTO TB_MOIM_LOCATE_INFO (
+			  LOCATE_ID
+		    , LOCATE_NM
+		    , LOCATE_POST_CD
+		    , LOCATE_ADDRESS
+		    , LOCATE_D_ADDRESS
+		    , LOCATE_CN
+		    , LOCATE_USE_YN
+		    , LOCATE_DEL_YN
+		    , REG_ID
+		    , REG_DT
+		    , UPD_ID
+		    , UPD_DT
+		) VALUES (
+			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{locateNm}
+			, #{locatePostCd}
+			, #{locateAddress}
+			, #{locateDAddress}
+			, #{locateCn}
+			, #{locateUseYn}
+			, 'N'
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		)
+	</insert>
+	<!-- 관리자 모임장소 등록 [E] -->
 	
 </mapper>

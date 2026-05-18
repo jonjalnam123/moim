@@ -1,15 +1,23 @@
 package com.inst.project.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMoimService;
+import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.PagerUtil;
@@ -49,6 +57,29 @@ public class AdminMoimController {
 		model.addAttribute("pager", pager);
 		
 		return "admin/moim/adminMoimLocateList.adm";
+	}
+	
+	/**
+	* @methodName	 	: adminMoimLocateListReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimLocateListReg.do")
+	@ResponseBody
+	public Map<String,Object> adminMoimLocateListReg ( @ModelAttribute AdminMoimDTO adminMoimDTO, HttpServletRequest req ){
+		log.info(" [ AdminMoimController ] : adminMoimLocateListReg ");
+	    Map<String,Object> resultMap = new HashMap<>();
+
+	    int regResult = adminMoimService.adminMoimLocateListReg(adminMoimDTO, req);
+
+	    resultMap.put("result", regResult);
+
+	    return resultMap;
 	}
 	
 	/**
