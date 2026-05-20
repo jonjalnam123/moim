@@ -71,14 +71,34 @@ public class AdminMoimController {
 	*/
 	@PostMapping("/moimLocateListReg.do")
 	@ResponseBody
-	public Map<String,Object> adminMoimLocateListReg ( @ModelAttribute AdminMoimDTO adminMoimDTO, HttpServletRequest req ){
+	public Map<String,Object> adminMoimLocateListReg ( @ModelAttribute AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req ){
 		log.info(" [ AdminMoimController ] : adminMoimLocateListReg ");
 	    Map<String,Object> resultMap = new HashMap<>();
 
-	    int regResult = adminMoimService.adminMoimLocateListReg(adminMoimDTO, req);
+	    int regResult = adminMoimService.adminMoimLocateListReg(adminMoimLocateDTO, req);
 
 	    resultMap.put("result", regResult);
 
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: selectAdminLocateInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 상세조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimLocateInfo.do")
+	@ResponseBody
+	public Map<String,Object> selectAdminMoimLocateInfo ( @ModelAttribute AdminMoimLocateDTO adminMoimLocateDTO ){
+		log.info(" [ AdminMoimController ] : selectAdminLocateInfo ");
+		Map<String,Object> resultMap = new HashMap<>();
+		AdminMoimLocateDTO result = adminMoimService.selectAdminMoimLocateInfo(adminMoimLocateDTO);
+	    resultMap.put("moimLocateInfo", result);
 	    return resultMap;
 	}
 	

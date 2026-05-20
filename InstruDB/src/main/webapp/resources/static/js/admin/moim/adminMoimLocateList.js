@@ -65,26 +65,17 @@ $(function () {
 		$('#btnReg').hide();
 		$('#btnNew').show();
 		
-		$('#adminIdChkBtn').hide();
-		$('#adminId').attr('readonly', true);
+		var locateId = $(this).data('id');
 		
-		$('.hint').hide();
-		$('.error').hide();
-		
-		var rowKey = $(this).data('rowkey');
-		var adminNo = $(this).data('no');
-		var adminId = $(this).data('id');
-		
-	  	var url = '/admin/userInfo.do';
+	  	var url = '/admin/moim/moimLocateInfo.do';
 	  	var params = { 
-			adminNo: adminNo
-		  , adminId : adminId
+			locateId: locateId
 		 };
 	  	var dataType = 'json';
 
 		ajaxStart(url, params, dataType, function(data) {
 			
-			var adminInfo = data.adminInfo;
+			var moimLocateInfo = data.moimLocateInfo;
 			
 			if ( !isEmpty(adminInfo) ) {
 				
@@ -129,97 +120,6 @@ $(function () {
 				goToUriAdminError();
 			}
 		});
-	});
-	
-	// 부서 입력 이벤트
-	$('#adminDeptCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/teamSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitTeamData = data || [];
-	    	var team = $('#adminTeamCd');
-
-	    	team.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitTeamData)) {
-				
-				$('#adminTeamDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitTeamData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				team.append(html);
-				
-				if (pendingTeamCd != null) {
-				  team.val(pendingTeamCd).trigger('change');
-				} else {
-				  team.trigger('change');
-				}
-				
-	    	} else {
-				
-				$('#adminTeamDiv').hide();
-				$('#adminPositionDiv').hide();
-				
-				pendingTeamCd = null;
-				pendingPositionCd = null;
-				
-			}
-			
-  		});
-	});
-	
-	// 팀 입력 이벤트
-	$('#adminTeamCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/positionSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitPositionData = data || [];
-	    	var position = $('#adminPositionCd');
-
-	    	position.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitPositionData)) {
-				
-				$('#adminPositionDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitPositionData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				position.append(html);
-				
-				if (pendingPositionCd != null) {
-				  position.val(pendingPositionCd).trigger('change');
-				} else {
-				  position.trigger('change');
-				}
-				
-	    	} else {
-				$('#adminPositionDiv').hide();
-			}
-		
-			pendingTeamCd = null;
-			pendingPositionCd = null;
-			
-  		});
 	});
 	
 	// 신규 버튼 이벤트

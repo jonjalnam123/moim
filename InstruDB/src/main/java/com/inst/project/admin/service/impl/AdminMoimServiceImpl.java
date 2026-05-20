@@ -1,33 +1,26 @@
 package com.inst.project.admin.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.inst.project.admin.service.AdminMoimService;
-import com.inst.project.admin.vo.AdminDTO;
-import com.inst.project.admin.vo.AdminFileDTO;
 import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
-import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
 import com.inst.project.util.CommonUtil;
-import com.inst.project.util.FileUtil;
 import com.inst.project.util.PagerUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("adminMoimService")
-public class AdminMoinServiceImpl implements AdminMoimService {
+public class AdminMoimServiceImpl implements AdminMoimService {
 
 	@Autowired
 	AdminMoimMapper adminMoimMapper;
@@ -44,7 +37,7 @@ public class AdminMoinServiceImpl implements AdminMoimService {
 	*/
 	@Override
 	public List<AdminMoimLocateDTO> selectAdminMoimLocateList(PagerUtil pager) {
-	    log.info(" [ AdminMoinServiceImpl ] : getAdminMoimLocateList ");
+	    log.info(" [ AdminMoimServiceImpl ] : getAdminMoimLocateList ");
 
 	    try {
 	    	
@@ -64,12 +57,48 @@ public class AdminMoinServiceImpl implements AdminMoimService {
 	        return adminMoimLocateList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminUser failed", e);
+	        log.error("[ AdminMoimServiceImpl ] selectAdminUser failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
 	    }
 	    
+	}
+	
+	/**
+	* @methodName	 	: selectMoimLocateInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 상세조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminMoimLocateDTO selectAdminMoimLocateInfo(AdminMoimLocateDTO adminMoimLocateDTO) {
+		log.info(" [ AdminMoimServiceImpl ] : selectMoimLocateInfo ");
+
+	    try {
+	    	String locateId = adminMoimLocateDTO.getLocateId();
+	    	if( CommonUtil.isBlank(locateId) ) {
+	    		log.error("조회할 파라미터가 없습니다. {}", locateId);
+	    		return null;
+	    	}
+	    	
+	    	AdminMoimLocateDTO result = adminMoimMapper.selectAdminMoimLocateInfo(adminMoimLocateDTO);
+	    	if( result == null ) {
+	    		return null;
+	    	}
+	        
+	        return result;
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] selectMoimLocateInfo failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
 	}
 	
 	/**
@@ -84,8 +113,8 @@ public class AdminMoinServiceImpl implements AdminMoimService {
 	*/
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int adminMoimLocateListReg(AdminMoimDTO adminMoimDTO, HttpServletRequest req) {
-		log.info(" [ AdminMngServiceImpl ] : adminMoimLocateListReg ");
+	public int adminMoimLocateListReg(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimLocateListReg ");
 		
 	    int result = 0;
 	    try {
@@ -96,17 +125,17 @@ public class AdminMoinServiceImpl implements AdminMoimService {
 				return 0;
 			}
 	    	
-	    	if( adminMoimDTO == null ) {
+	    	if( adminMoimLocateDTO == null ) {
 	    		return result;
 	    	}
 	    	
-	    	adminMoimDTO.setRegId(adminId);
-	    	adminMoimDTO.setUpdId(adminId);
+	    	adminMoimLocateDTO.setRegId(adminId);
+	    	adminMoimLocateDTO.setUpdId(adminId);
 	        
-	        return adminMoimMapper.adminMoimLocateListReg(adminMoimDTO);
+	        return adminMoimMapper.adminMoimLocateListReg(adminMoimLocateDTO);
 	        
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMoimLocateListReg failed", e);
+	        log.error("[ AdminMoimServiceImpl ] adminMoimLocateListReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
