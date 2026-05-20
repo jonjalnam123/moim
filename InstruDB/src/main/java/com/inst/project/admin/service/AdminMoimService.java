@@ -17,5 +17,11 @@ public interface AdminMoimService {
 	
 	// 관리자 모임장소 등록
 	int adminMoimLocateListReg(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req);
+	
+	// 관리자 모임장소 수정
+	int adminMoimLocateListUpd(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req);
+	
+	// 관리자 모임장소 삭제
+	int adminMoimLocateListDel(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req);
 
 }

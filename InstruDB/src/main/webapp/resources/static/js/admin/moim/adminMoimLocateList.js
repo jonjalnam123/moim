@@ -29,6 +29,11 @@ $(function () {
 		$('#adminMoimLocateListForm').submit(); 
 	});
 	
+	// 초기화 버튼 이벤트
+	$('#btnReset').on('click', function() {
+		$('#searchTxt').val('');
+	});
+	
 	// 엔터키 이벤트
 	$('#searchTxt').on('keydown', function(e) {
 	    if (e.key === 'Enter') {
@@ -44,16 +49,7 @@ $(function () {
 		execDaumPostcode( postId, adId )
 	})
 	
-	// 성별 선택 이벤트
-	$('.gender-check').on('change', function () {
-	    if ($(this).is(':checked')) {
-	        $('.gender-check').not(this).prop('checked', false);
-	    }
-	});
-	
 	// 그리드 더블클릭 이벤트
-	var pendingTeamCd =  '';
-	var pendingPositionCd = '';
 	$('.adminMoimLocateTr').on('dblclick', function() {
 		
 		// ✅ 선택 행 배경 고정
@@ -77,44 +73,24 @@ $(function () {
 			
 			var moimLocateInfo = data.moimLocateInfo;
 			
-			if ( !isEmpty(adminInfo) ) {
+			if ( !isEmpty(moimLocateInfo) ) {
 				
-				var adminNo = adminInfo.adminNo
-				var adminId = adminInfo.adminId
-				var adminNm = adminInfo.adminNm
-				var adminPh = adminInfo.adminPh
-				var adminPostCd = adminInfo.adminPostCd
-				var adminAddress = adminInfo.adminAddress
-				var adminDAddress = adminInfo.adminDAddress
-				var adminDeptCd = adminInfo.adminDeptCd
-				var adminTeamCd = adminInfo.adminTeamCd
-				var adminPositionCd = adminInfo.adminPositionCd
-				var adminCn = adminInfo.adminCn
-				var adminGender = adminInfo.adminGender
-				var adminGradeCd = adminInfo.adminGradeCd
-				var adminEmail = adminInfo.adminEmail
+				var locateId = moimLocateInfo.locateId
+				var locateNm = moimLocateInfo.locateNm
+				var locatePostCd = moimLocateInfo.locatePostCd
+				var locateAddress = moimLocateInfo.locateAddress
+				var locateDAddress = moimLocateInfo.locateDAddress
+				var locateCn = moimLocateInfo.locateCn
+				var locateUseYn = moimLocateInfo.locateUseYn
+				var locateDelYn = moimLocateInfo.locateDelYn
 
-				$('#adminNo').val(adminNo);
-				
-				$('#adminId').val(adminId);
-				$('#adminIdOrg').val(adminId);
-				
-				$('#adminNm').val(adminNm);
-				$('#adminEmail').val(adminEmail);
-
-				$('#adminPh').val(adminPh);
-				$('#adminPostCd').val(adminPostCd);
-				$('#adminAddress').val(adminAddress);
-				$('#adminDAddress').val(adminDAddress);
-				
-				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				pendingTeamCd = adminTeamCd || '';
-				pendingPositionCd = adminPositionCd || '';
-
-				$('#adminGradeCd').val(adminGradeCd).trigger('change');
-
-				setGender(adminGender);
-				$('#adminCn').val(adminCn);
+				$('#locateId').val(locateId);
+				$('#locateNm').val(locateNm);
+				$('#locatePostCd').val(locatePostCd);
+				$('#locateAddress').val(locateAddress);
+				$('#locateDAddress').val(locateDAddress);
+				$('#locateCn').val(locateCn);
+				$('#locateUseYn').val(locateUseYn).trigger('change');
 				
 			} else {
 				goToUriAdminError();
@@ -131,32 +107,23 @@ $(function () {
 		$('#btnDel').hide();
 		$('#btnReg').show();
 		$('#btnNew').hide();
-		$('#adminIdChkBtn').show();
-		
-		$('#adminId').attr('readonly', false);
-		
-		$('#adminNo').val('');
-		$('#adminId').val('');
-		$('#adminNm').val('');
-		$('#adminPh').val('');
-		$('#adminPostCd').val('');
-		$('#adminAddress').val('');
-		$('#adminDAddress').val('');
-		$('#adminDeptCd').val('').trigger('change');
-		$('#adminTeamCd').val('');
-		$('#adminPositionCd').val('');
-		$('#adminGradeCd').val('');
-		$('input[name="adminGender"][value="M"]').prop('checked', true);
-		$('#adminCn').val('');
-		$('#adminIdChk').val('');
+
+		$('#locateId').val('');
+		$('#locateNm').val('');
+		$('#locatePostCd').val('');
+		$('#locateAddress').val('');
+		$('#locateDAddress').val('');
+		$('input[name="locateUseYn"][value="Y"]').prop('checked', true);
+		$('#locateCn').val('');
 		
 	});
 	
-	// 관리자 등록, 수정 이벤트
+	// 모임 등록, 수정 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
 		
+		var locateId = $('#locateId').val();
 		var locateNm = $('#locateNm').val();
 		var locatePostCd = $('#locatePostCd').val();
 		var locateAddress = $('#locateAddress').val();
@@ -176,28 +143,29 @@ $(function () {
 			return;
 		}
 		
-		if ( isEmptyMsg(locateDAddress, '상세주소' + dataEmpty) ) {	
-			return;
-		}
-		
 		if ( isEmptyMsg(locateUseYn, '사용여부' + dataEmpty) ) {	
 			return;
 		}
 
 		if ( btnVal === 'I' ) {
+			
 			if ( !confirm('모임장소' + regProcConfirm) ) {
 				return;
 			}
 			url = '/admin/moim/moimLocateListReg.do';
+			
 		} else {
+			
 			if ( !confirm('모임장소' + updProcConfirm) ) {
 				return;
 			}
 			url = '/admin/moim/moimLocateListUpd.do';
+			
 		}
 
 		var params = {
-			    locateNm : locateNm
+			    locateId : locateId
+			  , locateNm : locateNm
 			  , locatePostCd : locatePostCd
 			  , locateAddress : locateAddress
 			  , locateDAddress : locateDAddress
@@ -218,28 +186,26 @@ $(function () {
 	
 	// 메뉴 삭제 이벤트
 	$('#btnDel').on('click', function() {
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
+		var locateId = $('#locateId').val();
+		var locateNm = $('#locateNm').val();
 		
-		if ( isEmptyMsg(adminId, delDataChk) ) {
+		if ( isEmptyMsg(locateId, delDataChk) ) {
 			return;
 		}
 		
-		if ( !confirm(adminNm + ' 관리자' + delProcConfirm) ) {
+		if ( !confirm(locateNm + delProcConfirm) ) {
 			return;
 		}
 
-		var url = '/admin/userDel.do';
+		var url = '/admin/moim/moimLocateListDel.do';
 		var params = {
-				adminNo : adminNo
-			  , adminId : adminId
+				locateId : locateId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
-				alert('사원' + delSuccess);
+				alert('모임장소' + delSuccess);
 				window.location.reload();
 			} else {
 				goToUriAdminError();
@@ -247,27 +213,6 @@ $(function () {
 		});
 	});
 });
-
-/*******************************
-* FuntionNm : setGender
-* Date : 2026.02.15
-* Author : CJS
-* Description : 성별 셋팅 함수 (checkbox 단일 선택용)
-* PARAM : adminGender : 성별 값
-********************************/
-function setGender(adminGender) {
-
-  // 일단 전체 해제
-  $('.gender-check').prop('checked', false);
-
-  // 값이 없으면 끝
-  if (!adminGender) return;
-
-  // 해당 값만 체크 (M / F)
-  var target = $('.gender-check[value="' + adminGender + '"]');
-  target.prop('checked', true).trigger('change');
-  
-}
 
 /*******************************
 * FuntionNm : setPagingParam

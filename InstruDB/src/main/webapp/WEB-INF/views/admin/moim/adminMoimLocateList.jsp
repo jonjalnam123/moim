@@ -117,6 +117,7 @@
 	          		<div class="field">
 	            		<label class="required" for="locateNm">장소명</label>
 	            		<input id="locateNm" name="locateNm" class="form-control" type="text" />
+	            		<input id="locateId" name="locateId" class="form-control" type="hidden" />
 	          		</div>
 	          		
 	          		<div class="field zip-field zip-no-msg">

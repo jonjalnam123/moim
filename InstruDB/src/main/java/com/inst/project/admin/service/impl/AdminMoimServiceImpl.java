@@ -112,7 +112,6 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	@Transactional(rollbackFor = Exception.class)
 	public int adminMoimLocateListReg(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req) {
 		log.info(" [ AdminMoimServiceImpl ] : adminMoimLocateListReg ");
 		
@@ -126,6 +125,7 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 			}
 	    	
 	    	if( adminMoimLocateDTO == null ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimLocateListReg 모임장소 정보가 없습니다 : {}", adminMoimLocateDTO);
 	    		return result;
 	    	}
 	    	
@@ -136,6 +136,79 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	        
 	    } catch (Exception e) {
 	        log.error("[ AdminMoimServiceImpl ] adminMoimLocateListReg failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminMoimLocateListUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMoimLocateListUpd(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimLocateListUpd ");
+		
+	    int result = 0;
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+	    	
+	    	if( adminMoimLocateDTO == null ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimLocateListUpd 모임장소 정보가 없습니다 : {}", adminMoimLocateDTO);
+	    		return result;
+	    	}
+	    	
+	    	adminMoimLocateDTO.setUpdId(adminId);
+	        
+	        return adminMoimMapper.adminMoimLocateListUpd(adminMoimLocateDTO);
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] adminMoimLocateListUpd failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminMoimLocateListReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMoimLocateListDel(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimLocateListDel ");
+		
+	    int result = 0;
+	    try {
+	    	
+	    	String locateId = adminMoimLocateDTO.getLocateId();
+	    	if( CommonUtil.isBlank(locateId) ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimLocateListDel 모임장소ID가 없습니다 : {}", locateId);
+	    		return result;
+	    	}
+	    	
+	        return adminMoimMapper.adminMoimLocateListDel(adminMoimLocateDTO);
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] adminMoimLocateListDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
