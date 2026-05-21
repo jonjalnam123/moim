@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script src="${pageContext.request.contextPath}/resources/static/js/admin/mng/adminUser.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/moim/adminMoimList.js"></script>
 
 <!-- Model 파라미터 -->
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
@@ -16,8 +16,7 @@
 	      		<div class="list-title"></div>
 	      		<div class="list-search">
 	        		<select id="searchGb" name=searchGb class="form-select">
-			          	<option class="s" value="adminNm">이름</option>
-			          	<option class="s" value="adminId">아이디</option>
+			          	<option class="s" value="moimTitle">모임명</option>
 	        		</select>
 	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
 	        		<button type="button" id="btnSearch" class="search-btn">조회</button>
@@ -49,37 +48,23 @@
 			          		<table class="table-grid col-resize">
 			      				<thead>
 					        		<tr>
-					          			<th>아이디</th>
-								        <th>이름</th>
-								        <th>이메일</th>
-								        <th>휴대폰</th>
-								        <th>우편번호</th>
-								        <th>주소</th>
-								        <th>상세주소</th>
-								        <th>부서코드</th>
-								        <th>팀코드</th>
-								        <th>직책코드</th>
-								        <th>성별</th>
-								        <th>권한등급</th>
-								        <th>삭제여부</th>
+					          			<th>모임명</th>
+								        <th>날짜</th>
+								        <th>최대인원</th>
+								        <th>장소명</th>
+								        <th>구분</th>
+								        <th>등록날짜</th>
 									</tr>
 			      				</thead>
 			            		<tbody>
-									<c:forEach var="admin" items="${adminList}" varStatus="cnt">
-						        		<tr class="adminInfoTr" data-rowkey="${cnt.index}" data-no="${admin.adminNo}" data-id="${admin.adminId}">
-								        	<td>${admin.adminId}</td>
-								        	<td>${admin.adminNm}</td>
-								        	<td>${admin.adminEmail}</td>
-								        	<td>${admin.adminPh}</td>
-								        	<td>${admin.adminPostCd}</td>
-								        	<td>${admin.adminAddress}</td>
-								        	<td>${admin.adminDAddress}</td>
-								        	<td>${admin.adminDeptNm}</td>
-								        	<td>${admin.adminTeamNm}</td>
-								        	<td>${admin.adminPositionNm}</td>
-								        	<td>${admin.adminGenderNm}</td>
-								        	<td>${admin.adminGradeNm}</td>
-								        	<td>${admin.adminDelYnNm}</td>
+									<c:forEach var="adminMoim" items="${adminMoimList}" varStatus="cnt">
+						        		<tr class="adminMoimTr" data-rowkey="${cnt.index}" data-id="${admin.adminId}">
+								        	<td>${adminMoim.moimTitle}</td>
+								        	<td>${adminMoim.moimDt}</td>
+								        	<td>${adminMoim.moimMaxCnt}</td>
+								        	<td>${adminMoim.moimLocateNm}</td>
+								        	<td>${adminMoim.moimGbNm}</td>
+								        	<td>${adminMoim.regDt}</td>
 						        		</tr>
 					        		</c:forEach>
 			            		</tbody>
@@ -131,49 +116,24 @@
 	     	<div class="form-card">
 	       		<div class="form-grid">
 	          		
-	          		<div class="field zip-field">
-	            		<label class="required" for="adminId">아이디</label>
-	            		<input id="adminId" name="adminId" class="form-control" type="text"/>
-	            		<input type="hidden" id="adminNo" name="adminNo" />
-	            		<input type="button" class="btn btn-zip" id="adminIdChkBtn" value="중복확인"  style="color : white;">
-	            		<input type="hidden" id="adminIdChk" name="adminIdChk" />
-	            		<div class="error" style="display: none;">중복된 아이디 입니다.</div>
-            			<small class="hint" style="display: none;">사용가능한 아이디 입니다.</small>
-	          		</div>
-	
 	          		<div class="field">
-	            		<label class="required" for="adminNm">이름</label>
-	            		<input id="adminNm" name="adminNm" class="form-control" type="text" />
+	            		<label class="required" for="adminNm">모임명</label>
+	            		<input id="moimTitle" name="moimTitle" class="form-control" type="text" />
+	            		<input id="moimId" name="moimId" class="form-control" type="hidden" />
 	          		</div>
 	          		
      			    <div class="field">
-	            		<label class="required" for="adminDAddress">이메일</label>
+	            		<label class="required" for="adminDAddress">날짜</label>
 	            		<input id="adminEmail" name="adminEmail" class="form-control" type="text" />
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminPh">휴대폰</label>
+	            		<label class="required" for="adminPh">최대인원</label>
 	            		<input id="adminPh" name="adminPh" class="form-control" type="text" onkeyup="checkNumPhone(this);" placeholder="숫자만 입력해주세요."/>
 	          		</div>
-	          		
-	          		<div class="field zip-field zip-no-msg">
-	            		<label class="required" for="adminPostCd">우편번호</label>
-	            		<input id="adminPostCd" name="adminPostCd" class="form-control" type="text" placeholder="우편번호" readonly/>
-	            		<input type="button" class="btn btn-zip" id="getPostCode" value="찾기" style="color : white;">
-	          		</div>
-	          		
+
 	          		<div class="field">
-	            		<label class="required" for="adminAddress">주소</label>
-	            		<input id="adminAddress" name="adminAddress" class="form-control" type="text" placeholder="주소" readonly/>
-	          		</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="adminDAddress">상세주소</label>
-	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
-	          		</div>
-	          		
-	          		<div class="field">
-	            		<label class="required" for="adminDeptCd">부서</label>
+	            		<label class="required" for="adminDeptCd">모임장소</label>
 	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
 	            			<option value="">선택</option>
 	            			<c:forEach var="adminUnit" items="${adminUnitList}">
@@ -182,6 +142,11 @@
 	            		</select>
 	          		</div>
 	          		
+	          		<div class="field">
+	            		<label class="required" for="adminDAddress">상세주소</label>
+	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
+	          		</div>
+
 	          		<div id="adminTeamDiv" class="field" style="display: none;">
 	            		<label class="required" for="adminTeamCd">팀</label>
 	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >

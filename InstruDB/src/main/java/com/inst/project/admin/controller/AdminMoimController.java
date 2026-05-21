@@ -153,8 +153,19 @@ public class AdminMoimController {
 	* 2026. 04.23.        		최정석       			최초 생성
 	*/
 	@GetMapping(value = "/moimList.do")
-	public String getAdminMoimList() {
+	public String getAdminMoimList( Model model, RedirectAttributes redirect, PagerUtil pager ) {
 		log.info(" [ AdminMoimController ] : getAdminMoimList ");
+		
+		List<AdminMoimDTO> adminMoimList = adminMoimService.selectAdminMoimList( pager );
+		if( adminMoimList == null ) {
+			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
+			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
+			return "redirect:/admin/error.do";
+		}
+		
+		model.addAttribute("adminMoimList", adminMoimList);
+		model.addAttribute("pager", pager);
+		
 		return "admin/moim/adminMoimList.adm";
 	}
 

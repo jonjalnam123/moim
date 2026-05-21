@@ -5,29 +5,29 @@ import lombok.Data;
 @Data
 public class AdminMoimDTO {
 	
+	// 모임ID
+	private String moimId;
+	
+	// 모임명
+	private String moimTitle;
+	
+	// 모임날짜
+	private String moimDt;
+	
+	// 모임최대인원
+	private String moimMaxCnt;
+	
+	// 모임삭제여부
+	private String moimDelYn;
+	
 	// 모임장소ID
-	private String locateId;
+	private String moimLocateId;
 	
-	// 모임장소명
-	private String locateNm;
+	// 모임내용
+	private String moimCn;
 	
-	// 모임장소 우편번호
-	private String locatePostCd;
-	
-	// 모임장소 주소
-	private String locateAddress;
-	
-	// 모임장소 상세주소
-	private String locateDAddress;
-	
-	// 모임장소 설명
-	private String locateCn;
-	
-	// 모임장소 사용여부
-	private String locateUseYn;
-	
-	// 모임장소 삭제여부
-	private String locateDelYn;
+	// 모임구분 ( 01 : 정모, 02 : 번개, 03 : 그 외 )
+	private String moimGb;
 	
 	// 등록자
 	private String regId;

@@ -57,7 +57,7 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	        return adminMoimLocateList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMoimServiceImpl ] selectAdminUser failed", e);
+	        log.error("[ AdminMoimServiceImpl ] getAdminMoimLocateList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -212,6 +212,44 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: getAdminMoimList
+	* @author					: 최정석
+	* @date            		: 2026. 04. 23.
+	* @description			: 관리자 모임 일정 화면 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 04.23.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminMoimDTO> selectAdminMoimList( PagerUtil pager ) {
+		log.info(" [ AdminMoimServiceImpl ] : selectAdminMoimList ");
+	    try {
+	    	
+			pager.makeRow();
+			
+			// 관리자 모임장소 총 건수 조회
+			Long totalCount = adminMoimMapper.selectAdminMoimListTotalCount( pager );
+			pager.makeNum(totalCount);
+	    	
+			// 관리자 모임장소 조회
+			List<AdminMoimDTO> adminMoimList = adminMoimMapper.selectAdminMoimList( pager );
+		    if ( adminMoimList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+
+	        return adminMoimList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimList failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
 	    }
 	}
 	

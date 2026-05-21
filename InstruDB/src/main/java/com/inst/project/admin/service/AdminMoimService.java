@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
 import com.inst.project.util.PagerUtil;
 
@@ -23,5 +24,9 @@ public interface AdminMoimService {
 	
 	// 관리자 모임장소 삭제
 	int adminMoimLocateListDel(AdminMoimLocateDTO adminMoimLocateDTO, HttpServletRequest req);
+	
+	
+	// 관리자 모임일정 조회
+	List<AdminMoimDTO> selectAdminMoimList(PagerUtil pager);
 
 }

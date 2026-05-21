@@ -19,27 +19,6 @@
 	</select>
 	<!-- 관리자 모임장소 총 건수 조회 [E] -->
 	
-	<!-- 관리자 모임장소 상세조회 [S] -->
-	<select id="selectAdminMoimLocateInfo" parameterType="AdminMoimLocateDTO"  resultType="AdminMoimLocateDTO">
-		/* AdminMoim_SQL.selectAdminMoimLocateList */
-		SELECT LOCATE_ID
-			     , LOCATE_NM
-			     , LOCATE_POST_CD
-			     , LOCATE_ADDRESS
-			  	 , LOCATE_D_ADDRESS
-			  	 , LOCATE_CN
-			  	 , LOCATE_USE_YN
-			  	 , LOCATE_DEL_YN
-			  	 , REG_ID
-			  	 , REG_DT
-			  	 , UPD_ID
-			  	 , UPD_DT
-		   FROM TB_MOIM_LOCATE_INFO
-		 WHERE 1=1 
-		 	 AND LOCATE_ID = #{locateId}
-	</select>
-	<!-- 관리자 모임장소 상세조회 [E] -->
-	
 	<!-- 관리자 모임 장소 조회 [S] -->
 	<select id="selectAdminMoimLocateList" parameterType="PagerUtil"  resultType="AdminMoimLocateDTO">
 		/* AdminMoim_SQL.selectAdminMoimLocateList */
@@ -67,6 +46,27 @@
            LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 모임 장소 조회[E] -->
+	
+	<!-- 관리자 모임장소 상세조회 [S] -->
+	<select id="selectAdminMoimLocateInfo" parameterType="AdminMoimLocateDTO"  resultType="AdminMoimLocateDTO">
+		/* AdminMoim_SQL.selectAdminMoimLocateList */
+		SELECT LOCATE_ID
+			     , LOCATE_NM
+			     , LOCATE_POST_CD
+			     , LOCATE_ADDRESS
+			  	 , LOCATE_D_ADDRESS
+			  	 , LOCATE_CN
+			  	 , LOCATE_USE_YN
+			  	 , LOCATE_DEL_YN
+			  	 , REG_ID
+			  	 , REG_DT
+			  	 , UPD_ID
+			  	 , UPD_DT
+		   FROM TB_MOIM_LOCATE_INFO
+		 WHERE 1=1 
+		 	 AND LOCATE_ID = #{locateId}
+	</select>
+	<!-- 관리자 모임장소 상세조회 [E] -->
 	
 	<!-- 관리자 모임장소 등록 [S] -->
 	<insert id="adminMoimLocateListReg" parameterType="AdminMoimLocateDTO">
@@ -127,5 +127,48 @@
 	         AND LOCATE_ID = #{locateId}
 	</update>
 	<!-- 관리자 모임장소 삭제 [E] -->
+	
+	<!-- 관리자 모임일정 총 건수 조회 [S] -->
+	<select id="selectAdminMoimListTotalCount" parameterType="PagerUtil" resultType="Long">
+		/* AdminMoim_SQL.selectAdminMoimListTotalCount */
+    	SELECT COUNT(*)
+	      FROM TB_MOIM_INFO
+	    WHERE 1=1
+		 	AND MOIM_DEL_YN = 'N'
+	 	<if test="searchTxt != null and searchTxt != ''">
+	 		<if test="searchGb == 'moimTitle'">
+			    AND MOIM_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+	    </if>
+	</select>
+	<!-- 관리자 모임일정 총 건수 조회 [E] -->
+	
+	<!-- 관리자 모임일정 조회 [S] -->
+	<select id="selectAdminMoimList" parameterType="PagerUtil"  resultType="AdminMoimDTO">
+		/* AdminMoim_SQL.selectAdminMoimList */
+		SELECT MOIM_ID
+				 , MOIM_TITLE
+				 , MOIM_DT
+				 , MOIM_MAX_CNT
+				 , MOIM_DEL_YN
+				 , MOIM_LOCATE_ID
+				 , MOIM_CN
+				 , MOIM_GB
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		   FROM TB_MOIM_INFO
+		 WHERE 1=1 
+		 	 AND MOIM_DEL_YN = 'N'
+	 	<if test="searchTxt != null and searchTxt != ''">
+	 		<if test="searchGb == 'moimTitle'">
+			    AND MOIM_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
+		    </if>
+	    </if>
+         ORDER BY REG_DT DESC 
+           LIMIT #{perPage} OFFSET #{startRow}
+	</select>
+	<!-- 관리자 모임일정 조회[E] -->
 	
 </mapper>
