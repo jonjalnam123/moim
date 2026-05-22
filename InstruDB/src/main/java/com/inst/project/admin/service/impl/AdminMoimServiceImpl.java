@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inst.project.admin.service.AdminMoimService;
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
 import com.inst.project.common.GlobalConfig;
@@ -247,6 +248,70 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 
 	    } catch (Exception e) {
 	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimList failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMoimLocateList
+	* @author					: 최정석
+	* @date            		: 2026. 04. 23.
+	* @description			: 관리자 모임일정 > 관리자 모임장소 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 04.23.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminMoimLocateDTO> selectAdminMoimLocateListForMoim() {
+		log.info(" [ AdminMoimServiceImpl ] : selectAdminMoimLocateListForMoim ");
+	    try {
+	    	
+			// 관리자 모임장소 조회
+			List<AdminMoimLocateDTO> adminMoimLocateList = adminMoimMapper.selectAdminMoimLocateListForMoim();
+		    if ( adminMoimLocateList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+
+	        return adminMoimLocateList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimLocateListForMoim failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMoimGbList
+	* @author					: 최정석
+	* @date            		: 2026. 04. 23.
+	* @description			: 관리자 모임일정 > 모임구분 조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 04.23.        		최정석       			최초 생성
+	*/
+	@Override
+	public List<AdminCommDTO> selectAdminMoimGbList() {
+		log.info(" [ AdminMoimServiceImpl ] : selectAdminMoimGbList ");
+	    try {
+	    	
+			// 관리자 모임장소 조회
+			List<AdminCommDTO> adminMoimGbList = adminMoimMapper.selectAdminMoimGbList();
+		    if ( adminMoimGbList == null ) {
+		    	log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
+		        return null;
+		    }
+
+	        return adminMoimGbList;
+
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimGbList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;

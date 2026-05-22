@@ -21,12 +21,12 @@ $(function () {
 	$(".p").click(function() {
 		var n= $(this).attr("data-list-pn");
 		$("#pageNum").val(n);
-		$('#adminUserSearchForm').submit(); 
+		$('#"adminMoimListSearchForm"').submit(); 
 	});
 	
 	// 조회 버튼 이벤트
 	$('#btnSearch').on('click', function() {
-		$('#adminUserSearchForm').submit(); 
+		$('#"adminMoimListSearchForm"').submit(); 
 	});
 	
 	// 엔터키 이벤트
@@ -37,88 +37,19 @@ $(function () {
 	});
 	// 페이징 이벤트 [E]
 	
-	// 아이디 입력 이벤트 [S]
-	$('#adminId').on('keyup', function() {
-		$('.hint').hide();
-		$('.error').hide();
-		
-		var adminIdVal = $(this).val();
-		var adminId = onlyEngNum(adminIdVal);
-		$('#adminId').val(adminId);
-	});
-	// 아이디 입력 이벤트 [E]
-	
-	// 이름 입력 이벤트 [S]
-	$('#adminNm').on('keyup', function() {
-		var adminNmVal = $(this).val();
-		var adminNm = onlyKorEng(adminNmVal);
-		$('#adminNm').val(adminNm);
-	});
-	// 이름 입력 이벤트 [E]
-	
-	// 아이디 중복체크 [S]
-	$('#adminIdChkBtn').on('click', function() {
-
-		var adminId = $('#adminId').val();
-		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {
-			return;
-		}
-
-		var tableNm = 'tb_admin_info';
-		var url = '/admin/uniqueDupliChk.do';
-		var params = {
-			uniqueKey : adminId
-		  , tableNm : tableNm
-		}
-		var dataType = 'json'
-		ajaxStart(url, params, dataType, function(data) {
-			var result = data.result;
-			$('#adminIdChk').val(result);
-			if ( result === 'Y' ) {
-				$('.hint').show();
-				$('.error').hide();
-			} else {
-				$('.hint').hide();
-				$('.error').show();
-			}
-		});
-	});
-	// 아이디 중복체크 [E]
-	
-	// 우편번호 찾기 이벤트
-	$('#getPostCode').on('click', function(){
-		var postId =  $('#adminPostCd').attr('id');
-		var adId = $('#adminAddress').attr('id');
-		execDaumPostcode( postId, adId )
-	})
-	
-	// 성별 선택 이벤트
-	$('.gender-check').on('change', function () {
-	    if ($(this).is(':checked')) {
-	        $('.gender-check').not(this).prop('checked', false);
-	    }
-	});
-	
 	// 그리드 더블클릭 이벤트
 	var pendingTeamCd =  '';
 	var pendingPositionCd = '';
-	$('.adminInfoTr').on('dblclick', function() {
+	$('.adminMoimTr').on('dblclick', function() {
 		
 		// ✅ 선택 행 배경 고정
-		$('.adminInfoTr').removeClass('is-selected');
+		$('.adminMoimTr').removeClass('is-selected');
 		$(this).addClass('is-selected');
 		
 		$('#btnUpd').show();
 		$('#btnDel').show();
 		$('#btnReg').hide();
 		$('#btnNew').show();
-		
-		$('#adminIdChkBtn').hide();
-		$('#adminId').attr('readonly', true);
-		
-		$('.hint').hide();
-		$('.error').hide();
 		
 		var rowKey = $(this).data('rowkey');
 		var adminNo = $(this).data('no');

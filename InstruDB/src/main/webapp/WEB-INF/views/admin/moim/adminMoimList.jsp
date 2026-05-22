@@ -10,7 +10,7 @@
 <div class="split-layout grid-split">
 	<aside class="split-left list-panel">
 		<!--  조회 조건 [S] -->
-		<form action="/admin/user.do" id="adminUserSearchForm">
+		<form action="/admin/moim/moimList.do" id="adminMoimListSearchForm">
 			<input type="hidden"  id="pageNum" name="pageNum" value="1">
 			<div class="list-header">
 	      		<div class="list-title"></div>
@@ -123,74 +123,46 @@
 	          		</div>
 	          		
      			    <div class="field">
-	            		<label class="required" for="adminDAddress">날짜</label>
-	            		<input id="adminEmail" name="adminEmail" class="form-control" type="text" />
+	            		<label class="required" for="moimDt">일시</label>
+	            		<input id="moimDt" name="moimDt" class="form-control" type="datetime-local" />
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminPh">최대인원</label>
-	            		<input id="adminPh" name="adminPh" class="form-control" type="text" onkeyup="checkNumPhone(this);" placeholder="숫자만 입력해주세요."/>
+	            		<label class="required" for="moimMaxCnt">최대인원</label>
+	            		<input id="moimMaxCnt" name="moimMaxCnt" class="form-control" type="text" onkeyup="checkNum(this);" placeholder="숫자만 입력해주세요."/>
 	          		</div>
 
 	          		<div class="field">
-	            		<label class="required" for="adminDeptCd">모임장소</label>
-	            		<select id="adminDeptCd" name="adminDeptCd" class="form-select" style="width:100%;">
+	            		<label class="required" for="adminDeptCd">장소</label>
+	            		<select id="moimLocateId" name="moimLocateId" class="form-select" style="width:100%;">
 	            			<option value="">선택</option>
-	            			<c:forEach var="adminUnit" items="${adminUnitList}">
-	            				<option value="${adminUnit.adminUnitCd}" data-id="${adminUnit.adminUnitId}">${adminUnit.adminUnitNm}</option>
+	            			<c:forEach var="adminMoimLocate" items="${adminMoimLocateList}">
+	            				<option value="${adminMoimLocate.locateId}">${adminMoimLocate.locateNm}</option>
 	            			</c:forEach>
 	            		</select>
 	          		</div>
 	          		
 	          		<div class="field">
-	            		<label class="required" for="adminDAddress">상세주소</label>
-	            		<input id="adminDAddress" name="adminDAddress" class="form-control" type="text" />
+	            		<label class="required" for="adminDeptCd">구분</label>
+	            		<select id="moimGb" name="moimGb" class="form-select" style="width:100%;">
+	            			<option value="">선택</option>
+	            			<c:forEach var="adminMoimGb" items="${adminMoimGbList}">
+	            				<option value="${adminMoimGb.commCd}" >${adminMoimGb.commNm}</option>
+	            			</c:forEach>
+	            		</select>
 	          		</div>
 
-	          		<div id="adminTeamDiv" class="field" style="display: none;">
-	            		<label class="required" for="adminTeamCd">팀</label>
-	            		<select id="adminTeamCd" name="adminTeamCd" class="form-select" >
-	            		</select>
-	          		</div>
-	
-	          		<div id="adminPositionDiv" class="field" style="display: none;">
-	            		<label class="required" for="adminPositionCd">직책</label>
-	            		<select id="adminPositionCd" name="adminPositionCd" class="form-select" >
-	            		</select>
-	          		</div>
-	          		
-        			<div class="field">
-	            		<label class="required" for="adminGradeCd">권한등급</label>
-	            		<select id="adminGradeCd" name="adminGradeCd" class="form-select" style="width:100%;">
-	            			<option value="">선택</option>
-	            			<c:forEach var="adminGrade" items="${adminGradeList}">
-	            				<option value="${adminGrade.commCd}">${adminGrade.commNm}</option>
-	            			</c:forEach>
-	            		</select>	
-	          		</div>
-	          		
-        			<!-- ✅ 성별(체크박스 UI, 단일 선택) -->
-					<div class="field">
-				  		<label class="required">성별</label>
-					  	<div class="check-chips" role="group" aria-label="성별 선택">
-					    	<input type="checkbox" id="genderM" name="adminGender" value="M" class="gender-check" />
-					    	<label for="genderM">남</label>
-					    	<input type="checkbox" id="genderF" name="adminGender" value="F" class="gender-check" />
-					    	<label for="genderF">여</label>
-					  	</div>
-					</div>
-	
 	          		<div class="field full">
-	            		<label for="fDesc">설명</label>
-	            		<textarea id="fDesc" class="form-control" maxlength="300"></textarea>
+	            		<label for="moimCn">설명</label>
+	            		<textarea id="moimCn" name="moimCn" class="form-control" maxlength="300"></textarea>
 	          		</div>
 	        	</div>
 	
 		        <div class="form-actions">
        				<button type="button" class="btn-insert" 		id="btnNew"		value="N" 		style="display: none;">신규</button>
-       				<button type="button" class="btn-insert"   	id="btnReg"   	value="I" >저장</button>
+       				<button type="button" class="btn-insert"   		id="btnReg"   		value="I" >저장</button>
         			<button type="button" class="btn-update"		id="btnUpd" 		value="U" 		style="display: none;">수정</button>
-         			<button type="button" class="btn-delete"  	id="btnDel" 		value="D" 		style="display: none;">삭제</button>
+         			<button type="button" class="btn-delete"  		id="btnDel" 			value="D" 		style="display: none;">삭제</button>
 		        </div>
 	      	</div>
 	    </div>

@@ -19,7 +19,7 @@
 	</select>
 	<!-- 관리자 모임장소 총 건수 조회 [E] -->
 	
-	<!-- 관리자 모임 장소 조회 [S] -->
+	<!-- 관리자 모임장소 조회 [S] -->
 	<select id="selectAdminMoimLocateList" parameterType="PagerUtil"  resultType="AdminMoimLocateDTO">
 		/* AdminMoim_SQL.selectAdminMoimLocateList */
 		SELECT LOCATE_ID
@@ -45,7 +45,7 @@
          ORDER BY REG_DT DESC 
            LIMIT #{perPage} OFFSET #{startRow}
 	</select>
-	<!-- 관리자 모임 장소 조회[E] -->
+	<!-- 관리자 모임장소 조회[E] -->
 	
 	<!-- 관리자 모임장소 상세조회 [S] -->
 	<select id="selectAdminMoimLocateInfo" parameterType="AdminMoimLocateDTO"  resultType="AdminMoimLocateDTO">
@@ -170,5 +170,42 @@
            LIMIT #{perPage} OFFSET #{startRow}
 	</select>
 	<!-- 관리자 모임일정 조회[E] -->
+	
+	<!-- 관리자 모임일정 > 관리자 모임장소 조회 [S] -->
+	<select id="selectAdminMoimLocateListForMoim" parameterType="PagerUtil"  resultType="AdminMoimLocateDTO">
+		/* AdminMoim_SQL.selectAdminMoimLocateListForMoim */
+		SELECT LOCATE_ID
+			     , LOCATE_NM
+			     , LOCATE_POST_CD
+			     , LOCATE_ADDRESS
+			  	 , LOCATE_D_ADDRESS
+			  	 , LOCATE_CN
+			  	 , LOCATE_USE_YN
+			  	 , LOCATE_DEL_YN
+			  	 , REG_ID
+			  	 , REG_DT
+			  	 , UPD_ID
+			  	 , UPD_DT
+		   FROM TB_MOIM_LOCATE_INFO
+		 WHERE 1=1 
+		 	 AND LOCATE_DEL_YN = 'N'
+         ORDER BY REG_DT DESC 
+	</select>
+	<!-- 관리자 모임일정 > 관리자 모임장소 조회 [E] -->
+	
+	<!-- 관리자 모임일정 > 모임구분 조회 [S] -->
+	<select id="selectAdminMoimGbList" resultType="AdminCommDTO">
+		/*AdminMng_SQL.selectAdminGradeList*/
+		SELECT COMM_CD 
+				  , COMM_NM
+		  FROM TB_COMMON_INFO
+		WHERE 1=1
+		    AND COMM_GROUP_CD = 'MOIMGB'
+		    AND COMM_USE_YN = 'Y'
+		    AND COMM_DEL_YN = 'N'
+		    AND COMM_LVL != 0
+   ORDER BY COMM_SORT_NO ASC;
+	</select>
+	<!-- 관리자 모임일정 > 모임구분 조회 [E] -->
 	
 </mapper>

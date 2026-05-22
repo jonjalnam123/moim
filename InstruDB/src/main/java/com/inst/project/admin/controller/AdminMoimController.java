@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.inst.project.admin.service.AdminMoimService;
+import com.inst.project.admin.vo.AdminCommDTO;
 import com.inst.project.admin.vo.AdminMoimDTO;
 import com.inst.project.admin.vo.AdminMoimLocateDTO;
 import com.inst.project.common.GlobalConfig;
@@ -146,7 +147,7 @@ public class AdminMoimController {
 	* @methodName	 	: getAdminMoimList
 	* @author					: 최정석
 	* @date            		: 2026. 04. 23.
-	* @description			: 관리자 모임 일정 화면 조회
+	* @description			: 관리자 모임일정 화면 조회
 	* ===================================
 	* DATE              AUTHOR             NOTE
 	* ===================================
@@ -156,14 +157,24 @@ public class AdminMoimController {
 	public String getAdminMoimList( Model model, RedirectAttributes redirect, PagerUtil pager ) {
 		log.info(" [ AdminMoimController ] : getAdminMoimList ");
 		
+		// 관리자 모임일정 조회
 		List<AdminMoimDTO> adminMoimList = adminMoimService.selectAdminMoimList( pager );
-		if( adminMoimList == null ) {
+		
+		// 관리자 모임일정 > 모임장소 조회
+		List<AdminMoimLocateDTO> adminMoimLocateList = adminMoimService.selectAdminMoimLocateListForMoim();
+		
+		// 관리자 모임일정 > 모임구분 조회
+		List<AdminCommDTO> adminMoimGbList = adminMoimService.selectAdminMoimGbList();
+		
+		if( adminMoimList == null || adminMoimLocateList == null || adminMoimGbList == null ) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
 		}
-		
+
 		model.addAttribute("adminMoimList", adminMoimList);
+		model.addAttribute("adminMoimLocateList", adminMoimLocateList);
+		model.addAttribute("adminMoimGbList", adminMoimGbList);
 		model.addAttribute("pager", pager);
 		
 		return "admin/moim/adminMoimList.adm";
