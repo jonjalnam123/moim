@@ -48,8 +48,8 @@
 	<!-- 관리자 모임장소 조회[E] -->
 	
 	<!-- 관리자 모임장소 상세조회 [S] -->
-	<select id="selectAdminMoimLocateInfo" parameterType="AdminMoimLocateDTO"  resultType="AdminMoimLocateDTO">
-		/* AdminMoim_SQL.selectAdminMoimLocateList */
+	<select id="selectAdminMoimLocateListInfo" parameterType="AdminMoimLocateDTO"  resultType="AdminMoimLocateDTO">
+		/* AdminMoim_SQL.selectAdminMoimLocateListInfo */
 		SELECT LOCATE_ID
 			     , LOCATE_NM
 			     , LOCATE_POST_CD
@@ -151,11 +151,26 @@
 				 , MOIM_DT
 				 , MOIM_MAX_CNT
 				 , MOIM_DEL_YN
+				 , ( SELECT LOCATE_NM 
+				 	   FROM TB_MOIM_LOCATE_INFO b 
+				 	  INNER JOIN TB_MOIM_INFO c
+				 	     ON b.LOCATE_ID = c.MOIM_LOCATE_ID 
+				 	  WHERE 1=1 
+				 	    AND b.LOCATE_USE_YN = 'Y' 
+				 	    AND b.LOCATE_DEL_YN = 'N') AS MOIM_LOCATE_NM
 				 , MOIM_LOCATE_ID
 				 , MOIM_CN
+				 , ( SELECT COMM_NM 
+				        FROM TB_COMMON_INFO d 
+				       INNER JOIN TB_MOIM_INFO e
+				           ON d.COMM_CD = e.MOIM_GB 
+				 	  WHERE 1=1 
+				 	      AND d.COMM_GROUP_CD = 'MOIMGB'
+				 	      AND d.COMM_USE_YN = 'Y' 
+				 	      AND d.COMM_DEL_YN = 'N' ) AS MOIM_GB_NM
 				 , MOIM_GB
 				 , REG_ID
-				 , REG_DT
+				 , TO_CHAR(REG_DT, 'YYYY-MM-DD HH24:MI:SS') AS REG_DT
 				 , UPD_ID
 				 , UPD_DT
 		   FROM TB_MOIM_INFO
@@ -207,5 +222,85 @@
    ORDER BY COMM_SORT_NO ASC;
 	</select>
 	<!-- 관리자 모임일정 > 모임구분 조회 [E] -->
+	
+	<!-- 관리자 모임일정 상세조회 [S] -->
+	<select id="selectAdminMoimListInfo" parameterType="AdminMoimDTO"  resultType="AdminMoimDTO">
+		/* AdminMoim_SQL.selectAdminMoimListInfo */
+		SELECT MOIM_ID
+				 , MOIM_TITLE
+				 , MOIM_DT
+				 , MOIM_MAX_CNT
+				 , MOIM_DEL_YN
+				 , MOIM_LOCATE_ID
+				 , MOIM_CN
+				 , MOIM_GB
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		   FROM TB_MOIM_INFO
+		 WHERE 1=1 
+		 	 AND MOIM_ID = #{moimId}
+	</select>
+	<!-- 관리자 모임일정 상세조회 [E] -->
+	
+	<!-- 관리자 모임일정 등록 [S] -->
+	<insert id="adminMoimListReg" parameterType="AdminMoimDTO">
+		/* AdminMoim_SQL.adminMoimListReg */
+		INSERT INTO TB_MOIM_INFO (
+			   MOIM_ID
+			 , MOIM_TITLE
+			 , MOIM_DT
+			 , MOIM_MAX_CNT
+			 , MOIM_DEL_YN
+			 , MOIM_LOCATE_ID
+			 , MOIM_CN
+			 , MOIM_GB
+			 , REG_ID
+			 , REG_DT
+			 , UPD_ID
+			 , UPD_DT
+		) VALUES (
+			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{moimTitle}
+			, CAST(#{moimDt} AS TIMESTAMP)
+			, CAST(#{moimMaxCnt} AS INTEGER)
+			, 'N'
+			, #{moimLocateId}
+			, #{moimCn}
+			, #{moimGb}
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		)
+	</insert>
+	<!-- 관리자 모임일정 등록 [E] -->
+	
+	<!-- 관리자 모임일정 수정[S] -->
+	<update id="adminMoimListUpd" parameterType="adminMoimDTO">
+		/* AdminMoim_SQL.adminMoimListUpd */
+		UPDATE TB_MOIM_INFO 
+			 SET MOIM_TITLE				= #{moimTitle}
+			     , MOIM_DT					= CAST(#{moimDt} AS TIMESTAMP)
+			     , MOIM_MAX_CNT		= CAST(#{moimMaxCnt} AS INTEGER)
+			     , MOIM_LOCATE_ID		= #{moimLocateId}
+			     , MOIM_GB					= #{moimGb}
+			     , UPD_ID					= #{updId}
+			     , UPD_DT					= NOW()
+	     WHERE 1=1
+	         AND MOIM_ID = #{moimId}
+	</update>
+	<!-- 관리자 모임일정 수정 [E] -->
+	
+	<!-- 관리자 모임일정 삭제 [S] -->
+	<update id="adminMoimListDel" parameterType="adminMoimDTO">
+		/* AdminMoim_SQL.adminMoimListDel */
+		UPDATE TB_MOIM_INFO 
+			 SET MOIM_DEL_YN			= 'Y'
+	     WHERE 1=1
+	         AND MOIM_ID = #{moimId}
+	</update>
+	<!-- 관리자 모임일정 삭제 [E] -->
 	
 </mapper>

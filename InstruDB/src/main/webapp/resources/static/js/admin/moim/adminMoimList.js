@@ -38,8 +38,6 @@ $(function () {
 	// 페이징 이벤트 [E]
 	
 	// 그리드 더블클릭 이벤트
-	var pendingTeamCd =  '';
-	var pendingPositionCd = '';
 	$('.adminMoimTr').on('dblclick', function() {
 		
 		// ✅ 선택 행 배경 고정
@@ -51,279 +49,121 @@ $(function () {
 		$('#btnReg').hide();
 		$('#btnNew').show();
 		
-		var rowKey = $(this).data('rowkey');
-		var adminNo = $(this).data('no');
-		var adminId = $(this).data('id');
+		var moimId = $(this).data('id');
 		
-	  	var url = '/admin/userInfo.do';
+	  	var url = '/admin/moim/moimListInfo.do';
 	  	var params = { 
-			adminNo: adminNo
-		  , adminId : adminId
+			moimId: moimId
 		 };
 	  	var dataType = 'json';
 
 		ajaxStart(url, params, dataType, function(data) {
 			
-			var adminInfo = data.adminInfo;
+			var moimInfo = data.moimInfo;
 			
-			if ( !isEmpty(adminInfo) ) {
+			if ( !isEmpty(moimInfo) ) {
 				
-				var adminNo = adminInfo.adminNo
-				var adminId = adminInfo.adminId
-				var adminNm = adminInfo.adminNm
-				var adminPh = adminInfo.adminPh
-				var adminPostCd = adminInfo.adminPostCd
-				var adminAddress = adminInfo.adminAddress
-				var adminDAddress = adminInfo.adminDAddress
-				var adminDeptCd = adminInfo.adminDeptCd
-				var adminTeamCd = adminInfo.adminTeamCd
-				var adminPositionCd = adminInfo.adminPositionCd
-				var adminCn = adminInfo.adminCn
-				var adminGender = adminInfo.adminGender
-				var adminGradeCd = adminInfo.adminGradeCd
-				var adminEmail = adminInfo.adminEmail
+				var moimId = moimInfo.moimId
+				var moimTitle = moimInfo.moimTitle
+				var moimDt = moimInfo.moimDt
+				var moimMaxCnt = moimInfo.moimMaxCnt
+				var moimLocateId = moimInfo.moimLocateId
+				var moimGb = moimInfo.moimGb
+				var regDt = moimInfo.regDt
 
-				$('#adminNo').val(adminNo);
+				$('#moimId').val(moimId);
+				$('#moimTitle').val(moimTitle);
+				$('#moimDt').val(moimDt);
 				
-				$('#adminId').val(adminId);
-				$('#adminIdOrg').val(adminId);
-				
-				$('#adminNm').val(adminNm);
-				$('#adminEmail').val(adminEmail);
-
-				$('#adminPh').val(adminPh);
-				$('#adminPostCd').val(adminPostCd);
-				$('#adminAddress').val(adminAddress);
-				$('#adminDAddress').val(adminDAddress);
-				
-				$('#adminDeptCd').val(adminDeptCd).trigger('change');
-				pendingTeamCd = adminTeamCd || '';
-				pendingPositionCd = adminPositionCd || '';
-
-				$('#adminGradeCd').val(adminGradeCd).trigger('change');
-
-				setGender(adminGender);
-				$('#adminCn').val(adminCn);
+				$('#moimMaxCnt').val(moimMaxCnt);
+				$('#moimLocateId').val(moimLocateId).trigger('change');
+				$('#moimGb').val(moimGb).trigger('change');
+				$('#regDt').val(regDt);
 				
 			} else {
 				goToUriAdminError();
 			}
 		});
 	});
-	
-	// 부서 입력 이벤트
-	$('#adminDeptCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/teamSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
 
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitTeamData = data || [];
-	    	var team = $('#adminTeamCd');
-
-	    	team.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitTeamData)) {
-				
-				$('#adminTeamDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitTeamData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				team.append(html);
-				
-				if (pendingTeamCd != null) {
-				  team.val(pendingTeamCd).trigger('change');
-				} else {
-				  team.trigger('change');
-				}
-				
-	    	} else {
-				
-				$('#adminTeamDiv').hide();
-				$('#adminPositionDiv').hide();
-				
-				pendingTeamCd = null;
-				pendingPositionCd = null;
-				
-			}
-			
-  		});
-	});
-	
-	// 팀 입력 이벤트
-	$('#adminTeamCd').on('change', function() {
-  		var adminUnitId = $(this).find('option:selected').data('id');
-	  	var url = '/admin/positionSelect.do';
-	  	var params = { adminUnitId: adminUnitId };
-	  	var dataType = 'json';
-
-		ajaxStart(url, params, dataType, function(data) {
-	    	var unitPositionData = data || [];
-	    	var position = $('#adminPositionCd');
-
-	    	position.empty().append('<option value="">선택</option>');
-
-		    if (!isEmptyArr(unitPositionData)) {
-				
-				$('#adminPositionDiv').show();
-				
-	      		var html = '';
-	      		$.each(unitPositionData, function(idx, val){
-		        	var id = val.adminUnitId;
-		        	var nm = val.adminUnitNm;
-		        	var cd = val.adminUnitCd;
-	
-		        	html += `<option value="${cd}" data-id="${id}">${nm}</option>`;
-		      	});
-				
-				position.append(html);
-				
-				if (pendingPositionCd != null) {
-				  position.val(pendingPositionCd).trigger('change');
-				} else {
-				  position.trigger('change');
-				}
-				
-	    	} else {
-				$('#adminPositionDiv').hide();
-			}
-		
-			pendingTeamCd = null;
-			pendingPositionCd = null;
-			
-  		});
-	});
-	
 	// 신규 버튼 이벤트
 	$('#btnNew').on('click', function() {
 		
-		$('.adminInfoTr').removeClass('is-selected');
+		$('.adminMoimTr').removeClass('is-selected');
 		
 		$('#btnUpd').hide();
 		$('#btnDel').hide();
 		$('#btnReg').show();
 		$('#btnNew').hide();
-		$('#adminIdChkBtn').show();
-		
-		$('#adminId').attr('readonly', false);
-		
-		$('#adminNo').val('');
-		$('#adminId').val('');
-		$('#adminNm').val('');
-		$('#adminPh').val('');
-		$('#adminPostCd').val('');
-		$('#adminAddress').val('');
-		$('#adminDAddress').val('');
-		$('#adminDeptCd').val('').trigger('change');
-		$('#adminTeamCd').val('');
-		$('#adminPositionCd').val('');
-		$('#adminGradeCd').val('');
-		$('input[name="adminGender"][value="M"]').prop('checked', true);
-		$('#adminCn').val('');
-		$('#adminIdChk').val('');
-		
+
+		$('#moimTitle').val('');
+		$('#moimDt').val('');
+		$('#moimMaxCnt').val('');
+		$('#moimLocateId').val('').trigger('change');
+		$('#moimGb').val('').trigger('change');
+		$('#moimCn').val('');
+
 	});
 	
-	// 관리자 등록, 수정 이벤트
+	// 등록, 수정 이벤트
 	$('#btnReg, #btnUpd').on('click', function() {
 		var btnVal = $(this).val();
 		var url = '';
 		
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
-		var adminPh = $('#adminPh').val();
-		var adminPostCd = $('#adminPostCd').val();
-		var adminAddress = $('#adminAddress').val();
-		var adminDAddress = $('#adminDAddress').val();
-		var adminDeptCd = $('#adminDeptCd').val();
-		var adminTeamCd = $('#adminTeamCd').val();
-		var adminPositionCd = $('#adminPositionCd').val();
-		var adminGradeCd = $('#adminGradeCd').val();
-		var adminGender =  $('input[name="adminGender"]:checked').val();
-		var adminCn =  $('#adminCn').val();
-		var adminIdChk = $('#adminIdChk').val();
+		var moimId = $('#moimId').val();
+		var moimTitle = $('#moimTitle').val();
+		var moimDt = $('#moimDt').val();
+		var moimMaxCnt = $('#moimMaxCnt').val();
+		var moimLocateId = $('#moimLocateId').val();
+		var moimGb = $('#moimGb').val();
+		var moimCn = $('#moimCn').val();
 		
-		if ( isEmptyMsg(adminId, '아이디' + dataEmpty) ) {	
+		if ( isEmptyMsg(moimTitle, '모임명' + dataEmpty) ) {	
 			return;
 		}
 		
-		if ( btnVal === 'I' ) {
-			if ( adminIdChk === '' ) {
-				alert('아이디' + dataDupliChk);
-				return;
-			}
-			
-			if ( adminIdChk === 'N') {
-				alert('아이디' + dataChk);
-				return;
-			}
-		}
-
-		if ( isEmptyMsg(adminNm, '이름' + dataEmpty) ) {
+		if ( isEmptyMsg(moimDt, '일시' + dataEmpty) ) {	
 			return;
 		}
-
-		if ( isEmptyMsg(adminPh, '핸드폰' + dataEmpty) ) {
+		
+		if ( isEmptyMsg(moimMaxCnt, '최대인원' + dataEmpty) ) {	
 			return;
 		}
-
-		if ( isEmptyMsg(adminPostCd, '우편번호' + dataEmpty) ) {
+		
+		if ( isEmptyMsg(moimLocateId, '장소' + dataEmpty) ) {	
 			return;
 		}
-
-		if ( isEmptyMsg(adminAddress, '주소' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGradeCd, '권한등급' + dataEmpty) ) {
-			return;
-		}
-
-		if ( isEmptyMsg(adminGender, '성별' + dataEmpty) ) {
+		
+		if ( isEmptyMsg(moimGb, '구분' + dataEmpty) ) {	
 			return;
 		}
 		
 		if ( btnVal === 'I' ) {
-			if ( !confirm('관리자' + regProcConfirm) ) {
+			if ( !confirm('모임일정' + regProcConfirm) ) {
 				return;
 			}
-			url = '/admin/userReg.do';
+			url = '/admin/moim/moimListReg.do';
 		} else {
-			if ( !confirm('관리자' + updProcConfirm) ) {
+			if ( !confirm('모임일정' + updProcConfirm) ) {
 				return;
 			}
-			url = '/admin/userUpd.do';
+			url = '/admin/moim/moimListUpd.do';
 		}
 
 		var params = {
-			    adminNo : adminNo
-			  , adminId : adminId
-			  , adminNm : adminNm
-			  , adminPh : adminPh
-			  , adminPostCd : adminPostCd
-			  , adminAddress : adminAddress
-			  , adminDAddress : adminDAddress
-			  , adminDeptCd : adminDeptCd
-			  , adminTeamCd : adminTeamCd
-			  , adminPositionCd : adminPositionCd
-			  , adminGradeCd : adminGradeCd
-			  , adminGender : adminGender
-			  , adminCn : adminCn
+			    moimId : moimId
+			  , moimTitle : moimTitle
+			  , moimDt : moimDt
+			  , moimMaxCnt : moimMaxCnt
+			  , moimLocateId : moimLocateId
+			  , moimGb : moimGb
+			  , moimCn : moimCn
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
-				alert(btnVal === 'I' ? '사원' + regSuccess : '사원' + updSuccess);
+				alert(btnVal === 'I' ? '모임일정' + regSuccess : '모임일정' + updSuccess);
 				window.location.reload();
 			} else {
 				goToUriAdminError();
@@ -331,30 +171,27 @@ $(function () {
 		});
 	});
 	
-	// 메뉴 삭제 이벤트
+	// 삭제 이벤트
 	$('#btnDel').on('click', function() {
-		var adminNo = $('#adminNo').val();
-		var adminId = $('#adminId').val();
-		var adminNm = $('#adminNm').val();
+		var moimId = $('#moimId').val();
 		
-		if ( isEmptyMsg(adminId, delDataChk) ) {
+		if ( isEmptyMsg(moimId, delDataChk) ) {
 			return;
 		}
 		
-		if ( !confirm(adminNm + ' 관리자' + delProcConfirm) ) {
+		if ( !confirm('모임일정' + delProcConfirm) ) {
 			return;
 		}
 
-		var url = '/admin/userDel.do';
+		var url = '/admin/moimListUpd.do';
 		var params = {
-				adminNo : adminNo
-			  , adminId : adminId
+				moimId : moimId
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
 			var result = Number(data.result);
 			if (result > 0) {
-				alert('사원' + delSuccess);
+				alert('모임일정' + delSuccess);
 				window.location.reload();
 			} else {
 				goToUriAdminError();
@@ -363,26 +200,6 @@ $(function () {
 	});
 });
 
-/*******************************
-* FuntionNm : setGender
-* Date : 2026.02.15
-* Author : CJS
-* Description : 성별 셋팅 함수 (checkbox 단일 선택용)
-* PARAM : adminGender : 성별 값
-********************************/
-function setGender(adminGender) {
-
-  // 일단 전체 해제
-  $('.gender-check').prop('checked', false);
-
-  // 값이 없으면 끝
-  if (!adminGender) return;
-
-  // 해당 값만 체크 (M / F)
-  var target = $('.gender-check[value="' + adminGender + '"]');
-  target.prop('checked', true).trigger('change');
-  
-}
 
 /*******************************
 * FuntionNm : setPagingParam

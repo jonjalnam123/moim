@@ -23,11 +23,17 @@ public class AdminMoimDTO {
 	// 모임장소ID
 	private String moimLocateId;
 	
+	// 모임장소명
+	private String moimLocateNm;
+	
 	// 모임내용
 	private String moimCn;
 	
 	// 모임구분 ( 01 : 정모, 02 : 번개, 03 : 그 외 )
 	private String moimGb;
+	
+	// 모임구분명
+	private String moimGbNm;
 	
 	// 등록자
 	private String regId;

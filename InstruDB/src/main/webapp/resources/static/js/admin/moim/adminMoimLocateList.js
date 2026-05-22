@@ -63,7 +63,7 @@ $(function () {
 		
 		var locateId = $(this).data('id');
 		
-	  	var url = '/admin/moim/moimLocateInfo.do';
+	  	var url = '/admin/moim/moimLocateListInfo.do';
 	  	var params = { 
 			locateId: locateId
 		 };
@@ -193,7 +193,7 @@ $(function () {
 			return;
 		}
 		
-		if ( !confirm(locateNm + delProcConfirm) ) {
+		if ( !confirm('모임장소' + delProcConfirm) ) {
 			return;
 		}
 

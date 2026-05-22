@@ -19,7 +19,7 @@ public interface AdminMoimMapper {
 	List<AdminMoimLocateDTO> selectAdminMoimLocateList(PagerUtil pager);
 	
 	// 관리자 모임장소 상세조회
-	AdminMoimLocateDTO selectAdminMoimLocateInfo(AdminMoimLocateDTO adminMoimLocateDTO);
+	AdminMoimLocateDTO selectAdminMoimLocateListInfo(AdminMoimLocateDTO adminMoimLocateDTO);
 	
 	// 관리자 모임장소 등록
 	int adminMoimLocateListReg(AdminMoimLocateDTO adminMoimLocateDTO);
@@ -41,6 +41,18 @@ public interface AdminMoimMapper {
 
 	// 관리자 모임일정 > 모임구분 조회
 	List<AdminCommDTO> selectAdminMoimGbList();
+	
+	// 관리자 모임일정 상세조회
+	AdminMoimDTO selectAdminMoimListInfo(AdminMoimDTO adminMoimDTO);
+	
+	// 관리자 모임일정 등록
+	int adminMoimListReg(AdminMoimDTO adminMoimDTO);
+
+	// 관리자 모임일정 수정
+	int adminMoimListUpd(AdminMoimDTO adminMoimDTO);
+
+	// 관리자 모임일정 삭제
+	int adminMoimListDel(AdminMoimDTO adminMoimDTO);
 
 
 

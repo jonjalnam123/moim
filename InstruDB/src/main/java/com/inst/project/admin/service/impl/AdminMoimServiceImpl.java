@@ -77,8 +77,8 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public AdminMoimLocateDTO selectAdminMoimLocateInfo(AdminMoimLocateDTO adminMoimLocateDTO) {
-		log.info(" [ AdminMoimServiceImpl ] : selectMoimLocateInfo ");
+	public AdminMoimLocateDTO selectAdminMoimLocateListInfo(AdminMoimLocateDTO adminMoimLocateDTO) {
+		log.info(" [ AdminMoimServiceImpl ] : selectAdminMoimLocateListInfo ");
 
 	    try {
 	    	String locateId = adminMoimLocateDTO.getLocateId();
@@ -87,7 +87,7 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	    		return null;
 	    	}
 	    	
-	    	AdminMoimLocateDTO result = adminMoimMapper.selectAdminMoimLocateInfo(adminMoimLocateDTO);
+	    	AdminMoimLocateDTO result = adminMoimMapper.selectAdminMoimLocateListInfo(adminMoimLocateDTO);
 	    	if( result == null ) {
 	    		return null;
 	    	}
@@ -95,7 +95,7 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	        return result;
 	        
 	    } catch (Exception e) {
-	        log.error("[ AdminMoimServiceImpl ] selectMoimLocateInfo failed", e);
+	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimLocateListInfo failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -315,6 +315,156 @@ public class AdminMoimServiceImpl implements AdminMoimService {
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMoimInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 상세조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public AdminMoimDTO selectAdminMoimListInfo(AdminMoimDTO adminMoimDTO) {
+		log.info(" [ AdminMoimServiceImpl ] : selectAdminMoimListInfo ");
+
+	    try {
+	    	String moimId = adminMoimDTO.getMoimId();
+	    	if( CommonUtil.isBlank(moimId) ) {
+	    		log.error("조회할 파라미터가 없습니다. {}", moimId);
+	    		return null;
+	    	}
+	    	
+	    	AdminMoimDTO result = adminMoimMapper.selectAdminMoimListInfo(adminMoimDTO);
+	    	if( result == null ) {
+	    		return null;
+	    	}
+	        
+	        return result;
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] selectAdminMoimListInfo failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return null;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임장소 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMoimListReg(AdminMoimDTO adminMoimDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimListReg ");
+		
+	    int result = 0;
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+	    	
+	    	if( adminMoimDTO == null ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimListReg 모임장소 정보가 없습니다 : {}", adminMoimDTO);
+	    		return result;
+	    	}
+	    	
+	    	adminMoimDTO.setRegId(adminId);
+	    	adminMoimDTO.setUpdId(adminId);
+	        
+	        return adminMoimMapper.adminMoimListReg(adminMoimDTO);
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] adminMoimListReg failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMoimListUpd(AdminMoimDTO adminMoimDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimListUpd ");
+		
+	    int result = 0;
+	    try {
+	    	
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return 0;
+			}
+	    	
+	    	if( adminMoimDTO == null ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimListUpd 모임장소 정보가 없습니다 : {}", adminMoimDTO);
+	    		return result;
+	    	}
+	    	
+	    	adminMoimDTO.setUpdId(adminId);
+	        
+	        return adminMoimMapper.adminMoimListUpd(adminMoimDTO);
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] adminMoimListUpd failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
+	    }
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@Override
+	public int adminMoimListDel(AdminMoimDTO adminMoimDTO, HttpServletRequest req) {
+		log.info(" [ AdminMoimServiceImpl ] : adminMoimListDel ");
+		
+	    int result = 0;
+	    try {
+	    	
+	    	String moimId = adminMoimDTO.getMoimId();
+	    	if( CommonUtil.isBlank(moimId) ) {
+	    		log.error("[ AdminMoimServiceImpl ] adminMoimListDel 모임장소ID가 없습니다 : {}", moimId);
+	    		return result;
+	    	}
+	    	
+	        return adminMoimMapper.adminMoimListDel(adminMoimDTO);
+	        
+	    } catch (Exception e) {
+	        log.error("[ AdminMoimServiceImpl ] adminMoimListDel failed", e);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
+	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
+	        return 0;
 	    }
 	}
 	

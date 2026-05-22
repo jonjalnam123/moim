@@ -70,12 +70,12 @@ public class AdminMoimController {
 	* ===================================
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
-	@PostMapping("/moimLocateInfo.do")
+	@PostMapping("/moimLocateListInfo.do")
 	@ResponseBody
-	public Map<String,Object> selectAdminMoimLocateInfo ( @ModelAttribute AdminMoimLocateDTO adminMoimLocateDTO ){
-		log.info(" [ AdminMoimController ] : selectAdminLocateInfo ");
+	public Map<String,Object> selectAdminMoimLocateListInfo ( @ModelAttribute AdminMoimLocateDTO adminMoimLocateDTO ){
+		log.info(" [ AdminMoimController ] : selectAdminMoimLocateListInfo ");
 		Map<String,Object> resultMap = new HashMap<>();
-		AdminMoimLocateDTO result = adminMoimService.selectAdminMoimLocateInfo(adminMoimLocateDTO);
+		AdminMoimLocateDTO result = adminMoimService.selectAdminMoimLocateListInfo(adminMoimLocateDTO);
 	    resultMap.put("moimLocateInfo", result);
 	    return resultMap;
 	}
@@ -178,6 +178,86 @@ public class AdminMoimController {
 		model.addAttribute("pager", pager);
 		
 		return "admin/moim/adminMoimList.adm";
+	}
+	
+	/**
+	* @methodName	 	: selectAdminMoimInfo
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 상세조회
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimListInfo.do")
+	@ResponseBody
+	public Map<String,Object> selectAdminMoimListInfo ( @ModelAttribute AdminMoimDTO adminMoimDTO ){
+		log.info(" [ AdminMoimController ] : selectAdminMoimListInfo ");
+		Map<String,Object> resultMap = new HashMap<>();
+		AdminMoimDTO result = adminMoimService.selectAdminMoimListInfo(adminMoimDTO);
+	    resultMap.put("moimInfo", result);
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListReg
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 등록
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimListReg.do")
+	@ResponseBody
+	public Map<String,Object> adminMoimListReg ( @ModelAttribute AdminMoimDTO adminMoimDTO, HttpServletRequest req ){
+		log.info(" [ AdminMoimController ] : adminMoimListReg ");
+	    Map<String,Object> resultMap = new HashMap<>();
+	    int regResult = adminMoimService.adminMoimListReg(adminMoimDTO, req);
+	    resultMap.put("result", regResult);
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListUpd
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 수정
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimListUpd.do")
+	@ResponseBody
+	public Map<String,Object> adminMoimListUpd ( @ModelAttribute AdminMoimDTO adminMoimDTO, HttpServletRequest req ){
+		log.info(" [ AdminMoimController ] : adminMoimListUpd ");
+	    Map<String,Object> resultMap = new HashMap<>();
+	    int regResult = adminMoimService.adminMoimListUpd(adminMoimDTO, req);
+	    resultMap.put("result", regResult);
+	    return resultMap;
+	}
+	
+	/**
+	* @methodName	 	: adminMoimListDel
+	* @author					: 최정석
+	* @date            		: 2026. 1. 6.
+	* @description			: 관리자 모임일정 삭제
+	* ===================================
+	* DATE              AUTHOR             NOTE
+	* ===================================
+	* 2026. 1. 6.        		최정석       			최초 생성
+	*/
+	@PostMapping("/moimListDel.do")
+	@ResponseBody
+	public Map<String,Object> adminMoimListDel ( @ModelAttribute AdminMoimDTO adminMoimDTO, HttpServletRequest req ){
+		log.info(" [ AdminMoimController ] : adminMoimListDel ");
+	    Map<String,Object> resultMap = new HashMap<>();
+	    int regResult = adminMoimService.adminMoimListDel(adminMoimDTO, req);
+	    resultMap.put("result", regResult);
+	    return resultMap;
 	}
 
 

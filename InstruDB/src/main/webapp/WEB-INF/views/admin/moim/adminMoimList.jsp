@@ -31,7 +31,7 @@
 	  		<div class="grid-wrap">
 				
 			    <c:choose>
-		      		<c:when test="${empty adminList}">
+		      		<c:when test="${empty adminMoimList}">
 		        		<div class="grid-empty-wrap">
 			          		<div class="table-empty">
 			            		<div class="table-empty-illu" aria-hidden="true">
@@ -53,18 +53,16 @@
 								        <th>최대인원</th>
 								        <th>장소명</th>
 								        <th>구분</th>
-								        <th>등록날짜</th>
 									</tr>
 			      				</thead>
 			            		<tbody>
 									<c:forEach var="adminMoim" items="${adminMoimList}" varStatus="cnt">
-						        		<tr class="adminMoimTr" data-rowkey="${cnt.index}" data-id="${admin.adminId}">
+						        		<tr class="adminMoimTr" data-rowkey="${cnt.index}" data-id="${adminMoim.moimId}">
 								        	<td>${adminMoim.moimTitle}</td>
 								        	<td>${adminMoim.moimDt}</td>
 								        	<td>${adminMoim.moimMaxCnt}</td>
 								        	<td>${adminMoim.moimLocateNm}</td>
 								        	<td>${adminMoim.moimGbNm}</td>
-								        	<td>${adminMoim.regDt}</td>
 						        		</tr>
 					        		</c:forEach>
 			            		</tbody>
