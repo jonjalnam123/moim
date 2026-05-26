@@ -35,6 +35,9 @@ public class AdminMoimDTO {
 	// 모임구분명
 	private String moimGbNm;
 	
+	// 모임상태
+	private String moimStatus;
+	
 	// 등록자
 	private String regId;
 	

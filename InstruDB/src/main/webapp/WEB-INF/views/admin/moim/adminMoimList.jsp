@@ -53,6 +53,7 @@
 								        <th>최대인원</th>
 								        <th>장소명</th>
 								        <th>구분</th>
+								        <th>상태</th>
 									</tr>
 			      				</thead>
 			            		<tbody>
@@ -63,6 +64,7 @@
 								        	<td>${adminMoim.moimMaxCnt}</td>
 								        	<td>${adminMoim.moimLocateNm}</td>
 								        	<td>${adminMoim.moimGbNm}</td>
+								        	<td>${adminMoim.moimStatus}</td>
 						        		</tr>
 					        		</c:forEach>
 			            		</tbody>
