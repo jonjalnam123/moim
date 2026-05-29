@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminScheduleMapper">
+
+	<!-- 지난 날짜 모임일정 조회 [S]  -->
+	<select id="selectEndMoimList" parameterType="AdminMoimDTO" resultType="AdminMoimDTO">
+		/* AdminSchedule_SQL.selectEndMoimList */
+		SELECT MOIM_ID
+				 , MOIM_TITLE
+				 , MOIM_DT
+				 , MOIM_MAX_CNT
+				 , MOIM_DEL_YN
+				 , MOIM_LOCATE_ID
+				 , MOIM_CN
+				 , MOIM_GB
+				 , MOIM_STATUS_YN
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_MOIM_INFO
+		WHERE 1=1
+	 		AND MOIM_DT <![CDATA[<]]> NOW()
+	     ORDER BY MOIM_DT DESC
+	</select>
+	<!-- 지난 날짜 모임일정 조회 [E]  -->
+	
+	<!-- 지난 날짜 모임일정 구분 값 수정 [S]  -->
+	<update id="updateEndMoimList" parameterType="AdminMoimDTO">
+		/* AdminSchedule_SQL.updateEndMoimList */
+		UPDATE TB_MOIM_INFO
+		     SET MOIM_STATUS_YN = 'N'
+		     	 , UPD_ID = #{updId}
+				 , UPD_DT = NOW()
+		 WHERE 1=1
+		    AND MOIM_ID = #{moimId}
+	</update>
+	<!-- 지난 날짜 모임일정 구분 값 수정 [E]  -->
+	
+</mapper>

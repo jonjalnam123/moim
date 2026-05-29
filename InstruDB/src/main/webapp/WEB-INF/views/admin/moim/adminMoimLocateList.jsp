@@ -72,11 +72,15 @@
 						<!-- 페이징 [S] -->
 			        	<div class="pagination-wrap">
 			          		<div class="pagination" id="paging">
-			            		<button class="p" data-list-pn="${pager.startNum-1}" type="button">&laquo;</button>
+								<c:if test="${pager.pageNum ne pager.startNum}">
+									<button class="p" data-list-pn="${pager.pageNum-1}" type="button">&laquo;</button>
+								</c:if>
 			            		<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
 			             			 <button class="p" data-list-pn="${i}">${i}</button>
 			            		</c:forEach>
-			            		<button class="p" data-list-pn="${pager.lastNum+1}" type="button">&raquo;</button>
+			            		<c:if test="${pager.pageNum ne pager.lastNum}">
+			            			<button class="p" data-list-pn="${pager.pageNum+1}" type="button">&raquo;</button>
+								</c:if>
 			          		</div>
 			        	</div>
 			        	<!-- 페이징 [E] -->

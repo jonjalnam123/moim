@@ -21,12 +21,12 @@ $(function () {
 	$(".p").click(function() {
 		var n= $(this).attr("data-list-pn");
 		$("#pageNum").val(n);
-		$('#"adminMoimListSearchForm"').submit(); 
+		$('#adminMoimListSearchForm').submit(); 
 	});
 	
 	// 조회 버튼 이벤트
 	$('#btnSearch').on('click', function() {
-		$('#"adminMoimListSearchForm"').submit(); 
+		$('#adminMoimListSearchForm').submit(); 
 	});
 	
 	// 엔터키 이벤트
@@ -69,6 +69,7 @@ $(function () {
 				var moimMaxCnt = moimInfo.moimMaxCnt
 				var moimLocateId = moimInfo.moimLocateId
 				var moimGb = moimInfo.moimGb
+				var moimStatusYn = moimInfo.moimStatusYn
 				var regDt = moimInfo.regDt
 
 				$('#moimId').val(moimId);
@@ -78,6 +79,7 @@ $(function () {
 				$('#moimMaxCnt').val(moimMaxCnt);
 				$('#moimLocateId').val(moimLocateId).trigger('change');
 				$('#moimGb').val(moimGb).trigger('change');
+				$('#moimStatusYn').val(moimStatusYn).trigger('change');
 				$('#regDt').val(regDt);
 				
 			} else {
@@ -101,6 +103,7 @@ $(function () {
 		$('#moimMaxCnt').val('');
 		$('#moimLocateId').val('').trigger('change');
 		$('#moimGb').val('').trigger('change');
+		$('#moimStatusYn').val('').trigger('moimStatusYn');
 		$('#moimCn').val('');
 
 	});
@@ -116,6 +119,7 @@ $(function () {
 		var moimMaxCnt = $('#moimMaxCnt').val();
 		var moimLocateId = $('#moimLocateId').val();
 		var moimGb = $('#moimGb').val();
+		var moimStatusYn = $('#moimStatusYn').val();
 		var moimCn = $('#moimCn').val();
 		
 		if ( isEmptyMsg(moimTitle, '모임명' + dataEmpty) ) {	
@@ -138,6 +142,10 @@ $(function () {
 			return;
 		}
 		
+		if ( isEmptyMsg(moimStatusYn, '진행상태' + dataEmpty) ) {	
+			return;
+		}
+		
 		if ( btnVal === 'I' ) {
 			if ( !confirm('모임일정' + regProcConfirm) ) {
 				return;
@@ -157,6 +165,7 @@ $(function () {
 			  , moimMaxCnt : moimMaxCnt
 			  , moimLocateId : moimLocateId
 			  , moimGb : moimGb
+			  , moimStatusYn : moimStatusYn
 			  , moimCn : moimCn
 		}
 		var dataType = 'json'
