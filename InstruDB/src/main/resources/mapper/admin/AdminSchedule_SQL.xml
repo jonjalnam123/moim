@@ -4,6 +4,46 @@
 
 <mapper namespace="adminScheduleMapper">
 
+	<!-- 지난 날짜 공지사항 조회 [S]  -->
+	<select id="selectFinshNoticeList" parameterType="PagerUtil" resultType="AdminNoticeDTO">
+		/*AdminBoard_SQL.selectFinshNoticeList*/
+		SELECT A.NOTICE_ID
+				 , A.NOTICE_TITLE
+				 , A.NOTICE_EFFECT_GB
+				 , A.NOTICE_CN
+				 , A.NOTICE_FIX_YN
+				 , A.NOTICE_LIMIT_YN
+				 , TO_CHAR(A.NOTICE_STR_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_STR_DT
+				 , TO_CHAR(A.NOTICE_END_DT, 'YYYY-MM-DD HH24:MI:SS') AS NOTICE_END_DT
+				 , A.NOTICE_FINISH_YN
+				 , A.NOTICE_DEL_YN
+				 , A.NOTICE_POP_YN
+				 , A.REG_ID
+				 , TO_CHAR(A.REG_DT, 'YYYY-MM-DD HH24:MI:SS') AS REG_DT
+				 , A.UPD_ID
+				 , A.UPD_DT
+		  FROM TB_NOTICE_INFO A
+		 WHERE 1=1
+		   AND A.NOTICE_DEL_YN = 'N'
+		   AND A.NOTICE_LIMIT_YN = 'Y'
+		   AND A.NOTICE_END_DT <![CDATA[<]]> NOW()
+	</select>
+	<!-- 지난 날짜 공지사항 조회 [E]  -->
+	
+	<!-- 지난 날짜 공지사항 구분 값 수정 [S]  -->
+	<update id="updateFinshNoticeList" parameterType="AdminMoimDTO">
+		/* AdminSchedule_SQL.updateFinshNoticeList */
+		UPDATE TB_NOTICE_INFO
+		     SET NOTICE_FINISH_YN = 'Y'
+		         , NOTICE_FIX_YN = 'N'
+		         , NOTICE_POP_YN = 'N'
+		     	 , UPD_ID = #{updId}
+				 , UPD_DT = NOW()
+		 WHERE 1=1
+		    AND NOTICE_ID = #{noticeId}
+	</update>
+	<!-- 지난 날짜 공지사항 구분 값 수정 [E]  -->
+
 	<!-- 지난 날짜 모임일정 조회 [S]  -->
 	<select id="selectEndMoimList" parameterType="AdminMoimDTO" resultType="AdminMoimDTO">
 		/* AdminSchedule_SQL.selectEndMoimList */
@@ -22,6 +62,7 @@
 				 , UPD_DT
 		  FROM TB_MOIM_INFO
 		WHERE 1=1
+			AND MOIM_STATUS_YN = 'Y'
 	 		AND MOIM_DT <![CDATA[<]]> NOW()
 	     ORDER BY MOIM_DT DESC
 	</select>

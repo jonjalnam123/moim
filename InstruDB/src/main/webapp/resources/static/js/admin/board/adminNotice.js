@@ -19,15 +19,16 @@ $(function () {
 	makeTableResizable('.table-grid', 'adminNotice.tableGrid.widths');
 
 	// 페이징 이벤트 [S]
+	var searchStatus = $('#searchStatus').val();
 	var searchGb = $('#searchGbParam').val();
 	var pageNum = $('#pageNumParam').val();
-	setPagingParam(searchGb, pageNum);
+	setPagingParam(searchStatus, searchGb, pageNum);
 
 	// 초기 화면
 	setGridUi();
 	syncNoticeLimitUI();
 	switchToInsertMode();
-
+	
 	// 페이징 버튼 이벤트
 	$('.p').on('click', function () {
 		var n = $(this).attr('data-list-pn');
@@ -659,7 +660,13 @@ function clearNewFiles() {
 * Description : 페이징 진행 후 페이징 데이터 세팅 함수
 * PARAM : searchGb : 조회 조건, pageNum : 조회 페이지 번호
 ********************************/
-function setPagingParam(searchGb, pageNum) {
+function setPagingParam(searchStatus, searchGb, pageNum) {
+	$('.f').each(function () {
+		if ($(this).val() === searchStatus) {
+			$(this).prop('selected', true);
+		}
+	});
+	
 	$('.s').each(function () {
 		if ($(this).val() === searchGb) {
 			$(this).prop('selected', true);

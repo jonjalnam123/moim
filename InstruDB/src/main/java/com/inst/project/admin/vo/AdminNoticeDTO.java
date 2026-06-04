@@ -35,6 +35,9 @@ public class AdminNoticeDTO {
 	// 공지사항 기간 종료 여부
 	private String noticeFinishYn;
 	
+	// 공지사항 기간 종료명
+	private String noticeFinishNm;
+	
 	// 공지사항 삭제 여부
 	private String noticeDelYn; 
 	

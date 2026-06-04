@@ -4,6 +4,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminNotice.js"></script>
 
 <!-- Model 파라미터 [S]-->
+<input type="hidden"  id="searchStatus" name="searchStatus" value="${pager.searchStatus}">
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
 <input type="hidden"  id="ss_admin_id" name="ss_admin_id" value="${SS_ADMIN_ID}">
@@ -18,10 +19,17 @@
 			<div class="list-header">
 	      		<div class="list-title"></div>
 	      		<div class="list-search">
+	      			<select id="searchStatus" name=searchStatus class="form-select">
+			          	<option class="f" value="">상태</option>
+			          	<option class="f" value="N">사용</option>
+			          	<option class="f" value="Y">종료</option>
+	        		</select>
+	        		
 	        		<select id="searchGb" name=searchGb class="form-select">
 			          	<option class="s" value="noticeTitle">제목</option>
 			          	<option class="s" value="adminId">아이디</option>
 	        		</select>
+	        		
 	        		<input id="searchTxt" name="searchTxt" class="form-control" type="text" placeholder="검색어" value="${pager.searchTxt}"/>
 	        		<button type="button" id="btnSearch" class="search-btn">조회</button>
 	        		<button type="button" id="btnReset" class="btn-refresh">초기화</button>
@@ -54,6 +62,7 @@
 				              			<th>작성자</th>
 				                		<th>제목</th>
 				                		<th>내용</th>
+				                		<th>상태</th>
 				                		<th>작성일시</th>
 				              		</tr>
 			            		</thead>
@@ -63,6 +72,7 @@
 				                			<td><span>${adminNotice.regId}</span></td>
 				                  			<td><span>${adminNotice.noticeTitle}</span></td>
 				                  			<td><span>${adminNotice.noticeCn}</span></td>
+				                  			<td><span>${adminNotice.noticeFinishNm}</span></td>
 				                  			<td><span>${adminNotice.regDt}</span></td>
 				                		</tr>
 				              		</c:forEach>

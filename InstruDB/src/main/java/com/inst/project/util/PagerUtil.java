@@ -6,6 +6,9 @@ import lombok.Data;
 public class PagerUtil {
 
     /** 검색 컬럼 */
+    private String searchStatus;
+	
+    /** 검색 컬럼 */
     private String searchGb;
 
     /** 검색어 */
