@@ -43,8 +43,8 @@ public class AdminAopController {
     * 2026. 4. 6.        		최정석       			최초 생성
     */
     @Before("allControllers()")
-    public void adminLognInsert(JoinPoint joinPoint) {
-    	log.info(" [ AdminAopController ] : adminLognInsert ");
+    public void adminLogInsert(JoinPoint joinPoint) {
+    	log.info(" [ AdminAopController ] : adminLogInsert ");
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attrs == null) return;
 
@@ -71,9 +71,9 @@ public class AdminAopController {
         aopDTO.setRegId(userId);
 
         try {
-        	adminAopService.adminLognInsert(aopDTO);
+        	adminAopService.adminLogInsert(aopDTO);
         } catch (Exception e) {
-        	log.error("[ AdminAopController ] adminLognInsert failed", e);
+        	log.error("[ AdminAopController ] adminLogInsert failed", e);
         	log.error(GlobalConfig.RESULT_AOP_BEF_ERR_CD);
             log.error(GlobalConfig.RESULT_AOP_BEF_ERR_MSG);
         }

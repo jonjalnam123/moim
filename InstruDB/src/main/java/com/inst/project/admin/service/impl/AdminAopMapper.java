@@ -8,6 +8,6 @@ import com.inst.project.admin.vo.AdminAopDTO;
 public interface AdminAopMapper {
 
 	// 관리자 로그 이력 저장
-	void adminLognInsert(AdminAopDTO vo);
+	void adminLogInsert(AdminAopDTO vo);
 
 }

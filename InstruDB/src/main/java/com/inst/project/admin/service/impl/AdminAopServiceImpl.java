@@ -26,8 +26,8 @@ public class AdminAopServiceImpl implements AdminAopService {
     * 2026. 4. 6.        		최정석       			최초 생성
     */
 	@Override
-	public void adminLognInsert(AdminAopDTO aopDTO) {
-		adminAopMapper.adminLognInsert(aopDTO);
+	public void adminLogInsert(AdminAopDTO aopDTO) {
+		adminAopMapper.adminLogInsert(aopDTO);
 	}
 	
 	

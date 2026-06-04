@@ -5,7 +5,7 @@
 <mapper namespace="com.inst.project.admin.service.impl.AdminAopMapper">
 	
 	<!-- 관리자 로그 이력 정보 저장 [S] -->
-    <insert id="adminLognInsert" parameterType="AdminAopDTO">
+    <insert id="adminLogInsert" parameterType="AdminAopDTO">
         INSERT INTO TB_ADMIN_SVR_LOG_INFO (
         	  LOG_ID
             , CLASS_NM
