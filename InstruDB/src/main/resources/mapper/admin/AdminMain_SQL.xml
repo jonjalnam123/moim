@@ -5,7 +5,7 @@
 <mapper namespace="com.inst.project.admin.service.impl.AdminMainMapper">
 
 	<!-- 관리자 메뉴 1레벨 조회 [S] -->
-	<select id="selectAdminMenuInfo" resultType="AdminMenuDTO">
+	<select id="selectAdminMenuInfo" resultType="AdminMenuDTO" parameterType="String">
 		/*AdminMain_SQL.selectAdminMenuInfo*/
 		SELECT MENU_ID
 				 , MENU_P_ID
@@ -30,6 +30,10 @@
 		    AND MENU_USE_YN = 'Y'
 		    AND MENU_DEL_YN = 'N'
 		    AND MENU_LVL = 0
+     		AND MENU_GRADE_CD = ( SELECT ADMIN_GRADE_CD 
+				   				 			     FROM TB_ADMIN_INFO
+				   			   				   WHERE 1=1
+				     			   				   AND ADMIN_ID = #{adminId})
 		 ORDER BY MENU_SORT
 	</select>
 	<!-- 관리자 메뉴 1레벨 조회 [E] -->

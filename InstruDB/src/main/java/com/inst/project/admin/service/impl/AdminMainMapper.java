@@ -13,7 +13,7 @@ import com.inst.project.admin.vo.AdminNoticeDTO;
 public interface AdminMainMapper {
 
 	// 관리자 메뉴 1레벨 조회
-	List<AdminMenuDTO> selectAdminMenuInfo();
+	List<AdminMenuDTO> selectAdminMenuInfo(String adminId);
 
 	// 관리자 메뉴 2레벨 조회
 	List<AdminMenuDTO> selectAdminMenuInfo2();

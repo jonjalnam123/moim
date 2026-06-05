@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.inst.project.admin.vo.AdminMenuDTO;
 import com.inst.project.admin.vo.AdminMenuFavoriteDTO;
 import com.inst.project.admin.vo.AdminNoticeDTO;
 import com.inst.project.common.GlobalConfig;
+import com.inst.project.util.CommonUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,15 +36,21 @@ public class AdminMainServiceImpl implements AdminMainService {
 	* 2026. 1. 6.        		최정석       			최초 생성
 	*/
 	@Override
-	public Map<String, Object> selectAdminMenuInfo() {
+	public Map<String, Object> selectAdminMenuInfo( HttpServletRequest req ) {
 		log.info(" [ AdminMainServiceImpl ] : selectAdminMenuInfo ");
 		
 		try {
 			
+			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
+			if ( CommonUtil.isBlank(adminId) ) {
+				log.info(GlobalConfig.RESULT_SESSION_FAIL_DATA_MSG);
+				return null;
+			}
+			
 			Map<String, Object> result = new HashMap<String, Object>();
 			
 			// 관리자 메뉴 1레벨 조회
-			List<AdminMenuDTO> menuList = adminMainMapper.selectAdminMenuInfo();
+			List<AdminMenuDTO> menuList = adminMainMapper.selectAdminMenuInfo(adminId);
 			
 			// 관리자 메뉴 2레벨 조회
 			List<AdminMenuDTO> menuList2 = adminMainMapper.selectAdminMenuInfo2();

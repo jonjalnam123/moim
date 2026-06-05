@@ -165,6 +165,7 @@
 				 , MENU_TEAM_CD
 				 , MENU_POSITION_CD
 				 , MENU_ICON
+				 , MENU_GRADE_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -193,6 +194,7 @@
 				 , MENU_TEAM_CD
 				 , MENU_POSITION_CD
 				 , MENU_ICON
+				 , MENU_GRADE_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -222,6 +224,7 @@
 				 , MENU_TEAM_CD
 				 , MENU_POSITION_CD
 				 , MENU_ICON
+				 , MENU_GRADE_CD
 				 , REG_ID
 				 , REG_DT
 				 , UPD_ID
@@ -262,6 +265,7 @@
 			, MENU_TEAM_CD
 			, MENU_POSITION_CD
 			, MENU_ICON
+			, MENU_GRADE_CD
 			, REG_ID
 			, REG_DT
 			, UPD_ID
@@ -280,6 +284,7 @@
 			, #{menuTeamCd}
 			, #{menuPositionCd}
 			, #{menuIcon}
+			, #{menuGradeCd}
 			, #{regId}
 			, NOW()
 			, #{updId}
@@ -302,6 +307,7 @@
 				 , MENU_TEAM_CD		= #{menuTeamCd}
 				 , MENU_POSITION_CD	= #{menuPositionCd}
 				 , MENU_ICON				= #{menuIcon}
+				 , MENU_GRADE_CD		= #{menuGradeCd} 
 				 , UPD_ID					= #{updId}
 				 , UPD_DT					= NOW()
 	   WHERE 1=1 
@@ -440,7 +446,7 @@
 
 	<!-- 관리자 부서 등록 [S] -->
 	<insert id="adminUnitReg" parameterType="AdminUnitDTO">
-		/*AdminMng_SQL.adminMenuReg*/
+		/*AdminMng_SQL.adminUnitReg*/
 		INSERT INTO TB_ADMIN_UNIT_INFO (
 			  ADMIN_UNIT_ID
 			, ADMIN_UNIT_NM
@@ -877,7 +883,7 @@
 	
 	<!-- 관리자 가입승인관리 반려 사유 등록 [S] -->
 	<insert id="adminUserRejectCnReg" parameterType="adminDTO">
-		/*AdminMng_SQL.adminMenuReg*/
+		/*AdminMng_SQL.adminUserRejectCnReg*/
 		INSERT INTO TB_ADMIN_REJECT_INFO (
 			  ADMIN_ID
 			, ADMIN_NM

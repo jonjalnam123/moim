@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -232,10 +234,10 @@ public class AdminMainController {
 	*/
 	@PostMapping(value = "/menuInfo.do")
 	@ResponseBody
-	public Map<String,Object> getAdminMenuInfo() {
+	public Map<String,Object> getAdminMenuInfo( HttpServletRequest req ) {
 		log.info(" [ AdminMainController ] : getAdminMenuInfo ");
 		
-		Map<String,Object> result = adminMainService.selectAdminMenuInfo();
+		Map<String,Object> result = adminMainService.selectAdminMenuInfo(req);
 		if ( result == null ) {
 			log.info(GlobalConfig.RESULT_NULL_DATA_MSG);
 			result = null;

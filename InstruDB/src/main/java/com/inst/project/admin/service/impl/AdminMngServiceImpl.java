@@ -420,7 +420,7 @@ public class AdminMngServiceImpl implements AdminMngService {
 	    try {
 
 			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
-			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
+			String replMenuDeptCd = CommonUtil.removeLastComma(CommonUtil.isNull(menuDeptCd));
 			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
 			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);

@@ -81,13 +81,23 @@
 					  <input type="text" id="menuUrl" name="menuUrl" class="form-control" />
 					</div>
 	
-		          	<div class="field" id="menuDeptCdDiv" style="display: none;">
+<%--  		          	<div class="field" id="menuDeptCdDiv" style="display: none;">
 			            <label for="menuDeptCd" class="">관리부서</label>
 			            <select id="menuDeptCd" name="menuDeptCd" class="form-select" style="width:100%;" multiple="multiple">
 			            	<c:forEach var="unitList" items="${adminUnitList}">
 			            		<c:if test="${unitList.adminUnitLvl eq 0}">
 			            			<option data-id="${unitList.adminUnitId}" value="${unitList.adminUnitCd}">${unitList.adminUnitNm}</option>
 			            		</c:if>
+			            	</c:forEach>
+			            </select>
+		          	</div> --%>
+		          	
+    			    <div class="field" id="menuGradeCdDiv">
+			            <label for="menuGradeCd" class="">관리등급</label>
+			            <select id="menuGradeCd" name="menuGradeCd" class="form-select" style="width:100%;">
+			            	<option value="">선택</option>
+			            	<c:forEach var="gradeList" items="${adminGradeList}">
+			            		<option value="${gradeList.commCd}">${gradeList.commNm}</option>
 			            	</c:forEach>
 			            </select>
 		          	</div>

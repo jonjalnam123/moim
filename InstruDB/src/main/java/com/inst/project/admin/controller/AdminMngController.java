@@ -181,9 +181,12 @@ public class AdminMngController {
 		List<AdminMenuDTO> adminMenuList2 = adminMngService.selectMenuList2();
 		
 		// 유닛 레벨 조회
-		List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitAllList();
+		//List<AdminUnitDTO> adminUnitList = adminMngService.selectUnitAllList();
 		
-		if( adminMenuList == null || adminMenuList2 == null || adminUnitList == null) {
+		// 관리자 등급 조회
+		List<AdminCommDTO> adminGradeList = adminMngService.selectAdminGradeList();
+		
+		if( adminMenuList == null || adminMenuList2 == null || adminGradeList == null) {
 			redirect.addAttribute("adminErrorCd", GlobalConfig.RESULT_NULL_DATA_CD);
 			redirect.addAttribute("adminErrorMsg", GlobalConfig.RESULT_NULL_DATA_MSG);
 			return "redirect:/admin/error.do";
@@ -191,7 +194,7 @@ public class AdminMngController {
 
 		model.addAttribute("menuList", adminMenuList);
 		model.addAttribute("menuList2", adminMenuList2);
-		model.addAttribute("adminUnitList", adminUnitList);
+		model.addAttribute("adminGradeList", adminGradeList);
 		
 		return "admin/mng/adminMenu.adm";
 	}

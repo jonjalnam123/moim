@@ -74,9 +74,11 @@ $(function () {
 		if ( Number(menuLvl) ===  1 ) {
 			$('#btnNew').hide();
 			$('#menuDeptCdDiv').show();
+			$('#menuGradeCdDiv').hide();
 		} else {
 			$('#btnNew').show();
 			$('#menuDeptCdDiv').hide();
+			$('#menuGradeCdDiv').show();
 		}
 		
 		if ( isEmptyMsg(menuId, selectDataChk) ) {
@@ -108,6 +110,7 @@ $(function () {
 				var menuCn = menuData.menuCn
 				var menuUseYn = menuData.menuUseYn
 				var menuIcon = menuData.menuIcon
+				var menuGradeCd = menuData.menuGradeCd
 
 				$('#menuId').val(menuId);
 				
@@ -124,6 +127,7 @@ $(function () {
 				$('#menuSort').val(menuSort);
 				$('#menuCn').val(menuCn);
 				$('#menuIcon').val(menuIcon);
+				$('#menuGradeCd').val(menuGradeCd).trigger('change');
 				$('input[name="menuUseYn"][value="' + menuUseYn + '"]').prop('checked', true);
 				
 			} else {
@@ -178,6 +182,7 @@ $(function () {
 		$('#menuLvl').val('0').trigger('change');
 		$('#menuSort').val('');
 		$('#menuCn').val('');	
+		$('#menuGradeCd').val('').trigger('change');
 		
 	});
 	
@@ -220,6 +225,7 @@ $(function () {
 		}
 		$('#menuSort').val('');
 		$('#menuCn').val('');	
+		$('#menuGradeCd').val('').trigger('change');
 		
 	});
 	
@@ -238,6 +244,7 @@ $(function () {
 		var menuCn = $('#menuCn').val();
 		var menuIcon = $('#menuIcon').val();
 		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
+		var menuGradeCd = $('#menuGradeCd').val()
 		/*var menuNmChk = $('#menuNmChk').val();*/
 		
 		if ( isEmptyArr(menuDeptCd) ){
@@ -249,6 +256,10 @@ $(function () {
 		}
 
 		if ( isEmptyMsg(menuNm, '메뉴 URL' + dataEmpty) ) {
+			return;
+		}
+		
+		if ( isEmptyMsg(menuGradeCd, '관리등급' + dataEmpty) ) {
 			return;
 		}
 
@@ -288,6 +299,7 @@ $(function () {
 			  , menuCn : menuCn
 			  , menuIcon : menuIcon
 			  , menuUseYn : menuUseYn
+			  , menuGradeCd : menuGradeCd
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
