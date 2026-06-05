@@ -30,7 +30,7 @@ $(function () {
 			$('#menuNmChk').val('');
 			$('#menuNm').prop('required', false);
 			$('.hint').hide();
-			$('.error').hide();
+			$('.error').hide(); 
 			return;
 		}
 		
