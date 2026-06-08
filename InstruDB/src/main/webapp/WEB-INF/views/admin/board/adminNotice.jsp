@@ -4,7 +4,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/board/adminNotice.js"></script>
 
 <!-- Model 파라미터 [S]-->
-<input type="hidden"  id="searchStatus" name="searchStatus" value="${pager.searchStatus}">
+<input type="hidden"  id="searchStatusParam" name="searchStatusParam" value="${pager.searchStatus}">
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
 <input type="hidden"  id="ss_admin_id" name="ss_admin_id" value="${SS_ADMIN_ID}">

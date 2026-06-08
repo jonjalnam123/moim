@@ -13,9 +13,10 @@ $(function () {
 	makeTableResizable('.table-grid', 'adminUser.tableGrid.widths');
 
 	// 페이징 이벤트 [S]
+	var searchStatus = $('#searchStatusParam').val();
 	var searchGb = 	$('#searchGbParam').val();
 	var pageNum = 	$('#pageNumParam').val();
-	setPagingParam(searchGb, pageNum);
+	setPagingParam(searchStatus, searchGb, pageNum);
 	
 	// 페이징 버튼 이벤트
 	$(".p").click(function() {
@@ -217,7 +218,13 @@ $(function () {
 * Description : 페이징 진행 후 페이징 데이터 세팅 함수
 * PARAM : kind : 조회 조건, pageNum : 조회 페이지 번호
 ********************************/
-function setPagingParam(searchGb, pageNum) {
+function setPagingParam(searchStatusm, searchGb, pageNum) {
+	$(".f").each(function() {
+		if( $(this).val() === searchStatusm ){
+			$(this).prop("selected", true);
+		}
+	})
+	
 	$(".s").each(function() {
 		if( $(this).val() === searchGb ){
 			$(this).prop("selected", true);

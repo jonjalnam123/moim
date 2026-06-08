@@ -258,10 +258,6 @@ $(function () {
 		if ( isEmptyMsg(menuNm, '메뉴 URL' + dataEmpty) ) {
 			return;
 		}
-		
-		if ( isEmptyMsg(menuGradeCd, '관리등급' + dataEmpty) ) {
-			return;
-		}
 
 		if ( isEmptyMsg(menuLvl, '레벨' + dataEmpty) ) {
 			return;

@@ -4,6 +4,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/moim/adminMoimList.js"></script>
 
 <!-- Model 파라미터 -->
+<input type="hidden"  id="searchStatusParam" name="searchStatusParam" value="${pager.searchStatus}">
 <input type="hidden"  id="searchGbParam" name="searchGbParam" value="${pager.searchGb}">
 <input type="hidden"  id="pageNumParam" name="pageNumParam" value="${pager.pageNum}">
 
@@ -15,6 +16,12 @@
 			<div class="list-header">
 	      		<div class="list-title"></div>
 	      		<div class="list-search">
+  			      	<select id="searchStatus" name=searchStatus class="form-select">
+			          	<option class="f" value="">상태</option>
+			          	<option class="f" value="Y">진행중</option>
+			          	<option class="f" value="N">종료</option>
+	        		</select>
+	      		
 	        		<select id="searchGb" name=searchGb class="form-select">
 			          	<option class="s" value="moimTitle">모임명</option>
 	        		</select>

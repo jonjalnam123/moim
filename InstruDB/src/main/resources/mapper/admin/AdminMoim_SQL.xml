@@ -135,6 +135,9 @@
 	      FROM TB_MOIM_INFO
 	    WHERE 1=1
 		 	AND MOIM_DEL_YN = 'N'
+		 <if test="searchStatus != null and searchStatus != ''">
+			AND MOIM_STATUS_YN = #{searchStatus}
+		</if>
 	 	<if test="searchTxt != null and searchTxt != ''">
 	 		<if test="searchGb == 'moimTitle'">
 			    AND MOIM_TITLE LIKE CONCAT('%', #{searchTxt}, '%')
@@ -174,6 +177,9 @@
 			  AND C.COMM_DEL_YN = 'N'
 	      WHERE 1=1 
 		 	  AND A.MOIM_DEL_YN = 'N'
+	    <if test="searchStatus != null and searchStatus != ''">
+			AND A.MOIM_STATUS_YN = #{searchStatus}
+		</if>
 	 	<if test="searchTxt != null and searchTxt != ''">
 	 		<if test="searchGb == 'moimTitle'">
 			    AND A.MOIM_TITLE LIKE CONCAT('%', #{searchTxt}, '%')

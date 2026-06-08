@@ -11,6 +11,9 @@
 	      FROM TB_NOTICE_INFO
 	    WHERE 1=1
 	        AND NOTICE_DEL_YN = 'N'
+	    <if test="searchStatus != null and searchStatus != ''">
+			AND A.NOTICE_FINISH_YN = #{searchStatus}
+		</if>
 		<if test="searchTxt != null and searchTxt != ''">
 		    <if test="searchGb == 'noticeTitle'">
 			     AND NOTICE_TITLE LIKE CONCAT('%', #{searchTxt}, '%')

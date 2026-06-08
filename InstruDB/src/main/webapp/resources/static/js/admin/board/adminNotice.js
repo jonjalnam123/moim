@@ -19,7 +19,7 @@ $(function () {
 	makeTableResizable('.table-grid', 'adminNotice.tableGrid.widths');
 
 	// 페이징 이벤트 [S]
-	var searchStatus = $('#searchStatus').val();
+	var searchStatus = $('#searchStatusParam').val();
 	var searchGb = $('#searchGbParam').val();
 	var pageNum = $('#pageNumParam').val();
 	setPagingParam(searchStatus, searchGb, pageNum);
