@@ -85,6 +85,10 @@ $(function () {
 				setGender(adminGender);
 				$('#adminRejectCn').val(adminRejectCn);
 				
+				if(adminRegAccept === 'N') {
+					console.log('반려');
+				}
+				
 			} else {
 				goToUriAdminError();
 			}
