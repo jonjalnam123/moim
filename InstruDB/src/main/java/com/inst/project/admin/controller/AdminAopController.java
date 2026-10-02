@@ -57,9 +57,13 @@ public class AdminAopController {
         String httpMethod = request.getMethod();
         String clientIp   = request.getRemoteAddr();
 
-        String userId = null;
+        String userId = "";
+        String userGb = "";
         if (session != null) {
-            userId = CommonUtil.isNull(session.getAttribute("SS_ADMIN_ID")) ;
+        	userGb = CommonUtil.isNull(session.getAttribute("SS_USER_GB"));
+        	if ( userGb.equals("ADMIN") ) {
+        		userId = CommonUtil.isNull(session.getAttribute("SS_ADMIN_ID"));
+        	}
         }
 
         AdminAopDTO aopDTO = new AdminAopDTO();

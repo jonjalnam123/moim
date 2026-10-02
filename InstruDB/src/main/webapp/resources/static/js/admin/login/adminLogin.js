@@ -23,6 +23,11 @@ $(function () {
 		} 
 	 });
 	 
+	 // 관리자 사용자 홈 으로 버튼 이벤트
+	 $('#adminLoginHome').on('click', function() {
+		goToUri('/');
+	 });
+	 
 	// 관리자 가입 버튼 이벤트
 	$('#adminJoinBtn').on('click',function() {
 		goToUri('/admin/agree.do');

@@ -24,9 +24,10 @@
 	      	</div>
 	
 	      	<div class="login-actions">
-		       	<button type="button" id="adminJoinBtn" 		class="join-btn">JOIN</button>
-		        <button type="button" id="adminPwSetBtn" 	class="pwset-btn">PWSET</button>
-		        <button type="button" id="adminLoginBtn"		class="action-btn">LOGIN</button>
+	      		<button type="button" id="adminLoginHome"		class="join-btn">HOME</button>
+		       	<button type="button" id="adminJoinBtn" 			class="pwset-btn">JOIN</button>
+		        <button type="button" id="adminPwSetBtn" 		class="action-btn">PWSET</button>
+		        <button type="button" id="adminLoginBtn"			class="cancel-btn">LOGIN</button>
 	      	</div>
 	</div>
 </div>

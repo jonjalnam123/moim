@@ -4,7 +4,7 @@
  
 <tiles-definitions>
  
-    <!-- 메뉴 표시 -->
+    <!-- 사용자 메뉴 표시 [S] -->
     <definition name="base" template="/WEB-INF/tiles/templateUser.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/layouts/userHeader.jsp" />
         <put-attribute name="footer" value="/WEB-INF/tiles/layouts/userFooter.jsp" />
@@ -21,6 +21,7 @@
     <definition name="*/*/*.user" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
     </definition>
+    <!-- 사용자 메뉴 표시 [E] -->
     
     <!-- 관리자 메뉴 표시 [S] -->
     <definition name="baseAdmin" template="/WEB-INF/tiles/templateAdm.jsp">
@@ -43,7 +44,7 @@
     <!-- 관리자 메뉴 표시 [E] -->
     
     <!-- 모달 팝업 페이지 표시 [S] -->
-	<definition name="baseModal" template="/WEB-INF/tiles/templateModal.jsp">
+	<definition name="baseModal" template="/WEB-INF/tiles/templateAdmModal.jsp">
 
     </definition>
     
@@ -61,7 +62,7 @@
     <!-- 모달 팝업 페이지 표시 [E] -->
     
     <!-- 빈 페이지 표시 [S] -->
-	<definition name="baseNone" template="/WEB-INF/tiles/templateDef.jsp">
+	<definition name="baseNone" template="/WEB-INF/tiles/templateAdmDef.jsp">
 
     </definition>
     

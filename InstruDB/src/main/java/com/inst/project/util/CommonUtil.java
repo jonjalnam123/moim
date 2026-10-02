@@ -100,6 +100,7 @@ public class CommonUtil {
 	    String adminSmsAlertYn 	= CommonUtil.isNull(adminInfo.getAdminSmsAlertYn());
 	    String adminSmsChkYn 		= CommonUtil.isNull(adminInfo.getAdminSmsChkYn());
 	    String adminCarYn 			= CommonUtil.isNull(adminInfo.getAdminCarYn());
+	    String userGb 					= "ADMIN";
 	    
 	    session.setAttribute("SS_ADMIN_NO", adminNo);
 	    session.setAttribute("SS_ADMIN_ID", adminId);
@@ -117,6 +118,7 @@ public class CommonUtil {
 	    session.setAttribute("SS_ADMIN_SMS_ALERT_YN", adminSmsAlertYn);
 	    session.setAttribute("SS_ADMIN_SMS_CHK_YN", adminSmsChkYn);
 	    session.setAttribute("SS_ADMIN_CAR_YN", adminCarYn);
+	    session.setAttribute("SS_USER_GB", userGb);
 	    
 		return true;
 	}
