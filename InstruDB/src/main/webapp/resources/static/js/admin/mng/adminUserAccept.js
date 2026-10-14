@@ -101,6 +101,7 @@ $(function () {
 		var adminNo = $('#adminNo').val();
 		var adminId = $('#adminId').val();
 		var adminNm = $('#adminNm').val();
+		var adminGb = '03'; /* 가입승인 후 사원관리에서 등급 설정 */
 		
 		if ( !confirm(adminNm + acceptConfirm) ) {
 			return;
@@ -110,6 +111,7 @@ $(function () {
 		var params = {
 				adminNo : adminNo
 			  , adminId : adminId
+			  , adminGb : adminGb
 		}
 		var dataType = 'json'
 		ajaxStart(url, params, dataType, function(data) {
