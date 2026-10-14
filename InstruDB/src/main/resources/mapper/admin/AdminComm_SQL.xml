@@ -12,6 +12,7 @@
 		WHERE 1=1
 		    AND MENU_NM = #{uniqueKey}
 		    AND MENU_DEL_YN = 'N'
+		    AND MENU_PAGE_GB = '00' /* 관리자메뉴 */
 	</select>
 	<!-- 관리자 메뉴명 중복 체크 [E]  -->
 
@@ -100,7 +101,8 @@
 		UPDATE TB_ADMIN_MENU_INFO
 			 SET MENU_FAVORITE_YN = #{menuFavoriteYn}
 		WHERE 1=1 
-		      AND MENU_ID = #{menuFavoriteMenuId}
+		    AND MENU_ID = #{menuFavoriteMenuId}
+		    AND MENU_PAGE_GB = '00' /* 관리자메뉴 */
 	</update>
 	<!-- 관리자 메뉴 즐겨찾기 여부 수정 [E]  -->
 	

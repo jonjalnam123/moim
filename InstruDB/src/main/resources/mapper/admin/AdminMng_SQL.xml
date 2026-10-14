@@ -174,6 +174,7 @@
 		WHERE 1=1
 		    AND MENU_DEL_YN = 'N'
 		    AND MENU_LVL = 0
+		    AND MENU_PAGE_GB = '00' /* 관리자메뉴 */
 		ORDER BY MENU_SORT
 	</select>
 	<!-- 관리자 메뉴 1레벨 조회 [E] -->
@@ -203,6 +204,7 @@
 		WHERE 1=1
 		    AND MENU_DEL_YN = 'N'
 		    AND MENU_LVL = 1
+		    AND MENU_PAGE_GB = '00' /* 관리자메뉴 */
 		 ORDER BY MENU_SORT
 	</select>
 	<!-- 관리자 메뉴 2레벨 조회 [E] -->
@@ -212,7 +214,7 @@
 		/*AdminMng_SQL.adminMenuSelect*/
 		SELECT MENU_ID
 				 , MENU_P_ID
-				 , ( SELECT MENU_NM FROM TB_ADMIN_MENU_INFO WHERE MENU_ID = #{menuPId} ) AS MENU_P_NM
+				 , ( SELECT MENU_NM FROM TB_ADMIN_MENU_INFO WHERE MENU_ID = #{menuPId} AND MENU_PAGE_GB = '00' /* 관리자메뉴 */ ) AS MENU_P_NM
 				 , MENU_NM
 				 , MENU_USE_YN
 				 , MENU_DEL_YN
@@ -233,6 +235,7 @@
 		WHERE 1=1
 		    AND MENU_ID = #{menuId}
 		    AND MENU_DEL_YN = 'N'
+		    AND MENU_PAGE_GB = '00' /* 관리자메뉴 */
 	</select>
 	<!-- 관리자 메뉴 상세 조회 [E] -->
 	

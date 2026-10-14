@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inst.project.admin.service.impl.AdminUserHomeMapper">
+	
+	<!-- 관리자 메뉴 1레벨 조회 [S] -->
+	<select id="selectMenuList" resultType="AdminMenuDTO">
+		/*AdminUserHomeMng_SQL.selectMenuList*/
+		SELECT MENU_ID
+				 , MENU_P_ID
+				 , MENU_NM
+				 , MENU_USE_YN
+				 , MENU_DEL_YN
+				 , MENU_CN
+				 , MENU_URL
+				 , MENU_LVL
+				 , MENU_SORT
+ 				 , MENU_DEPT_CD
+				 , MENU_TEAM_CD
+				 , MENU_POSITION_CD
+				 , MENU_ICON
+				 , MENU_GRADE_CD
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_DEL_YN = 'N'
+		    AND MENU_LVL = 0
+		    AND MENU_PAGE_GB = '01' /* 사용자홈페이지메뉴 */
+		ORDER BY MENU_SORT
+	</select>
+	<!-- 관리자 메뉴 1레벨 조회 [E] -->
+	
+	<!-- 관리자 메뉴 2레벨 조회 [S] -->
+	<select id="selectMenuList2" resultType="AdminMenuDTO">
+		/*AdminUserHomeMng_SQL.selectMenuList2*/
+		SELECT MENU_ID
+				 , MENU_P_ID
+				 , MENU_NM
+				 , MENU_USE_YN
+				 , MENU_DEL_YN
+				 , MENU_CN
+				 , MENU_URL
+				 , MENU_LVL
+				 , MENU_SORT
+				 , MENU_DEPT_CD
+				 , MENU_TEAM_CD
+				 , MENU_POSITION_CD
+				 , MENU_ICON
+				 , MENU_GRADE_CD
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_DEL_YN = 'N'
+		    AND MENU_LVL = 1
+		    AND MENU_PAGE_GB = '01' /* 사용자홈페이지메뉴 */
+		 ORDER BY MENU_SORT
+	</select>
+	<!-- 관리자 메뉴 2레벨 조회 [E] -->
+	
+	<!-- 관리자 등급 조회 [S] -->
+	<select id="selectAdminGradeList" resultType="AdminCommDTO">
+		/*AdminMng_SQL.selectAdminGradeList*/
+		SELECT COMM_CD 
+				  , COMM_NM
+		  FROM TB_COMMON_INFO
+		WHERE 1=1
+		    AND COMM_GROUP_CD = 'ADMGRADE'
+		    AND COMM_USE_YN = 'Y'
+		    AND COMM_DEL_YN = 'N'
+		    AND COMM_LVL != 0
+   ORDER BY COMM_SORT_NO ASC;
+	</select>
+	<!-- 관리자 등급 조회 [E] -->
+	
+	<!-- 관리자 메뉴 상세 조회 [S] -->
+	<select id="adminMenuSelect" parameterType="AdminMenuDTO" resultType="AdminMenuDTO">
+		/*AdminUserHomeMng_SQL.adminMenuSelect*/
+		SELECT MENU_ID
+				 , MENU_P_ID
+				 , ( SELECT MENU_NM FROM TB_ADMIN_MENU_INFO WHERE MENU_ID = #{menuPId} ) AS MENU_P_NM
+				 , MENU_NM
+				 , MENU_USE_YN
+				 , MENU_DEL_YN
+				 , MENU_CN
+				 , MENU_URL
+				 , MENU_LVL
+				 , MENU_SORT
+				 , MENU_DEPT_CD
+				 , MENU_TEAM_CD
+				 , MENU_POSITION_CD
+				 , MENU_ICON
+				 , MENU_GRADE_CD
+				 , REG_ID
+				 , REG_DT
+				 , UPD_ID
+				 , UPD_DT
+		  FROM TB_ADMIN_MENU_INFO
+		WHERE 1=1
+		    AND MENU_ID = #{menuId}
+		    AND MENU_DEL_YN = 'N'
+		    AND MENU_PAGE_GB = '01' /* 사용자홈페이지메뉴 */
+	</select>
+	<!-- 관리자 메뉴 상세 조회 [E] -->
+	
+	<!-- 관리자 메뉴 상세조회 결과로 부서코드 조회 [S] -->
+	<select id="adminMenuDeptCdSelect" parameterType="string" resultType="map">
+	    SELECT ADMIN_UNIT_CD as cd
+				 , ADMIN_UNIT_NM as text
+	      FROM TB_ADMIN_UNIT_INFO
+	    WHERE 1=1
+	        AND ADMIN_UNIT_CD = ANY (STRING_TO_ARRAY(#{menuDeptCd}, ','))
+	    	AND ADMIN_UNIT_USE_YN = 'Y'
+		    AND ADMIN_UNIT_DEL_YN = 'N' 
+	</select>
+	<!-- 관리자 메뉴 상세조회 결과로 부서코드 조회 [E] -->
+	
+	<!-- 관리자 메뉴 저장 [S] -->
+	<insert id="adminMenuReg" parameterType="AdminMenuDTO">
+		/*AdminUserHomeMng_SQL.adminMenuReg*/
+		INSERT INTO TB_ADMIN_MENU_INFO (
+			  MENU_ID
+			, MENU_P_ID
+			, MENU_NM
+			, MENU_URL
+			, MENU_USE_YN
+			, MENU_DEL_YN
+			, MENU_CN
+			, MENU_LVL
+			, MENU_SORT
+			, MENU_DEPT_CD
+			, MENU_TEAM_CD
+			, MENU_POSITION_CD
+			, MENU_ICON
+			, MENU_GRADE_CD
+			, MENU_PAGE_GB
+			, REG_ID
+			, REG_DT
+			, UPD_ID
+			, UPD_DT
+		) VALUES ( 
+			  (SELECT FN_GET_UNIQUE_KEY())
+			, #{menuPId}
+			, #{menuNm}
+			, #{menuUrl}
+			, #{menuUseYn}
+			, 'N'
+			, #{menuCn}
+			, #{menuLvl}
+			, #{menuSort}
+			, #{menuDeptCd}
+			, #{menuTeamCd}
+			, #{menuPositionCd}
+			, #{menuIcon}
+			, #{menuGradeCd}
+			, #{menuPageGb}
+			, #{regId}
+			, NOW()
+			, #{updId}
+			, NOW()
+		)
+	</insert>
+	<!-- 관리자 메뉴 저장 [E] -->
+	
+	<!-- 관리자 메뉴 수정 [S] -->
+	<update id="adminMenuUpd" parameterType="AdminMenuDTO">
+  		/*AdminUserHomeMng_SQL.adminMenuDel*/
+	  	UPDATE TB_ADMIN_MENU_INFO
+	     	 SET MENU_NM 				= #{menuNm}
+				 , MENU_URL				= #{menuUrl}
+				 , MENU_USE_YN			= #{menuUseYn}
+				 , MENU_CN					= #{menuCn}
+				 , MENU_LVL				= #{menuLvl}
+				 , MENU_SORT				= #{menuSort}
+				 , MENU_DEPT_CD		= #{menuDeptCd}
+				 , MENU_TEAM_CD		= #{menuTeamCd}
+				 , MENU_POSITION_CD	= #{menuPositionCd}
+				 , MENU_ICON				= #{menuIcon}
+				 , MENU_GRADE_CD		= #{menuGradeCd} 
+				 , UPD_ID					= #{updId}
+				 , UPD_DT					= NOW()
+	   WHERE 1=1 
+	   	   AND MENU_ID = #{menuId} 
+	</update>
+	<!-- 관리자 메뉴 수정 [E] -->
+	
+	<!-- 관리자 메뉴 삭제 [S] -->
+	<update id="adminMenuDel" parameterType="AdminMenuDTO">
+  		/*AdminUserHomeMng_SQL.adminMenuDel*/
+	  	UPDATE TB_ADMIN_MENU_INFO
+	     	 SET MENU_DEL_YN = 'Y'
+	     	   	  , UPD_ID = #{updId}
+	     	 	  , UPD_DT = NOW()
+	    WHERE 1=1 
+	   	    AND MENU_ID   = #{menuId} 
+ 	   	 <if test="menuPId == null or menuPId == ''">
+	   	 	  OR MENU_P_ID = #{menuId}
+	   	 </if>
+	</update>
+	<!-- 관리자 메뉴 삭제 [E] -->
+	
+	<!-- 관리자 유닛 조회 [S] -->
+	<select id="selectUnitAllList" resultType="AdminUnitDTO">
+		/*AdminUserHomeMng_SQL.selectUnitAllList*/ 
+		SELECT ADMIN_UNIT_ID
+				  , ADMIN_UNIT_P_ID
+				  , ADMIN_UNIT_CD
+				  , ADMIN_UNIT_NM
+				  , ADMIN_UNIT_LVL
+				  , ADMIN_UNIT_SORT_NO
+				  , ADMIN_UNIT_USE_YN
+				  , ADMIN_UNIT_DEL_YN
+				  , REG_ID
+				  , REG_DT
+				  , UPD_ID
+				  , UPD_DT
+		   FROM TB_ADMIN_UNIT_INFO
+		 WHERE 1=1
+		     AND ADMIN_UNIT_USE_YN = 'Y'
+		     AND ADMIN_UNIT_DEL_YN = 'N'
+		 ORDER BY ADMIN_UNIT_LVL
+	</select>
+	<!-- 관리자 유닛 조회 [E] -->
+
+</mapper>
