@@ -36,7 +36,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public List<AdminMenuDTO> selectMenuList() {
-		log.info(" [ AdminMngServiceImpl ] : selectMenuList ");
+		log.info(" [ AdminUserHomeServiceImpl ] : selectMenuList ");
 		
 		try {
 			
@@ -50,7 +50,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectMenuList failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] selectMenuList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -71,7 +71,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public List<AdminMenuDTO> selectMenuList2() {
-		log.info(" [ AdminMngServiceImpl ] : selectMenuList2 ");
+		log.info(" [ AdminUserHomeServiceImpl ] : selectMenuList2 ");
 		try {
 			
 			List<AdminMenuDTO> adminMenuList2= adminUserHomeMapper.selectMenuList2();
@@ -84,7 +84,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectMenuList2 failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] selectMenuList2 failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			
@@ -106,7 +106,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public List<AdminCommDTO> selectAdminGradeList() {
-	    log.info(" [ AdminMngServiceImpl ] : selectAdminGradeList ");
+	    log.info(" [ AdminUserHomeServiceImpl ] : selectAdminGradeList ");
 	    try {
 	    	
 	    	List<AdminCommDTO> adminGradeList = adminUserHomeMapper.selectAdminGradeList();
@@ -118,7 +118,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	        return adminGradeList;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] selectAdminGradeList failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] selectAdminGradeList failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -137,7 +137,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public AdminMenuDTO adminMenuSelect( AdminMenuDTO adminMenuDTO ) {
-	    log.info(" [ AdminMngServiceImpl ] : adminMenuSelect ");
+	    log.info(" [ AdminUserHomeServiceImpl ] : adminMenuSelect ");
 
 	    try {
 	        
@@ -150,7 +150,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	        return selectResult;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuSelect failed", e );
+	        log.error("[ AdminUserHomeServiceImpl ] adminMenuSelect failed", e );
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -169,7 +169,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public List<Map<String, Object>> adminMenuDeptCdSelect(AdminMenuDTO adminMenuDTO) {
-		 log.info(" [ AdminMngServiceImpl ] : adminMenuDeptCdSelect ");
+		 log.info(" [ AdminUserHomeServiceImpl ] : adminMenuDeptCdSelect ");
 		 
 	    try {
 	        
@@ -184,7 +184,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 		    return result;
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuDeptCdSelect failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] adminMenuDeptCdSelect failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return null;
@@ -204,13 +204,13 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public int adminMenuReg(AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
-	    log.info(" [ AdminMngServiceImpl ] : adminMenuReg ");
+	    log.info(" [ AdminUserHomeServiceImpl ] : adminMenuReg ");
 
 	    try {
 
-			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
-			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
-			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
+//			String menuDeptCd = adminMenuDTO.getMenuDeptCd();
+//			String replMenuDeptCd = CommonUtil.removeLastComma(menuDeptCd);
+//			adminMenuDTO.setMenuDeptCd(replMenuDeptCd);
 			
 			String adminId = CommonUtil.getAdminInfoSession("SS_ADMIN_ID", req);
 			if ( CommonUtil.isBlank(adminId) ) {
@@ -224,7 +224,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	        return adminUserHomeMapper.adminMenuReg(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuReg failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] adminMenuReg failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -243,7 +243,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public int adminMenuUpd(AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
-	    log.info(" [ AdminMngServiceImpl ] : adminMenuUpd ");
+	    log.info(" [ AdminUserHomeServiceImpl ] : adminMenuUpd ");
 
 	    try {
 
@@ -262,7 +262,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	        return adminUserHomeMapper.adminMenuUpd(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuUpd failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] adminMenuUpd failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -281,7 +281,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public int adminMenuDel(AdminMenuDTO adminMenuDTO, HttpServletRequest req) {
-	    log.info(" [ AdminMngServiceImpl ] : adminMenuDel ");
+	    log.info(" [ AdminUserHomeServiceImpl ] : adminMenuDel ");
 
 	    try {
 	    	
@@ -296,7 +296,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	        return adminUserHomeMapper.adminMenuDel(adminMenuDTO);
 
 	    } catch (Exception e) {
-	        log.error("[ AdminMngServiceImpl ] adminMenuDel failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] adminMenuDel failed", e);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 	        log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 	        return 0;
@@ -315,7 +315,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 	*/
 	@Override
 	public List<AdminUnitDTO> selectUnitAllList() {
-		log.info(" [ AdminMngServiceImpl ] : selectUnitAllList ");
+		log.info(" [ AdminUserHomeServiceImpl ] : selectUnitAllList ");
 		
 		try {
 			
@@ -329,7 +329,7 @@ public class AdminUserHomeServiceImpl implements AdminUserHomeService {
 			
 		} catch (Exception e) {
 			
-	        log.error("[ AdminMngServiceImpl ] selectUnitAllList failed", e);
+	        log.error("[ AdminUserHomeServiceImpl ] selectUnitAllList failed", e);
 			log.error(GlobalConfig.RESULT_SYS_ERR_CD);
 			log.error(GlobalConfig.RESULT_SYS_ERR_MSG);
 			

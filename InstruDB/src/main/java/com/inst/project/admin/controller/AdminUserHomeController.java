@@ -46,7 +46,7 @@ public class AdminUserHomeController {
 	*/
 	@GetMapping(value="/menu.do")
 	public String getAdminUserHomeMenu(Model model, RedirectAttributes redirect) {
-		log.info(" [ AdminMngController ] : getAdminMenu ");
+		log.info(" [ AdminUserHomeController ] : getAdminMenu ");
 		
 		// 메뉴 레벨 1 조회
 		List<AdminMenuDTO> adminMenuList = adminUserHomeService.selectMenuList();
@@ -67,7 +67,7 @@ public class AdminUserHomeController {
 		model.addAttribute("menuList2", adminMenuList2);
 		model.addAttribute("adminGradeList", adminGradeList);
 		
-		return "admin/mng/adminMenu.adm";
+		return "admin/userHome/adminUserHomeMenu.adm";
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class AdminUserHomeController {
 	@PostMapping(value = "/menuSelect.do")
 	@ResponseBody
 	public Map<String,Object> adminUserHomeMenuSelect( @ModelAttribute AdminMenuDTO adminMenuDTO ) {
-		log.info(" [ AdminMngController ] : adminMenuSelect ");
+		log.info(" [ AdminUserHomeController ] : adminMenuSelect ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -119,7 +119,7 @@ public class AdminUserHomeController {
 	@PostMapping(value = "/menuReg.do")
 	@ResponseBody
 	public Map<String,Object> adminUserHomeMenuReg( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
-		log.info(" [ AdminMngController ] : adminMenuReg ");
+		log.info(" [ AdminUserHomeController ] : adminMenuReg ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int regResult = adminUserHomeService.adminMenuReg(adminMenuDTO, req);
@@ -142,7 +142,7 @@ public class AdminUserHomeController {
 	@PostMapping(value = "/menuUpd.do")
 	@ResponseBody
 	public Map<String,Object> adminUserHomeMenuUpd( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
-		log.info(" [ AdminMngController ] : adminMenuUpd ");
+		log.info(" [ AdminUserHomeController ] : adminMenuUpd ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int regResult = adminUserHomeService.adminMenuUpd(adminMenuDTO, req);
@@ -165,7 +165,7 @@ public class AdminUserHomeController {
 	@PostMapping(value = "/menuDel.do")
 	@ResponseBody
 	public Map<String,Object> adminUserHomeMenuDel( @ModelAttribute AdminMenuDTO adminMenuDTO, HttpServletRequest req ) {
-		log.info(" [ AdminMngController ] : adminMenuDel ");
+		log.info(" [ AdminUserHomeController ] : adminMenuDel ");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		int delResult = adminUserHomeService.adminMenuDel(adminMenuDTO, req);

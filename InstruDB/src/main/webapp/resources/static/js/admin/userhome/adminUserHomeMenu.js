@@ -207,7 +207,7 @@ $(function () {
 		var menuIcon = $('#menuIcon').val();
 		var menuUseYn = $('input[name="menuUseYn"]:checked').val();
 		var menuGradeCd = $('#menuGradeCd').val()
-		var menuPageGb = '00' // 관리자 화면
+		var menuPageGb = '01' // 사용자 화면
 		
 		/*var menuNmChk = $('#menuNmChk').val();*/
 		

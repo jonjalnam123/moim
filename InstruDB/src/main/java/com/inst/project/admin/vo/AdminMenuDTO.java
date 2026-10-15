@@ -21,6 +21,7 @@ public class AdminMenuDTO {
 	private String menuIcon;
 	private String menuFavoriteYn;
 	private String menuGradeCd;
+	private String menuPageGb;
 	private String regId;
 	private String regDt;
 	private String updId;
