@@ -269,6 +269,7 @@
 			, MENU_POSITION_CD
 			, MENU_ICON
 			, MENU_GRADE_CD
+			, MENU_PAGE_GB
 			, REG_ID
 			, REG_DT
 			, UPD_ID
@@ -288,6 +289,7 @@
 			, #{menuPositionCd}
 			, #{menuIcon}
 			, #{menuGradeCd}
+			, #{menuPageGb}
 			, #{regId}
 			, NOW()
 			, #{updId}
